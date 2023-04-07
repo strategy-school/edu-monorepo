@@ -37,14 +37,7 @@ const theme: Theme = createTheme({
     fontWeightMedium: 600,
     fontWeightBold: 700,
   },
-  components: {
-    MuiTextField: {
-      defaultProps: {
-        variant: 'outlined',
-        fullWidth: true,
-      }
-    }
-  }
-});
+
 
 export default theme;
+

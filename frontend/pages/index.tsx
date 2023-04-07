@@ -9,6 +9,8 @@ export default function Home() {
       <Typography color="primary" fontWeight={300}>Strategia school with primary color and light fw</Typography>
       <Typography color="secondary" fontWeight={400}>Strategia school with secondary color and regular fw</Typography>
       <Typography color="custom.main" fontWeight={700}>Strategia school with custom color and bald fw </Typography>
+      <h1>Strategia school</h1>
     </Box>
+
   )
 }
