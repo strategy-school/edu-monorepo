@@ -6,6 +6,7 @@ interface MyPaletteOptions {
   };
 }
 
+// eslint-disable-next-line
 declare module '@mui/material/styles' {
   interface PaletteOptions {
     custom?: {
@@ -37,8 +38,6 @@ const theme: Theme = createTheme({
     fontWeightMedium: 600,
     fontWeightBold: 700,
   },
-  });
-
+});
 
 export default theme;
-
