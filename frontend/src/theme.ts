@@ -6,6 +6,7 @@ interface MyPaletteOptions {
   };
 }
 
+// eslint-disable-next-line
 declare module '@mui/material/styles' {
   interface PaletteOptions {
     custom?: {
