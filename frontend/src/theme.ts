@@ -1,26 +1,5 @@
 import { createTheme, Theme } from '@mui/material/styles';
 
-interface MyPaletteOptions {
-  custom: {
-    main: string;
-  };
-}
-
-// eslint-disable-next-line
-declare module '@mui/material/styles' {
-  interface PaletteOptions {
-    custom?: {
-      main?: string;
-    };
-  }
-}
-
-const myPalette: MyPaletteOptions = {
-  custom: {
-    main: 'rgb(180, 40, 45)',
-  },
-};
-
 const theme: Theme = createTheme({
   palette: {
     primary: {
@@ -28,8 +7,8 @@ const theme: Theme = createTheme({
     },
     secondary: {
       main: 'rgb(217, 39, 45)',
+      dark: 'rgb(180, 40, 45)',
     },
-    custom: myPalette.custom,
   },
   typography: {
     fontFamily: 'Open Sans, sans-serif',
