@@ -42,6 +42,9 @@ export class User {
   role: string;
 
   @Prop()
+  avatar: string;
+
+  @Prop()
   googleId: string;
 
   @Prop()
