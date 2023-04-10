@@ -1,21 +1,20 @@
 import {
   Body,
-    Controller,
-    Delete,
-    Post,
-    Req,
-    UploadedFile,
-    UseGuards,
-    UseInterceptors,
+  Controller,
+  Delete,
+  Post,
+  Req,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { Model } from 'mongoose';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUsersDto } from './create-users.dto';
-import {AuthGuard} from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-
 
 @Controller('users')
 export class UsersController {
@@ -71,5 +70,3 @@ export class UsersController {
     return { message: 'Logged out successfully' };
   }
 }
-
-
