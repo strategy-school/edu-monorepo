@@ -47,7 +47,7 @@ export class User {
   @Prop()
   googleId: string;
 
-  @Prop()
+  @Prop({ required: true, default: false })
   isBanned: boolean;
 
   @Prop([{ type: String, ref: 'Course' }])
