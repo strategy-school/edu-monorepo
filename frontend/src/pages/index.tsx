@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { fetchCourses } from '@/src/features/courses/coursesThunks';
+import { selectCourses } from '@/src/features/courses/coursesSlice';
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const courses = useAppSelector(selectCourses);
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  console.log(courses);
   return (
     <Layout title="Strategia home page">
       <Box

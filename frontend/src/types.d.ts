@@ -46,3 +46,17 @@ export interface LoginMutation {
 export interface GlobalError {
   error: string;
 }
+
+export interface Course {
+  _id: string;
+  title: string;
+  duration: string;
+}
+
+export interface FullCourse extends Course {
+  price: number;
+  description: string;
+  type: string;
+}
+
+export type CourseMutation = Omit<FullCourse, '_id'>;
