@@ -5,7 +5,7 @@ export type CourseDocument = Course & Document;
 
 enum Type {
   Seminar = 'seminar',
-  Trening = 'trening',
+  Training = 'training',
   CourseType = 'course',
   MiniMBA = 'miniMBA',
 }
