@@ -6,6 +6,7 @@ import { AuthService } from './auth/auth.service';
 import { LocalStrategy } from './auth/local.strategy';
 import { UsersController } from './users/users.controller';
 import { PassportModule } from '@nestjs/passport';
+import { CoursesController } from './courses/courses.controller';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { PassportModule } from '@nestjs/passport';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, CoursesController],
   providers: [AuthService, LocalStrategy],
 })
 export class AppModule {}
