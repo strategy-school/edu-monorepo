@@ -71,6 +71,7 @@ const Login = () => {
                   required
                   label="Email"
                   name="email"
+                  type="email"
                   autoComplete="current-email"
                   value={state.email}
                   onChange={inputChangeHandler}

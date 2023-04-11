@@ -86,6 +86,7 @@ const Registration = () => {
                   variant="outlined"
                   label="Email"
                   name="email"
+                  type="email"
                   autoComplete="new-email"
                   value={state.email}
                   onChange={inputChangeHandler}
