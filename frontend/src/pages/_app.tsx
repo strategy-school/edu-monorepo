@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../theme';
 import { PersistGate } from 'redux-persist/integration/react';
 import { addInterceptors } from '@/src/axiosApi';
+import '../stylesGlobal.css';
 
 addInterceptors(store);
 export default function App({ Component, pageProps }: AppProps) {

@@ -14,8 +14,9 @@ import {
   Typography,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import FileInput from '@/src/components/FileInput/FileInput';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
 import Link from 'next/link';
+import Layout from '@/src/components/UI/Layout/Layout';
 
 const Registration = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const Registration = () => {
     event.preventDefault();
     console.log(state);
     await dispatch(register(state)).unwrap();
-    void router.push('/');
+    await router.push('/');
   };
 
   const getFieldError = (fieldName: string) => {
@@ -61,7 +62,7 @@ const Registration = () => {
   const phoneNumberPattern = '^996\\d{9}$';
 
   return (
-    <>
+    <Layout title="Strategia registration">
       <Container component="main" maxWidth="xs">
         <Box
           style={{
@@ -75,7 +76,7 @@ const Registration = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign Up
+            Регистрация
           </Typography>
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -142,7 +143,7 @@ const Registration = () => {
                   required
                   variant="outlined"
                   name="password"
-                  label="Password"
+                  label="Пароль"
                   type="password"
                   autoComplete="new-password"
                   value={state.password}
@@ -154,7 +155,7 @@ const Registration = () => {
               </Grid>
               <Grid item xs>
                 <FileInput
-                  label="Choose your avatar"
+                  label="Выберите картинку профиля"
                   onChange={fileInputChangeHandler}
                   name="avatar"
                   type="image/*"
@@ -167,12 +168,12 @@ const Registration = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign Up
+                Завершить регистрацию
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Button variant="text" component={Link} href="/login">
-                    Already have an account? Sign in
+                    Войти используя email и пароль
                   </Button>
                 </Grid>
               </Grid>
@@ -180,8 +181,7 @@ const Registration = () => {
           </Box>
         </Box>
       </Container>
-    </>
+    </Layout>
   );
 };
-
 export default Registration;

@@ -19,6 +19,7 @@ import {
   selectLoginLoading,
 } from '@/src/features/users/usersSlice';
 import { login } from '@/src/features/users/usersThunks';
+import Layout from '@/src/components/UI/Layout/Layout';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -42,68 +43,72 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        style={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOpenIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        {error && (
-          <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
-            {error.error}
-          </Alert>
-        )}
-        <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                label="Email"
-                name="email"
-                autoComplete="current-email"
-                value={state.email}
-                onChange={inputChangeHandler}
-              />
+    <Layout title="Strategia login">
+      <Container component="main" maxWidth="xs">
+        <Box
+          style={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOpenIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Войти
+          </Typography>
+          {error && (
+            <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
+              {error.error}
+            </Alert>
+          )}
+          <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  label="Email"
+                  name="email"
+                  autoComplete="current-email"
+                  value={state.email}
+                  onChange={inputChangeHandler}
+                  sx={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  label="Пароль"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={state.password}
+                  onChange={inputChangeHandler}
+                  sx={{ width: '100%' }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                label="Password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                value={state.password}
-                onChange={inputChangeHandler}
-              />
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              type="submit"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              <span>Войти</span>
+            </LoadingButton>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/registration" variant="body2">
+                  или зарегистрироваться
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-          <LoadingButton
-            loading={loading}
-            variant="contained"
-            type="submit"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            <span>Sign In</span>
-          </LoadingButton>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="/registration" variant="body2">
-                Or sign up
-              </Link>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Layout>
   );
 };
 

@@ -13,7 +13,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const usersPersistConfig = {
-  key: 'root',
+  key: 'strategia:users',
   storage,
   whitelist: ['user'],
 };

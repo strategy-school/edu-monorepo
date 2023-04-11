@@ -29,8 +29,9 @@ export const register = createAsyncThunk<
       }
     });
 
-    const response = await axiosApi.post<RegisterResponse>('/users', formData);
-    return response.data.user;
+    const response = await axiosApi.post<User>('/users', formData);
+
+    return response.data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);

@@ -60,7 +60,7 @@ const FileInput: React.FC<Props> = ({
         </Grid>
         <Grid item>
           <Button type="button" variant="contained" onClick={activateInput}>
-            Browse
+            Выбрать
           </Button>
         </Grid>
       </Grid>
