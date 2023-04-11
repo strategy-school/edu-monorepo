@@ -1,18 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Course, CourseDocument } from '../schemas/course.schema';
-import { Model } from 'mongoose';
-import { TokenAuthGuard } from '../auth/token-auth.guard';
-import { PermitGuard } from '../auth/permit.guard';
-import { CreateCourseDto } from './create-course.dto';
+import {Body, Controller, Get, NotFoundException, Param, Post, UseGuards,} from '@nestjs/common';
+import {InjectModel} from '@nestjs/mongoose';
+import {Course, CourseDocument} from '../schemas/course.schema';
+import {Model} from 'mongoose';
+import {CreateCourseDto} from './create-course.dto';
+import {TokenAuthGuard} from '../auth/token-auth.guard';
+import {PermitGuard} from '../auth/permit.guard';
 
 @Controller('courses')
 export class CoursesController {
