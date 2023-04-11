@@ -50,9 +50,6 @@ export class User {
   @Prop({ required: true, default: false })
   isBanned: boolean;
 
-  @Prop([{ type: String, ref: 'Course' }])
-  courses: string[];
-
   checkPassword: (password: string) => Promise<boolean>;
   generateToken: () => void;
 }
