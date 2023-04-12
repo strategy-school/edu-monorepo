@@ -5,9 +5,9 @@ import {
   Alert,
   Avatar,
   Box,
+  Button,
   Container,
   Grid,
-  Link,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,6 +20,7 @@ import {
 } from '@/src/features/users/usersSlice';
 import { login } from '@/src/features/users/usersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
+import Link from 'next/link';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -101,9 +102,9 @@ const Login = () => {
             </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/registration" variant="body2">
+                <Button component={Link} href="/registration" variant="text">
                   или зарегистрироваться
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </Box>
