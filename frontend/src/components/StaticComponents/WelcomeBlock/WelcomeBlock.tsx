@@ -1,11 +1,12 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import studentImage from '../../../assets/images/students-main.png';
+import { borderRadius, boxShadow } from '@/src/styles';
 
 const styles = {
   welcomeBlock: {
-    boxShadow: '0px 0px 13px 7px #DADADA',
-    borderRadius: '15px',
+    boxShadow,
+    borderRadius,
     padding: '30px',
     height: '450px',
     background: `url(${studentImage.src}) no-repeat`,

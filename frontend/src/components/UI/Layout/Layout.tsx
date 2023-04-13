@@ -15,7 +15,7 @@ const Layout: React.FC<Props> = ({ children, title }) => {
         <title>{title}</title>
       </Head>
       <AppToolbar />
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
+      <Container maxWidth="lg" sx={{ padding: '50px 0' }}>
         {children}
       </Container>
     </>

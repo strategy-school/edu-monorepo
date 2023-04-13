@@ -9,3 +9,7 @@ export const stylesGlobal = {
     lineHeight: '1.6',
   },
 };
+
+export const borderRadius = '35px';
+export const boxShadow = '0px 0px 13px 7px #DADADA';
+export const blockPadding = '30px';

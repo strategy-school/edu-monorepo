@@ -1,27 +1,68 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { stylesGlobal } from '@/src/styles';
+import {
+  blockPadding,
+  borderRadius,
+  boxShadow,
+  stylesGlobal,
+} from '@/src/styles';
 import { useAppSelector } from '@/src/app/hooks';
 import { selectCourses } from '@/src/features/courses/coursesSlice';
 import Carousel from 'react-material-ui-carousel';
 import CourseCard from '@/src/components/CourseCard/CourseCard';
+import { Property } from 'csstype';
+import TextAlign = Property.TextAlign;
+
+const styles = {
+  courses: {
+    borderRadius,
+    boxShadow,
+    padding: blockPadding,
+  },
+  coursesTitleWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  courseTitle: {
+    maxWidth: '600px',
+    textAlign: 'center' as TextAlign,
+  },
+  indicator: {
+    color: '#fff',
+    margin: '0 10px',
+  },
+};
 
 const CoursesWrapper = () => {
   const courses = useAppSelector(selectCourses);
   return (
-    <Grid>
+    <Grid style={styles.courses} bgcolor="secondary.dark">
       <Typography
         variant="h4"
-        style={stylesGlobal.title}
-        color="secondary.dark"
+        style={styles.coursesTitleWrapper}
+        color="primary.light"
       >
-        Ознакомьтесь с нашими образовательными программами:
+        <span style={{ ...stylesGlobal.title, ...styles.courseTitle }}>
+          Ознакомьтесь с нашими образовательными программами:
+        </span>
       </Typography>
-      <Typography variant="body1" mt={5}>
-        Лучшие курсы. Большой выбор по уровню знаний и продолжительностью.
+      <Typography
+        variant="body1"
+        mt={5}
+        color="primary.light"
+        textAlign="center"
+      >
+        Лучшие программы. Большой выбор по продолжительности, которые варируются
+        по уровням знаний и опыту.
       </Typography>
       <Grid mt={5}>
-        <Carousel animation="slide" duration={1000}>
+        <Carousel
+          animation="slide"
+          duration={1000}
+          indicatorIconButtonProps={{
+            style: styles.indicator,
+          }}
+        >
           {courses.map((course) => (
             <CourseCard key={course._id} course={course} />
           ))}
