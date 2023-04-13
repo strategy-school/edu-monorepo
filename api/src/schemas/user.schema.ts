@@ -33,7 +33,6 @@ export class User {
   token: string;
 
   @Prop({
-    required: true,
     unique: true,
   })
   phoneNumber: string;
