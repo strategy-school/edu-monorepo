@@ -46,6 +46,9 @@ export class User {
   @Prop()
   googleId: string;
 
+  @Prop()
+  facebookId: string;
+
   @Prop({ required: true, default: false })
   isBanned: boolean;
 

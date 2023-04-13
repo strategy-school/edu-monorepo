@@ -7,7 +7,7 @@ import { LocalStrategy } from './auth/local.strategy';
 import { UsersController } from './users/users.controller';
 import { PassportModule } from '@nestjs/passport';
 import { CoursesController } from './courses/courses.controller';
-import {FacebookStrategy} from './auth/facebook.strategy';
+import { FacebookStrategy } from './auth/facebook.strategy';
 
 @Module({
   imports: [

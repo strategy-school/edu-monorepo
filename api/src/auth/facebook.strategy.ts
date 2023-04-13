@@ -7,10 +7,7 @@ import { Model } from 'mongoose';
 import * as crypto from 'crypto';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(
-  Strategy,
-  'facebook',
-) {
+export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {

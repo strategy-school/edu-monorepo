@@ -18,9 +18,10 @@ import {
   selectLoginError,
   selectLoginLoading,
 } from '@/src/features/users/usersSlice';
-import { login } from '@/src/features/users/usersThunks';
+import { facebookLogin, login } from '@/src/features/users/usersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import Link from 'next/link';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,11 @@ const Login = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await dispatch(login(state)).unwrap();
+    void router.push('/');
+  };
+
+  const facebookLoginHandler = async () => {
+    await dispatch(facebookLogin()).unwrap();
     void router.push('/');
   };
 
@@ -99,6 +105,21 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               <span>Войти</span>
+            </LoadingButton>
+            <Typography variant="h6" sx={{ textAlign: 'center' }}>
+              или
+            </Typography>
+            <LoadingButton
+              onClick={() => facebookLoginHandler()}
+              variant="contained"
+              loading={loading}
+              color="primary"
+              startIcon={<FacebookIcon />}
+              sx={{ mb: 2, p: 1 }}
+              fullWidth
+              loadingIndicator="Loading…"
+            >
+              Войти с помощью Facebook
             </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>

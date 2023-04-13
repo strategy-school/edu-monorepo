@@ -1,6 +1,10 @@
 import { GlobalError, User, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register } from '@/src/features/users/usersThunks';
+import {
+  facebookLogin,
+  login,
+  register,
+} from '@/src/features/users/usersThunks';
 import { RootState } from '@/src/app/store';
 
 interface UsersState {
@@ -40,6 +44,7 @@ export const usersSlice = createSlice({
       state.registerLoading = false;
       state.registerError = error || null;
     });
+
     builder.addCase(login.pending, (state) => {
       state.loginLoading = true;
       state.loginError = null;
@@ -51,6 +56,17 @@ export const usersSlice = createSlice({
     builder.addCase(login.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
       state.loginError = error || null;
+    });
+
+    builder.addCase(facebookLogin.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(facebookLogin.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(facebookLogin.rejected, (state) => {
+      state.loginLoading = false;
     });
   },
 });

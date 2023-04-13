@@ -59,6 +59,14 @@ export const login = createAsyncThunk<
   }
 });
 
+export const facebookLogin = createAsyncThunk(
+  'users/facebookLogin',
+  async () => {
+    const response = await axiosApi.get('/users/facebook');
+    return response.data;
+  },
+);
+
 export const logout = createAsyncThunk(
   'users/logout',
   async (_, { dispatch }) => {
