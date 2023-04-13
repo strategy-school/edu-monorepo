@@ -31,6 +31,9 @@ const styles = {
     color: '#fff',
     margin: '0 10px',
   },
+  activeIndicator: {
+    color: '#58595BFF',
+  },
 };
 
 const CoursesWrapper = () => {
@@ -61,6 +64,9 @@ const CoursesWrapper = () => {
           duration={1000}
           indicatorIconButtonProps={{
             style: styles.indicator,
+          }}
+          activeIndicatorIconButtonProps={{
+            style: styles.activeIndicator,
           }}
         >
           {courses.map((course) => (
