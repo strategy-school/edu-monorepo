@@ -1,16 +1,9 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Property } from 'csstype';
-import TextTransform = Property.TextTransform;
+import { stylesGlobal } from '@/src/styles';
 
 const styles = {
-  whyUsTitle: {
-    fontWeight: 600,
-    fontSize: '30px',
-    textTransform: 'uppercase' as TextTransform,
-    lineHeight: '1.6',
-  },
   whyUsItem: {
     display: 'flex',
     alignItems: 'center',
@@ -27,7 +20,7 @@ const AboutUs = () => {
       <Grid item lg={4}>
         <Typography
           variant="h1"
-          style={styles.whyUsTitle}
+          style={stylesGlobal.title}
           color="secondary.main"
         >
           Почему вам стоит выбрать Strategia Marketing School

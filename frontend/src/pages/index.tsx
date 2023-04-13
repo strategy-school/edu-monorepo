@@ -6,6 +6,7 @@ import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import { selectCourses } from '@/src/features/courses/coursesSlice';
 import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
 import AboutUs from '@/src/components/StaticComponents/AboutUs/AboutUs';
+import CoursesWrapper from '@/src/components/CoursesWrapper/CoursesWrapper';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -31,6 +32,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <AboutUs />
+          </Grid>
+          <Grid item>
+            <CoursesWrapper />
           </Grid>
         </Grid>
       </Box>
