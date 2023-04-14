@@ -2,19 +2,22 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
-import { Model } from 'mongoose';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateUsersDto } from './create-users.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Request, Response } from 'express';
+import { Model } from 'mongoose';
+import { GoogleAuthGuard } from 'src/auth/google/google-auth.guard';
+import { User, UserDocument } from '../schemas/user.schema';
+import { CreateUsersDto } from './create-users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -49,6 +52,18 @@ export class UsersController {
   login(@Req() req: Request) {
     const user = req.user as UserDocument;
     return { message: 'Login successfully', user };
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google')
+  handleGoogle() {
+    return { msg: 'Google Authentication' };
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google/redirect')
+  async handleGoogleRedirect(@Res() res: Response) {
+    res.redirect('http://localhost:3000');
   }
 
   @Delete('sessions')
