@@ -5,6 +5,7 @@ import {
   Alert,
   Avatar,
   Box,
+  Button,
   Container,
   Grid,
   Link,
@@ -18,8 +19,9 @@ import {
   selectLoginError,
   selectLoginLoading,
 } from '@/src/features/users/usersSlice';
-import { login } from '@/src/features/users/usersThunks';
+import { googleLogin, login } from '@/src/features/users/usersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +44,11 @@ const Login = () => {
     void router.push('/');
   };
 
+  const onGoogleLogin = async () => {
+    // await dispatch(googleLogin()).unwrap();
+    window.open('http://localhost:8000/users/google', '_self');
+  };
+
   return (
     <Layout title="Strategia login">
       <Container component="main" maxWidth="xs">
@@ -59,6 +66,15 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Войти
           </Typography>
+          <Box sx={{ pt: 2 }}>
+            {/* <GoogleLogin
+              onSuccess={() => {
+                void onGoogleLogin();
+              }}
+              onError={() => console.log('Login failed')}
+            /> */}
+            <Button onClick={onGoogleLogin}>Google</Button>
+          </Box>
           {error && (
             <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
               {error.error}

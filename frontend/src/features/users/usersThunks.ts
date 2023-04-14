@@ -10,6 +10,7 @@ import {
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 import { unsetUser } from '@/src/features/users/usersSlice';
+import { request } from 'http';
 
 export const register = createAsyncThunk<
   User,
@@ -66,3 +67,8 @@ export const logout = createAsyncThunk(
     dispatch(unsetUser());
   },
 );
+
+export const googleLogin = createAsyncThunk('users/googleLogin', async () => {
+  const data = await axiosApi.get('/users/google');
+  console.log(data);
+});
