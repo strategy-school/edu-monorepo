@@ -10,8 +10,8 @@
   "scripts": {
     "prepare": "husky install",
     "pre-commit-all": "npm-run-all --parallel lint:*",
-    "lint:api": "cd api && npm run typecheck && npm run lint",
-    "lint:client": "cd frontend && npm run typecheck && npm run lint"
+    "lint:backend": "cd backend && npm run typecheck && npm run lint",
+    "lint:frontend": "cd frontend && npm run typecheck && npm run lint"
   },
   "keywords": [],
   "author": "",
