@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import { selectCourses } from '@/src/features/courses/coursesSlice';
+import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
+import AboutUs from '@/src/components/StaticComponents/AboutUs/AboutUs';
+import CoursesWrapper from '@/src/components/CoursesWrapper/CoursesWrapper';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -23,16 +26,17 @@ export default function Home() {
         }}
         mt={5}
       >
-        <Typography color="primary" fontWeight={300}>
-          Strategia school with primary color and light fw
-        </Typography>
-        <Typography color="secondary.main" fontWeight={400}>
-          Strategia school with secondary color and regular fw
-        </Typography>
-        <Typography color="secondary.dark" fontWeight={700}>
-          Strategia school with custom color and bald fw{' '}
-        </Typography>
-        <h1>Strategia school</h1>
+        <Grid container flexDirection="column" spacing={4}>
+          <Grid item>
+            <WelcomeBlock />
+          </Grid>
+          <Grid item>
+            <AboutUs />
+          </Grid>
+          <Grid item>
+            <CoursesWrapper />
+          </Grid>
+        </Grid>
       </Box>
     </Layout>
   );
