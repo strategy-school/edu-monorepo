@@ -7,10 +7,11 @@ import { LocalStrategy } from './auth/local.strategy';
 import { UsersController } from './users/users.controller';
 import { PassportModule } from '@nestjs/passport';
 import { CoursesController } from './courses/courses.controller';
+import config from './config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/strategy-school'),
+    MongooseModule.forRoot(config.db),
     MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,

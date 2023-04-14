@@ -16,7 +16,7 @@ export class Course {
   title: string;
 
   @Prop({ required: true })
-  price: string;
+  price: number;
 
   @Prop({ required: true })
   description: string;
