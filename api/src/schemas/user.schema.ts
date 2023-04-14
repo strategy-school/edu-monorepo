@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
 
@@ -33,7 +34,6 @@ export class User {
   token: string;
 
   @Prop({
-    required: true,
     unique: true,
   })
   phoneNumber: string;
@@ -51,6 +51,7 @@ export class User {
   isBanned: boolean;
 
   checkPassword: (password: string) => Promise<boolean>;
+
   generateToken: () => void;
 }
 
