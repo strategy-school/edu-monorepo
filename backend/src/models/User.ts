@@ -55,24 +55,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: true,
   },
-  phoneNumber: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: async function (
-        this: HydratedDocument<IUser>,
-        phoneNumber: string,
-      ): Promise<boolean> {
-        if (!this.isModified('phoneNumber')) return true;
-        const user: HydratedDocument<IUser> | null = await User.findOne({
-          phoneNumber,
-        });
-        return !user;
-      },
-      message: 'This phone number is already in use',
-    },
-  },
+  phoneNumber: String,
   role: {
     type: String,
     required: true,
