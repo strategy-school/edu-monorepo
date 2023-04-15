@@ -14,6 +14,12 @@ type UserModel = Model<IUser, Record<string, never>, IUserMethods>;
 
 const Schema = mongoose.Schema;
 
+enum Role {
+  User = 'user',
+  Teacher = 'teacher',
+  Admin = 'admin',
+}
+
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   email: {
     type: String,
@@ -70,8 +76,8 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   role: {
     type: String,
     required: true,
-    enum: ['user', 'teacher', 'admin'],
-    default: 'user',
+    enum: Role,
+    default: Role.User,
   },
   avatar: String,
   googleId: String,
