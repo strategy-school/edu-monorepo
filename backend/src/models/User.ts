@@ -36,7 +36,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
         });
         return !user;
       },
-      message: 'This user is already registered',
+      message: 'Пользователь под таким email-ом уже зарегистрирован!',
     },
   },
   firstName: {
@@ -69,7 +69,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
         });
         return !user;
       },
-      message: 'This phone number is already in use',
+      message: 'Пользователь с таким номером уже зарегистрирован!',
     },
   },
   role: {
