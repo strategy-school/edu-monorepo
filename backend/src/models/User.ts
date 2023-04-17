@@ -1,7 +1,7 @@
-import mongoose, { HydratedDocument, Model } from 'mongoose';
-import { IUser } from '../types';
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
+import { HydratedDocument, model, Model, Schema } from 'mongoose';
+import { IUser } from '../types';
 
 const SALT_WORK_FACTOR = 10;
 
@@ -11,8 +11,6 @@ interface IUserMethods {
 }
 
 type UserModel = Model<IUser, Record<string, never>, IUserMethods>;
-
-const Schema = mongoose.Schema;
 
 enum Role {
   User = 'user',
@@ -31,7 +29,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
         email: string,
       ): Promise<boolean> {
         if (!this.isModified('email')) return true;
-        const user: HydratedDocument<IUser> | null = await User.findOne({
+        const user = await User.findOne({
           email,
         });
         return !user;
@@ -64,7 +62,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
         phoneNumber: string,
       ): Promise<boolean> {
         if (!this.isModified('phoneNumber')) return true;
-        const user: HydratedDocument<IUser> | null = await User.findOne({
+        const user = await User.findOne({
           phoneNumber,
         });
         return !user;
@@ -108,5 +106,5 @@ UserSchema.methods.generateToken = function () {
   this.token = randomUUID();
 };
 
-const User = mongoose.model<IUser, UserModel>('User', UserSchema);
+const User = model<IUser, UserModel>('User', UserSchema);
 export default User;

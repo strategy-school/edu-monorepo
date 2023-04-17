@@ -1,9 +1,14 @@
 import express from 'express';
+import { OAuth2Client } from 'google-auth-library';
 import mongoose from 'mongoose';
-import { imageUpload } from '../multer';
 import User from '../models/User';
+import { imageUpload } from '../multer';
+import config from '../config';
+import { downloadFile } from '../helper';
+import { randomUUID } from 'crypto';
 
 const usersRouter = express.Router();
+const client = new OAuth2Client(config.google.clientId);
 
 usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
   try {
@@ -68,6 +73,53 @@ usersRouter.delete('/sessions', async (req, res, next) => {
     user.generateToken();
     await user.save();
     return res.send(success);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+usersRouter.post('/google', async (req, res, next) => {
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.credential,
+      audience: config.google.clientId,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      return res.status(400).send({ error: 'Wrong Google token!' });
+    }
+
+    const email = payload['email'];
+    const googleId = payload['sub'];
+    const firstName = payload['given_name'];
+    const lastName = payload['family_name'];
+    const avatarUrl = payload['picture'];
+
+    if (!email) {
+      return res.status(400).send({ error: 'Not enough user data' });
+    }
+
+    let user = await User.findOne({ googleId });
+
+    if (!user) {
+      const avatar =
+        'images/' + (await downloadFile(avatarUrl as string, 'images'));
+
+      user = new User({
+        email,
+        password: randomUUID(),
+        firstName,
+        lastName,
+        avatar,
+        googleId,
+      });
+    }
+
+    user.generateToken();
+    await user.save();
+    return res.send({ message: 'Login with Google successful', user });
   } catch (e) {
     return next(e);
   }
