@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { useRouter } from 'next/router';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
+import Layout from '@/src/components/UI/Layout/Layout';
 import { selectRegisterError } from '@/src/features/users/usersSlice';
+import { googleLogin, register } from '@/src/features/users/usersThunks';
 import { RegisterMutation } from '@/src/types';
-import { register } from '@/src/features/users/usersThunks';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar,
   Box,
@@ -13,10 +14,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import FileInput from '@/src/components/UI/FileInput/FileInput';
+import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
-import Layout from '@/src/components/UI/Layout/Layout';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 const Registration = () => {
   const dispatch = useAppDispatch();
@@ -59,6 +60,11 @@ const Registration = () => {
     }));
   };
 
+  const onGoogleLogin = async (credentials: string) => {
+    await dispatch(googleLogin(credentials)).unwrap();
+    await router.push('/');
+  };
+
   const phoneNumberPattern = '^996\\d{9}$';
 
   return (
@@ -78,6 +84,14 @@ const Registration = () => {
           <Typography component="h1" variant="h5">
             Регистрация
           </Typography>
+          <Box sx={{ pt: 2 }}>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                void onGoogleLogin(credentialResponse.credential as string);
+              }}
+              onError={() => console.log('Login failed')}
+            />
+          </Box>
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
