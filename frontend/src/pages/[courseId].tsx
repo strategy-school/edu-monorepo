@@ -3,31 +3,12 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { fetchOneCourse } from '@/src/features/courses/coursesThunks';
 import { selectOneCourse } from '@/src/features/courses/coursesSlice';
-import { borderRadius } from '@/src/styles';
-import theme from '@/src/theme';
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MoneyIcon from '@mui/icons-material/Money';
-
-const blockStyle = {
-  margin: '10px',
-  width: '95vw',
-  borderRadius,
-  height: '90vh',
-  border: '1px solid rgb(217, 39, 45)',
-  borderTop: 'none',
-  padding: 0,
-};
-
-const blockTopStyle = {
-  background: theme.palette.secondary.main,
-  color: '#fff',
-  paddingTop: '10px',
-  paddingBottom: '10px',
-  borderTopLeftRadius: '35px',
-  borderTopRightRadius: '35px',
-};
+import { blockStyle } from '@/src/styles';
+import { blockTopStyle } from '@/src/styles';
 
 const CourseId = () => {
   const router = useRouter();
@@ -41,12 +22,21 @@ const CourseId = () => {
 
   console.log(course);
 
+  const typeName =
+    course?.type === 'seminar'
+      ? 'Семинар'
+      : course?.type === 'training'
+      ? 'Тренинг'
+      : course?.type === 'course'
+      ? 'Курс'
+      : 'Mini MBA';
+
   return (
     <Layout title={`${course?.title} page`}>
-      <Grid container direction="column" style={blockStyle}>
+      <Grid container direction="column" style={blockStyle} xs={12}>
         <Grid item xs style={blockTopStyle} textAlign="center">
           <Typography variant="h3">
-            {course?.title} ({course?.type})
+            {course?.title} ({typeName})
           </Typography>
         </Grid>
 
