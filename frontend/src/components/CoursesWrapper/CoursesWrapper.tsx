@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import {
   blockPadding,
   borderRadius,
@@ -12,6 +12,7 @@ import Carousel from 'react-material-ui-carousel';
 import CourseCard from '@/src/components/CourseCard/CourseCard';
 import { Property } from 'csstype';
 import TextAlign = Property.TextAlign;
+import { useRouter } from 'next/router';
 
 const styles = {
   courses: {
@@ -38,6 +39,12 @@ const styles = {
 
 const CoursesWrapper = () => {
   const courses = useAppSelector(selectCourses);
+
+  const router = useRouter();
+
+  const fullCoursesView = () => {
+    void router.push(`/fullCourses`);
+  };
   return (
     <Grid style={styles.courses} bgcolor="secondary.dark">
       <Typography
@@ -58,7 +65,7 @@ const CoursesWrapper = () => {
         Лучшие программы. Большой выбор по продолжительности, которые варируются
         по уровням знаний и опыту.
       </Typography>
-      <Grid mt={5}>
+      <Grid mt={5} mb={2}>
         <Carousel
           animation="slide"
           duration={1000}
@@ -73,6 +80,11 @@ const CoursesWrapper = () => {
             <CourseCard key={course._id} course={course} />
           ))}
         </Carousel>
+      </Grid>
+      <Grid textAlign="center">
+        <Button color="warning" variant="outlined" onClick={fullCoursesView}>
+          Просмотреть все курсы
+        </Button>
       </Grid>
     </Grid>
   );
