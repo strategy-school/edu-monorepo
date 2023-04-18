@@ -14,6 +14,10 @@ const blockStyle = {
   margin: '10px',
   width: '95vw',
   borderRadius,
+  height: '90vh',
+  border: '1px solid rgb(217, 39, 45)',
+  borderTop: 'none',
+  padding: 0,
 };
 
 const blockTopStyle = {
@@ -51,7 +55,7 @@ const CourseId = () => {
           <Typography component="p">{course?.description}</Typography>
         </Grid>
         <Divider />
-        <Grid item sx={{ mt: 2 }}>
+        <Grid item sx={{ mt: 2, mb: 2 }}>
           <Typography component="div" style={{ position: 'relative' }}>
             <AccessTimeIcon
               fontSize="small"
@@ -79,7 +83,8 @@ const CourseId = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item sx={{ mt: 2 }}>
+        <Divider />
+        <Grid item sx={{ m: 3 }}>
           <Button variant="contained" color="secondary">
             Запишись сейчас!
           </Button>
