@@ -1,5 +1,6 @@
 import { Property } from 'csstype';
 import TextTransform = Property.TextTransform;
+import theme from '@/src/theme';
 
 export const stylesGlobal = {
   title: {
@@ -13,3 +14,19 @@ export const stylesGlobal = {
 export const borderRadius = '35px';
 export const boxShadow = '0px 0px 13px 7px #DADADA';
 export const blockPadding = '30px';
+
+export const blockStyle = {
+  margin: '10px',
+  borderRadius,
+  boxShadow,
+  border: '1px solid rgb(217, 39, 45)',
+  padding: 0,
+};
+
+export const blockTopStyle = {
+  color: theme.palette.secondary.main,
+  paddingTop: '10px',
+  paddingBottom: '10px',
+  borderTopLeftRadius: '35px',
+  borderTopRightRadius: '35px',
+};
