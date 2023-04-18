@@ -17,7 +17,7 @@ export default function Home() {
 
   console.log(courses);
   return (
-    <Layout title="Strategia home page">
+    <Layout title="Strategy school">
       <Box
         style={{
           display: 'flex',
