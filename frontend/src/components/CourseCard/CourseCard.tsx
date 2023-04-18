@@ -33,7 +33,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   const router = useRouter();
 
   const openCard = () => {
-    void router.push(`/${course._id}`);
+    void router.push(`/courses/${course._id}`);
   };
   return (
     <Box style={styles.courseCard}>
