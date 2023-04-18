@@ -5,6 +5,7 @@ import {
   createCourse,
   fetchCourses,
   fetchOneCourse,
+  updateCourse,
 } from '@/src/features/courses/coursesThunks';
 
 interface CourseState {
@@ -14,6 +15,8 @@ interface CourseState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCourseError: ValidationError | null;
+  updateLoading: boolean;
+  updateCourseError: ValidationError | null;
 }
 
 const initialState: CourseState = {
@@ -23,6 +26,8 @@ const initialState: CourseState = {
   fetchOneLoading: false,
   createLoading: false,
   createCourseError: null,
+  updateLoading: false,
+  updateCourseError: null,
 };
 
 const coursesSlice = createSlice({
@@ -63,6 +68,18 @@ const coursesSlice = createSlice({
       state.createCourseError = error || null;
       state.createLoading = false;
     });
+
+    builder.addCase(updateCourse.pending, (state) => {
+      state.updateCourseError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(updateCourse.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateCourse.rejected, (state, { payload: error }) => {
+      state.updateCourseError = error || null;
+      state.updateLoading = false;
+    });
   },
 });
 
@@ -78,3 +95,7 @@ export const selectCourseCreating = (state: RootState) =>
   state.courses.createLoading;
 export const selectCreateCourseError = (state: RootState) =>
   state.courses.createCourseError;
+export const selectCourseUpdating = (state: RootState) =>
+  state.courses.updateLoading;
+export const selectUpdateCourseError = (state: RootState) =>
+  state.courses.updateCourseError;

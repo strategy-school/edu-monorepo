@@ -25,11 +25,11 @@ const NewCourse = () => {
   };
 
   return (
-    <Layout title="Strategia login">
-      <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+      <Layout title="Strategia new course">
         <CourseForm onSubmit={onSubmit} loading={createLoading} error={error} />
-      </ProtectedRoute>
-    </Layout>
+      </Layout>
+    </ProtectedRoute>
   );
 };
 

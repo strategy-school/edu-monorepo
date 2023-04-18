@@ -12,3 +12,12 @@ export interface IUser {
   linkedinId: string | null;
   isBanned: boolean;
 }
+
+export interface ICourse {
+  _id: string;
+  title: string;
+  duration: string;
+  price: number;
+  description: string;
+  type: string;
+}

@@ -54,7 +54,8 @@ const CourseForm: React.FC<Props> = ({
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(state);
+    await onSubmit(state);
+    setState(initialState);
   };
 
   return (

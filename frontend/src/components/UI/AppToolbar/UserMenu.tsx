@@ -50,7 +50,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
-          <MenuItem onClick={openNewCoursePage}>Добавить курс</MenuItem>
+          <MenuItem onClick={openNewCoursePage}>Добавить новый курс</MenuItem>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
