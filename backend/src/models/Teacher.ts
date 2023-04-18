@@ -19,11 +19,15 @@ const TeacherSchema = new Schema({
   },
   photo: {
     type: String,
-    required: true,
+    // required: true,
   },
   portfolio: {
-    type: [String], //Предлагаю в дальнейшем обсудить и разбить портфолио на массив обьектов и придумать ключи по типу workplace, duration, impact итп
+    type: [String], //Предлагаю в дальнейшем обсудить и разбить портфолио на массив обьектов и придумать ключи по типу {workplace, duration, impact } итп
     required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
   },
 });
 
