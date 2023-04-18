@@ -1,8 +1,17 @@
 import React from 'react';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import { Course } from '@/src/types';
 import { borderRadius } from '@/src/styles';
 import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { selectUser } from '@/src/features/users/usersSlice';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { selectCourseDeleting } from '@/src/features/courses/coursesSlice';
+import {
+  deleteCourse,
+  fetchCourses,
+} from '@/src/features/courses/coursesThunks';
 
 interface Props {
   course: Course;
@@ -26,19 +35,33 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative' as const,
   },
 };
 
 const CourseCard: React.FC<Props> = ({ course }) => {
   const router = useRouter();
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const deleteLoading = useAppSelector(selectCourseDeleting);
 
   const openCard = () => {
-    void router.push(`/${course._id}`);
+    void router.push(`/courses/${course._id}`);
   };
+
+  const openEditPage = () => {
+    void router.push(`/edit-course/${course._id}`);
+  };
+
+  const handleDelete = async () => {
+    await dispatch(deleteCourse(course._id));
+    dispatch(fetchCourses());
+  };
+
   return (
     <Box style={styles.courseCard}>
-      <Card onClick={openCard} style={styles.cardBody} className="card">
-        <CardContent>
+      <Card style={styles.cardBody} className="card">
+        <CardContent onClick={openCard}>
           <Typography
             variant="h5"
             component="div"
@@ -58,6 +81,19 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             Продолжительность: {course.duration.toLowerCase()}
           </Typography>
         </CardContent>
+        {user && user.role === 'admin' && (
+          <Box sx={{ position: 'absolute', top: 10, right: 10 }}>
+            <IconButton onClick={openEditPage}>
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              disabled={deleteLoading ? deleteLoading === course._id : false}
+              onClick={handleDelete}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        )}
       </Card>
     </Box>
   );

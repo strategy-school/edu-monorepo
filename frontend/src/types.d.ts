@@ -53,10 +53,16 @@ export interface Course {
   duration: string;
 }
 
+export interface CourseMutation {
+  title: string;
+  duration: string;
+  price: string;
+  description: string;
+  type: string;
+}
+
 export interface FullCourse extends Course {
   price: number;
   description: string;
   type: string;
 }
-
-export type CourseMutation = Omit<FullCourse, '_id'>;

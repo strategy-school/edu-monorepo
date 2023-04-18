@@ -10,7 +10,6 @@ import Image from 'next/image';
 
 const AppToolbar = () => {
   const user = useAppSelector(selectUser);
-  console.log(user);
 
   return (
     <AppBar position="sticky" sx={{ bgcolor: 'secondary.dark' }}>

@@ -3,8 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
   createCourse,
+  deleteCourse,
   fetchCourses,
   fetchOneCourse,
+  updateCourse,
 } from '@/src/features/courses/coursesThunks';
 
 interface CourseState {
@@ -14,6 +16,9 @@ interface CourseState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCourseError: ValidationError | null;
+  updateLoading: boolean;
+  updateCourseError: ValidationError | null;
+  deleteLoading: string | false;
 }
 
 const initialState: CourseState = {
@@ -23,6 +28,9 @@ const initialState: CourseState = {
   fetchOneLoading: false,
   createLoading: false,
   createCourseError: null,
+  updateLoading: false,
+  updateCourseError: null,
+  deleteLoading: false,
 };
 
 const coursesSlice = createSlice({
@@ -63,6 +71,28 @@ const coursesSlice = createSlice({
       state.createCourseError = error || null;
       state.createLoading = false;
     });
+
+    builder.addCase(updateCourse.pending, (state) => {
+      state.updateCourseError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(updateCourse.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateCourse.rejected, (state, { payload: error }) => {
+      state.updateCourseError = error || null;
+      state.updateLoading = false;
+    });
+
+    builder.addCase(deleteCourse.pending, (state, { meta: { arg: id } }) => {
+      state.deleteLoading = id;
+    });
+    builder.addCase(deleteCourse.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(deleteCourse.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   },
 });
 
@@ -78,3 +108,9 @@ export const selectCourseCreating = (state: RootState) =>
   state.courses.createLoading;
 export const selectCreateCourseError = (state: RootState) =>
   state.courses.createCourseError;
+export const selectCourseUpdating = (state: RootState) =>
+  state.courses.updateLoading;
+export const selectUpdateCourseError = (state: RootState) =>
+  state.courses.updateCourseError;
+export const selectCourseDeleting = (state: RootState) =>
+  state.courses.deleteLoading;
