@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CourseMutation, ValidationError } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -28,13 +28,15 @@ const initialState: CourseMutation = {
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,
-  existingCourse = initialState,
+  existingCourse,
   isEdit = false,
   loading = false,
   error,
   fetchCourseLoading = false,
 }) => {
-  const [state, setState] = useState<CourseMutation>(existingCourse);
+  const [state, setState] = useState<CourseMutation>(
+    existingCourse || initialState,
+  );
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -42,6 +44,10 @@ const CourseForm: React.FC<Props> = ({
       return undefined;
     }
   };
+
+  useEffect(() => {
+    setState(existingCourse || initialState);
+  }, [existingCourse]);
 
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

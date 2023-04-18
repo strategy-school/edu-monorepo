@@ -3,10 +3,15 @@ import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import { Course } from '@/src/types';
 import { borderRadius } from '@/src/styles';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { selectCourseDeleting } from '@/src/features/courses/coursesSlice';
+import {
+  deleteCourse,
+  fetchCourses,
+} from '@/src/features/courses/coursesThunks';
 
 interface Props {
   course: Course;
@@ -37,6 +42,8 @@ const styles = {
 const CourseCard: React.FC<Props> = ({ course }) => {
   const router = useRouter();
   const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const deleteLoading = useAppSelector(selectCourseDeleting);
 
   const openCard = () => {
     void router.push(`/courses/${course._id}`);
@@ -44,6 +51,11 @@ const CourseCard: React.FC<Props> = ({ course }) => {
 
   const openEditPage = () => {
     void router.push(`/edit-course/${course._id}`);
+  };
+
+  const handleDelete = async () => {
+    await dispatch(deleteCourse(course._id));
+    dispatch(fetchCourses());
   };
 
   return (
@@ -74,7 +86,10 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             <IconButton onClick={openEditPage}>
               <EditIcon />
             </IconButton>
-            <IconButton>
+            <IconButton
+              disabled={deleteLoading ? deleteLoading === course._id : false}
+              onClick={handleDelete}
+            >
               <DeleteIcon />
             </IconButton>
           </Box>

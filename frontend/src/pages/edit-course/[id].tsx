@@ -27,6 +27,7 @@ const Id = () => {
   const error = useAppSelector(selectUpdateCourseError);
   const user = useAppSelector(selectUser);
 
+  console.log(id);
   useEffect(() => {
     if (id) {
       void dispatch(fetchOneCourse(id));

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
   createCourse,
+  deleteCourse,
   fetchCourses,
   fetchOneCourse,
   updateCourse,
@@ -17,6 +18,7 @@ interface CourseState {
   createCourseError: ValidationError | null;
   updateLoading: boolean;
   updateCourseError: ValidationError | null;
+  deleteLoading: string | false;
 }
 
 const initialState: CourseState = {
@@ -28,6 +30,7 @@ const initialState: CourseState = {
   createCourseError: null,
   updateLoading: false,
   updateCourseError: null,
+  deleteLoading: false,
 };
 
 const coursesSlice = createSlice({
@@ -80,6 +83,16 @@ const coursesSlice = createSlice({
       state.updateCourseError = error || null;
       state.updateLoading = false;
     });
+
+    builder.addCase(deleteCourse.pending, (state, { meta: { arg: id } }) => {
+      state.deleteLoading = id;
+    });
+    builder.addCase(deleteCourse.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(deleteCourse.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   },
 });
 
@@ -99,3 +112,5 @@ export const selectCourseUpdating = (state: RootState) =>
   state.courses.updateLoading;
 export const selectUpdateCourseError = (state: RootState) =>
   state.courses.updateCourseError;
+export const selectCourseDeleting = (state: RootState) =>
+  state.courses.deleteLoading;

@@ -76,4 +76,13 @@ coursesRouter.put('/:id', auth, permit('admin'), async (req, res, next) => {
   }
 });
 
+coursesRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    await Course.deleteOne({ _id: req.params.id });
+    return res.send({ message: 'Deleted' });
+  } catch (e) {
+    return next(e);
+  }
+});
+
 export default coursesRouter;

@@ -55,3 +55,10 @@ export const updateCourse = createAsyncThunk<
     throw e;
   }
 });
+
+export const deleteCourse = createAsyncThunk<void, string>(
+  'courses/delete',
+  async (id) => {
+    await axiosApi.delete('/courses/' + id);
+  },
+);
