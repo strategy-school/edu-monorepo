@@ -51,6 +51,7 @@ export interface Course {
   _id: string;
   title: string;
   duration: string;
+  image?: string;
 }
 
 export interface CourseMutation {
@@ -59,12 +60,23 @@ export interface CourseMutation {
   price: string;
   description: string;
   type: string;
+  image?: File | null;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
 }
 
 export interface FullCourse extends Course {
   price: number;
   description: string;
   type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TeacherMutation {

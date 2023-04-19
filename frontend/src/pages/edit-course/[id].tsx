@@ -27,7 +27,6 @@ const Id = () => {
   const error = useAppSelector(selectUpdateCourseError);
   const user = useAppSelector(selectUser);
 
-  console.log(id);
   useEffect(() => {
     if (id) {
       void dispatch(fetchOneCourse(id));
@@ -36,7 +35,7 @@ const Id = () => {
 
   const onSubmit = async (courseMutation: CourseMutation) => {
     await dispatch(updateCourse({ id, course: courseMutation })).unwrap();
-    void router.push('/');
+    void router.push(`/courses/${id}`);
   };
 
   const existingCourse = course && {
@@ -44,6 +43,10 @@ const Id = () => {
     description: course.description,
     duration: course.duration,
     type: course.type,
+    theme: course.theme,
+    targetAudience: course.targetAudience,
+    level: course.level,
+    programGoal: course.programGoal,
     price: course.price.toString(),
   };
 

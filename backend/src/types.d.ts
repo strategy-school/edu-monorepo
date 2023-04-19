@@ -14,12 +14,16 @@ export interface IUser {
 }
 
 export interface ICourse {
-  _id: string;
   title: string;
   duration: string;
   price: number;
   description: string;
   type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  image: string;
 }
 
 export interface ICategory {

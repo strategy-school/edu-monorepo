@@ -24,6 +24,10 @@ const initialState: CourseMutation = {
   description: '',
   duration: '',
   price: '',
+  theme: '',
+  targetAudience: '',
+  programGoal: '',
+  level: '',
 };
 
 const CourseForm: React.FC<Props> = ({
@@ -69,7 +73,10 @@ const CourseForm: React.FC<Props> = ({
       <Grid container direction="column" spacing={2}>
         <Grid item xs>
           <Typography variant="h4">
-            {isEdit ? 'Редактировать' : 'Новый'} курс
+            {isEdit ? 'Редактировать' : 'Новый'} курс{' '}
+            {fetchCourseLoading && (
+              <CircularProgress size={20} sx={{ ml: 1 }} />
+            )}
           </Typography>
         </Grid>
 
@@ -88,6 +95,27 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <TextField
+            label="Уровень сложности"
+            select
+            name="level"
+            value={state.level}
+            onChange={inputChangeHandler}
+            required
+            error={Boolean(getFieldError('level'))}
+            helperText={getFieldError('level')}
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите уровень сложности{' '}
+            </MenuItem>
+            <MenuItem value="without level">Без уровня</MenuItem>
+            <MenuItem value="basic">Базовый уровень</MenuItem>
+            <MenuItem value="professional">Профессиональный уровень</MenuItem>
+            <MenuItem value="managerial">Управленченский уровень</MenuItem>
+          </TextField>
+        </Grid>
+
+        <Grid item xs>
+          <TextField
             label="Тип"
             select
             name="type"
@@ -99,9 +127,6 @@ const CourseForm: React.FC<Props> = ({
           >
             <MenuItem value="" disabled>
               Пожалуйста, выберите тип{' '}
-              {fetchCourseLoading && (
-                <CircularProgress size={20} sx={{ ml: 1 }} />
-              )}
             </MenuItem>
             <MenuItem value="seminar">Семинар</MenuItem>
             <MenuItem value="training">Трейнинг</MenuItem>
@@ -122,6 +147,49 @@ const CourseForm: React.FC<Props> = ({
             required
             error={Boolean(getFieldError('description'))}
             helperText={getFieldError('description')}
+          />
+        </Grid>
+
+        <Grid item xs>
+          <TextField
+            multiline
+            rows={3}
+            id="theme"
+            label="Что будет изучаться на курсе (тема)"
+            value={state.theme}
+            onChange={inputChangeHandler}
+            name="theme"
+            required
+            error={Boolean(getFieldError('theme'))}
+            helperText={getFieldError('theme')}
+          />
+        </Grid>
+
+        <Grid item xs>
+          <TextField
+            rows={3}
+            id="targetAudience"
+            label="Целевая аудитория"
+            value={state.targetAudience}
+            onChange={inputChangeHandler}
+            name="targetAudience"
+            required
+            error={Boolean(getFieldError('targetAudience'))}
+            helperText={getFieldError('targetAudience')}
+          />
+        </Grid>
+
+        <Grid item xs>
+          <TextField
+            rows={3}
+            id="programGoal"
+            label="Задача программы"
+            value={state.programGoal}
+            onChange={inputChangeHandler}
+            name="programGoal"
+            required
+            error={Boolean(getFieldError('programGoal'))}
+            helperText={getFieldError('programGoal')}
           />
         </Grid>
 
