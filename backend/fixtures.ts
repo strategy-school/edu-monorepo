@@ -6,7 +6,6 @@ import * as crypto from 'crypto';
 import Category from './src/models/Category';
 import Teacher from './src/models/Teacher';
 
-
 const run = async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(config.db);
@@ -16,6 +15,7 @@ const run = async () => {
     await db.dropCollection('courses');
     await db.dropCollection('users');
     await db.dropCollection('teachers');
+    await db.dropCollection('categories');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -67,7 +67,6 @@ const run = async () => {
     },
   );
 
-
   const [marketing, SMM] = await Category.create(
     {
       title: 'Marketing',
@@ -82,7 +81,7 @@ const run = async () => {
       image: 'fixtures/categories/marketing.jpg',
     },
   );
-  
+
   const [teacherPublished1, teacherPublished2, teacherPublished3] =
     await Teacher.create(
       {
