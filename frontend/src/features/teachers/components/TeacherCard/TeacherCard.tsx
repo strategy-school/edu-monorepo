@@ -21,11 +21,11 @@ const TeacherCard: React.FC<Props> = ({ teacher }) => {
       <CardMedia
         sx={{ height: 140 }}
         image={apiURL + '/' + teacher.photo}
-        title={teacher.user_id.firstName}
+        title={teacher.user.firstName}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {teacher.user_id.firstName} {teacher.user_id.lastName}
+          {teacher.user.firstName} {teacher.user.lastName}
         </Typography>
       </CardContent>
       <CardActions>

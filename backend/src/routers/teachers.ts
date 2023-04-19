@@ -23,15 +23,15 @@ teachersRouter.post(
           .status(500)
           .send({ error: 'Преподаватель с данным id уже существует' });
       }
-      const user = await User.findById(req.body.user_id);
+      const user = await User.findById(req.body.user);
       if (!user) {
         return res.status(500).send({ error: 'Пользователь не найден!' });
       }
       user.role = 'teacher';
-      user.save();
+      await user.save();
 
       const teacher = await Teacher.create({
-        user_id: req.body.user_id,
+        user: req.body.user_id,
         info: req.body.info,
         photo: req.file ? req.file.filename : null,
         portfolio: req.body.portfolio,
@@ -54,8 +54,8 @@ teachersRouter.post(
 teachersRouter.get('/', async (req, res) => {
   try {
     const results = await Teacher.find()
-      .populate('user_id', 'firstName lastName')
-      .select('user_id photo')
+      .populate('user', 'firstName lastName')
+      .select('user photo')
       .exec();
     return res.send(results);
   } catch {
@@ -66,7 +66,7 @@ teachersRouter.get('/', async (req, res) => {
 teachersRouter.get('/:id', async (req, res, next) => {
   try {
     const teacher = await Teacher.findById(req.params.id)
-      .populate('user_id', 'firstName lastName')
+      .populate('user', 'firstName lastName')
       .exec();
     if (!teacher) {
       return res

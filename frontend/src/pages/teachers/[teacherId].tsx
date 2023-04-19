@@ -58,12 +58,12 @@ const TeacherId = () => {
                       component="img"
                       sx={{ maxWidth: 500, borderRadius: 7 }}
                       image={apiURL + '/' + teacher.photo}
-                      alt={teacher.user_id.firstName}
+                      alt={teacher.user.firstName}
                     />
                   </Grid>
                   <Grid item width={500}>
                     <Typography variant="h5" textTransform="uppercase" mb={2}>
-                      {teacher.user_id.firstName} {teacher.user_id.lastName}
+                      {teacher.user.firstName} {teacher.user.lastName}
                     </Typography>
                     <Divider sx={{ my: 3 }} />
                     <Typography variant="body1">{teacher.info}</Typography>

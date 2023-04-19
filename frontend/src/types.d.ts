@@ -68,14 +68,14 @@ export interface FullCourse extends Course {
 }
 
 export interface TeacherMutation {
-  user_id: string;
+  user: string;
   info: string;
   photo: File | null;
   portfolio: string[];
 }
 export interface TeacherShort {
   _id: string;
-  user_id: {
+  user: {
     _id: string;
     firstName: string;
     lastName: string;
@@ -85,5 +85,6 @@ export interface TeacherShort {
 export interface Teacher extends TeacherShort {
   info: string;
   portfolio: string[];
-  created_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
