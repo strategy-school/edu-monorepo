@@ -18,69 +18,72 @@ enum Role {
   Admin = 'admin',
 }
 
-const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: async function (
-        this: HydratedDocument<IUser>,
-        email: string,
-      ): Promise<boolean> {
-        if (!this.isModified('email')) return true;
-        const user = await User.findOne({
-          email,
-        });
-        return !user;
+const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: async function (
+          this: HydratedDocument<IUser>,
+          email: string,
+        ): Promise<boolean> {
+          if (!this.isModified('email')) return true;
+          const user = await User.findOne({
+            email,
+          });
+          return !user;
+        },
+        message: 'Пользователь под таким email-ом уже зарегистрирован!',
       },
-      message: 'Пользователь под таким email-ом уже зарегистрирован!',
     },
-  },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  token: {
-    type: String,
-    required: true,
-  },
-  phoneNumber: {
-    type: String,
-    unique: true,
-    validate: {
-      validator: async function (
-        this: HydratedDocument<IUser>,
-        phoneNumber: string,
-      ): Promise<boolean> {
-        if (!this.isModified('phoneNumber')) return true;
-        const user = await User.findOne({
-          phoneNumber,
-        });
-        return !user;
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    token: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      unique: true,
+      validate: {
+        validator: async function (
+          this: HydratedDocument<IUser>,
+          phoneNumber: string,
+        ): Promise<boolean> {
+          if (!this.isModified('phoneNumber')) return true;
+          const user = await User.findOne({
+            phoneNumber,
+          });
+          return !user;
+        },
+        message: 'Пользователь с таким номером уже зарегистрирован!',
       },
-      message: 'Пользователь с таким номером уже зарегистрирован!',
     },
+    role: {
+      type: String,
+      required: true,
+      enum: Role,
+      default: Role.User,
+    },
+    avatar: String,
+    googleId: String,
+    facebookId: String,
+    linkedinId: String,
   },
-  role: {
-    type: String,
-    required: true,
-    enum: Role,
-    default: Role.User,
-  },
-  avatar: String,
-  googleId: String,
-  facebookId: String,
-  linkedinId: String,
-});
+  { timestamps: true },
+);
 
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

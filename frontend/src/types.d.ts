@@ -51,12 +51,52 @@ export interface Course {
   _id: string;
   title: string;
   duration: string;
+  image?: string;
+}
+
+export interface CourseMutation {
+  title: string;
+  duration: string;
+  price: string;
+  description: string;
+  type: string;
+  image?: File | null;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
 }
 
 export interface FullCourse extends Course {
   price: number;
   description: string;
   type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export type CourseMutation = Omit<FullCourse, '_id'>;
+export interface TeacherMutation {
+  user: string;
+  info: string;
+  photo: File | null;
+  portfolio: string[];
+}
+export interface TeacherShort {
+  _id: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  photo: string;
+}
+export interface Teacher extends TeacherShort {
+  info: string;
+  portfolio: string[];
+  createdAt: string;
+  updatedAt: string;
+}
