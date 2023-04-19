@@ -66,3 +66,22 @@ export interface FullCourse extends Course {
   description: string;
   type: string;
 }
+
+export interface TeacherMutation {
+  user_id: string;
+  info: string;
+  photo: File | null;
+  portfolio: string[];
+}
+export interface Teacher {
+  _id: string;
+  user_id: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  info: string;
+  photo: string;
+  portfolio: string[];
+  created_at: string;
+}
