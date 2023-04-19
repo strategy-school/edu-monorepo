@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface IUser {
   email: string;
   firstName: string;
@@ -11,4 +13,10 @@ export interface IUser {
   facebookId: string | null;
   linkedinId: string | null;
   isBanned: boolean;
+}
+
+export interface ITransaction {
+  user: Types.ObjectId;
+  course: Types.ObjectId;
+  isPaid: 'pending' | 'paid';
 }
