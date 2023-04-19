@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import config from './src/config';
-import User from './src/models/User';
-import Course from './src/models/Course';
+import config from './config';
+import User from './models/User';
+import Course from './models/Course';
 import * as crypto from 'crypto';
 
 const run = async () => {
@@ -10,8 +10,9 @@ const run = async () => {
   const db = mongoose.connection;
 
   try {
-    await db.dropCollection('courses');
     await db.dropCollection('users');
+    await db.dropCollection('courses');
+    await db.dropCollection('transactions');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -54,7 +55,9 @@ const run = async () => {
       Главный вопрос изучения: “Что это такое маркетинг?”
       Целевая аудитория: Не маркетологи, выпускники университетов, специалисты без опыта,  все те, кто хочет начать карьеру  маркетолога `,
       type: 'seminar',
-      duration: 'до 2 часов',
+      status: 'ongoing',
+      start_date: new Date('Tue Apr 18 2023 16:30:00 GMT+0600 (Киргизия)'),
+      end_date: new Date('Tue Apr 18 2023 18:30:00 GMT+0600 (Киргизия)'),
     },
     {
       title: 'Специалист по маркетингу',
@@ -63,7 +66,9 @@ const run = async () => {
     Главный вопрос изучения: “Как управлять коммуникациями в маркетинге?”
     Целевая аудитория: Начинающие специалисты отдела маркетинга и/или коммерческого блока`,
       type: 'training',
-      duration: '1 месяц',
+      status: 'finished',
+      start_date: new Date('Tue Mar 18 2023 18:30:00 GMT+0600 (Киргизия)'),
+      end_date: new Date('Tue Apr 18 2023 18:30:00 GMT+0600 (Киргизия)'),
     },
     {
       title: 'Менеджер по маркетингу',
@@ -73,7 +78,9 @@ const run = async () => {
     Главный вопрос изучения:  “Как управлять и маркетингом и повышать эффективность продаж”
     Целевая аудитория: Опытные специалисты, менеджеры отдела маркетинга и/или коммерческого блока`,
       type: 'course',
-      duration: '2 месяца',
+      status: 'scheduled',
+      start_date: new Date('Tue Apr 18 2023 18:30:00 GMT+0600 (Киргизия)'),
+      end_date: new Date('Tue May 18 2023 18:30:00 GMT+0600 (Киргизия)'),
     },
     {
       title: 'Директор по маркетингу',
@@ -83,7 +90,9 @@ const run = async () => {
     Главный вопрос изучения: Текст Текст Текст Текст Текст 
     Целевая аудитория: Собственники бизнеса, топ-менеджеры, руководители среднего звена`,
       type: 'miniMBA',
-      duration: '3 месяца',
+      status: 'scheduled',
+      start_date: new Date('Tue Apr 18 2023 18:30:00 GMT+0600 (Киргизия)'),
+      end_date: new Date('Tue May 18 2023 18:30:00 GMT+0600 (Киргизия)'),
     },
   );
   await db.close();
