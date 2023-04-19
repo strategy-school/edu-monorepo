@@ -21,3 +21,9 @@ export interface ICourse {
   description: string;
   type: string;
 }
+
+export interface ICategory {
+  title: string;
+  description: string;
+  image: string | null;
+}
