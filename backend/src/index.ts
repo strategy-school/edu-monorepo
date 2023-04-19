@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
 import coursesRouter from './routers/courses';
+import transactionsRouter from './routers/transactions';
 import usersRouter from './routers/users';
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.static('src/public'));
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/courses', coursesRouter);
+app.use('/transactions', transactionsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
