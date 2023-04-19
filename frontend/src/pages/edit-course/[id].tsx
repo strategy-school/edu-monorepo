@@ -15,7 +15,7 @@ import { CourseMutation } from '@/src/types';
 import Layout from '@/src/components/UI/Layout/Layout';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import { selectUser } from '@/src/features/users/usersSlice';
-import CourseForm from '@/src/features/courses/components/CourseForm';
+import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
 
 const Id = () => {
   const router = useRouter();

@@ -12,6 +12,7 @@ import {
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { coursesReducer } from '@/src/features/courses/coursesSlice';
+import { teacherReducer } from '@/src/features/teachers/teachersSlice';
 
 const usersPersistConfig = {
   key: 'strategia:users',
@@ -22,6 +23,7 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   courses: coursesReducer,
+  teachers: teacherReducer,
 });
 
 export const store = configureStore({

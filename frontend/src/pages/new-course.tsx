@@ -7,7 +7,7 @@ import {
 } from '@/src/features/courses/coursesSlice';
 import { CourseMutation } from '@/src/types';
 import { createCourse } from '@/src/features/courses/coursesThunks';
-import CourseForm from '@/src/features/courses/components/CourseForm';
+import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import { selectUser } from '@/src/features/users/usersSlice';
 import Layout from '@/src/components/UI/Layout/Layout';
