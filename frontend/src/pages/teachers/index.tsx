@@ -5,10 +5,13 @@ import { selectTeachers } from '@/src/features/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/features/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
 import Layout from '@/src/components/UI/Layout/Layout';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
+import { selectUser } from '@/src/features/users/usersSlice';
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const teachers = useAppSelector(selectTeachers);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchTeachers());
@@ -16,21 +19,29 @@ const Index = () => {
 
   return (
     <Layout title="Strategy school: Teachers list">
-      <Grid container justifyContent="center" spacing={3}>
-        {teachers.map((teacher) => (
-          <Grid
-            item
-            container
-            justifyContent="center"
-            flexWrap="wrap"
-            xs={12}
-            md={6}
-            lg={4}
-            key={teacher._id}
-          >
-            <TeacherCard teacher={teacher} />
-          </Grid>
-        ))}
+      <BlocksTitle titleText="Список всех преподавателей" />
+      <Grid container justifyContent="center" spacing={2}>
+        {teachers.length > 0 &&
+          teachers.map((teacher) => (
+            <Grid
+              item
+              container
+              justifyContent="center"
+              flexWrap="wrap"
+              xs={12}
+              md={6}
+              lg={4}
+              key={teacher._id}
+            >
+              <TeacherCard
+                _id={teacher._id}
+                firstName={teacher.user.firstName}
+                lastName={teacher.user.lastName}
+                photo={teacher.photo}
+                role={user?.role}
+              />
+            </Grid>
+          ))}
       </Grid>
     </Layout>
   );

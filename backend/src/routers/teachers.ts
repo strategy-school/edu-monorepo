@@ -16,7 +16,7 @@ teachersRouter.post(
   async (req, res, next) => {
     try {
       const existingTeacher = await Teacher.findOne({
-        user_id: req.body.user_id,
+        user: req.body.user_id,
       });
       if (existingTeacher) {
         return res
@@ -27,15 +27,18 @@ teachersRouter.post(
       if (!user) {
         return res.status(500).send({ error: 'Пользователь не найден!' });
       }
-      user.role = 'teacher';
-      await user.save();
+
+      const parsedPortfolio = JSON.parse(req.body.portfolio);
 
       const teacher = await Teacher.create({
-        user: req.body.user_id,
+        user: req.body.user,
         info: req.body.info,
         photo: req.file ? req.file.filename : null,
-        portfolio: req.body.portfolio,
+        portfolio: parsedPortfolio,
       });
+
+      user.role = 'teacher';
+      await user.save();
 
       return res.send({
         message: 'Учетная запись преподавателя создана!',

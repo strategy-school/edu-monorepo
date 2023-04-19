@@ -1,8 +1,8 @@
-import { Teacher, TeacherShort } from '@/src/types';
-import { ValidationError } from 'json-schema';
+import { Teacher, TeacherShort, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
+  createTeacher,
   fetchOneTeacher,
   fetchTeachers,
 } from '@/src/features/teachers/teachersThunks';
@@ -59,6 +59,17 @@ const teacherSlice = createSlice({
     );
     builder.addCase(fetchOneTeacher.rejected, (state) => {
       state.fetchOneLoading = false;
+    });
+    builder.addCase(createTeacher.pending, (state) => {
+      state.createTeacherError = null;
+      state.createLoading = true;
+    });
+    builder.addCase(createTeacher.fulfilled, (state) => {
+      state.createLoading = false;
+    });
+    builder.addCase(createTeacher.rejected, (state, { payload: error }) => {
+      state.createTeacherError = error || null;
+      state.createLoading = false;
     });
   },
 });

@@ -43,7 +43,7 @@ const CoursesWrapper = () => {
   const router = useRouter();
 
   const fullCoursesView = () => {
-    void router.push(`/fullCourses`);
+    void router.push(`/courses`);
   };
   return (
     <Grid style={styles.courses} bgcolor="secondary.dark">

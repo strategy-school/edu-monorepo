@@ -5,8 +5,9 @@ import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { Grid, Typography } from '@mui/material';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 
-const FullCourses = () => {
+const Index = () => {
   const dispatch = useAppDispatch();
   const fullCourses = useAppSelector(selectCourses);
 
@@ -16,17 +17,7 @@ const FullCourses = () => {
 
   return (
     <Layout title="Strategy school: Courses list">
-      <h1 style={{ color: 'rgb(217, 39, 45)', fontSize: '40px' }}></h1>
-      <Typography
-        component="h1"
-        variant="h3"
-        style={{ color: 'rgb(217, 39, 45)' }}
-      >
-        Список всех курсов
-      </Typography>
-      <hr
-        style={{ border: '1px solid rgb(217, 39, 45)', marginBottom: '30px' }}
-      />
+      <BlocksTitle titleText="Список всех курсов" />
       <Grid container spacing={3}>
         {fullCourses.map((course) => (
           <Grid item xs={12} md={6} key={course._id}>
@@ -38,4 +29,4 @@ const FullCourses = () => {
   );
 };
 
-export default FullCourses;
+export default Index;

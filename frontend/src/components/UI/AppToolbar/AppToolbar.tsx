@@ -57,7 +57,7 @@ const AppToolbar = () => {
             xs={12}
             md={9}
           >
-            <Button component={Link} href="/fullCourses" color="inherit">
+            <Button component={Link} href="/courses" color="inherit">
               Список курсов
             </Button>
             <Button component={Link} href="/teachers" color="inherit">
