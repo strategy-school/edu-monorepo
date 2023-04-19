@@ -5,7 +5,7 @@ import UserMenu from './UserMenu';
 import AnonymousMenu from './AnonymousMenu';
 import { useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
-import logo from '../../../assets/images/strategia-logo.png';
+import logo from '@/src/assets/images/strategia-logo.png';
 import Image from 'next/image';
 
 const AppToolbar = () => {

@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import config from './config';
 import coursesRouter from './routers/courses';
 import usersRouter from './routers/users';
+import categoriesRouter from './routers/categories';
 
 const app = express();
 const port = 8000;
@@ -13,6 +14,7 @@ app.use(express.static('src/public'));
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/courses', coursesRouter);
+app.use('/categories', categoriesRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
