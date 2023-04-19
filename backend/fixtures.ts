@@ -3,6 +3,7 @@ import config from './src/config';
 import User from './src/models/User';
 import Course from './src/models/Course';
 import * as crypto from 'crypto';
+import Category from './src/models/Category';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -42,6 +43,21 @@ const run = async () => {
       password: 'user',
       token: crypto.randomUUID(),
       phoneNumber: '+996 550 902 644',
+    },
+  );
+
+  const [marketing, SMM] = await Category.create(
+    {
+      title: 'Marketing',
+      description:
+        'Маркетинг – наука, которая рассматривает процессы сбыта продукции или услуг как управляемую рыночную деятельность.',
+      image: 'fixtures/categories/marketing.jpg',
+    },
+    {
+      title: 'SMM',
+      description:
+        'SMM - это комплекс мероприятий по использованию социальных медиа в качестве каналов для продвижения компаний или бренда и решения других бизнес-задач.',
+      image: 'fixtures/categories/marketing.jpg',
     },
   );
 
