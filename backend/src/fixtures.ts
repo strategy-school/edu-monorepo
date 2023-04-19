@@ -5,6 +5,7 @@ import Course from './models/Course';
 import * as crypto from 'crypto';
 import Category from './models/Category';
 import Teacher from './models/Teacher';
+import Transaction from './models/Transactions';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -164,6 +165,30 @@ const run = async () => {
       image: 'fixtures/marketing4.jpeg',
       type: 'miniMBA',
       duration: '3 месяца',
+    },
+  );
+
+  await Transaction.create(
+    {
+      user: admin._id,
+      course: marketing1._id,
+    },
+    {
+      user: teacher._id,
+      course: marketing2._id,
+    },
+    {
+      user: teacher2._id,
+      course: marketing3._id,
+    },
+    {
+      user: teacher3._id,
+      course: marketing4._id,
+    },
+    {
+      user: user._id,
+      course: marketing1._id,
+      isPaid: 'paid',
     },
   );
   await db.close();
