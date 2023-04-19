@@ -55,6 +55,7 @@ teachersRouter.get('/', async (req, res) => {
   try {
     const results = await Teacher.find()
       .populate('user_id', 'firstName lastName')
+      .select('user_id photo')
       .exec();
     return res.send(results);
   } catch {

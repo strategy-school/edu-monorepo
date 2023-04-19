@@ -1,10 +1,14 @@
-import { Teacher } from '@/src/types';
+import { Teacher, TeacherShort } from '@/src/types';
 import { ValidationError } from 'json-schema';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
+import {
+  fetchOneTeacher,
+  fetchTeachers,
+} from '@/src/features/teachers/teachersThunks';
 
 interface TeacherState {
-  teachersList: Teacher[];
+  teachersList: TeacherShort[];
   oneTeacher: Teacher | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
@@ -31,6 +35,32 @@ const teacherSlice = createSlice({
   name: 'teachers',
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchTeachers.pending, (state) => {
+      state.fetchLoading = true;
+    });
+    builder.addCase(fetchTeachers.fulfilled, (state, { payload: teachers }) => {
+      state.fetchLoading = false;
+      state.teachersList = teachers;
+    });
+    builder.addCase(fetchTeachers.rejected, (state) => {
+      state.fetchLoading = false;
+    });
+
+    builder.addCase(fetchOneTeacher.pending, (state) => {
+      state.fetchOneLoading = true;
+    });
+    builder.addCase(
+      fetchOneTeacher.fulfilled,
+      (state, { payload: teacher }) => {
+        state.fetchOneLoading = false;
+        state.oneTeacher = teacher;
+      },
+    );
+    builder.addCase(fetchOneTeacher.rejected, (state) => {
+      state.fetchOneLoading = false;
+    });
+  },
 });
 
 export const teacherReducer = teacherSlice.reducer;
