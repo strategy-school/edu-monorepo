@@ -7,6 +7,7 @@ import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
 
+
 const run = async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(config.db);
@@ -14,6 +15,7 @@ const run = async () => {
 
   try {
     await db.dropCollection('users');
+    await db.dropCollection('categories');
     await db.dropCollection('courses');
     await db.dropCollection('teachers');
     await db.dropCollection('transactions');
@@ -67,6 +69,7 @@ const run = async () => {
       phoneNumber: '+996550902644',
     },
   );
+
 
   const [marketing, SMM] = await Category.create(
     {

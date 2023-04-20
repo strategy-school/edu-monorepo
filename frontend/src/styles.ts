@@ -12,7 +12,7 @@ export const stylesGlobal = {
 };
 
 export const borderRadius = '35px';
-export const boxShadow = '0px 0px 13px 7px #DADADA';
+export const boxShadow = '10px 10px 37px #e9e9e9, -10px -10px 37px #ffffff';
 export const blockPadding = '30px';
 
 export const blockStyle = {

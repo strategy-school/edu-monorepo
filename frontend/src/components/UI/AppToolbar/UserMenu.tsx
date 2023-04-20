@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
 import { logout } from '@/src/features/users/usersThunks';
+import Link from 'next/link';
 
 interface Props {
   user: User;
@@ -32,11 +33,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     dispatch(logout());
     void router.push('/registration');
   };
-
-  const openNewCoursePage = () => {
-    void router.push(`/new-course`);
-  };
-
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -50,7 +46,14 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
-          <MenuItem onClick={openNewCoursePage}>Добавить новый курс</MenuItem>
+          <MenuItem component={Link} href="/new-course">
+            Добавить новый курс
+          </MenuItem>
+        )}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="teachers/new-teacher">
+            Добавить нового преподавателя
+          </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
