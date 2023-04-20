@@ -27,9 +27,9 @@ interface Props {
 }
 
 const CategoryItem: React.FC<Props> = ({ category, onDelete }) => {
-  const cardImage = apiURL + '/' + category.image;
   const user = useAppSelector(selectUser);
   const router = useRouter();
+  const cardImage = apiURL + '/' + category.image;
 
   const openEditPage = () => {
     void router.push('/edit-category/' + category._id);
