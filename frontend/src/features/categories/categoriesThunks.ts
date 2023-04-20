@@ -42,6 +42,33 @@ export const createCategory = createAsyncThunk<
   }
 });
 
+export const updateCategory = createAsyncThunk<
+  void,
+  { id: string; categoryMutation: CategoryMutation },
+  { rejectValue: ValidationError }
+>(
+  'categories/update',
+  async ({ id, categoryMutation }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      const keys = Object.keys(categoryMutation) as (keyof CategoryMutation)[];
+
+      keys.forEach((key) => {
+        const value = categoryMutation[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+      await axiosApi.put('/categories/' + id, formData);
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+      throw e;
+    }
+  },
+);
+
 export const removeCategory = createAsyncThunk<void, string>(
   'categories/remove',
   async (id) => {

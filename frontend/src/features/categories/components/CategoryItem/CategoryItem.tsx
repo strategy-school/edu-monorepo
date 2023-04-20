@@ -14,6 +14,7 @@ import { Category } from '@/src/types';
 import { boxShadow } from '@/src/styles';
 import { useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
+import { useRouter } from 'next/router';
 
 const ImageCardMedia = styled(CardMedia)({
   height: 0,
@@ -28,6 +29,11 @@ interface Props {
 const CategoryItem: React.FC<Props> = ({ category, onDelete }) => {
   const cardImage = apiURL + '/' + category.image;
   const user = useAppSelector(selectUser);
+  const router = useRouter();
+
+  const openEditPage = () => {
+    void router.push('/edit-category/' + category._id);
+  };
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -45,6 +51,9 @@ const CategoryItem: React.FC<Props> = ({ category, onDelete }) => {
               color="secondary"
             >
               Удалить
+            </Button>
+            <Button type="button" onClick={openEditPage} color="primary">
+              Редактировать
             </Button>
           </Box>
         )}

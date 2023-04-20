@@ -1,29 +1,41 @@
 import React, { useState } from 'react';
 import { CategoryMutation } from '@/src/types';
-import { Button, Grid, TextField } from '@mui/material';
-import { useAppSelector } from '@/src/app/hooks';
-import {
-  selectCategoryCreating,
-  selectCreateCategoryError,
-} from '@/src/features/categories/categoriesSlice';
+import { CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
+import { ValidationError } from '@/src/types';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface Props {
   onSubmit: (categoryMutation: CategoryMutation) => void;
+  existingCategory?: CategoryMutation;
+  isEdit?: boolean;
+  loading?: boolean;
+  fetchCategoryLoading?: boolean;
+  error: ValidationError | null;
 }
 
-const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
-  const categoryCreating = useAppSelector(selectCategoryCreating);
-  const createError = useAppSelector(selectCreateCategoryError);
-  const [state, setState] = useState<CategoryMutation>({
-    title: '',
-    description: '',
-    image: null,
-  });
+const initialState: CategoryMutation = {
+  title: '',
+  description: '',
+  image: null,
+};
+
+const CategoryForm: React.FC<Props> = ({
+  onSubmit,
+  existingCategory,
+  isEdit = false,
+  loading = false,
+  fetchCategoryLoading = false,
+  error,
+}) => {
+  const [state, setState] = useState<CategoryMutation>(
+    existingCategory || initialState,
+  );
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state);
+    setState(initialState);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +55,7 @@ const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
 
   const getFieldError = (fieldName: string) => {
     try {
-      return createError?.errors[fieldName].message;
+      return error?.errors[fieldName].message;
     } catch {
       return undefined;
     }
@@ -53,6 +65,14 @@ const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
     <form onSubmit={submitFormHandler}>
       <Grid container direction="column" spacing={2}>
         <Grid item xs>
+          <Typography variant="h5">
+            {isEdit ? 'Редактировать' : 'Создать'} категорию{' '}
+            {fetchCategoryLoading && (
+              <CircularProgress size={20} sx={{ ml: 1 }} />
+            )}
+          </Typography>
+        </Grid>
+        <Grid item xs>
           <TextField
             id="title"
             name="title"
@@ -60,7 +80,7 @@ const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
             value={state.title}
             onChange={inputChangeHandler}
             required
-            disabled={categoryCreating}
+            disabled={loading}
             error={Boolean(getFieldError('title'))}
             helperText={getFieldError('title')}
           />
@@ -75,7 +95,7 @@ const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
             value={state.description}
             onChange={inputChangeHandler}
             required
-            disabled={categoryCreating}
+            disabled={loading}
             error={Boolean(getFieldError('description'))}
             helperText={getFieldError('description')}
           />
@@ -89,9 +109,15 @@ const CategoryForm: React.FC<Props> = ({ onSubmit }) => {
           />
         </Grid>
         <Grid item xs>
-          <Button type="submit" color="primary" variant="contained">
-            Создать
-          </Button>
+          <LoadingButton
+            loadingIndicator="Loading…"
+            loading={loading}
+            type="submit"
+            color="primary"
+            variant="contained"
+          >
+            {isEdit ? 'Сохранить' : 'Создать'}
+          </LoadingButton>
         </Grid>
       </Grid>
     </form>

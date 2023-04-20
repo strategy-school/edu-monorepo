@@ -5,6 +5,7 @@ import {
   fetchCategories,
   fetchOneCategory,
   removeCategory,
+  updateCategory,
 } from '@/src/features/categories/categoriesThunks';
 import { RootState } from '@/src/app/store';
 
@@ -15,7 +16,9 @@ interface CategoryState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCategoryError: ValidationError | null;
+  updateCategoryError: ValidationError | null;
   deleteLoading: false | string;
+  updateLoading: boolean;
 }
 
 const initialState: CategoryState = {
@@ -25,7 +28,9 @@ const initialState: CategoryState = {
   fetchOneLoading: false,
   createLoading: false,
   createCategoryError: null,
+  updateCategoryError: null,
   deleteLoading: false,
+  updateLoading: false,
 };
 
 export const categoriesSlice = createSlice({
@@ -75,6 +80,17 @@ export const categoriesSlice = createSlice({
     builder.addCase(removeCategory.rejected, (state) => {
       state.deleteLoading = false;
     });
+    builder.addCase(updateCategory.pending, (state) => {
+      state.updateCategoryError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(updateCategory.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateCategory.rejected, (state, { payload: error }) => {
+      state.updateCategoryError = error || null;
+      state.updateLoading = false;
+    });
   },
 });
 
@@ -92,3 +108,7 @@ export const selectCreateCategoryError = (state: RootState) =>
   state.categories.createCategoryError;
 export const selectCategoryDeleting = (state: RootState) =>
   state.categories.deleteLoading;
+export const selectCategoryUpdating = (state: RootState) =>
+  state.categories.updateLoading;
+export const selectUpdateCategoryError = (state: RootState) =>
+  state.categories.updateCategoryError;
