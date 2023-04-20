@@ -51,7 +51,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           </MenuItem>
         )}
         {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="new-teacher">
+          <MenuItem component={Link} href="teachers/new-teacher">
             Добавить нового преподавателя
           </MenuItem>
         )}

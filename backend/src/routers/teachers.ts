@@ -122,8 +122,10 @@ teachersRouter.put(
           .send({ error: 'Учетная запись преподавателя не найдена!' });
       }
 
+      const parsedPortfolio = JSON.parse(req.body.portfolio);
+
       updatedTeacher.info = req.body.info || updatedTeacher.info;
-      updatedTeacher.portfolio = req.body.portfolio || updatedTeacher.portfolio;
+      updatedTeacher.portfolio = parsedPortfolio || updatedTeacher.portfolio;
       if (req.file) {
         updatedTeacher.photo = req.file.filename;
       }

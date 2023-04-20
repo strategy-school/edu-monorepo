@@ -77,6 +77,7 @@ export const usersSlice = createSlice({
     });
     builder.addCase(fetchBasicUsers.pending, (state) => {
       state.fetchLoading = true;
+      state.basicUsersList = [];
     });
     builder.addCase(fetchBasicUsers.fulfilled, (state, { payload: users }) => {
       state.fetchLoading = false;

@@ -21,7 +21,7 @@ const NewTeacher = () => {
 
   const onSubmit = async (teacher: TeacherMutation) => {
     await dispatch(createTeacher(teacher)).unwrap();
-    await router.push('/');
+    void router.push('/teachers');
   };
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>

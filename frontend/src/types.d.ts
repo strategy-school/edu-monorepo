@@ -93,9 +93,9 @@ export interface MiniUser {
 }
 
 export interface TeacherShort {
-  _id: string;
-  user: MiniUser;
   photo: string;
+  user: MiniUser;
+  _id: string;
 }
 
 export interface Teacher extends TeacherShort {

@@ -203,7 +203,7 @@ const TeacherForm: React.FC<Props> = ({
             fullWidth
             sx={{ width: '185px' }}
           >
-            Создать
+            {isEdit ? 'Изменить' : 'Создать'}
           </LoadingButton>
         </Grid>
       </Grid>
