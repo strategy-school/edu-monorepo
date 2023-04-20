@@ -83,7 +83,6 @@ const run = async () => {
     },
   );
 
-
   const [teacherPublished1, teacherPublished2, teacherPublished3] =
     await Teacher.create(
       {
