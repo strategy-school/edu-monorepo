@@ -83,3 +83,11 @@ export const googleLogin = createAsyncThunk<
     throw e;
   }
 });
+
+export const fetchBasicUsers = createAsyncThunk<User[]>(
+  'users/fetchBasicUsers',
+  async () => {
+    const response = await axiosApi.get<User[]>('/users/basic');
+    return response.data;
+  },
+);

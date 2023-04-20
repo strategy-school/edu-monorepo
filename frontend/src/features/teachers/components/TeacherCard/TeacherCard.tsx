@@ -8,34 +8,103 @@ import {
   Typography,
 } from '@mui/material';
 import { apiURL } from '@/src/constants';
-import { TeacherShort } from '@/src/types';
 import Link from 'next/link';
+import { Property } from 'csstype';
+import { useAppDispatch } from '@/src/app/hooks';
+import {
+  deleteTeacher,
+  fetchTeachers,
+} from '@/src/features/teachers/teachersThunks';
+import FlexDirection = Property.FlexDirection;
+
+const styles = {
+  card: {
+    minWidth: '290px',
+    maxWidth: '300px',
+  },
+  media: {
+    height: '140px',
+  },
+  content: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  btnWrapper: {
+    display: 'flex',
+    flexDirection: 'column' as FlexDirection,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};
 
 interface Props {
-  teacher: TeacherShort;
+  photo: string;
+  firstName: string;
+  lastName: string;
+  _id: string;
+  role: string | undefined;
 }
 
-const TeacherCard: React.FC<Props> = ({ teacher }) => {
+const TeacherCard: React.FC<Props> = ({
+  photo,
+  firstName,
+  lastName,
+  _id,
+  role,
+}) => {
+  const dispatch = useAppDispatch();
+
+  const handleDelete = async () => {
+    if (window.confirm('Подтвердите удаление преподавателя')) {
+      await dispatch(deleteTeacher(_id));
+      dispatch(fetchTeachers());
+    }
+  };
+
   return (
-    <Card sx={{ minWidth: 300, maxWidth: 345 }}>
+    <Card style={styles.card}>
       <CardMedia
-        sx={{ height: 140 }}
-        image={apiURL + '/' + teacher.photo}
-        title={teacher.user.firstName}
+        style={styles.media}
+        image={apiURL + '/' + photo}
+        title={photo}
       />
-      <CardContent>
+      <CardContent style={styles.content}>
         <Typography gutterBottom variant="h5" component="div">
-          {teacher.user.firstName} {teacher.user.lastName}
+          {firstName} {lastName}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions style={styles.btnWrapper}>
         <Button
           component={Link}
-          href={`teachers/${teacher._id}`}
-          variant="text"
+          href={`teachers/${_id}`}
+          variant="outlined"
+          fullWidth
         >
           Посмотреть профиль
         </Button>
+        {role === 'admin' && (
+          <>
+            <Button
+              component={Link}
+              href={`teachers/edit/${_id}`}
+              variant="outlined"
+              fullWidth
+              color="primary"
+              style={{ marginLeft: 0, marginTop: 5 }}
+            >
+              Редактировать
+            </Button>
+            <Button
+              variant="outlined"
+              fullWidth
+              color="error"
+              style={{ marginLeft: 0, marginTop: 5 }}
+              onClick={handleDelete}
+            >
+              Удалить
+            </Button>
+          </>
+        )}
       </CardActions>
     </Card>
   );

@@ -85,15 +85,19 @@ export interface TeacherMutation {
   photo: File | null;
   portfolio: string[];
 }
-export interface TeacherShort {
+
+export interface MiniUser {
   _id: string;
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-  };
-  photo: string;
+  firstName: string;
+  lastName: string;
 }
+
+export interface TeacherShort {
+  photo: string;
+  user: MiniUser;
+  _id: string;
+}
+
 export interface Teacher extends TeacherShort {
   info: string;
   portfolio: string[];
