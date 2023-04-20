@@ -18,7 +18,7 @@ const Index = () => {
   }, [dispatch]);
 
   const deleteCategory = async (id: string) => {
-    if (window.confirm('Do you really want to delete this category?')) {
+    if (window.confirm('Вы уверены что хотите удалить категорию?')) {
       await dispatch(removeCategory(id));
       await dispatch(fetchCategories());
     }

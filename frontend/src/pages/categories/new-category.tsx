@@ -20,12 +20,8 @@ const NewCategory = () => {
   const error = useAppSelector(selectCreateCategoryError);
 
   const onFormSubmit = async (mutation: CategoryMutation) => {
-    try {
-      await dispatch(createCategory(mutation)).unwrap();
-      void router.push('/categories');
-    } catch (e) {
-      console.log(e);
-    }
+    await dispatch(createCategory(mutation)).unwrap();
+    void router.push('/categories');
   };
 
   return (

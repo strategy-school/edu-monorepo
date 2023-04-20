@@ -48,8 +48,8 @@ const FileInput: React.FC<Props> = ({
       <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item xs>
           <TextField
-            error={Boolean(errorCheck('avatar'))}
-            helperText={errorCheck('avatar')}
+            error={Boolean(errorCheck(name))}
+            helperText={errorCheck(name)}
             variant="standard"
             disabled
             label={label}
