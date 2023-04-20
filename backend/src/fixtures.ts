@@ -7,7 +7,6 @@ import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
 
-
 const run = async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(config.db);

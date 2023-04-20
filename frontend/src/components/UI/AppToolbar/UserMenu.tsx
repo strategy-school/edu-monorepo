@@ -34,14 +34,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     void router.push('/registration');
   };
 
-  const openNewCoursePage = () => {
-    void router.push(`/new-course`);
-  };
-
-  const openNewCategoryPage = () => {
-    void router.push('/categories/new-category');
-  };
-
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -55,18 +47,17 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
-            <>
-              <MenuItem component={Link} href="/new-course">
-                Добавить новый курс
-              </MenuItem>
-              <MenuItem component={Link} href="teachers/new-teacher">
-                Добавить нового преподавателя
-              </MenuItem>
-              <MenuItem onClick={openNewCoursePage}>Добавить новый курс</MenuItem>
-              <MenuItem onClick={openNewCategoryPage}>
-                Добавить новую категорию
-              </MenuItem>
-            </>
+          <>
+            <MenuItem component={Link} href="/new-course">
+              Добавить новый курс
+            </MenuItem>
+            <MenuItem component={Link} href="teachers/new-teacher">
+              Добавить нового преподавателя
+            </MenuItem>
+            <MenuItem component={Link} href="/categories/new-category">
+              Добавить новую категорию
+            </MenuItem>
+          </>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>

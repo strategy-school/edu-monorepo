@@ -90,7 +90,9 @@ categoriesRouter.put(
 
       category.title = req.body.title;
       category.description = req.body.description;
-      category.image = req.file ? req.file.filename : null;
+      if (req.file) {
+        category.image = req.file.filename;
+      }
 
       await category.save();
 
