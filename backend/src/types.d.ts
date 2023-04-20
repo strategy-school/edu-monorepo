@@ -19,6 +19,11 @@ export interface ICourse {
   price: number;
   description: string;
   type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  image: string;
 }
 
 export interface ICategory {
