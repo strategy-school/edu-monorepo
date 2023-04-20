@@ -46,15 +46,21 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {user && user.role === 'admin' && (<MenuItem component={Link} href="/new-course">
-          Добавить новый курс
-        </MenuItem>)}
-        {user && user.role === 'admin' && (<MenuItem component={Link} href="teachers/new-teacher">
-          Добавить нового преподавателя
-        </MenuItem>)}
-        {user && user.role === 'admin' && (<MenuItem component={Link} href="/categories/new-category">
-          Добавить новую категорию
-        </MenuItem>)}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/new-course">
+            Добавить новый курс
+          </MenuItem>
+        )}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="teachers/new-teacher">
+            Добавить нового преподавателя
+          </MenuItem>
+        )}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/categories/new-category">
+            Добавить новую категорию
+          </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>
