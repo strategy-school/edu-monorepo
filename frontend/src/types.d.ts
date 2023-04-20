@@ -104,3 +104,16 @@ export interface Teacher extends TeacherShort {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Category {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface CategoryMutation {
+  title: string;
+  description: string;
+  image: File | null;
+}

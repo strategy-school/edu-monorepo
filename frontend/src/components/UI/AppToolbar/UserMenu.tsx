@@ -33,6 +33,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     dispatch(logout());
     void router.push('/registration');
   };
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -53,6 +54,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         {user && user.role === 'admin' && (
           <MenuItem component={Link} href="teachers/new-teacher">
             Добавить нового преподавателя
+          </MenuItem>
+        )}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/categories/new-category">
+            Добавить новую категорию
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
