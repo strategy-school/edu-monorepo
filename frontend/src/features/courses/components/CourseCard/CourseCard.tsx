@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { Course } from '@/src/types';
 import { borderRadius } from '@/src/styles';
 import { useRouter } from 'next/router';
@@ -12,6 +19,7 @@ import {
   deleteCourse,
   fetchCourses,
 } from '@/src/features/courses/coursesThunks';
+import Image from 'next/image';
 
 interface Props {
   course: Course;
@@ -64,24 +72,35 @@ const CourseCard: React.FC<Props> = ({ course }) => {
     <Box style={styles.courseCard}>
       <Card style={styles.cardBody} className="card">
         <CardContent onClick={openCard}>
-          <Typography
-            variant="h5"
-            component="div"
-            color="secondary.dark"
-            textAlign="center"
-            fontWeight={700}
-          >
-            {course.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="secondary.dark"
-            textAlign="center"
-            fontWeight={600}
-            mt={2}
-          >
-            Продолжительность: {course.duration.toLowerCase()}
-          </Typography>
+          <Grid container spacing={2} justifyContent="space-between">
+            <Grid item xs>
+              <Typography
+                variant="h5"
+                component="div"
+                color="secondary.dark"
+                fontWeight={700}
+              >
+                {course.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="secondary.dark"
+                fontWeight={600}
+                mt={2}
+              >
+                Продолжительность: {course.duration.toLowerCase()}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Image
+                style={{ margin: '0 auto', borderRadius: '10%' }}
+                src={'http://localhost:8000/' + course.image}
+                alt={course.title}
+                width={100}
+                height={100}
+              />
+            </Grid>
+          </Grid>
         </CardContent>
         {user && user.role === 'admin' && (
           <Box sx={{ position: 'absolute', top: 10, right: 10 }}>

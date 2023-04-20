@@ -17,6 +17,7 @@ import { blockStyle, blockTopStyle } from '@/src/styles';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from 'next/link';
 import { selectUser } from '@/src/features/users/usersSlice';
+import Image from 'next/image';
 
 const CourseId = () => {
   const router = useRouter();
@@ -51,36 +52,49 @@ const CourseId = () => {
     <Layout title={`${course?.title} page`}>
       {course && (
         <Grid container direction="column" style={blockStyle}>
-          <Grid container item xs style={blockTopStyle} textAlign="center">
-            <Grid item xs>
-              <Typography variant="h3">
-                {course?.title} ({typeName})
-              </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs container direction="column">
+              <Grid container item xs style={blockTopStyle} textAlign="center">
+                <Grid item xs>
+                  <Typography variant="h3">
+                    {course?.title} ({typeName})
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1 }}>
+                <Typography variant="h6">Описание курса:</Typography>
+                <Typography component="p">{course?.description}</Typography>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1 }}>
+                <Typography variant="h6">
+                  Чему вы научитесь на курсе:
+                </Typography>
+                <Typography component="p">{course?.theme}</Typography>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1 }}>
+                <Typography variant="h6">Целевая аудитория: </Typography>
+                <Typography component="p">{course?.targetAudience}</Typography>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1 }}>
+                <Typography variant="h6">Задача программы:</Typography>
+                <Typography component="p">{course?.programGoal}</Typography>
+              </Grid>
             </Grid>
-            {/*<Grid item xs>*/}
-            {/*  <img style={{margin: '0 auto'}} src={'http://localhost:8000/' + course?.image} alt={course?.title!} width={600} height={300}/>*/}
-            {/*</Grid>*/}
+            <Grid item xs mt={10}>
+              <Image
+                style={{ margin: '0 auto', borderRadius: '10%' }}
+                src={'http://localhost:8000/' + course.image}
+                alt={course.title}
+                width={500}
+                height={500}
+              />
+            </Grid>
           </Grid>
 
-          <Grid item xs sx={{ p: 1 }}>
-            <Typography variant="h6">Описание курса:</Typography>
-            <Typography component="p">{course?.description}</Typography>
-          </Grid>
-
-          <Grid item xs sx={{ p: 1 }}>
-            <Typography variant="h6">Чему вы научитесь на курсе:</Typography>
-            <Typography component="p">{course?.theme}</Typography>
-          </Grid>
-
-          <Grid item xs sx={{ p: 1 }}>
-            <Typography variant="h6">Целевая аудитория: </Typography>
-            <Typography component="p">{course?.targetAudience}</Typography>
-          </Grid>
-
-          <Grid item xs sx={{ p: 1 }}>
-            <Typography variant="h6">Задача программы:</Typography>
-            <Typography component="p">{course?.programGoal}</Typography>
-          </Grid>
           <Divider />
           <Grid item sx={{ mt: 2, mb: 2 }}>
             <Typography component="div" style={{ position: 'relative' }}>

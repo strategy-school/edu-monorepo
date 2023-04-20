@@ -31,7 +31,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    void router.push('/registration');
+    void router.push('/login');
   };
 
   return (
