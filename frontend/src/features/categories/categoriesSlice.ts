@@ -4,6 +4,7 @@ import {
   createCategory,
   fetchCategories,
   fetchOneCategory,
+  removeCategory,
 } from '@/src/features/categories/categoriesThunks';
 import { RootState } from '@/src/app/store';
 
@@ -14,6 +15,7 @@ interface CategoryState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCategoryError: ValidationError | null;
+  deleteLoading: false | string;
 }
 
 const initialState: CategoryState = {
@@ -23,6 +25,7 @@ const initialState: CategoryState = {
   fetchOneLoading: false,
   createLoading: false,
   createCategoryError: null,
+  deleteLoading: false,
 };
 
 export const categoriesSlice = createSlice({
@@ -60,6 +63,18 @@ export const categoriesSlice = createSlice({
       state.createLoading = false;
       state.createCategoryError = error || null;
     });
+    builder.addCase(removeCategory.pending, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(
+      removeCategory.fulfilled,
+      (state, { meta: { arg: categoryId } }) => {
+        state.deleteLoading = categoryId;
+      },
+    );
+    builder.addCase(removeCategory.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   },
 });
 
@@ -75,3 +90,5 @@ export const selectCategoryCreating = (state: RootState) =>
   state.categories.createLoading;
 export const selectCreateCategoryError = (state: RootState) =>
   state.categories.createCategoryError;
+export const selectCategoryDeleting = (state: RootState) =>
+  state.categories.deleteLoading;

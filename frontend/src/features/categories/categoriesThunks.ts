@@ -41,3 +41,10 @@ export const createCategory = createAsyncThunk<
     throw e;
   }
 });
+
+export const removeCategory = createAsyncThunk<void, string>(
+  'categories/remove',
+  async (id) => {
+    await axiosApi.delete('/categories/' + id);
+  },
+);
