@@ -51,7 +51,7 @@ export interface Course {
   _id: string;
   title: string;
   duration: string;
-  image?: string;
+  image: string;
 }
 
 export interface CourseMutation {
@@ -60,7 +60,7 @@ export interface CourseMutation {
   price: string;
   description: string;
   type: string;
-  image?: File | null;
+  image: File | null;
   theme: string;
   targetAudience: string;
   programGoal: string;

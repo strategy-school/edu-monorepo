@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
 
 interface Props {
   onSubmit: (courseMutation: CourseMutation) => void;
@@ -28,6 +29,7 @@ const initialState: CourseMutation = {
   targetAudience: '',
   programGoal: '',
   level: '',
+  image: null,
 };
 
 const CourseForm: React.FC<Props> = ({
@@ -60,6 +62,14 @@ const CourseForm: React.FC<Props> = ({
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
   };
 
   const submitFormHandler = async (e: React.FormEvent) => {
@@ -218,6 +228,16 @@ const CourseForm: React.FC<Props> = ({
             InputProps={{ inputProps: { min: 0 } }}
             error={Boolean(getFieldError('price'))}
             helperText={getFieldError('price')}
+          />
+        </Grid>
+
+        <Grid item xs>
+          <FileInput
+            label="Выберите картинку для курса"
+            onChange={fileInputChangeHandler}
+            name="image"
+            type="image/*"
+            errorCheck={getFieldError}
           />
         </Grid>
 

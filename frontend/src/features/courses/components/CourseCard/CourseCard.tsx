@@ -50,12 +50,14 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   };
 
   const openEditPage = () => {
-    void router.push(`/edit-course/${course._id}`);
+    void router.push(`/courses/edit/${course._id}`);
   };
 
   const handleDelete = async () => {
-    await dispatch(deleteCourse(course._id));
-    dispatch(fetchCourses());
+    if (window.confirm('Подтвердите удаление курса')) {
+      await dispatch(deleteCourse(course._id));
+      dispatch(fetchCourses());
+    }
   };
 
   return (
