@@ -64,7 +64,7 @@ const AppToolbar = () => {
             ) : (
               <Typography component="div"></Typography>
             )}
-            <Button component={Link} href="/fullCourses" color="inherit">
+            <Button component={Link} href="/courses" color="inherit">
               Список курсов
             </Button>
             <Button component={Link} href="/teachers" color="inherit">

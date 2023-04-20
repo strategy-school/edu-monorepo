@@ -31,7 +31,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    void router.push('/registration');
+    void router.push('/login');
   };
 
   return (
@@ -47,7 +47,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/new-course">
+          <MenuItem component={Link} href="/courses/new-course">
             Добавить новый курс
           </MenuItem>
         )}

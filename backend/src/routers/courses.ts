@@ -11,7 +11,7 @@ const coursesRouter = express.Router();
 
 coursesRouter.get('/', async (req, res, next) => {
   try {
-    const courses = await Course.find({}, 'title duration');
+    const courses = await Course.find({}, 'title duration image');
     return res.send(courses);
   } catch (e) {
     return next(e);

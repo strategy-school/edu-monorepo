@@ -48,6 +48,7 @@ const Id = () => {
     level: course.level,
     programGoal: course.programGoal,
     price: course.price.toString(),
+    image: null,
   };
 
   return (
