@@ -10,6 +10,11 @@ import {
 import { apiURL } from '@/src/constants';
 import Link from 'next/link';
 import { Property } from 'csstype';
+import { useAppDispatch } from '@/src/app/hooks';
+import {
+  deleteTeacher,
+  fetchTeachers,
+} from '@/src/features/teachers/teachersThunks';
 import FlexDirection = Property.FlexDirection;
 
 const styles = {
@@ -47,6 +52,15 @@ const TeacherCard: React.FC<Props> = ({
   _id,
   role,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleDelete = async () => {
+    if (window.confirm('Подтвердите удаление преподавателя')) {
+      await dispatch(deleteTeacher(_id));
+      dispatch(fetchTeachers());
+    }
+  };
+
   return (
     <Card style={styles.card}>
       <CardMedia
@@ -85,6 +99,7 @@ const TeacherCard: React.FC<Props> = ({
               fullWidth
               color="error"
               style={{ marginLeft: 0, marginTop: 5 }}
+              onClick={handleDelete}
             >
               Удалить
             </Button>

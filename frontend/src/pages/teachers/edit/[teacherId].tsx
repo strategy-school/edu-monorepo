@@ -5,8 +5,7 @@ import {
   editTeacher,
   fetchOneTeacher,
 } from '@/src/features/teachers/teachersThunks';
-import { CourseMutation, TeacherMutation } from '@/src/types';
-import { updateCourse } from '@/src/features/courses/coursesThunks';
+import { TeacherMutation } from '@/src/types';
 import {
   selectOneTeacher,
   selectTeacherUpdating,
@@ -14,7 +13,6 @@ import {
 } from '@/src/features/teachers/teachersSlice';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
-import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
 import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
 import { selectUser } from '@/src/features/users/usersSlice';
 

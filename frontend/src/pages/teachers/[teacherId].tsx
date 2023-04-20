@@ -7,6 +7,7 @@ import {
   selectTeacherDeleting,
 } from '@/src/features/teachers/teachersSlice';
 import {
+  Button,
   CardMedia,
   CircularProgress,
   Divider,
@@ -16,10 +17,15 @@ import {
 import { apiURL } from '@/src/constants';
 import { selectUser } from '@/src/features/users/usersSlice';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { fetchOneTeacher } from '@/src/features/teachers/teachersThunks';
+import {
+  deleteTeacher,
+  fetchOneTeacher,
+  fetchTeachers,
+} from '@/src/features/teachers/teachersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { boxShadow, borderRadius } from '@/src/styles';
+import { borderRadius, boxShadow } from '@/src/styles';
 import { Property } from 'csstype';
+import Link from 'next/link';
 import TextAlign = Property.TextAlign;
 
 const styles = {
@@ -52,6 +58,14 @@ const TeacherId = () => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 
+  const handleDelete = async () => {
+    if (!teacher) return;
+    if (window.confirm('Подтвердите удаление преподавателя')) {
+      await dispatch(deleteTeacher(teacher._id));
+      await router.push('/teachers');
+      dispatch(fetchTeachers());
+    }
+  };
   return (
     <Layout title="Strategia school: страница учителя">
       <Grid container justifyContent="center">
@@ -100,7 +114,13 @@ const TeacherId = () => {
                   </Grid>
                 </Grid>
                 {user?.role === 'admin' && (
-                  <Grid item container justifyContent="center" spacing={2}>
+                  <Grid
+                    item
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                  >
                     <Grid item>
                       <LoadingButton
                         color="error"
@@ -108,10 +128,21 @@ const TeacherId = () => {
                         loading={
                           deleteLoading ? deleteLoading === teacher._id : false
                         }
+                        onClick={handleDelete}
                         sx={{ width: '89px' }}
                       >
-                        <span>Delete</span>
+                        <span>Удалить</span>
                       </LoadingButton>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        component={Link}
+                        href={`teachers/edit/${teacher._id}`}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Редактировать
+                      </Button>
                     </Grid>
                   </Grid>
                 )}

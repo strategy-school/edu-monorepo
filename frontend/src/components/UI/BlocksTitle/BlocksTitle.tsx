@@ -1,5 +1,9 @@
 import React from 'react';
-import { createStyles, Divider, Typography } from '@mui/material';
+import { Box, createStyles, Divider, Typography } from '@mui/material';
+import { Property } from 'csstype';
+import AlignItems = Property.AlignItems;
+import JustifyContent = Property.JustifyContent;
+import FlexDirection = Property.FlexDirection;
 
 const styles = {
   blockTitle: {

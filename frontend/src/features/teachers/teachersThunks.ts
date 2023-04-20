@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '@/src/axiosApi';
 import {
-  CourseMutation,
   Teacher,
   TeacherMutation,
   TeacherShort,
@@ -91,3 +90,10 @@ export const editTeacher = createAsyncThunk<
     throw e;
   }
 });
+
+export const deleteTeacher = createAsyncThunk<void, string>(
+  'teachers/delete',
+  async (id) => {
+    await axiosApi.delete('/teachers/' + id);
+  },
+);

@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
   createTeacher,
+  deleteTeacher,
+  editTeacher,
   fetchOneTeacher,
   fetchTeachers,
 } from '@/src/features/teachers/teachersThunks';
@@ -50,6 +52,7 @@ const teacherSlice = createSlice({
 
     builder.addCase(fetchOneTeacher.pending, (state) => {
       state.fetchOneLoading = true;
+      state.oneTeacher = null;
     });
     builder.addCase(
       fetchOneTeacher.fulfilled,
@@ -61,6 +64,7 @@ const teacherSlice = createSlice({
     builder.addCase(fetchOneTeacher.rejected, (state) => {
       state.fetchOneLoading = false;
     });
+
     builder.addCase(createTeacher.pending, (state) => {
       state.createTeacherError = null;
       state.createLoading = true;
@@ -71,6 +75,28 @@ const teacherSlice = createSlice({
     builder.addCase(createTeacher.rejected, (state, { payload: error }) => {
       state.createTeacherError = error || null;
       state.createLoading = false;
+    });
+
+    builder.addCase(editTeacher.pending, (state) => {
+      state.updateTeacherError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(editTeacher.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(editTeacher.rejected, (state, { payload: error }) => {
+      state.updateTeacherError = error || null;
+      state.updateLoading = false;
+    });
+
+    builder.addCase(deleteTeacher.pending, (state, { meta: { arg: id } }) => {
+      state.deleteLoading = id;
+    });
+    builder.addCase(deleteTeacher.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(deleteTeacher.rejected, (state) => {
+      state.deleteLoading = false;
     });
   },
 });

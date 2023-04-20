@@ -4,7 +4,7 @@ import { selectCourses } from '@/src/features/courses/coursesSlice';
 import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 
 const Index = () => {
