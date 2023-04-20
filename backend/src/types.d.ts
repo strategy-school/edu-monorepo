@@ -31,3 +31,28 @@ export interface ICategory {
   description: string;
   image: string | null;
 }
+
+export interface ITransaction {
+  user: Types.ObjectId;
+  course: Types.ObjectId;
+  isPaid: 'pending' | 'paid';
+}
+
+export interface ICourse {
+  title: string;
+  duration: string;
+  price: number;
+  description: string;
+  type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  image: string;
+}
+
+export interface ICategory {
+  title: string;
+  description: string;
+  image: string | null;
+}

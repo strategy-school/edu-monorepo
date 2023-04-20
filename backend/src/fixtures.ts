@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
-import config from './src/config';
-import User from './src/models/User';
-import Course from './src/models/Course';
+import config from './config';
+import User from './models/User';
+import Course from './models/Course';
 import * as crypto from 'crypto';
-import Category from './src/models/Category';
-import Teacher from './src/models/Teacher';
+import Category from './models/Category';
+import Teacher from './models/Teacher';
+import Transaction from './models/Transactions';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -12,9 +13,10 @@ const run = async () => {
   const db = mongoose.connection;
 
   try {
-    await db.dropCollection('courses');
     await db.dropCollection('users');
+    await db.dropCollection('courses');
     await db.dropCollection('teachers');
+    await db.dropCollection('transactions');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -163,6 +165,30 @@ const run = async () => {
       image: 'fixtures/marketing4.jpeg',
       type: 'miniMBA',
       duration: '3 месяца',
+    },
+  );
+
+  await Transaction.create(
+    {
+      user: admin._id,
+      course: marketing1._id,
+    },
+    {
+      user: teacher._id,
+      course: marketing2._id,
+    },
+    {
+      user: teacher2._id,
+      course: marketing3._id,
+    },
+    {
+      user: teacher3._id,
+      course: marketing4._id,
+    },
+    {
+      user: user._id,
+      course: marketing1._id,
+      isPaid: 'paid',
     },
   );
   await db.close();
