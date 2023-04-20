@@ -33,6 +33,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     dispatch(logout());
     void router.push('/registration');
   };
+
+  const myProfile = () => {
+    void router.push(`/profile`);
+  };
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -56,6 +61,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+        <MenuItem onClick={myProfile}>Мой профиль</MenuItem>
       </Menu>
     </>
   );
