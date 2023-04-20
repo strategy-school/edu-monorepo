@@ -37,6 +37,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     void router.push(`/new-course`);
   };
 
+  const openNewCategoryPage = () => {
+    void router.push('/categories/new-category');
+  };
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -50,7 +54,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
-          <MenuItem onClick={openNewCoursePage}>Добавить новый курс</MenuItem>
+          <>
+            <MenuItem onClick={openNewCoursePage}>Добавить новый курс</MenuItem>
+            <MenuItem onClick={openNewCategoryPage}>
+              Добавить новую категорию
+            </MenuItem>
+          </>
         )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
