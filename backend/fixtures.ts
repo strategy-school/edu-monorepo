@@ -72,13 +72,13 @@ const run = async () => {
       title: 'Marketing',
       description:
         'Маркетинг – наука, которая рассматривает процессы сбыта продукции или услуг как управляемую рыночную деятельность.',
-      image: 'fixtures/categories/marketing.jpg',
+      image: 'fixtures/marketingCtg.jpg',
     },
     {
       title: 'SMM',
       description:
         'SMM - это комплекс мероприятий по использованию социальных медиа в качестве каналов для продвижения компаний или бренда и решения других бизнес-задач.',
-      image: 'fixtures/categories/marketing.jpg',
+      image: 'fixtures/smmCtg.jpg',
     },
   );
 

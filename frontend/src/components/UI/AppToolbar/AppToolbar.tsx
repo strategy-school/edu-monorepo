@@ -57,6 +57,13 @@ const AppToolbar = () => {
             xs={12}
             md={9}
           >
+            {user?.role === 'admin' ? (
+              <Button component={Link} href="/categories" color="inherit">
+                Категории курсов
+              </Button>
+            ) : (
+              <Typography component="div"></Typography>
+            )}
             <Button component={Link} href="/fullCourses" color="inherit">
               Список курсов
             </Button>
