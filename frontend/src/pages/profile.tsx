@@ -4,9 +4,10 @@ import Layout from '@/src/components/UI/Layout/Layout';
 import { useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
 import icon from '@/src/assets/images/user-icon.jpg';
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import Image from 'next/image';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = () => {
   const user = useAppSelector(selectUser);
@@ -28,6 +29,7 @@ const Profile = () => {
           textAlign="center"
           alignItems="center"
           color="rgb(217, 39, 45)"
+          sx={{ position: 'relative' }}
         >
           <Grid item xs={12} sm={4} md={3} lg={2}>
             {user?.avatar ? (
@@ -36,18 +38,23 @@ const Profile = () => {
                 src={image}
                 alt={user?.firstName}
                 width={200}
-                height={200}
+                height={230}
               />
             ) : (
               <Image
                 src={icon}
                 alt="User icon"
                 width={200}
-                height={200}
+                height={230}
                 style={{ margin: '0 auto', borderRadius: '2px' }}
               />
             )}
           </Grid>
+          <Box sx={{ position: 'absolute', top: 10, right: 10 }}>
+            <IconButton onClick={() => console.log('Edited')}>
+              <EditIcon />
+            </IconButton>
+          </Box>
           <Grid item xs={12} sm={8} md={9} lg={10}>
             <Grid>
               <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
