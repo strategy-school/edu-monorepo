@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import Category from './src/models/Category';
 import Teacher from './src/models/Teacher';
 
+
 const run = async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(config.db);
@@ -66,6 +67,7 @@ const run = async () => {
     },
   );
 
+
   const [marketing, SMM] = await Category.create(
     {
       title: 'Marketing',
@@ -80,6 +82,7 @@ const run = async () => {
       image: 'fixtures/categories/marketing.jpg',
     },
   );
+
 
   const [teacherPublished1, teacherPublished2, teacherPublished3] =
     await Teacher.create(
