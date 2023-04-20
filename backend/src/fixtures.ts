@@ -14,6 +14,7 @@ const run = async () => {
 
   try {
     await db.dropCollection('users');
+    await db.dropCollection('categories');
     await db.dropCollection('courses');
     await db.dropCollection('teachers');
     await db.dropCollection('transactions');
