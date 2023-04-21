@@ -25,9 +25,8 @@ import {
 import Layout from '@/src/components/UI/Layout/Layout';
 import { borderRadius, boxShadow } from '@/src/styles';
 import { Property } from 'csstype';
-import Link from 'next/link';
-import TextAlign = Property.TextAlign;
 import theme from '@/src/theme';
+import TextAlign = Property.TextAlign;
 
 const styles = {
   teacherWrapper: {
@@ -105,7 +104,7 @@ const TeacherId = () => {
                     <Typography
                       variant="body1"
                       style={styles.text}
-                      fontSize={{ xs: '14px', md: theme.typography.fontSize }}
+                      fontSize={{ xs: '14px', md: '18px' }}
                     >
                       {teacher.info}
                     </Typography>
@@ -118,7 +117,7 @@ const TeacherId = () => {
                         key={index}
                         style={styles.text}
                         variant="body1"
-                        fontSize={{ xs: '14px', md: theme.typography.fontSize }}
+                        fontSize={{ xs: '14px', md: '18px' }}
                       >
                         {index + 1}. {port}
                       </Typography>
@@ -145,7 +144,7 @@ const TeacherId = () => {
                           width: '150px',
                           fontSize: '14px',
                           [theme.breakpoints.up('md')]: {
-                            fontSize: theme.typography.fontSize,
+                            fontSize: '18px',
                           },
                         }}
                       >
@@ -160,7 +159,7 @@ const TeacherId = () => {
                         sx={{
                           fontSize: '14px',
                           [theme.breakpoints.up('md')]: {
-                            fontSize: theme.typography.fontSize,
+                            fontSize: '18px',
                           },
                         }}
                       >
