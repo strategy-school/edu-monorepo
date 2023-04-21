@@ -11,11 +11,11 @@ import CoursesWrapper from '@/src/features/courses/components/CoursesWrapper/Cou
 export default function Home() {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
+
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
-  console.log(courses);
   return (
     <Layout title="Strategy school">
       <Box

@@ -27,10 +27,10 @@ import { borderRadius, boxShadow } from '@/src/styles';
 import { Property } from 'csstype';
 import Link from 'next/link';
 import TextAlign = Property.TextAlign;
+import theme from '@/src/theme';
 
 const styles = {
   teacherWrapper: {
-    padding: '15px 70px',
     width: '90%',
     boxShadow,
     borderRadius,
@@ -58,6 +58,10 @@ const TeacherId = () => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 
+  const handleEditClick = () => {
+    void router.push(`/teachers/edit/${teacherId}`);
+  };
+
   const handleDelete = async () => {
     if (!teacher) return;
     if (window.confirm('Подтвердите удаление преподавателя')) {
@@ -74,7 +78,10 @@ const TeacherId = () => {
         ) : (
           teacher && (
             <>
-              <Grid style={styles.teacherWrapper}>
+              <Grid
+                style={styles.teacherWrapper}
+                padding={{ xs: '10px 20px', md: '15px 50px' }}
+              >
                 <Grid
                   container
                   flexDirection="column"
@@ -95,7 +102,11 @@ const TeacherId = () => {
                       {teacher.user.firstName} {teacher.user.lastName}
                     </Typography>
                     <Divider sx={{ my: 3 }} />
-                    <Typography variant="body1" style={styles.text}>
+                    <Typography
+                      variant="body1"
+                      style={styles.text}
+                      fontSize={{ xs: '14px', md: theme.typography.fontSize }}
+                    >
                       {teacher.info}
                     </Typography>
                     <Divider sx={{ my: 3 }} />
@@ -107,6 +118,7 @@ const TeacherId = () => {
                         key={index}
                         style={styles.text}
                         variant="body1"
+                        fontSize={{ xs: '14px', md: theme.typography.fontSize }}
                       >
                         {index + 1}. {port}
                       </Typography>
@@ -121,7 +133,7 @@ const TeacherId = () => {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Grid item>
+                    <Grid item container justifyContent="center" xs={12} md={6}>
                       <LoadingButton
                         color="error"
                         variant="contained"
@@ -129,17 +141,28 @@ const TeacherId = () => {
                           deleteLoading ? deleteLoading === teacher._id : false
                         }
                         onClick={handleDelete}
-                        sx={{ width: '89px' }}
+                        sx={{
+                          width: '150px',
+                          fontSize: '14px',
+                          [theme.breakpoints.up('md')]: {
+                            fontSize: theme.typography.fontSize,
+                          },
+                        }}
                       >
-                        <span>Удалить</span>
+                        Удалить
                       </LoadingButton>
                     </Grid>
-                    <Grid item>
+                    <Grid item container justifyContent="center" xs={12} md={6}>
                       <Button
-                        component={Link}
-                        href={`teachers/edit/${teacher._id}`}
+                        onClick={handleEditClick}
                         variant="contained"
                         color="primary"
+                        sx={{
+                          fontSize: '14px',
+                          [theme.breakpoints.up('md')]: {
+                            fontSize: theme.typography.fontSize,
+                          },
+                        }}
                       >
                         Редактировать
                       </Button>
