@@ -42,7 +42,6 @@ const TeacherForm: React.FC<Props> = ({
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(state);
     await onSubmit(state);
     setState(initialState);
   };
@@ -103,12 +102,12 @@ const TeacherForm: React.FC<Props> = ({
     <form onSubmit={submitFormHandler}>
       <Grid container direction="column" spacing={2}>
         <Grid item xs>
-          <Typography variant="h4">
+          <Typography variant="h4" fontSize={{ xs: '18px', md: '22px' }}>
             {isEdit ? 'Редактировать' : 'Добавить'} преподавателя
           </Typography>
         </Grid>
         {!isEdit && (
-          <Grid item xs>
+          <Grid item xs={12}>
             <TextField
               label="Выберите пользователя"
               select
@@ -130,7 +129,7 @@ const TeacherForm: React.FC<Props> = ({
             </TextField>
           </Grid>
         )}
-        <Grid item xs>
+        <Grid item xs={12}>
           <TextField
             multiline
             rows={3}
@@ -144,9 +143,13 @@ const TeacherForm: React.FC<Props> = ({
             helperText={getFieldError('info')}
           />
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12}>
           <FileInput
-            label="Выберите фотографию преподавателю"
+            label={
+              isEdit
+                ? 'Изменить имеющиеся фотографию'
+                : 'Выберите фотографию преподавателю'
+            }
             onChange={fileInputChangeHandler}
             name="photo"
             type="image/*"
@@ -161,9 +164,10 @@ const TeacherForm: React.FC<Props> = ({
             container
             alignItems="center"
             justifyContent="space-between"
-            xs={9}
+            xs={12}
+            spacing={1}
           >
-            <Grid item width="90%">
+            <Grid item xs={9} sm={10} md={11}>
               <TextField
                 variant="outlined"
                 label="Укажите значимый кейс"
@@ -176,14 +180,14 @@ const TeacherForm: React.FC<Props> = ({
                 onChange={(e) => portfolioInputChangeHandler(e, index)}
               />
             </Grid>
-            <Grid item sx={{ height: '100%', width: '96px' }}>
+            <Grid item>
               <Button
                 variant="contained"
                 color="error"
                 onClick={() => removePortfolioHandler(index)}
-                fullWidth
+                sx={{ minWidth: '35px' }}
               >
-                <HighlightOffIcon />
+                <HighlightOffIcon fontSize="small" />
               </Button>
             </Grid>
           </Grid>
@@ -193,7 +197,7 @@ const TeacherForm: React.FC<Props> = ({
             Добавить еще поле
           </Button>
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12}>
           <LoadingButton
             loadingIndicator="Loading…"
             loading={loading}
@@ -201,7 +205,7 @@ const TeacherForm: React.FC<Props> = ({
             color="primary"
             variant="contained"
             fullWidth
-            sx={{ width: '185px' }}
+            sx={{ padding: '10px 0' }}
           >
             {isEdit ? 'Изменить' : 'Создать'}
           </LoadingButton>

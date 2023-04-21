@@ -16,7 +16,7 @@ teachersRouter.post(
   async (req, res, next) => {
     try {
       const existingTeacher = await Teacher.findOne({
-        user: req.body.user_id,
+        user: req.body.user,
       });
       if (existingTeacher) {
         return res
