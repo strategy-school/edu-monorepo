@@ -1,6 +1,7 @@
 import { Property } from 'csstype';
 import TextTransform = Property.TextTransform;
 import theme from '@/src/theme';
+import studentImage from '@/src/assets/images/students-main.png';
 
 export const stylesGlobal = {
   title: {
@@ -29,4 +30,22 @@ export const blockTopStyle = {
   paddingBottom: '10px',
   borderTopLeftRadius: '35px',
   borderTopRightRadius: '35px',
+};
+
+export const welcomeBlockStyle = {
+  welcomeBlock: {
+    boxShadow,
+    borderRadius,
+    background: `url(${studentImage.src}) no-repeat`,
+    backgroundPositionX: 'right',
+    backgroundSize: 'contain',
+  },
+  padding: { sm: '15px', md: '30px' },
+  height: { xs: '200px', sm: '300px', md: '400px', lg: '450px' },
+  title: {
+    fontWeight: 700,
+    lineHeight: '1.5',
+  },
+  fontSize: { xs: '18px', sm: '25px', md: '35px', lg: '38px' },
+  maxWidth: { xs: '170px', sm: '250px', md: '450px', lg: '495px', xl: '635px' },
 };

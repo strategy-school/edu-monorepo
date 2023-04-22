@@ -1,31 +1,23 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import studentImage from '../../../assets/images/students-main.png';
-import { borderRadius, boxShadow } from '@/src/styles';
-
-const styles = {
-  welcomeBlock: {
-    boxShadow,
-    borderRadius,
-    padding: '30px',
-    height: '450px',
-    background: `url(${studentImage.src}) no-repeat`,
-    backgroundPositionX: 'right',
-    backgroundSize: 'contain',
-  },
-  title: {
-    fontWeight: 700,
-    fontSize: '40px',
-    lineHeight: '1.5',
-    maxWidth: '635px',
-  },
-};
+import { welcomeBlockStyle } from '@/src/styles';
 
 const WelcomeBlock = () => {
   return (
-    <Grid container style={styles.welcomeBlock}>
+    <Grid
+      container
+      style={welcomeBlockStyle.welcomeBlock}
+      height={welcomeBlockStyle.height}
+      padding={welcomeBlockStyle.padding}
+    >
       <Grid item container alignItems="center">
-        <Typography variant="h1" style={styles.title} color="secondary.main">
+        <Typography
+          variant="h1"
+          style={welcomeBlockStyle.title}
+          fontSize={welcomeBlockStyle.fontSize}
+          maxWidth={welcomeBlockStyle.maxWidth}
+          color="secondary.main"
+        >
           Стань востребованным специалистом по маркетингу в Strategia Marketing
           School
         </Typography>
