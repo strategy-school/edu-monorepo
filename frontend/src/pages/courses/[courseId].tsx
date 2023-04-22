@@ -34,6 +34,7 @@ const marginTop = {
 
 const paddingTop = {
   xs: '10px',
+  sm: '10px',
   md: 0,
 };
 
@@ -166,8 +167,8 @@ const CourseId = () => {
               </Typography>
             </Typography>
           </Grid>
-          <Grid item sx={{ m: 3 }} container>
-            <Grid item xs>
+          <Grid item container sx={{ mb: 3 }}>
+            <Grid item sx={{ ml: 3 }}>
               <Button variant="contained" color="secondary">
                 Запишись сейчас!
               </Button>
