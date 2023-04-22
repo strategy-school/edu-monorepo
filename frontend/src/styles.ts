@@ -51,3 +51,39 @@ export const welcomeBlockStyle = {
   fontSize: { xs: '18px', sm: '25px', md: '35px', lg: '38px' },
   maxWidth: { xs: '170px', sm: '250px', md: '450px', lg: '495px', xl: '635px' },
 };
+
+export const courseCardStyle = {
+  courseCard: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    transition: 'box-shadow 0.3s ease-in-out',
+    '&:hover': {
+      boxShadow: 'inset 0px 0px 21px 4px #ECECEC',
+    },
+  },
+  cardBody: {
+    borderRadius,
+    position: 'relative' as const,
+  },
+  height: {
+    xs: '100px',
+    md: '200px',
+  },
+  width: {
+    xs: '300px',
+    sm: '400px',
+    md: '600px',
+  },
+  innerStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fontSize: {
+    xs: '14px',
+    sm: '18px',
+    md: '26px',
+  },
+};
