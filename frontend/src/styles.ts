@@ -23,7 +23,6 @@ export const blockStyle = {
   margin: '10px',
   borderRadius,
   boxShadow,
-  border: '1px solid rgb(217, 39, 45)',
   padding: 0,
 };
 
