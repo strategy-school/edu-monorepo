@@ -50,9 +50,15 @@ const CoursesWrapper = () => {
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}
+        fontSize={stylesGlobal.fontSize}
         color="primary.light"
       >
-        <span style={{ ...stylesGlobal.title, ...styles.courseTitle }}>
+        <span
+          style={{
+            ...stylesGlobal.title,
+            ...styles.courseTitle,
+          }}
+        >
           Ознакомьтесь с нашими образовательными программами:
         </span>
       </Typography>
@@ -65,7 +71,7 @@ const CoursesWrapper = () => {
         Лучшие программы. Большой выбор по продолжительности, которые варируются
         по уровням знаний и опыту.
       </Typography>
-      <Grid mt={5} mb={2}>
+      <Typography component="div" mt={5} mb={2}>
         <Carousel
           animation="slide"
           duration={1000}
@@ -80,7 +86,7 @@ const CoursesWrapper = () => {
             <CourseCard key={course._id} course={course} />
           ))}
         </Carousel>
-      </Grid>
+      </Typography>
       <Grid textAlign="center">
         <Button color="warning" variant="outlined" onClick={fullCoursesView}>
           Просмотреть все курсы

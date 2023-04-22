@@ -54,8 +54,9 @@ const AppToolbar = () => {
             container
             alignItems="center"
             justifyContent="flex-end"
-            xs={12}
+            xs={15}
             md={9}
+            lg={7}
           >
             {user?.role === 'admin' ? (
               <Button component={Link} href="/categories" color="inherit">
