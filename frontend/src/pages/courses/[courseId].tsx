@@ -73,6 +73,8 @@ const CourseId = () => {
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
+  console.log(course)
+
   return (
     <Layout title={`${course?.title} page`}>
       {course && (
@@ -87,7 +89,7 @@ const CourseId = () => {
                 </Grid>
               </Grid>
 
-              <Grid item xs sx={{ p: 1 }}>
+              <Grid item xs sx={{ p: 1, pl: 3 }}>
                 <Typography variant="h6">Категория:</Typography>
                 <Typography component="p">{course.category.title}</Typography>
               </Grid>
