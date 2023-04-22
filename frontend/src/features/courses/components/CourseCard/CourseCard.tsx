@@ -53,12 +53,13 @@ const CourseCard: React.FC<Props> = ({ course }) => {
           <Grid
             container
             spacing={2}
-            justifyContent="space-between"
+            alignItems="center"
+            justifyContent="space-around"
             width={courseCardStyle.width}
             height={courseCardStyle.height}
             style={courseCardStyle.innerStyle}
           >
-            <Grid item xs>
+            <Grid item xs={7} md={5} lg={8}>
               <Typography
                 component="div"
                 color="secondary.dark"
@@ -76,7 +77,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                 Продолжительность: {course.duration.toLowerCase()}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={5} md={5} lg={4}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
                 src={'http://localhost:8000/' + course.image}
