@@ -18,6 +18,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Link from 'next/link';
 import { selectUser } from '@/src/features/users/usersSlice';
 import Image from 'next/image';
+import { apiURL } from '@/src/constants';
 
 const imgStyle = {
   xs: 300,
@@ -72,6 +73,8 @@ const CourseId = () => {
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
+  console.log(course)
+
   return (
     <Layout title={`${course?.title} page`}>
       {course && (
@@ -81,37 +84,42 @@ const CourseId = () => {
               <Grid container item xs style={blockTopStyle} textAlign="center">
                 <Grid item xs>
                   <Typography variant="h3">
-                    {course?.title} ({typeName})
+                    {course.title} ({typeName})
                   </Typography>
                 </Grid>
               </Grid>
 
               <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Typography variant="h6">Категория:</Typography>
+                <Typography component="p">{course.category.title}</Typography>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1, pl: 3 }}>
                 <Typography variant="h6">Описание курса:</Typography>
-                <Typography component="p">{course?.description}</Typography>
+                <Typography component="p">{course.description}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1, pl: 3 }}>
                 <Typography variant="h6">
                   Чему вы научитесь на курсе:
                 </Typography>
-                <Typography component="p">{course?.theme}</Typography>
+                <Typography component="p">{course.theme}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1, pl: 3 }}>
                 <Typography variant="h6">Целевая аудитория: </Typography>
-                <Typography component="p">{course?.targetAudience}</Typography>
+                <Typography component="p">{course.targetAudience}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1, pl: 3 }}>
                 <Typography variant="h6">Задача программы:</Typography>
-                <Typography component="p">{course?.programGoal}</Typography>
+                <Typography component="p">{course.programGoal}</Typography>
               </Grid>
             </Grid>
             <Grid item xs marginTop={marginTop}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
-                src={'http://localhost:8000/' + course.image}
+                src={apiURL + '/' + course.image}
                 alt={course.title}
                 width={
                   isXs
@@ -150,7 +158,7 @@ const CourseId = () => {
                 component="span"
                 style={{ marginLeft: '30px', fontWeight: '700' }}
               >
-                Продолжительность: {course?.duration}
+                Продолжительность: {course.duration}
               </Typography>
             </Typography>
 
@@ -163,7 +171,7 @@ const CourseId = () => {
                 component="span"
                 style={{ marginLeft: '30px', fontWeight: '700' }}
               >
-                Цена: {course?.price} сом
+                Цена: {course.price} сом
               </Typography>
             </Typography>
           </Grid>

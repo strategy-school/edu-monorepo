@@ -59,6 +59,7 @@ export interface CourseMutation {
   duration: string;
   price: string;
   description: string;
+  category: string;
   type: string;
   image: File | null;
   theme: string;
@@ -72,6 +73,10 @@ export interface FullCourse extends Course {
   description: string;
   type: string;
   theme: string;
+  category: {
+    _id: string;
+    title: string;
+  };
   targetAudience: string;
   programGoal: string;
   level: string;

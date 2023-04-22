@@ -38,10 +38,13 @@ const Id = () => {
     void router.push(`/courses/${id}`);
   };
 
+  console.log(course);
+
   const existingCourse = course && {
     title: course.title,
     description: course.description,
     duration: course.duration,
+    category: course.category._id,
     type: course.type,
     theme: course.theme,
     targetAudience: course.targetAudience,

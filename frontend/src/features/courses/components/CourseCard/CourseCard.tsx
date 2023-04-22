@@ -20,6 +20,7 @@ import {
   fetchCourses,
 } from '@/src/features/courses/coursesThunks';
 import Image from 'next/image';
+import { apiURL } from '@/src/constants';
 
 interface Props {
   course: Course;
@@ -80,7 +81,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             <Grid item xs={5} md={5} lg={4}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
-                src={'http://localhost:8000/' + course.image}
+                src={apiURL + '/' + course.image}
                 alt={course.title}
                 width={100}
                 height={100}
