@@ -32,6 +32,11 @@ const marginTop = {
   lg: '80px',
 };
 
+const paddingTop = {
+  xs: '10px',
+  md: 0,
+};
+
 const CourseId = () => {
   const router = useRouter();
   const { courseId } = router.query as { courseId: string };
@@ -171,7 +176,10 @@ const CourseId = () => {
               <Grid
                 item
                 container
-                xs={4}
+                md={4}
+                sm={8}
+                xs={10}
+                paddingTop={paddingTop}
                 style={{ marginLeft: 'auto' }}
                 spacing={2}
               >
