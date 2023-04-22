@@ -8,10 +8,27 @@ import {
 } from '@/src/types';
 import { isAxiosError } from 'axios';
 
-export const fetchCourses = createAsyncThunk('courses/fetchAll', async () => {
-  const response = await axiosApi.get<Course[]>('/courses');
-  return response.data;
-});
+interface FilterParam {
+  level: string;
+  category: string;
+  minPrice: string;
+  maxPrice: string;
+}
+
+export const fetchCourses = createAsyncThunk<Course[], FilterParam | undefined>(
+  'courses/fetchAll',
+  async (param) => {
+    if (param) {
+      const response = await axiosApi.get<Course[]>(
+        `/courses?level=${param.level}&category=${param.category}&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}`,
+      );
+      return response.data;
+    }
+
+    const response = await axiosApi.get<Course[]>('/courses');
+    return response.data;
+  },
+);
 
 export const fetchOneCourse = createAsyncThunk<FullCourse, string>(
   'courses/fetchOne',

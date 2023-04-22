@@ -22,8 +22,8 @@ coursesRouter.get('/', async (req, res, next) => {
   try {
     const level = req.query.level as string;
     const category = req.query.category as string;
-    const priceFrom = req.query.priceFrom as string;
-    const priceTo = req.query.priceTo as string;
+    const minPrice = req.query.minPrice as string;
+    const maxPrice = req.query.maxPrice as string;
 
     const searchParam: CourseSearchParam = {};
 
@@ -35,11 +35,11 @@ coursesRouter.get('/', async (req, res, next) => {
       searchParam.category = category;
     }
 
-    if (priceFrom || priceTo) {
+    if (minPrice || maxPrice) {
       searchParam.price = {
         ...(searchParam.price || {}),
-        $gte: parseFloat(priceFrom),
-        $lte: parseFloat(priceTo),
+        $gte: parseFloat(minPrice),
+        $lte: parseFloat(maxPrice),
       };
     }
 
