@@ -57,31 +57,36 @@ const CourseId = () => {
               <Grid container item xs style={blockTopStyle} textAlign="center">
                 <Grid item xs>
                   <Typography variant="h3">
-                    {course?.title} ({typeName})
+                    {course.title} ({typeName})
                   </Typography>
                 </Grid>
               </Grid>
 
               <Grid item xs sx={{ p: 1 }}>
+                <Typography variant="h6">Категория:</Typography>
+                <Typography component="p">{course.category.title}</Typography>
+              </Grid>
+
+              <Grid item xs sx={{ p: 1 }}>
                 <Typography variant="h6">Описание курса:</Typography>
-                <Typography component="p">{course?.description}</Typography>
+                <Typography component="p">{course.description}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1 }}>
                 <Typography variant="h6">
                   Чему вы научитесь на курсе:
                 </Typography>
-                <Typography component="p">{course?.theme}</Typography>
+                <Typography component="p">{course.theme}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1 }}>
                 <Typography variant="h6">Целевая аудитория: </Typography>
-                <Typography component="p">{course?.targetAudience}</Typography>
+                <Typography component="p">{course.targetAudience}</Typography>
               </Grid>
 
               <Grid item xs sx={{ p: 1 }}>
                 <Typography variant="h6">Задача программы:</Typography>
-                <Typography component="p">{course?.programGoal}</Typography>
+                <Typography component="p">{course.programGoal}</Typography>
               </Grid>
             </Grid>
             <Grid item xs mt={10}>
@@ -107,7 +112,7 @@ const CourseId = () => {
                 component="span"
                 style={{ marginLeft: '30px', fontWeight: '700' }}
               >
-                Продолжительность: {course?.duration}
+                Продолжительность: {course.duration}
               </Typography>
             </Typography>
 
@@ -120,7 +125,7 @@ const CourseId = () => {
                 component="span"
                 style={{ marginLeft: '30px', fontWeight: '700' }}
               >
-                Цена: {course?.price} сом
+                Цена: {course.price} сом
               </Typography>
             </Typography>
           </Grid>

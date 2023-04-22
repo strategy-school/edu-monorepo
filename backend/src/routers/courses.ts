@@ -9,9 +9,41 @@ import { promises as fs } from 'fs';
 
 const coursesRouter = express.Router();
 
+interface CourseSearchParam {
+  level?: string;
+  category?: string;
+  price?: {
+    $gte?: number;
+    $lte?: number;
+  };
+}
+
 coursesRouter.get('/', async (req, res, next) => {
   try {
-    const courses = await Course.find({}, 'title duration image');
+    const level = req.query.level as string;
+    const category = req.query.category as string;
+    const priceFrom = req.query.priceFrom as string;
+    const priceTo = req.query.priceTo as string;
+
+    const searchParam: CourseSearchParam = {};
+
+    if (level) {
+      searchParam.level = level;
+    }
+
+    if (category) {
+      searchParam.category = category;
+    }
+
+    if (priceFrom || priceTo) {
+      searchParam.price = {
+        ...(searchParam.price || {}),
+        $gte: parseFloat(priceFrom),
+        $lte: parseFloat(priceTo),
+      };
+    }
+
+    const courses = await Course.find(searchParam, 'title duration image');
     return res.send(courses);
   } catch (e) {
     return next(e);
@@ -20,7 +52,10 @@ coursesRouter.get('/', async (req, res, next) => {
 
 coursesRouter.get('/:id', async (req, res, next) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const course = await Course.findById(req.params.id).populate(
+      'category',
+      'title',
+    );
 
     if (!course) {
       return res.sendStatus(404);
@@ -42,6 +77,7 @@ coursesRouter.post(
       const course = await Course.create({
         title: req.body.title,
         description: req.body.description,
+        category: req.body.category,
         theme: req.body.theme,
         targetAudience: req.body.targetAudience,
         programGoal: req.body.programGoal,
