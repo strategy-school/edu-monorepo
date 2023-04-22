@@ -50,9 +50,15 @@ const CoursesWrapper = () => {
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}
+        fontSize={stylesGlobal.fontSize}
         color="primary.light"
       >
-        <span style={{ ...stylesGlobal.title, ...styles.courseTitle }}>
+        <span
+          style={{
+            ...stylesGlobal.title,
+            ...styles.courseTitle,
+          }}
+        >
           Ознакомьтесь с нашими образовательными программами:
         </span>
       </Typography>

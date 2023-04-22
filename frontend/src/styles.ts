@@ -6,9 +6,12 @@ import studentImage from '@/src/assets/images/students-main.png';
 export const stylesGlobal = {
   title: {
     fontWeight: 600,
-    fontSize: '30px',
     textTransform: 'uppercase' as TextTransform,
     lineHeight: '1.6',
+  },
+  fontSize: {
+    xs: '20px',
+    lg: '30px',
   },
 };
 
