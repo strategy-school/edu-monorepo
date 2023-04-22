@@ -22,6 +22,7 @@ const AboutUs = () => {
           variant="h1"
           style={stylesGlobal.title}
           color="secondary.main"
+          fontSize={stylesGlobal.fontSize}
         >
           Почему вам стоит выбрать Strategia Marketing School
         </Typography>

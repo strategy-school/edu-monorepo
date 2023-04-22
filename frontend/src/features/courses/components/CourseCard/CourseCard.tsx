@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Course } from '@/src/types';
-import { borderRadius } from '@/src/styles';
+import { courseCardStyle } from '@/src/styles';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
@@ -25,28 +25,6 @@ import { apiURL } from '@/src/constants';
 interface Props {
   course: Course;
 }
-
-const styles = {
-  courseCard: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
-    transition: 'box-shadow 0.3s ease-in-out',
-    '&:hover': {
-      boxShadow: 'inset 0px 0px 21px 4px #ECECEC',
-    },
-  },
-  cardBody: {
-    height: '200px',
-    width: '600px',
-    borderRadius,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative' as const,
-  },
-};
 
 const CourseCard: React.FC<Props> = ({ course }) => {
   const router = useRouter();
@@ -70,15 +48,23 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   };
 
   return (
-    <Box style={styles.courseCard}>
-      <Card style={styles.cardBody} className="card">
+    <Box style={courseCardStyle.courseCard}>
+      <Card style={courseCardStyle.cardBody} className="card">
         <CardContent onClick={openCard}>
-          <Grid container spacing={2} justifyContent="space-between">
-            <Grid item xs>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            justifyContent="space-around"
+            width={courseCardStyle.width}
+            height={courseCardStyle.height}
+            style={courseCardStyle.innerStyle}
+          >
+            <Grid item xs={7} md={5} lg={8}>
               <Typography
-                variant="h5"
                 component="div"
                 color="secondary.dark"
+                fontSize={courseCardStyle.fontSize}
                 fontWeight={700}
               >
                 {course.title}
@@ -87,12 +73,12 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                 variant="body2"
                 color="secondary.dark"
                 fontWeight={600}
-                mt={2}
+                mt={1}
               >
                 Продолжительность: {course.duration.toLowerCase()}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={5} md={5} lg={4}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
                 src={apiURL + '/' + course.image}
