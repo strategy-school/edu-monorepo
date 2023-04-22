@@ -39,7 +39,6 @@ const Registration = () => {
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(state);
     await dispatch(register(state)).unwrap();
     await router.push('/');
   };
