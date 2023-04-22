@@ -18,6 +18,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Link from 'next/link';
 import { selectUser } from '@/src/features/users/usersSlice';
 import Image from 'next/image';
+import { apiURL } from '@/src/constants';
 
 const CourseId = () => {
   const router = useRouter();
@@ -92,7 +93,7 @@ const CourseId = () => {
             <Grid item xs mt={10}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
-                src={'http://localhost:8000/' + course.image}
+                src={apiURL + '/' + course.image}
                 alt={course.title}
                 width={500}
                 height={500}
