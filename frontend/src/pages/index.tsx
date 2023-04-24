@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch } from '@/src/app/hooks';
 import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
 import AboutUs from '@/src/components/StaticComponents/AboutUs/AboutUs';
 import CoursesWrapper from '@/src/features/courses/components/CoursesWrapper/CoursesWrapper';
-import { selectTeachers } from '@/src/features/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/features/teachers/teachersThunks';
 import TeachersWrapper from '@/src/features/teachers/components/TeachersWrapper/TeachersWrapper';
 
