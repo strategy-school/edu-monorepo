@@ -104,7 +104,10 @@ export const Footer: FC = (): ReactElement => {
                 </Link>
               </ListItem>
             </List>
-            <Typography component="p" style={{ position: 'relative', paddingBottom: '5px' }}>
+            <Typography
+              component="p"
+              style={{ position: 'relative', paddingBottom: '5px' }}
+            >
               <Typography
                 component="span"
                 style={{ position: 'absolute', top: '2px' }}
@@ -116,7 +119,10 @@ export const Footer: FC = (): ReactElement => {
                 +996(709) 677 777
               </Typography>
             </Typography>
-            <Typography component="p" style={{ position: 'relative', paddingBottom: '5px' }}>
+            <Typography
+              component="p"
+              style={{ position: 'relative', paddingBottom: '5px' }}
+            >
               <Typography
                 component="span"
                 style={{ position: 'absolute', top: '2px' }}
