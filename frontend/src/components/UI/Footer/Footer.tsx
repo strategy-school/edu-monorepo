@@ -21,53 +21,53 @@ export const Footer: FC = (): ReactElement => {
   };
 
   return (
-    <footer className='footer'>
+    <footer className="footer">
       <Box
-          sx={{
-            width: '100%',
-            height: 'auto',
-            backgroundColor: 'black',
-            paddingTop: '1rem',
-            paddingBottom: '1rem',
-          }}
+        sx={{
+          width: '100%',
+          height: 'auto',
+          backgroundColor: 'black',
+          paddingTop: '1rem',
+          paddingBottom: '1rem',
+        }}
       >
         <Container maxWidth="lg">
           <Grid
-              container
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              color="primary.light"
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            color="primary.light"
           >
             <Grid item justifyContent="space-between">
               <Typography variant="h5" component="div">
                 <Link
-                    href="/"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      textTransform: 'uppercase',
-                      color: '#fff',
-                    }}
+                  href="/"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    textTransform: 'uppercase',
+                    color: '#fff',
+                  }}
                 >
                   Strategia School
                   <Box
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginLeft: '10px',
-                        background: 'transparent',
-                      }}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginLeft: '10px',
+                      background: 'transparent',
+                    }}
                   >
                     <Image
-                        src={logoTransparent}
-                        alt="Strategia logo"
-                        width={25}
-                        height={25}
-                        style={{ margin: '3px 0 0 2px' }}
+                      src={logoTransparent}
+                      alt="Strategia logo"
+                      width={25}
+                      height={25}
+                      style={{ margin: '3px 0 0 2px' }}
                     />
                   </Box>
                 </Link>
@@ -105,11 +105,14 @@ export const Footer: FC = (): ReactElement => {
                   </Link>
                 </ListItem>
               </List>
-              <Typography component="p" style={{ position: 'relative', paddingBottom: '5px' }}>
+              <Typography
+                component="p"
+                style={{ position: 'relative', paddingBottom: '5px' }}
+              >
                 <Typography
-                    component="span"
-                    style={{ position: 'absolute', top: '2px' }}
-                    color="primary.light"
+                  component="span"
+                  style={{ position: 'absolute', top: '2px' }}
+                  color="primary.light"
                 >
                   <PhonelinkRingIcon />
                 </Typography>
@@ -117,11 +120,14 @@ export const Footer: FC = (): ReactElement => {
                   +996(709) 677 777
                 </Typography>
               </Typography>
-              <Typography component="p" style={{ position: 'relative', paddingBottom: '5px' }}>
+              <Typography
+                component="p"
+                style={{ position: 'relative', paddingBottom: '5px' }}
+              >
                 <Typography
-                    component="span"
-                    style={{ position: 'absolute', top: '2px' }}
-                    color="primary.light"
+                  component="span"
+                  style={{ position: 'absolute', top: '2px' }}
+                  color="primary.light"
                 >
                   <EmailIcon />
                 </Typography>
