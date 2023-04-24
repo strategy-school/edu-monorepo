@@ -128,29 +128,28 @@ usersRouter.post('/google', async (req, res, next) => {
 });
 
 usersRouter.patch(
-  '/',
-  auth,
-  imageUpload.single('photo'),
+  '/:id',
+  imageUpload.single('avatar'),
   async (req, res, next) => {
     try {
-      const updatedUser = await User.findOneAndUpdate();
+      const user = await User.findById(req.params.id);
 
-      if (!updatedUser) {
+      if (!user) {
         return res
           .status(500)
           .send({ error: 'Учетная запись пользователя не найдена!' });
       }
 
-      updatedUser.firstName = req.body.firstName || updatedUser.firstName;
-      updatedUser.lastName = req.body.lastName || updatedUser.lastName;
-      updatedUser.email = req.body.email || updatedUser.email;
-      updatedUser.phoneNumber = req.body.phoneNumber || updatedUser.phoneNumber;
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
+      user.email = req.body.email || user.email;
+      user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
 
-      await updatedUser.save();
+      await user.save();
 
       return res.send({
         message: 'Информация пользователя обновлена!',
-        user: updatedUser,
+        user,
       });
     } catch (e) {
       if (e instanceof mongoose.Error.ValidationError) {

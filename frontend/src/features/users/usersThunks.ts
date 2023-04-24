@@ -86,6 +86,7 @@ export const googleLogin = createAsyncThunk<
 });
 
 interface UpdateUserParams {
+  id: string;
   user: UpdateUserMutation;
 }
 
@@ -93,9 +94,9 @@ export const updateUser = createAsyncThunk<
   void,
   UpdateUserParams,
   { rejectValue: ValidationError }
->('user/update', async (params, { rejectWithValue }) => {
+>('users/update', async (params, { rejectWithValue }) => {
   try {
-    await axiosApi.patch('/users/');
+    await axiosApi.patch('/users/' + params.id, params.user);
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);

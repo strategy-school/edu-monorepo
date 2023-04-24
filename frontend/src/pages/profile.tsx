@@ -16,7 +16,7 @@ const Profile = () => {
   const image = 'http://localhost:8000/' + user?.avatar;
 
   const openEditPage = () => {
-    void router.push(`/edit-user/editUser`);
+    void router.push(`/edit-user/` + user?._id);
   };
 
   return (
@@ -39,7 +39,7 @@ const Profile = () => {
         >
           <Grid item xs={12} sm={4} md={3} lg={2}>
             {user?.avatar ? (
-              <Image
+              <img
                 style={{ margin: '0 auto', borderRadius: '2px' }}
                 src={image}
                 alt={user?.firstName}

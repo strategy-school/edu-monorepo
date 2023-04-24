@@ -10,10 +10,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
   onSubmit: (updateMutation: UpdateUserMutation) => void;
+  existingUser?: UpdateUserMutation;
 }
 
 const initialState: UpdateUserMutation = {
@@ -23,13 +24,21 @@ const initialState: UpdateUserMutation = {
   phoneNumber: '',
 };
 
-const UpdateUser: React.FC<Props> = ({ onSubmit }) => {
+const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
   const error = useAppSelector(selectRegisterError);
-  const [state, setState] = useState<UpdateUserMutation>(initialState);
+  const [state, setState] = useState<UpdateUserMutation>(
+    existingUser || initialState,
+  );
+
+  useEffect(() => {
+    setState(existingUser || initialState);
+  }, [existingUser]);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
+    });
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
