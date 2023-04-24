@@ -127,6 +127,41 @@ usersRouter.post('/google', async (req, res, next) => {
   }
 });
 
+usersRouter.patch(
+  '/',
+  auth,
+  imageUpload.single('photo'),
+  async (req, res, next) => {
+    try {
+      const updatedUser = await User.findOneAndUpdate();
+
+      if (!updatedUser) {
+        return res
+          .status(500)
+          .send({ error: 'Учетная запись пользователя не найдена!' });
+      }
+
+      updatedUser.firstName = req.body.firstName || updatedUser.firstName;
+      updatedUser.lastName = req.body.lastName || updatedUser.lastName;
+      updatedUser.email = req.body.email || updatedUser.email;
+      updatedUser.phoneNumber = req.body.phoneNumber || updatedUser.phoneNumber;
+
+      await updatedUser.save();
+
+      return res.send({
+        message: 'Информация пользователя обновлена!',
+        user: updatedUser,
+      });
+    } catch (e) {
+      if (e instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send(e);
+      } else {
+        return next(e);
+      }
+    }
+  },
+);
+
 usersRouter.get('/basic', auth, permit('admin'), async (req, res, next) => {
   try {
     const users = await User.find({ role: 'user' });

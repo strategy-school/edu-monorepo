@@ -21,6 +21,13 @@ export interface RegisterMutation {
   phoneNumber: string;
 }
 
+export interface UpdateUserMutation {
+  email: string;
+  phoneNumber: string;
+  lastName: string;
+  firstName: string;
+}
+
 export interface RegisterResponse {
   message: string;
   user: User;

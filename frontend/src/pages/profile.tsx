@@ -8,10 +8,16 @@ import { Box, Grid, IconButton, Typography } from '@mui/material';
 import Image from 'next/image';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import EditIcon from '@mui/icons-material/Edit';
+import { useRouter } from 'next/router';
 
 const Profile = () => {
+  const router = useRouter();
   const user = useAppSelector(selectUser);
   const image = 'http://localhost:8000/' + user?.avatar;
+
+  const openEditPage = () => {
+    void router.push(`/edit-user/editUser`);
+  };
 
   return (
     <ProtectedRoute
@@ -33,7 +39,7 @@ const Profile = () => {
         >
           <Grid item xs={12} sm={4} md={3} lg={2}>
             {user?.avatar ? (
-              <img
+              <Image
                 style={{ margin: '0 auto', borderRadius: '2px' }}
                 src={image}
                 alt={user?.firstName}
@@ -51,7 +57,7 @@ const Profile = () => {
             )}
           </Grid>
           <Box sx={{ position: 'absolute', top: 10, right: 10 }}>
-            <IconButton onClick={() => console.log('Edited')}>
+            <IconButton onClick={openEditPage}>
               <EditIcon />
             </IconButton>
           </Box>
