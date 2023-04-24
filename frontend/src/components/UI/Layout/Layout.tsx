@@ -16,7 +16,7 @@ const Layout: React.FC<Props> = ({ children, title }) => {
         <title>{title}</title>
       </Head>
       <AppToolbar />
-      <Container sx={{ padding: '50px 25px' }}>{children}</Container>
+      <Container sx={{ padding: '50px 25px' }} style={{display: 'flex', minHeight: '100vh', flexDirection: 'column'}}>{children}</Container>
       <Footer />
     </>
   );
