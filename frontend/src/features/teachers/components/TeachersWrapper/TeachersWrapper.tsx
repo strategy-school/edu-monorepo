@@ -19,8 +19,8 @@ const TeachersWrapper = () => {
             fontSize={stylesGlobal.fontSize}
             textAlign="center"
           >
-            У нас высококвалифицированные тренеры, которые готовы делиться своим
-            опытом и знаниями
+            У нас профессиональные тренеры, которые готовы делиться своим опытом
+            и знаниями
           </Typography>
         </Grid>
       </Grid>
@@ -54,7 +54,7 @@ const TeachersWrapper = () => {
               variant="contained"
               color="secondary"
             >
-              Посмотреть всех треноров
+              Посмотреть всех тренеров
             </Button>
           </Grid>
         </Grid>
