@@ -12,8 +12,6 @@ import TeachersWrapper from '@/src/features/teachers/components/TeachersWrapper/
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const teachers = useAppSelector(selectTeachers);
-
   useEffect(() => {
     dispatch(fetchCourses());
     dispatch(fetchTeachers());
