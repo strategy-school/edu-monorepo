@@ -28,6 +28,7 @@ export const Footer: FC = (): ReactElement => {
         backgroundColor: 'black',
         paddingTop: '1rem',
         paddingBottom: '1rem',
+        marginTop: 'auto',
       }}
     >
       <Container maxWidth="lg">
