@@ -73,8 +73,6 @@ const CourseId = () => {
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
-  console.log(course)
-
   return (
     <Layout title={`${course?.title} page`}>
       {course && (
