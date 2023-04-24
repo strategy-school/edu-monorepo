@@ -35,7 +35,7 @@ const TeacherId = () => {
     await dispatch(
       editTeacher({ id: teacherId, teacherData: teacher }),
     ).unwrap();
-    void router.push(`/teachers/${teacherId}`);
+    void router.push(`/admin/`);
   };
 
   const existingTeacher = teacher && {

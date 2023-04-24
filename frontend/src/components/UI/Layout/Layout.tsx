@@ -17,7 +17,7 @@ const Layout: React.FC<Props> = ({ children, title }) => {
       </Head>
       <AppToolbar />
       <Container sx={{ padding: '50px 25px' }}>{children}</Container>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };
