@@ -122,3 +122,26 @@ export interface CategoryMutation {
   description: string;
   image: File | null;
 }
+
+export interface ApiTransaction {
+  _id: string;
+  user: {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+  };
+  course: {
+    _id: string;
+    title: string;
+    price: number;
+    start_date: string;
+    end_date: string;
+    type: string;
+    level: string;
+  };
+  isPaid: 'pending' | 'paid';
+  createdAt: string;
+  updatedAt: string;
+}
