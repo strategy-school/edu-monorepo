@@ -4,10 +4,8 @@ import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import {
   selectOneTeacher,
   selectOneTeacherFetching,
-  selectTeacherDeleting,
 } from '@/src/features/teachers/teachersSlice';
 import {
-  Button,
   CardMedia,
   CircularProgress,
   Divider,
@@ -15,17 +13,10 @@ import {
   Typography,
 } from '@mui/material';
 import { apiURL } from '@/src/constants';
-import { selectUser } from '@/src/features/users/usersSlice';
-import LoadingButton from '@mui/lab/LoadingButton';
-import {
-  deleteTeacher,
-  fetchOneTeacher,
-  fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
+import { fetchOneTeacher } from '@/src/features/teachers/teachersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { borderRadius, boxShadow } from '@/src/styles';
 import { Property } from 'csstype';
-import theme from '@/src/theme';
 import TextAlign = Property.TextAlign;
 
 const styles = {
@@ -50,25 +41,11 @@ const TeacherId = () => {
   const dispatch = useAppDispatch();
   const teacher = useAppSelector(selectOneTeacher);
   const loading = useAppSelector(selectOneTeacherFetching);
-  const deleteLoading = useAppSelector(selectTeacherDeleting);
-  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 
-  const handleEditClick = () => {
-    void router.push(`/teachers/edit/${teacherId}`);
-  };
-
-  const handleDelete = async () => {
-    if (!teacher) return;
-    if (window.confirm('Подтвердите удаление преподавателя')) {
-      await dispatch(deleteTeacher(teacher._id));
-      await router.push('/teachers');
-      dispatch(fetchTeachers());
-    }
-  };
   return (
     <Layout title="Strategia school: страница учителя">
       <Grid container justifyContent="center">
@@ -124,50 +101,6 @@ const TeacherId = () => {
                     ))}
                   </Grid>
                 </Grid>
-                {user?.role === 'admin' && (
-                  <Grid
-                    item
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={2}
-                  >
-                    <Grid item container justifyContent="center" xs={12} md={6}>
-                      <LoadingButton
-                        color="error"
-                        variant="contained"
-                        loading={
-                          deleteLoading ? deleteLoading === teacher._id : false
-                        }
-                        onClick={handleDelete}
-                        sx={{
-                          width: '150px',
-                          fontSize: '14px',
-                          [theme.breakpoints.up('md')]: {
-                            fontSize: '18px',
-                          },
-                        }}
-                      >
-                        Удалить
-                      </LoadingButton>
-                    </Grid>
-                    <Grid item container justifyContent="center" xs={12} md={6}>
-                      <Button
-                        onClick={handleEditClick}
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          fontSize: '14px',
-                          [theme.breakpoints.up('md')]: {
-                            fontSize: '18px',
-                          },
-                        }}
-                      >
-                        Редактировать
-                      </Button>
-                    </Grid>
-                  </Grid>
-                )}
               </Grid>
             </>
           )

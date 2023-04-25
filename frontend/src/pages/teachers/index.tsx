@@ -6,12 +6,10 @@ import { fetchTeachers } from '@/src/features/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
 import Layout from '@/src/components/UI/Layout/Layout';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
-import { selectUser } from '@/src/features/users/usersSlice';
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const teachers = useAppSelector(selectTeachers);
-  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchTeachers());
@@ -38,7 +36,6 @@ const Index = () => {
                 firstName={teacher.user.firstName}
                 lastName={teacher.user.lastName}
                 photo={teacher.photo}
-                role={user?.role}
               />
             </Grid>
           ))}
