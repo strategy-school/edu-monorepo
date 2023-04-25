@@ -17,10 +17,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   let cardImage = '';
 
-  if (user.avatar !== null) {
+  if (user.avatar) {
     cardImage = apiURL + '/' + user.avatar;
   }
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
