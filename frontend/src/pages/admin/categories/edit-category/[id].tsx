@@ -35,7 +35,7 @@ const Id = () => {
 
   const onSubmit = async (categoryMutation: CategoryMutation) => {
     await dispatch(updateCategory({ id, categoryMutation })).unwrap();
-    void router.push('/categories');
+    void router.push('/admin/categories');
   };
 
   const existingCategory = category && {
