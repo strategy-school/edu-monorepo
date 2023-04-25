@@ -42,7 +42,6 @@ const TeachersWrapper = () => {
                 firstName={teacher.user.firstName}
                 lastName={teacher.user.lastName}
                 photo={teacher.photo}
-                role="undefined"
               />
             </Grid>
           ))}

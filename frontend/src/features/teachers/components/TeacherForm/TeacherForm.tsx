@@ -43,7 +43,7 @@ const TeacherForm: React.FC<Props> = ({
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit(state);
-    setState(initialState);
+    // setState(initialState);
   };
 
   const inputChangeHandler = (
