@@ -21,11 +21,11 @@ const NewTeacher = () => {
 
   const onSubmit = async (teacher: TeacherMutation) => {
     await dispatch(createTeacher(teacher)).unwrap();
-    void router.push('/admin/');
+    void router.push('/admin/teachers');
   };
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia new course">
+      <Layout title="Strategia: admin panel | add teacher">
         <TeacherForm onSubmit={onSubmit} loading={loading} error={error} />
       </Layout>
     </ProtectedRoute>

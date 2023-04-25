@@ -38,7 +38,6 @@ const Index = () => {
                 firstName={teacher.user.firstName}
                 lastName={teacher.user.lastName}
                 photo={teacher.photo}
-                role={user?.role}
               />
             </Grid>
           ))}

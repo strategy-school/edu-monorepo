@@ -35,7 +35,7 @@ const TeacherId = () => {
     await dispatch(
       editTeacher({ id: teacherId, teacherData: teacher }),
     ).unwrap();
-    void router.push(`/admin/`);
+    void router.push(`/admin/teachers/`);
   };
 
   const existingTeacher = teacher && {
@@ -47,7 +47,7 @@ const TeacherId = () => {
 
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia edit teacher">
+      <Layout title="Strategia: admin panel | edit teacher">
         {existingTeacher && (
           <TeacherForm
             onSubmit={onSubmit}
