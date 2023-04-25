@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
+import Comment from './models/Comment';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -185,6 +186,7 @@ const run = async () => {
     {
       user: teacher2._id,
       course: marketing3._id,
+      isPaid: 'paid',
     },
     {
       user: teacher3._id,
@@ -196,6 +198,34 @@ const run = async () => {
       isPaid: 'paid',
     },
   );
+
+  await Comment.create(
+    {
+      user: user._id,
+      course: marketing1._id,
+      rating: 5,
+      text: 'Мне очень понравился вебинар, все было четко и понятно!',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Проверка от админа',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 5,
+      text: 'Проверка от админа',
+    },
+    {
+      user: teacher2._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Неплохой курс, были некоторые косяки, но в принципе хорошо!',
+    },
+  );
+
   await db.close();
 };
 
