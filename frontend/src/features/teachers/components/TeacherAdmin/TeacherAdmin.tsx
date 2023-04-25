@@ -28,7 +28,7 @@ const TeacherAdmin = () => {
 
   useEffect(() => {
     dispatch(fetchTeachers());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Подтвердите удаление преподавателя')) {
