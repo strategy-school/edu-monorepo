@@ -10,7 +10,6 @@ import {
 import { apiURL } from '@/src/constants';
 import Link from 'next/link';
 import { Property } from 'csstype';
-import { useAppDispatch } from '@/src/app/hooks';
 import FlexDirection = Property.FlexDirection;
 
 const styles = {
@@ -41,8 +40,6 @@ interface Props {
 }
 
 const TeacherCard: React.FC<Props> = ({ photo, firstName, lastName, _id }) => {
-  const dispatch = useAppDispatch();
-
   return (
     <Card style={styles.card}>
       <CardMedia

@@ -13,7 +13,6 @@ import {
   fetchTeachers,
 } from '@/src/features/teachers/teachersThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { Property } from 'csstype';
 import OneTeacher from '@/src/features/teachers/components/OneTeacher/OneTeacher';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 
