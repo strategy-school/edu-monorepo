@@ -74,7 +74,7 @@ const Courses = () => {
                   <TableCell>
                     <MUILink
                       component={Link}
-                      href={`/admin/courses/${course._id}`}
+                      href={`/admin/courses/one-course/${course._id}`}
                     >
                       {course.title}
                     </MUILink>

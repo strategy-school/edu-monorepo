@@ -56,7 +56,7 @@ const CourseId = () => {
     if (!course) return;
     if (window.confirm('Подтвердите удаление курса')) {
       await dispatch(deleteCourse(course._id));
-      void router.push('/courses');
+      void router.push('/admin/courses');
     }
   };
 
