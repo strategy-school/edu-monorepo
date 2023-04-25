@@ -30,7 +30,7 @@ transactionsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
 
     const transactions = await Transaction.find(searchParam)
       .populate('user', 'email firstName lastName phoneNumber')
-      .populate('course', 'title price type start_date end_date duration')
+      .populate('course', 'title price type level image')
       .skip(skip)
       .limit(limit);
 
@@ -51,7 +51,7 @@ transactionsRouter.get(
     try {
       const transactionId = req.params.id;
       const transaction = await Transaction.findById(transactionId)
-        .populate('course', 'title price type start_date end_date duration')
+        .populate('course', 'title price type level image')
         .populate('user', 'email firstName lastName phoneNumber');
 
       if (!transaction) {
@@ -75,10 +75,7 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
       course: courseId,
     });
 
-    await transaction.populate(
-      'course',
-      'title price type start_date end_date duration',
-    );
+    await transaction.populate('course', 'title price type level image');
     await transaction.populate('user', 'email firstName lastName phoneNumber');
 
     return res.send({ message: 'Transaction is created', result: transaction });
@@ -109,7 +106,7 @@ transactionsRouter.put(
         { user, course, isPaid },
         { new: true, runValidators: true },
       )
-        .populate('course', 'title price type start_date end_date duration')
+        .populate('course', 'title price type level image')
         .populate('user', 'email firstName lastName phoneNumber');
 
       if (!transaction) {
@@ -143,7 +140,7 @@ transactionsRouter.patch(
       }
 
       const transaction = await Transaction.findById(transactionId)
-        .populate('course', 'title price type start_date end_date duration')
+        .populate('course', 'title price type level image')
         .populate('user', 'email firstName lastName phoneNumber');
 
       if (!transaction) {

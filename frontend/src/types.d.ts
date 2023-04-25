@@ -136,12 +136,22 @@ export interface ApiTransaction {
     _id: string;
     title: string;
     price: number;
-    start_date: string;
-    end_date: string;
     type: string;
     level: string;
+    image: string;
   };
   isPaid: 'pending' | 'paid';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface TransactionPagination {
+  transactions: ApiTransaction[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface TransactionResponse {
+  message: 'string';
+  result: ApiTransaction | TransactionPagination;
 }
