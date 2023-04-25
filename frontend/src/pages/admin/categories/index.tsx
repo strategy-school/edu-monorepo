@@ -31,7 +31,7 @@ const Categories = () => {
   }, [dispatch]);
 
   const openEditCategory = (id: string) => {
-    void router.push(`/edit-category/${id}`);
+    void router.push(`/admin/categories/edit-category/${id}`);
   };
 
   const deleteCategory = async (id: string) => {
@@ -46,7 +46,7 @@ const Categories = () => {
       <Container>
         <Typography sx={{ pl: 2 }}>
           Категории{' '}
-          <IconButton component={Link} href="/categories/new-category">
+          <IconButton component={Link} href="/admin/categories/new-category">
             <AddIcon />
           </IconButton>
         </Typography>
