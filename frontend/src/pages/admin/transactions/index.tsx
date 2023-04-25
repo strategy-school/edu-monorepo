@@ -1,16 +1,31 @@
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
+import { fetchTransactions } from '@/src/dispatchers/transactions/transactionsThunk';
+import TransactionItem from '@/src/features/admin/transactions/TransactionItem';
 import {
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material';
-import transactionStyles from './styles';
 import React from 'react';
+import transactionStyles from './styles';
 
 const Transactions = () => {
+  const dispatch = useAppDispatch();
+  const transactions = useAppSelector(selectTransactions);
+
+  React.useEffect(() => {
+    dispatch(fetchTransactions());
+  });
+
   return (
     <Grid
       container
@@ -31,10 +46,29 @@ const Transactions = () => {
         </Box>
       </Grid>
       <Grid item>
-        <Card style={transactionStyles.card}>
-          <CardActions style={transactionStyles.filters}>Filters</CardActions>
-          <CardContent>List</CardContent>
-        </Card>
+        <TableContainer component={Paper} style={{ borderRadius: '10px' }}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>Customer</TableCell>
+                <TableCell>Course</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Level</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Date</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TransactionItem
+                  key={transaction._id}
+                  transaction={transaction}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
     </Grid>
   );

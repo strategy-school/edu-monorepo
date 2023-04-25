@@ -1,13 +1,15 @@
 import { RootState } from '@/src/app/store';
-import { ApiTransaction } from '@/src/types';
+import { ApiTransaction, TransactionPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchSingleTransaction } from './transactionsThunk';
+import { fetchSingleTransaction, fetchTransactions } from './transactionsThunk';
 
 interface TransitionsState {
   loadingAll: boolean;
   loadingOne: boolean;
   items: ApiTransaction[];
   item: ApiTransaction | null;
+  currentPage: number;
+  totalPages: number;
 }
 
 const initialState: TransitionsState = {
@@ -15,6 +17,8 @@ const initialState: TransitionsState = {
   loadingOne: false,
   items: [],
   item: null,
+  currentPage: 1,
+  totalPages: 1,
 };
 
 const transactionsSlice = createSlice({
@@ -35,6 +39,19 @@ const transactionsSlice = createSlice({
       )
       .addCase(fetchSingleTransaction.rejected, (state) => {
         state.loadingOne = false;
+      })
+      .addCase(fetchTransactions.pending, (state) => {
+        state.loadingOne = true;
+      })
+      .addCase(fetchTransactions.fulfilled, (state, { payload }) => {
+        state.loadingAll = false;
+        const result = payload.result as TransactionPagination;
+        state.items = result.transactions;
+        state.currentPage = result.currentPage;
+        state.totalPages = result.totalPages;
+      })
+      .addCase(fetchTransactions.rejected, (state) => {
+        state.loadingAll = false;
       });
   },
 });
@@ -48,3 +65,7 @@ export const selectTransactionsLoading = (state: RootState) =>
   state.transactions.loadingAll;
 export const selectSingleTransactionLoading = (state: RootState) =>
   state.transactions.loadingOne;
+export const selectTransactionsPage = (state: RootState) =>
+  state.transactions.currentPage;
+export const selectTransactionsTotalPages = (state: RootState) =>
+  state.transactions.totalPages;

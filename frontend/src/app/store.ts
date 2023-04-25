@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { coursesReducer } from '@/src/features/courses/coursesSlice';
 import { teacherReducer } from '@/src/features/teachers/teachersSlice';
 import { categoriesReducer } from '@/src/features/categories/categoriesSlice';
-import { transacionsReducer } from '../pages/admin/transactions/transactionsSlice';
+import { transacionsReducer } from '../dispatchers/transactions/transactionsSlice';
 
 const usersPersistConfig = {
   key: 'strategia:users',
