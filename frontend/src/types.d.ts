@@ -122,3 +122,20 @@ export interface CategoryMutation {
   description: string;
   image: File | null;
 }
+
+export interface CommentMutation {
+  text: string;
+  rating: string;
+  course: string;
+}
+
+export interface Comment {
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  course: string;
+  text: string;
+  rating: number;
+}
