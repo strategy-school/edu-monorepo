@@ -21,7 +21,7 @@ const NewCategory = () => {
 
   const onFormSubmit = async (mutation: CategoryMutation) => {
     await dispatch(createCategory(mutation)).unwrap();
-    void router.push('/categories');
+    void router.push('/admin/categories');
   };
 
   return (
