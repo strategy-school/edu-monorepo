@@ -41,6 +41,10 @@ const TeacherId = () => {
       dispatch(fetchTeachers());
     }
   };
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
       <Layout title="Strategia: admin panel | teacher page">
@@ -50,6 +54,7 @@ const TeacherId = () => {
           loading={loading}
           onEdit={handleEditClick}
           onDelete={handleDelete}
+          goBack={handleGoBack}
         />
       </Layout>
     </ProtectedRoute>

@@ -18,6 +18,7 @@ import theme from '@/src/theme';
 interface Props {
   teacher: Teacher | null;
   loading: boolean;
+  goBack: () => void;
   deleteLoading?: string | false;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
@@ -41,10 +42,11 @@ const styles = {
 
 const OneTeacher: React.FC<Props> = ({
   teacher,
+  loading,
+  goBack,
   onEdit,
   onDelete,
   deleteLoading,
-  loading,
 }) => {
   if (!teacher) {
     return (
@@ -63,6 +65,7 @@ const OneTeacher: React.FC<Props> = ({
             style={styles.teacherWrapper}
             padding={{ xs: '10px 20px', md: '15px 50px' }}
           >
+            <Button onClick={goBack}>Назад</Button>
             <Grid
               container
               flexDirection="column"

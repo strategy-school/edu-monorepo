@@ -20,9 +20,13 @@ const TeacherId = () => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
     <Layout title="Strategia school: страница учителя">
-      <OneTeacher teacher={teacher} loading={loading} />
+      <OneTeacher teacher={teacher} loading={loading} goBack={handleGoBack} />
     </Layout>
   );
 };

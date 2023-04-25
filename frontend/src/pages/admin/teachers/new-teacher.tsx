@@ -11,6 +11,7 @@ import {
 import { useRouter } from 'next/router';
 import { TeacherMutation } from '@/src/types';
 import { createTeacher } from '@/src/features/teachers/teachersThunks';
+import { Button, Grid } from '@mui/material';
 
 const NewTeacher = () => {
   const dispatch = useAppDispatch();
@@ -23,10 +24,18 @@ const NewTeacher = () => {
     await dispatch(createTeacher(teacher)).unwrap();
     void router.push('/admin/teachers');
   };
+  const handleGoBack = () => {
+    router.back();
+  };
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
       <Layout title="Strategia: admin panel | add teacher">
-        <TeacherForm onSubmit={onSubmit} loading={loading} error={error} />
+        <Grid>
+          <Button onClick={handleGoBack} sx={{ mb: 3 }}>
+            Назад
+          </Button>
+          <TeacherForm onSubmit={onSubmit} loading={loading} error={error} />
+        </Grid>
       </Layout>
     </ProtectedRoute>
   );
