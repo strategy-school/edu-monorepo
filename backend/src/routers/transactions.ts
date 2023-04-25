@@ -23,20 +23,20 @@ transactionsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
       searchParam.course = courseId;
     }
 
-    const totalTransactionsCount = await Transaction.count(searchParam);
-    const totalPages = Math.ceil(totalTransactionsCount / limit);
+    const totalCount = await Transaction.count(searchParam);
 
     const skip = (page - 1) * limit;
 
     const transactions = await Transaction.find(searchParam)
       .populate('user', 'email firstName lastName phoneNumber')
       .populate('course', 'title price type level image')
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
     return res.send({
       message: 'Transactions are found',
-      result: { transactions, currentPage: page, totalPages },
+      result: { transactions, currentPage: page, totalCount },
     });
   } catch (e) {
     return next(e);

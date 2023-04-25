@@ -148,7 +148,7 @@ export interface ApiTransaction {
 export interface TransactionPagination {
   transactions: ApiTransaction[];
   currentPage: number;
-  totalPages: number;
+  totalCount: number;
 }
 
 export interface TransactionResponse {

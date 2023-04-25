@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
+import {
+  selectTransactions,
+  selectTransactionsPage,
+  selectTransactionsTotalCount,
+} from '@/src/dispatchers/transactions/transactionsSlice';
 import { fetchTransactions } from '@/src/dispatchers/transactions/transactionsThunk';
 import TransactionItem from '@/src/features/admin/transactions/TransactionItem';
 import {
@@ -11,20 +15,27 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import React from 'react';
 import transactionStyles from './styles';
 
 const Transactions = () => {
   const dispatch = useAppDispatch();
   const transactions = useAppSelector(selectTransactions);
+  const currentPage = useAppSelector(selectTransactionsPage);
+  const totalCount = useAppSelector(selectTransactionsTotalCount);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    dispatch(fetchTransactions());
-  });
+    dispatch(fetchTransactions({ page: page, limit: rowsPerPage }));
+  }, [page, rowsPerPage]);
 
   return (
     <Grid
@@ -39,7 +50,12 @@ const Transactions = () => {
             <Typography variant="h4">Transactions</Typography>
           </Box>
           <Box style={transactionStyles.moderationBtns}>
-            <Button variant="contained" color="success">
+            <Button
+              variant="contained"
+              color="success"
+              component={Link}
+              href="transactions/create"
+            >
               Create
             </Button>
           </Box>
@@ -67,6 +83,18 @@ const Transactions = () => {
                 />
               ))}
             </TableBody>
+            <TableFooter>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) =>
+                  setRowsPerPage(parseInt(e.target.value))
+                }
+              />
+            </TableFooter>
           </Table>
         </TableContainer>
       </Grid>

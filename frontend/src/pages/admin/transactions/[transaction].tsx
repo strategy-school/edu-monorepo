@@ -7,6 +7,7 @@ import {
   CardMedia,
   Chip,
   Grid,
+  Link,
   styled,
   Typography,
 } from '@mui/material';
@@ -40,7 +41,9 @@ const TransactionSingle = () => {
             <Typography variant="body2">Date</Typography>
           </Box>
           <Box style={transactionStyles.moderationBtns}>
-            <Button>Edit</Button>
+            <Button component={Link} href="edit">
+              Edit
+            </Button>
             <Button variant="contained" color="error">
               Delete
             </Button>

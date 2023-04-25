@@ -9,7 +9,7 @@ interface TransitionsState {
   items: ApiTransaction[];
   item: ApiTransaction | null;
   currentPage: number;
-  totalPages: number;
+  totalCount: number;
 }
 
 const initialState: TransitionsState = {
@@ -18,7 +18,7 @@ const initialState: TransitionsState = {
   items: [],
   item: null,
   currentPage: 1,
-  totalPages: 1,
+  totalCount: 1,
 };
 
 const transactionsSlice = createSlice({
@@ -48,7 +48,7 @@ const transactionsSlice = createSlice({
         const result = payload.result as TransactionPagination;
         state.items = result.transactions;
         state.currentPage = result.currentPage;
-        state.totalPages = result.totalPages;
+        state.totalCount = result.totalCount;
       })
       .addCase(fetchTransactions.rejected, (state) => {
         state.loadingAll = false;
@@ -67,5 +67,5 @@ export const selectSingleTransactionLoading = (state: RootState) =>
   state.transactions.loadingOne;
 export const selectTransactionsPage = (state: RootState) =>
   state.transactions.currentPage;
-export const selectTransactionsTotalPages = (state: RootState) =>
-  state.transactions.totalPages;
+export const selectTransactionsTotalCount = (state: RootState) =>
+  state.transactions.totalCount;

@@ -12,10 +12,10 @@ export const fetchSingleTransaction = createAsyncThunk<ApiTransaction, string>(
 
 export const fetchTransactions = createAsyncThunk<
   TransactionResponse,
-  number | undefined
->('transactions/fetch', async (page = 1) => {
+  { page: number | undefined; limit: number | undefined }
+>('transactions/fetch', async ({ page, limit }) => {
   const { data } = await axiosApi.get<TransactionResponse>(
-    `/transactions?page=${page}`,
+    `/transactions?page=${page}&limit=${limit}`,
   );
   return data;
 });
