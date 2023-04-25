@@ -54,7 +54,6 @@ commentsRouter.post('/', auth, async (req, res, next) => {
       text: req.body.text,
     });
 
-    await comment.save();
     return res.send(comment);
   } catch (e) {
     if (e instanceof Error.ValidationError) {
@@ -76,7 +75,7 @@ commentsRouter.put('/:id', auth, async (req, res, next) => {
       return res.sendStatus(404);
     }
 
-    if (comment.user.toString() !== user._id.toString()) {
+    if (!comment.user.equals(user._id)) {
       return res
         .status(403)
         .send({ error: 'Вы не можете изменить не свой комментарий!' });
@@ -107,10 +106,7 @@ commentsRouter.delete('/:id', auth, async (req, res, next) => {
       return res.sendStatus(404);
     }
 
-    if (
-      comment.user.toString() !== user._id.toString() &&
-      user.role !== 'admin'
-    ) {
+    if (!comment.user.equals(user._id) && user.role !== 'admin') {
       return res
         .status(403)
         .send({ error: 'Вы не можете удалить не свой комментарий!' });
