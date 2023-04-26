@@ -139,4 +139,43 @@ usersRouter.get('/basic', auth, permit('admin'), async (req, res, next) => {
   }
 });
 
+usersRouter.get('/basic/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const user = await User.findOne({ role: 'user', _id: req.params.id });
+    if (!user) {
+      return res.status(500).send({ error: 'Студент не найден!' });
+    }
+    return res.send(user);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+usersRouter.patch(
+  '/isBanned/:id',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(500).send({ error: 'Пользователь не найден!' });
+      }
+      user.isBanned = !user.isBanned;
+      await user.save();
+      return res.send({
+        message: `Статус 'isBanned' обновлен на ${user.isBanned}`,
+        user,
+      });
+    } catch (e) {
+      if (e instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send(e);
+      }
+      return next(e);
+    }
+  },
+);
+
 export default usersRouter;

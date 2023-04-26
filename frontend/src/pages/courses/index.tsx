@@ -26,7 +26,7 @@ const Index = () => {
         <Grid item xs container spacing={3}>
           {fullCourses.length > 0 ? (
             fullCourses.map((course) => (
-              <Grid item xs={12} lg={6} key={course._id}>
+              <Grid item xs={12} key={course._id}>
                 <CourseCard key={course._id} course={course} />
               </Grid>
             ))

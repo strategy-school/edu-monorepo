@@ -56,26 +56,17 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     },
     phoneNumber: {
       type: String,
-      unique: true,
-      validate: {
-        validator: async function (
-          this: HydratedDocument<IUser>,
-          phoneNumber: string,
-        ): Promise<boolean> {
-          if (!this.isModified('phoneNumber')) return true;
-          const user = await User.findOne({
-            phoneNumber,
-          });
-          return !user;
-        },
-        message: 'Пользователь с таким номером уже зарегистрирован!',
-      },
     },
     role: {
       type: String,
       required: true,
       enum: Role,
       default: Role.User,
+    },
+    isBanned: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     avatar: String,
     googleId: String,

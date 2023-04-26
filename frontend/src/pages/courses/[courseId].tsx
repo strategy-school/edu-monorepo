@@ -1,22 +1,13 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import {
-  deleteCourse,
-  fetchOneCourse,
-} from '@/src/features/courses/coursesThunks';
-import {
-  selectCourseDeleting,
-  selectOneCourse,
-} from '@/src/features/courses/coursesSlice';
+import { fetchOneCourse } from '@/src/features/courses/coursesThunks';
+import { selectOneCourse } from '@/src/features/courses/coursesSlice';
 import { Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MoneyIcon from '@mui/icons-material/Money';
 import { blockStyle, blockTopStyle } from '@/src/styles';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Link from 'next/link';
-import { selectUser } from '@/src/features/users/usersSlice';
 import Image from 'next/image';
 import { apiURL } from '@/src/constants';
 
@@ -33,31 +24,15 @@ const marginTop = {
   lg: '80px',
 };
 
-const paddingTop = {
-  xs: '10px',
-  sm: '10px',
-  md: 0,
-};
-
 const CourseId = () => {
   const router = useRouter();
   const { courseId } = router.query as { courseId: string };
   const dispatch = useAppDispatch();
   const course = useAppSelector(selectOneCourse);
-  const user = useAppSelector(selectUser);
-  const deleteLoading = useAppSelector(selectCourseDeleting);
 
   useEffect(() => {
     void dispatch(fetchOneCourse(courseId));
   }, [dispatch, courseId]);
-
-  const handleDelete = async () => {
-    if (!course) return;
-    if (window.confirm('Подтвердите удаление курса')) {
-      await dispatch(deleteCourse(course._id));
-      void router.push('/courses');
-    }
-  };
 
   const typeName =
     course?.type === 'seminar'
@@ -179,42 +154,6 @@ const CourseId = () => {
                 Запишись сейчас!
               </Button>
             </Grid>
-            {user && user.role === 'admin' && (
-              <Grid
-                item
-                container
-                md={4}
-                sm={8}
-                xs={10}
-                paddingTop={paddingTop}
-                style={{ marginLeft: 'auto' }}
-                spacing={2}
-              >
-                <Grid item>
-                  <LoadingButton
-                    color="error"
-                    variant="contained"
-                    loading={
-                      deleteLoading ? deleteLoading === course._id : false
-                    }
-                    onClick={handleDelete}
-                    sx={{ width: '89px' }}
-                  >
-                    <span>Удалить</span>
-                  </LoadingButton>
-                </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    href={`/courses/edit/${course._id}`}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Редактировать
-                  </Button>
-                </Grid>
-              </Grid>
-            )}
           </Grid>
         </Grid>
       )}
