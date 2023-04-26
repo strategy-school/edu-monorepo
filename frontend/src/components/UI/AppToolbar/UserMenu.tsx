@@ -17,10 +17,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   let cardImage = '';
 
-  if (user.avatar !== null) {
+  if (user.avatar) {
     cardImage = apiURL + '/' + user.avatar;
   }
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -49,11 +48,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         {user && user.role === 'admin' && (
           <MenuItem component={Link} href="/courses/new-course">
             Добавить новый курс
-          </MenuItem>
-        )}
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/teachers/new-teacher">
-            Добавить нового преподавателя
           </MenuItem>
         )}
         {user && user.role === 'admin' && (
