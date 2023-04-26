@@ -139,6 +139,18 @@ usersRouter.get('/basic', auth, permit('admin'), async (req, res, next) => {
   }
 });
 
+usersRouter.get('/basic/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const user = await User.findOne({ role: 'user', _id: req.params.id });
+    if (!user) {
+      return res.status(500).send({ error: 'Студент не найден!' });
+    }
+    return res.send(user);
+  } catch (e) {
+    return next(e);
+  }
+});
+
 usersRouter.patch(
   '/isBanned/:id',
   auth,
