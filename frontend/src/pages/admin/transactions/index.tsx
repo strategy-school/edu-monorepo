@@ -84,16 +84,18 @@ const Transactions = () => {
               ))}
             </TableBody>
             <TableFooter>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                count={totalCount}
-                rowsPerPage={rowsPerPage}
-                page={currentPage - 1}
-                onPageChange={(_, newPage) => setPage(newPage + 1)}
-                onRowsPerPageChange={(e) =>
-                  setRowsPerPage(parseInt(e.target.value))
-                }
-              />
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50]}
+                  count={totalCount}
+                  rowsPerPage={rowsPerPage}
+                  page={currentPage - 1}
+                  onPageChange={(_, newPage) => setPage(newPage + 1)}
+                  onRowsPerPageChange={(e) =>
+                    setRowsPerPage(parseInt(e.target.value))
+                  }
+                />
+              </TableRow>
             </TableFooter>
           </Table>
         </TableContainer>

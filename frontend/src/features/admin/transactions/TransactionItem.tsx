@@ -1,18 +1,27 @@
 import { ApiTransaction } from '@/src/types';
 import { TableCell, TableRow } from '@mui/material';
-import React from 'react';
 import dayjs from 'dayjs';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 interface Props {
   transaction: ApiTransaction;
 }
 
 const TransactionItem: React.FC<Props> = ({ transaction }) => {
+  const router = useRouter();
   const date = dayjs(transaction.createdAt).format('DD.MM.YYYY HH:mm');
 
+  const onClick = React.useCallback((id: string) => {
+    router.push(`transactions/${id}`);
+  }, []);
+
   return (
-    <TableRow hover component={Link} href={'transactions/' + transaction._id}>
+    <TableRow
+      hover
+      onClick={() => onClick(transaction._id)}
+      style={{ cursor: 'pointer' }}
+    >
       <TableCell>
         {transaction.user.firstName} {transaction.user.lastName}
       </TableCell>
