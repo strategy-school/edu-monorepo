@@ -57,19 +57,28 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     phoneNumber: {
       type: String,
       unique: true,
-      validate: {
-        validator: async function (
-          this: HydratedDocument<IUser>,
-          phoneNumber: string,
-        ): Promise<boolean> {
-          if (!this.isModified('phoneNumber')) return true;
-          const user = await User.findOne({
-            phoneNumber,
-          });
-          return !user;
+      validate: [
+        {
+          validator: async function (
+            this: HydratedDocument<IUser>,
+            phoneNumber: string,
+          ): Promise<boolean> {
+            if (!this.isModified('phoneNumber')) return true;
+            const user = await User.findOne({
+              phoneNumber,
+            });
+            return !user;
+          },
+          message: 'Пользователь с таким номером уже зарегистрирован!',
         },
-        message: 'Пользователь с таким номером уже зарегистрирован!',
-      },
+        {
+          validator: function (phoneNumber: string): boolean {
+            return /^\+996\d{9}$/.test(phoneNumber);
+          },
+          message:
+            'Неверный формат номера телефона! Формат должен быть: "+996 XXX XXX XXX"',
+        },
+      ],
     },
     role: {
       type: String,
