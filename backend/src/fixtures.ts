@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
+import Comment from './models/Comment';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -13,61 +14,86 @@ const run = async () => {
   const db = mongoose.connection;
 
   try {
-    await db.dropCollection('courses');
     await db.dropCollection('users');
+    await db.dropCollection('courses');
     await db.dropCollection('teachers');
     await db.dropCollection('categories');
     await db.dropCollection('transactions');
+    await db.dropCollection('comments');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
 
-  const [admin, teacher, teacher2, teacher3, user] = await User.create(
-    {
-      email: 'admin@gmail.com',
-      firstName: 'Admin',
-      lastName: 'Admin',
-      password: 'admin',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996555555555',
-      role: 'admin',
-    },
-    {
-      email: 'teacher@gmail.com',
-      firstName: 'Teacher',
-      lastName: 'Teacher',
-      password: 'teacher',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996701888789',
-      role: 'teacher',
-    },
-    {
-      email: 'teacher2@gmail.com',
-      firstName: 'Teacher2',
-      lastName: 'Teacher2',
-      password: 'teacher2',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996702702702',
-      role: 'teacher',
-    },
-    {
-      email: 'teacher3@gmail.com',
-      firstName: 'Teacher3',
-      lastName: 'Teacher3',
-      password: 'teacher3',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996703703703',
-      role: 'teacher',
-    },
-    {
-      email: 'user@gmail.com',
-      firstName: 'User',
-      lastName: 'User',
-      password: 'user',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996550902644',
-    },
-  );
+  const [admin, teacher, teacher2, teacher3, user, user1, user2] =
+    await User.create(
+      {
+        email: 'admin@gmail.com',
+        firstName: 'Admin',
+        lastName: 'Admin',
+        password: 'admin',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996555555555',
+        role: 'admin',
+        avatar: null,
+      },
+      {
+        email: 'teacher@gmail.com',
+        firstName: 'Teacher',
+        lastName: 'Teacher',
+        password: 'teacher',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996701888789',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'teacher2@gmail.com',
+        firstName: 'Teacher2',
+        lastName: 'Teacher2',
+        password: 'teacher2',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996702702702',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'teacher3@gmail.com',
+        firstName: 'Teacher3',
+        lastName: 'Teacher3',
+        password: 'teacher3',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996703703703',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'user@gmail.com',
+        firstName: 'Walter',
+        lastName: 'White',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902644',
+        avatar: null,
+      },
+      {
+        email: 'user1@gmail.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902645',
+        avatar: null,
+      },
+      {
+        email: 'user2@gmail.com',
+        firstName: 'Tony',
+        lastName: 'Stark',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902646',
+        avatar: null,
+      },
+    );
 
   const [marketing, SMM] = await Category.create(
     {
@@ -185,6 +211,7 @@ const run = async () => {
     {
       user: teacher2._id,
       course: marketing3._id,
+      isPaid: 'paid',
     },
     {
       user: teacher3._id,
@@ -196,6 +223,34 @@ const run = async () => {
       isPaid: 'paid',
     },
   );
+
+  await Comment.create(
+    {
+      user: user._id,
+      course: marketing1._id,
+      rating: 5,
+      text: 'Мне очень понравился вебинар, все было четко и понятно!',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Проверка от админа',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 5,
+      text: 'Проверка от админа',
+    },
+    {
+      user: teacher2._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Неплохой курс, были некоторые косяки, но в принципе хорошо!',
+    },
+  );
+
   await db.close();
 };
 

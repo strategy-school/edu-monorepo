@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface IUser {
   email: string;
   firstName: string;
@@ -55,4 +57,11 @@ export interface ICategory {
   title: string;
   description: string;
   image: string | null;
+}
+
+export interface IComment {
+  user: Types.ObjectId;
+  course: Types.ObjectId;
+  rating: number;
+  text: string;
 }

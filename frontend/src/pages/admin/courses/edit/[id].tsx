@@ -35,10 +35,8 @@ const Id = () => {
 
   const onSubmit = async (courseMutation: CourseMutation) => {
     await dispatch(updateCourse({ id, course: courseMutation })).unwrap();
-    void router.push(`/courses/${id}`);
+    void router.back();
   };
-
-  console.log(course);
 
   const existingCourse = course && {
     title: course.title,
