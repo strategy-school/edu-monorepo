@@ -14,8 +14,8 @@ const run = async () => {
   const db = mongoose.connection;
 
   try {
-    await db.dropCollection('courses');
     await db.dropCollection('users');
+    await db.dropCollection('courses');
     await db.dropCollection('teachers');
     await db.dropCollection('categories');
     await db.dropCollection('transactions');

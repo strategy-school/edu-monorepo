@@ -77,6 +77,11 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       enum: Role,
       default: Role.User,
     },
+    isBanned: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     avatar: String,
     googleId: String,
     facebookId: String,
