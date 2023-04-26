@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  Button,
   Container,
   Table,
   TableBody,
@@ -12,16 +11,21 @@ import {
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
-import { selectBasicUsers } from '@/src/features/users/usersSlice';
+import {
+  selectBasicUsers,
+  selectUpdateUserLoading,
+} from '@/src/features/users/usersSlice';
 import {
   fetchBasicUsers,
   updateIsBannedStatus,
 } from '@/src/features/users/usersThunks';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const UserAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const usersBasic = useAppSelector(selectBasicUsers);
+  const banLoading = useAppSelector(selectUpdateUserLoading);
 
   useEffect(() => {
     dispatch(fetchBasicUsers());
@@ -42,6 +46,7 @@ const UserAdmin = () => {
   const openOneUser = (id: string) => {
     void router.push(`users/${id}`);
   };
+
   return (
     <>
       <Container>
@@ -69,7 +74,8 @@ const UserAdmin = () => {
                   {student.isBanned ? 'Бан' : 'Нет бана'}
                 </TableCell>
                 <TableCell align="right">
-                  <Button
+                  <LoadingButton
+                    loading={banLoading ? banLoading === student._id : false}
                     onClick={() => editBanStatus(student._id, student.isBanned)}
                   >
                     <Typography
@@ -80,7 +86,7 @@ const UserAdmin = () => {
                       {student.isBanned ? 'Отменить бан' : 'Активировать бан'}
                     </Typography>
                     <EditIcon fontSize="small" sx={{ ml: 1 }} />
-                  </Button>
+                  </LoadingButton>
                 </TableCell>
               </TableRow>
             ))}
