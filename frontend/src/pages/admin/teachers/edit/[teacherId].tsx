@@ -15,6 +15,7 @@ import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
 import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
 import { selectUser } from '@/src/features/users/usersSlice';
+import { Button, Grid } from '@mui/material';
 
 const TeacherId = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const TeacherId = () => {
     await dispatch(
       editTeacher({ id: teacherId, teacherData: teacher }),
     ).unwrap();
-    void router.push(`/teachers/${teacherId}`);
+    void router.push(`/admin/teachers/`);
   };
 
   const existingTeacher = teacher && {
@@ -45,18 +46,27 @@ const TeacherId = () => {
     portfolio: teacher.portfolio,
   };
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia edit teacher">
-        {existingTeacher && (
-          <TeacherForm
-            onSubmit={onSubmit}
-            loading={updateLoading}
-            error={error}
-            existingTeacher={existingTeacher}
-            isEdit
-          />
-        )}
+      <Layout title="Strategia: admin panel | edit teacher">
+        <Grid>
+          <Button onClick={handleGoBack} sx={{ mb: 3 }}>
+            Назад
+          </Button>
+          {existingTeacher && (
+            <TeacherForm
+              onSubmit={onSubmit}
+              loading={updateLoading}
+              error={error}
+              existingTeacher={existingTeacher}
+              isEdit
+            />
+          )}
+        </Grid>
       </Layout>
     </ProtectedRoute>
   );

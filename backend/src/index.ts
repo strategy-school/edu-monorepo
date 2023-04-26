@@ -7,6 +7,7 @@ import transactionsRouter from './routers/transactions';
 import usersRouter from './routers/users';
 import categoriesRouter from './routers/categories';
 import teachersRouter from './routers/teachers';
+import commentsRouter from './routers/comments';
 
 const app = express();
 const port = 8000;
@@ -19,6 +20,7 @@ app.use('/courses', coursesRouter);
 app.use('/transactions', transactionsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/teachers', teachersRouter);
+app.use('/comments', commentsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
