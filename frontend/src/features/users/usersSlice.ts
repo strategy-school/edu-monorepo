@@ -5,6 +5,7 @@ import {
   googleLogin,
   login,
   register,
+  updateIsBannedStatus,
 } from '@/src/features/users/usersThunks';
 import { RootState } from '@/src/app/store';
 
@@ -16,6 +17,7 @@ interface UsersState {
   loginLoading: boolean;
   loginError: GlobalError | null;
   fetchLoading: boolean;
+  updateUserLoading: false | string;
 }
 
 const initialState: UsersState = {
@@ -26,6 +28,7 @@ const initialState: UsersState = {
   loginLoading: false,
   loginError: null,
   fetchLoading: false,
+  updateUserLoading: false,
 };
 
 export const usersSlice = createSlice({
@@ -86,6 +89,18 @@ export const usersSlice = createSlice({
     builder.addCase(fetchBasicUsers.rejected, (state) => {
       state.fetchLoading = false;
     });
+    builder.addCase(
+      updateIsBannedStatus.pending,
+      (state, { meta: { arg: id } }) => {
+        state.updateUserLoading = id;
+      },
+    );
+    builder.addCase(updateIsBannedStatus.fulfilled, (state) => {
+      state.updateUserLoading = false;
+    });
+    builder.addCase(updateIsBannedStatus.rejected, (state) => {
+      state.updateUserLoading = false;
+    });
   },
 });
 
@@ -102,3 +117,5 @@ export const selectRegisterError = (state: RootState) =>
 export const selectLoginLoading = (state: RootState) =>
   state.users.loginLoading;
 export const selectLoginError = (state: RootState) => state.users.loginError;
+export const selectUpdateUserLoading = (state: RootState) =>
+  state.users.updateUserLoading;

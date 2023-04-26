@@ -91,3 +91,10 @@ export const fetchBasicUsers = createAsyncThunk<User[]>(
     return response.data;
   },
 );
+
+export const updateIsBannedStatus = createAsyncThunk<void, string>(
+  'users/updateIsBannedStatus',
+  async (id) => {
+    await axiosApi.patch('/users/isBanned/' + id);
+  },
+);
