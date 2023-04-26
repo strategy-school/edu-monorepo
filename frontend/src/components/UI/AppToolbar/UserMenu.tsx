@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
 import { logout } from '@/src/features/users/usersThunks';
-import Link from 'next/link';
 
 interface Props {
   user: User;
@@ -20,6 +19,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   if (user.avatar) {
     cardImage = apiURL + '/' + user.avatar;
   }
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,21 +45,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/admin/courses">
-            Админ панель
-          </MenuItem>
-        )}
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/courses/new-course">
-            Добавить новый курс
-          </MenuItem>
-        )}
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/categories/new-category">
-            Добавить новую категорию
-          </MenuItem>
-        )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>
