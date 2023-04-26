@@ -61,6 +61,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Добавить новую категорию
           </MenuItem>
         )}
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/admin/courses">
+            Админ панель
+          </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>
