@@ -64,7 +64,7 @@ const Registration = () => {
     await router.push('/');
   };
 
-  const phoneNumberPattern = '^996\\d{9}$';
+  const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
     <Layout title="Strategia registration">
@@ -138,9 +138,8 @@ const Registration = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   variant="outlined"
-                  label="Телефон 996 ХХХ ХХХ ХХХ"
+                  label="Телефон +996 ХХХ ХХХ ХХХ"
                   name="phoneNumber"
                   autoComplete="new-phoneNumber"
                   value={state.phoneNumber}

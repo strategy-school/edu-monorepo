@@ -7,7 +7,6 @@ export interface User {
   token: string;
   role: string;
   isBanned: boolean;
-  courses: string[];
   avatar: string | null;
   googleId?: string;
 }
