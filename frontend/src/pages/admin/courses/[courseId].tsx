@@ -213,7 +213,7 @@ const CourseId = () => {
                 <Grid item>
                   <Button
                     component={Link}
-                    href={`/courses/edit/${course._id}`}
+                    href={`edit/${course._id}`}
                     variant="contained"
                     color="primary"
                   >
