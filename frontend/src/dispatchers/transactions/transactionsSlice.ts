@@ -1,7 +1,12 @@
 import { RootState } from '@/src/app/store';
 import { ApiTransaction, TransactionPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchSingleTransaction, fetchTransactions } from './transactionsThunk';
+import {
+  deleteTransaction,
+  fetchSingleTransaction,
+  fetchTransactions,
+  markTransactionAsPaid,
+} from './transactionsThunk';
 
 interface TransitionsState {
   loadingAll: boolean;
@@ -10,6 +15,8 @@ interface TransitionsState {
   item: ApiTransaction | null;
   currentPage: number;
   totalCount: number;
+  MarkingAsPaid: boolean;
+  deleting: boolean;
 }
 
 const initialState: TransitionsState = {
@@ -19,6 +26,8 @@ const initialState: TransitionsState = {
   item: null,
   currentPage: 1,
   totalCount: 1,
+  MarkingAsPaid: false,
+  deleting: false,
 };
 
 const transactionsSlice = createSlice({
@@ -30,13 +39,11 @@ const transactionsSlice = createSlice({
       .addCase(fetchSingleTransaction.pending, (state) => {
         state.loadingOne = true;
       })
-      .addCase(
-        fetchSingleTransaction.fulfilled,
-        (state, { payload: transaction }) => {
-          state.loadingOne = false;
-          state.item = transaction;
-        },
-      )
+      .addCase(fetchSingleTransaction.fulfilled, (state, { payload }) => {
+        state.loadingOne = false;
+        const result = payload.result as ApiTransaction;
+        state.item = result;
+      })
       .addCase(fetchSingleTransaction.rejected, (state) => {
         state.loadingOne = false;
       })
@@ -52,6 +59,24 @@ const transactionsSlice = createSlice({
       })
       .addCase(fetchTransactions.rejected, (state) => {
         state.loadingAll = false;
+      })
+      .addCase(markTransactionAsPaid.pending, (state) => {
+        state.MarkingAsPaid = true;
+      })
+      .addCase(markTransactionAsPaid.fulfilled, (state) => {
+        state.MarkingAsPaid = false;
+      })
+      .addCase(markTransactionAsPaid.rejected, (state) => {
+        state.MarkingAsPaid = false;
+      })
+      .addCase(deleteTransaction.pending, (state) => {
+        state.deleting = true;
+      })
+      .addCase(deleteTransaction.fulfilled, (state) => {
+        state.deleting = false;
+      })
+      .addCase(deleteTransaction.rejected, (state) => {
+        state.deleting = false;
       });
   },
 });
@@ -69,3 +94,7 @@ export const selectTransactionsPage = (state: RootState) =>
   state.transactions.currentPage;
 export const selectTransactionsTotalCount = (state: RootState) =>
   state.transactions.totalCount;
+export const selectTransactionPaying = (state: RootState) =>
+  state.transactions.MarkingAsPaid;
+export const selectTransactionDeleting = (state: RootState) =>
+  state.transactions.deleting;

@@ -1,14 +1,16 @@
 import axiosApi from '@/src/axiosApi';
-import { ApiTransaction, TransactionResponse } from '@/src/types';
+import { TransactionResponse } from '@/src/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchSingleTransaction = createAsyncThunk<ApiTransaction, string>(
-  'transactions/fetchSingle',
-  async (id) => {
-    const { data } = await axiosApi.get(`transactions/${id}`);
-    return data;
-  },
-);
+export const fetchSingleTransaction = createAsyncThunk<
+  TransactionResponse,
+  string
+>('transactions/fetchSingle', async (id) => {
+  const { data } = await axiosApi.get<TransactionResponse>(
+    `transactions/${id}`,
+  );
+  return data;
+});
 
 export const fetchTransactions = createAsyncThunk<
   TransactionResponse,
@@ -19,3 +21,17 @@ export const fetchTransactions = createAsyncThunk<
   );
   return data;
 });
+
+export const markTransactionAsPaid = createAsyncThunk(
+  'transactions/markAsPaid',
+  async (id: string) => {
+    await axiosApi.patch(`/transactions/${id}/markAsPaid`);
+  },
+);
+
+export const deleteTransaction = createAsyncThunk(
+  'transactions/delete',
+  async (id: string) => {
+    await axiosApi.delete(`/transactions/${id}`);
+  },
+);
