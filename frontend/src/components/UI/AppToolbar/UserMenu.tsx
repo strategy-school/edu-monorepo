@@ -46,6 +46,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/admin/courses">
+            Админ панель
+          </MenuItem>
+        )}
+        {user && user.role === 'admin' && (
           <MenuItem component={Link} href="/courses/new-course">
             Добавить новый курс
           </MenuItem>

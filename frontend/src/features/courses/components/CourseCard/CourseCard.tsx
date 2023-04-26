@@ -31,6 +31,12 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const deleteLoading = useAppSelector(selectCourseDeleting);
+  const handleDelete = async () => {
+    if (window.confirm('Подтвердите удаление курса')) {
+      await dispatch(deleteCourse(course._id));
+      dispatch(fetchCourses());
+    }
+  };
 
   const openCard = () => {
     void router.push(`/courses/${course._id}`);
@@ -38,13 +44,6 @@ const CourseCard: React.FC<Props> = ({ course }) => {
 
   const openEditPage = () => {
     void router.push(`/courses/edit/${course._id}`);
-  };
-
-  const handleDelete = async () => {
-    if (window.confirm('Подтвердите удаление курса')) {
-      await dispatch(deleteCourse(course._id));
-      dispatch(fetchCourses());
-    }
   };
 
   return (
