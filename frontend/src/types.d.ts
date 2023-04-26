@@ -128,15 +128,18 @@ export interface CommentMutation {
   course: string;
 }
 
-export interface Comment {
+export interface IComment {
+  _id: string;
   user: {
     _id: string;
     firstName: string;
     lastName: string;
+    avatar: string | null;
   };
   course: string;
   text: string;
   rating: number;
+  createdAt: string;
 }
 
 export interface ApiTransaction {

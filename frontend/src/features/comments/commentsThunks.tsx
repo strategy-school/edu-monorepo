@@ -1,19 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Comment, CommentMutation, ValidationError } from '@/src/types';
+import { IComment, CommentMutation, ValidationError } from '@/src/types';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 
-export const fetchComments = createAsyncThunk<Comment[], string | undefined>(
+export const fetchComments = createAsyncThunk<IComment[], string | undefined>(
   'comments/fetchAll',
   async (commentId) => {
     if (commentId) {
-      const response = await axiosApi.get<Comment[]>(
-        `/comments?comment=${commentId}`,
+      const response = await axiosApi.get<IComment[]>(
+        `/comments?course=${commentId}`,
       );
       return response.data;
     }
 
-    const response = await axiosApi.get<Comment[]>('/comments');
+    const response = await axiosApi.get<IComment[]>('/comments');
     return response.data;
   },
 );
