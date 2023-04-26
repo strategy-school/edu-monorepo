@@ -4,7 +4,7 @@ import { selectUser } from '@/src/features/users/usersSlice';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { Grid } from '@mui/material';
-import UserAdmin from '@/src/features/users/UserAdmin/UserAdmin';
+import UserAdmin from '@/src/features/users/components/UserAdmin/UserAdmin';
 
 const AdminUsersPage = () => {
   const user = useAppSelector(selectUser);

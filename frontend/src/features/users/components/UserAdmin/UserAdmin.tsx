@@ -39,8 +39,8 @@ const UserAdmin = () => {
     }
   };
 
-  const openOneTeacher = (id: string) => {
-    void router.push(`teachers/${id}`);
+  const openOneUser = (id: string) => {
+    void router.push(`users/${id}`);
   };
   return (
     <>
@@ -58,7 +58,7 @@ const UserAdmin = () => {
               <TableRow key={student._id}>
                 <TableCell
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => openOneTeacher(student._id)}
+                  onClick={() => openOneUser(student._id)}
                 >
                   {student.firstName} {student.lastName}
                 </TableCell>

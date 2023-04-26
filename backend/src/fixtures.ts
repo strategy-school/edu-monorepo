@@ -34,6 +34,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996555555555',
         role: 'admin',
+        avatar: null,
       },
       {
         email: 'teacher@gmail.com',
@@ -43,6 +44,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996701888789',
         role: 'teacher',
+        avatar: null,
       },
       {
         email: 'teacher2@gmail.com',
@@ -52,6 +54,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996702702702',
         role: 'teacher',
+        avatar: null,
       },
       {
         email: 'teacher3@gmail.com',
@@ -61,6 +64,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996703703703',
         role: 'teacher',
+        avatar: null,
       },
       {
         email: 'user@gmail.com',
@@ -69,6 +73,7 @@ const run = async () => {
         password: 'user',
         token: crypto.randomUUID(),
         phoneNumber: '+996550902644',
+        avatar: null,
       },
       {
         email: 'user1@gmail.com',
@@ -77,6 +82,7 @@ const run = async () => {
         password: 'user',
         token: crypto.randomUUID(),
         phoneNumber: '+996550902645',
+        avatar: null,
       },
       {
         email: 'user2@gmail.com',
@@ -85,6 +91,7 @@ const run = async () => {
         password: 'user',
         token: crypto.randomUUID(),
         phoneNumber: '+996550902646',
+        avatar: null,
       },
     );
 
