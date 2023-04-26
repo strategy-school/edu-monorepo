@@ -51,7 +51,7 @@ const Courses = () => {
           <Grid item>
             <Button
               component={Link}
-              href="/admin/courses/new-course"
+              href="courses/new-course"
               variant="contained"
               color="primary"
             >
@@ -72,10 +72,7 @@ const Courses = () => {
               {courses.map((course) => (
                 <TableRow key={course._id}>
                   <TableCell>
-                    <MUILink
-                      component={Link}
-                      href={`courses/one-course/${course._id}`}
-                    >
+                    <MUILink component={Link} href={`courses/${course._id}`}>
                       {course.title}
                     </MUILink>
                   </TableCell>

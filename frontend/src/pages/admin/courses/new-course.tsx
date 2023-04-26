@@ -21,7 +21,7 @@ const NewCourse = () => {
 
   const onSubmit = async (courseMutation: CourseMutation) => {
     await dispatch(createCourse(courseMutation)).unwrap();
-    void router.push(`/admin/courses`);
+    void router.back();
   };
 
   return (
