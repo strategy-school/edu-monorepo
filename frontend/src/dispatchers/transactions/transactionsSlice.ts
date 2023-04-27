@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createTransaction,
   deleteTransaction,
+  editTransaction,
   fetchSingleTransaction,
   fetchTransactions,
   markTransactionAsPaid,
@@ -18,7 +19,7 @@ interface TransitionsState {
   totalCount: number;
   MarkingAsPaid: boolean;
   deleting: boolean;
-  creating: boolean;
+  submitting: boolean;
 }
 
 const initialState: TransitionsState = {
@@ -30,14 +31,14 @@ const initialState: TransitionsState = {
   totalCount: 1,
   MarkingAsPaid: false,
   deleting: false,
-  creating: false,
+  submitting: false,
 };
 
 const transactionsSlice = createSlice({
   name: 'transacions',
   initialState,
   reducers: {},
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchSingleTransaction.pending, (state) => {
         state.loadingOne = true;
@@ -81,14 +82,23 @@ const transactionsSlice = createSlice({
       .addCase(deleteTransaction.rejected, (state) => {
         state.deleting = false;
       })
+      .addCase(editTransaction.pending, (state) => {
+        state.submitting = true;
+      })
+      .addCase(editTransaction.fulfilled, (state) => {
+        state.submitting = false;
+      })
+      .addCase(editTransaction.rejected, (state) => {
+        state.submitting = false;
+      })
       .addCase(createTransaction.pending, (state) => {
-        state.creating = true;
+        state.submitting = true;
       })
       .addCase(createTransaction.fulfilled, (state) => {
-        state.creating = false;
+        state.submitting = false;
       })
       .addCase(createTransaction.rejected, (state) => {
-        state.creating = false;
+        state.submitting = false;
       });
   },
 });
@@ -110,5 +120,5 @@ export const selectTransactionPaying = (state: RootState) =>
   state.transactions.MarkingAsPaid;
 export const selectTransactionDeleting = (state: RootState) =>
   state.transactions.deleting;
-export const selectTransactionCreating = (state: RootState) =>
-  state.transactions.creating;
+export const selectTransactionSubmitting = (state: RootState) =>
+  state.transactions.submitting;

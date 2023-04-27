@@ -77,7 +77,7 @@ const TransactionSingle = () => {
                 </Typography>
               </Box>
               <Box style={transactionStyles.moderationBtns}>
-                <Button component={Link} href="edit">
+                <Button component={Link} href={'/edit' + transaction._id}>
                   Редактировать
                 </Button>
                 <Button
@@ -118,7 +118,6 @@ const TransactionSingle = () => {
                 <CardActions style={transactionStyles.cardActions}>
                   <Button
                     variant="contained"
-                    color="success"
                     onClick={() => onMarkingAsPaid(transaction._id)}
                   >
                     Принять оплату

@@ -46,6 +46,6 @@ export const createTransaction = createAsyncThunk(
 export const editTransaction = createAsyncThunk<
   void,
   { transaction: ITransaction; id: string }
->('transactions/create', async ({ transaction, id }) => {
-  await axiosApi.put(`/transactions/${id}/edit`, transaction);
+>('transactions/edit', async ({ transaction, id }) => {
+  await axiosApi.put(`/transactions/${id}`, transaction);
 });

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectTransactionCreating } from '@/src/dispatchers/transactions/transactionsSlice';
+import { selectTransactionSubmitting } from '@/src/dispatchers/transactions/transactionsSlice';
 import { ITransaction } from '@/src/types';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
@@ -10,17 +10,23 @@ import { fetchBasicUsers } from '../../users/usersThunks';
 
 interface Props {
   onSubmit: (transaction: ITransaction) => void;
+  existingTransaction?: ITransaction;
 }
 
-const TransactionForm: React.FC<Props> = ({ onSubmit }) => {
+const initialState = {
+  user: '',
+  course: '',
+};
+
+const TransactionForm: React.FC<Props> = ({
+  existingTransaction = initialState,
+  onSubmit,
+}) => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectBasicUsers);
   const courses = useAppSelector(selectCourses);
-  const creatingTransaction = useAppSelector(selectTransactionCreating);
-  const [state, setState] = React.useState<ITransaction>({
-    user: '',
-    course: '',
-  });
+  const submittingTransaction = useAppSelector(selectTransactionSubmitting);
+  const [state, setState] = React.useState<ITransaction>(existingTransaction);
 
   const onChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +49,22 @@ const TransactionForm: React.FC<Props> = ({ onSubmit }) => {
     void dispatch(fetchCourses());
   }, [dispatch]);
 
+  const usersList = users.length
+    ? users.map((user) => (
+        <MenuItem key={user._id} value={user._id}>
+          {user.firstName} {user.lastName}
+        </MenuItem>
+      ))
+    : null;
+
+  const coursesList = users.length
+    ? courses.map((course) => (
+        <MenuItem key={course._id} value={course._id}>
+          {course.title}
+        </MenuItem>
+      ))
+    : null;
+
   return (
     <form autoComplete="off" onSubmit={onFormSubmit}>
       <Grid container direction="column" spacing={2}>
@@ -58,11 +80,7 @@ const TransactionForm: React.FC<Props> = ({ onSubmit }) => {
             <MenuItem value="" disabled>
               Пожалуйста, выберите пользователя
             </MenuItem>
-            {users.map((user) => (
-              <MenuItem key={user._id} value={user._id}>
-                {user.firstName} {user.lastName}
-              </MenuItem>
-            ))}
+            {usersList}
           </TextField>
         </Grid>
         <Grid item xs>
@@ -77,11 +95,7 @@ const TransactionForm: React.FC<Props> = ({ onSubmit }) => {
             <MenuItem value="" disabled>
               Пожалуйста, выберите курс
             </MenuItem>
-            {courses.map((course) => (
-              <MenuItem key={course._id} value={course._id}>
-                {course.title}
-              </MenuItem>
-            ))}
+            {coursesList}
           </TextField>
         </Grid>
         <Grid item xs>
@@ -89,9 +103,9 @@ const TransactionForm: React.FC<Props> = ({ onSubmit }) => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={creatingTransaction}
+            disabled={submittingTransaction}
           >
-            Create
+            submit
           </Button>
         </Grid>
       </Grid>

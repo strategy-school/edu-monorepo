@@ -46,7 +46,6 @@ const Transactions = () => {
           <Grid item>
             <Button
               variant="contained"
-              color="success"
               component={Link}
               href="transactions/create"
             >
