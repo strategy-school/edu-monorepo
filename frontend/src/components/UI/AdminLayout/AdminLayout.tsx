@@ -4,6 +4,7 @@ import { useAppSelector } from '@/src/app/hooks';
 import { selectUser } from '@/src/features/users/usersSlice';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { Grid } from '@mui/material';
+import Sidebar from '@/src/components/UI/Sidebar/Sidebar';
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
       <Layout title="Strategy school: Admin">
         <Grid container spacing={4}>
           <Grid item xs={3}>
-            There will be sidebar
+            <Sidebar />
           </Grid>
           <Grid item xs>
             {children}

@@ -9,6 +9,9 @@ import TransactionItem from '@/src/features/admin/transactions/TransactionItem';
 import {
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
   Grid,
   Paper,
   Table,
@@ -24,6 +27,7 @@ import {
 import Link from 'next/link';
 import React from 'react';
 import transactionStyles from './styles';
+import React from 'react';
 
 const Transactions = () => {
   const dispatch = useAppDispatch();

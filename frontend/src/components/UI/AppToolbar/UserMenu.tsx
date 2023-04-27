@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
 import { logout } from '@/src/features/users/usersThunks';
+import Link from 'next/link';
 
 interface Props {
   user: User;
@@ -45,6 +46,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/admin/courses">
+            Админ панель
+          </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>

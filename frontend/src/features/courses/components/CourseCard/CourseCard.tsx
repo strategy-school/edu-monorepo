@@ -5,6 +5,7 @@ import { courseCardStyle } from '@/src/styles';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { apiURL } from '@/src/constants';
+import theme from '@/src/theme';
 
 interface Props {
   course: Course;
@@ -33,7 +34,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             <Grid item xs={6} md={8} lg={8}>
               <Typography
                 component="div"
-                color="secondary.dark"
+                color={theme.palette.info.dark}
                 fontSize={courseCardStyle.fontSize}
                 fontWeight={700}
               >
@@ -41,7 +42,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
               </Typography>
               <Typography
                 variant="body2"
-                color="secondary.dark"
+                color={theme.palette.info.dark}
                 fontWeight={600}
                 mt={1}
               >

@@ -20,6 +20,7 @@ import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 
 const Categories = () => {
   const router = useRouter();
@@ -42,7 +43,7 @@ const Categories = () => {
   };
 
   return (
-    <>
+    <AdminLayout>
       <Container>
         <Typography sx={{ pl: 2 }}>
           Категории{' '}
@@ -78,7 +79,7 @@ const Categories = () => {
           </TableBody>
         </Table>
       </Container>
-    </>
+    </AdminLayout>
   );
 };
 

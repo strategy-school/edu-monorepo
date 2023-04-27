@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { welcomeBlockStyle } from '@/src/styles';
 
 const WelcomeBlock = () => {
@@ -9,18 +9,36 @@ const WelcomeBlock = () => {
       style={welcomeBlockStyle.welcomeBlock}
       height={welcomeBlockStyle.height}
       padding={welcomeBlockStyle.padding}
+      position="relative"
     >
-      <Grid item container alignItems="center">
+      <Typography
+        component="div"
+        position="absolute"
+        style={welcomeBlockStyle.after}
+      ></Typography>
+      <Grid
+        item
+        container
+        marginTop="auto"
+        marginBottom="auto"
+        alignItems="center"
+        textAlign="center"
+        direction="column"
+        position="relative"
+        zIndex={3}
+      >
         <Typography
           variant="h1"
           style={welcomeBlockStyle.title}
           fontSize={welcomeBlockStyle.fontSize}
           maxWidth={welcomeBlockStyle.maxWidth}
-          color="secondary.main"
+          color="#fff"
         >
-          Стань востребованным специалистом по маркетингу в Strategia Marketing
-          School
+          Strategia School: Стань крутым маркетологом с нуля!
         </Typography>
+        <Button style={{ display: 'block', width: '150px', color: '#fff' }}>
+          Узнать больше
+        </Button>
       </Grid>
     </Grid>
   );
