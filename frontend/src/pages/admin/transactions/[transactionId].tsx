@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { selectSingleTransaction } from '@/src/dispatchers/transactions/transactionsSlice';
 import {
+  deleteTransaction,
   fetchSingleTransaction,
   markTransactionAsPaid,
-  deleteTransaction,
 } from '@/src/dispatchers/transactions/transactionsThunk';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
@@ -16,20 +16,14 @@ import {
   Chip,
   Grid,
   Link as MuiLink,
-  styled,
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { apiURL } from '../../../constants';
+import { apiURL, dateFormat } from '../../../constants';
 import transactionStyles from './styles';
-
-const ImageCardMedia = styled(CardMedia)({
-  height: '40px',
-  width: '40px',
-});
 
 const TransactionSingle = () => {
   const router = useRouter();
@@ -48,9 +42,9 @@ const TransactionSingle = () => {
   const onDeleteTransaction = React.useCallback(
     async (id: string) => {
       await dispatch(deleteTransaction(id));
-      router.push('/admin/transactions');
+      void router.push('/admin/transactions');
     },
-    [dispatch],
+    [dispatch, router],
   );
 
   React.useEffect(() => {
@@ -58,7 +52,6 @@ const TransactionSingle = () => {
   }, [dispatch, transactionId]);
 
   if (!transaction) {
-    router.push('/admin/transactions');
     return null;
   }
 
@@ -87,7 +80,7 @@ const TransactionSingle = () => {
               />
             </Box>
             <Typography variant="body2">
-              {dayjs(transaction.createdAt).format('DD.MM.YYYY HH:mm')}
+              {dayjs(transaction.createdAt).format(dateFormat)}
             </Typography>
           </Box>
           <Box style={transactionStyles.moderationBtns}>
@@ -112,8 +105,9 @@ const TransactionSingle = () => {
               <Typography variant="body1">{transaction.course.type}</Typography>
               <Box style={transactionStyles.lineBox}>
                 <Box style={transactionStyles.lineBox}>
-                  <ImageCardMedia
+                  <CardMedia
                     image={apiURL + '/' + transaction.course.image}
+                    style={transactionStyles.cardImage}
                   />
                   <Typography variant="subtitle1">
                     {transaction.course.level}
@@ -142,10 +136,11 @@ const TransactionSingle = () => {
                 variant="h5"
                 component={Link}
                 href={'/admin/users/' + transaction.user._id}
+                gutterBottom
               >
                 {transaction.user.firstName} {transaction.user.lastName}
               </Typography>
-              <Typography variant="subtitle1">Contact information</Typography>
+              <Typography variant="subtitle1">Contact information:</Typography>
               <Typography
                 variant="body1"
                 component={MuiLink}

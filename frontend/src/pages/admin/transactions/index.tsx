@@ -35,7 +35,7 @@ const Transactions = () => {
 
   React.useEffect(() => {
     dispatch(fetchTransactions({ page: page, limit: rowsPerPage }));
-  }, [page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage]);
 
   return (
     <Grid

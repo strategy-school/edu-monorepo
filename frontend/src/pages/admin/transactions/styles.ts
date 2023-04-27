@@ -17,6 +17,7 @@ const transactionStyles: { [key: string]: React.CSSProperties } = {
     borderTop: '1px solid #dde0e4',
     justifyContent: 'flex-end',
   },
+  cardImage: { width: '100px', height: '100px', borderRadius: '10px' },
   lineBox: {
     display: 'flex',
     flexDirection: 'row',

@@ -1,3 +1,4 @@
+import { dateFormat } from '@/src/constants';
 import { ApiTransaction } from '@/src/types';
 import { TableCell, TableRow } from '@mui/material';
 import dayjs from 'dayjs';
@@ -10,11 +11,14 @@ interface Props {
 
 const TransactionItem: React.FC<Props> = ({ transaction }) => {
   const router = useRouter();
-  const date = dayjs(transaction.createdAt).format('DD.MM.YYYY HH:mm');
+  const date = dayjs(transaction.createdAt).format(dateFormat);
 
-  const onClick = React.useCallback((id: string) => {
-    router.push(`transactions/${id}`);
-  }, []);
+  const onClick = React.useCallback(
+    (id: string) => {
+      void router.push(`transactions/${id}`);
+    },
+    [router],
+  );
 
   return (
     <TableRow
