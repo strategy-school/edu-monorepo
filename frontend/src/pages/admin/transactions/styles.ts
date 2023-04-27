@@ -1,16 +1,13 @@
 const transactionStyles: { [key: string]: React.CSSProperties } = {
-  container: { background: '#f1f2f4', padding: '20px', height: '100vh' },
   card: {
     width: '100%',
     borderRadius: '10px',
     backgroundColor: '#fff',
-    gap: '15px',
   },
   cardContent: {
     display: 'flex',
     flexDirection: 'column',
     padding: '15px',
-    gap: '15px',
   },
   cardActions: {
     padding: '20px',

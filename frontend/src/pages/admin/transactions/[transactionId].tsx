@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { selectSingleTransaction } from '@/src/dispatchers/transactions/transactionsSlice';
 import {
   deleteTransaction,
   fetchSingleTransaction,
   markTransactionAsPaid,
 } from '@/src/dispatchers/transactions/transactionsThunk';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Box,
   Button,
@@ -51,115 +51,117 @@ const TransactionSingle = () => {
     dispatch(fetchSingleTransaction(transactionId));
   }, [dispatch, transactionId]);
 
-  if (!transaction) {
-    return null;
-  }
-
   return (
-    <Grid
-      container
-      direction="column"
-      gap={2}
-      style={transactionStyles.container}
-    >
-      <Grid item>
-        <Box style={transactionStyles.header}>
-          <Button
-            variant="outlined"
-            style={transactionStyles.backBtn}
-            onClick={router.back}
-          >
-            <ArrowBackIcon style={{ width: '20px', height: '20px' }} />
-          </Button>
-          <Box>
-            <Box style={transactionStyles.headerTitle}>
-              <Typography variant="h4">Transaction</Typography>
-              <Chip
-                label={transaction.isPaid}
-                color={transaction.isPaid === 'paid' ? 'success' : 'warning'}
-              />
-            </Box>
-            <Typography variant="body2">
-              {dayjs(transaction.createdAt).format(dateFormat)}
-            </Typography>
-          </Box>
-          <Box style={transactionStyles.moderationBtns}>
-            <Button component={Link} href="edit">
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => onDeleteTransaction(transaction._id)}
-            >
-              Delete
-            </Button>
-          </Box>
-        </Box>
-      </Grid>
-      <Grid item container direction="row" gap={4} wrap="nowrap">
-        <Grid item xs={9}>
-          <Card style={transactionStyles.card}>
-            <CardContent style={transactionStyles.cardContent}>
-              <Typography variant="h5">{transaction.course.title}</Typography>
-              <Typography variant="body1">{transaction.course.type}</Typography>
-              <Box style={transactionStyles.lineBox}>
-                <Box style={transactionStyles.lineBox}>
-                  <CardMedia
-                    image={apiURL + '/' + transaction.course.image}
-                    style={transactionStyles.cardImage}
+    <AdminLayout>
+      {transaction && (
+        <Grid
+          container
+          direction="column"
+          gap={2}
+          style={transactionStyles.container}
+        >
+          <Grid item>
+            <Box style={transactionStyles.header}>
+              <Box>
+                <Box style={transactionStyles.headerTitle}>
+                  <Typography variant="h4">Транзакция</Typography>
+                  <Chip
+                    label={transaction.isPaid}
+                    color={
+                      transaction.isPaid === 'paid' ? 'success' : 'warning'
+                    }
                   />
-                  <Typography variant="subtitle1">
-                    {transaction.course.level}
-                  </Typography>
                 </Box>
-                <Typography variant="subtitle1">
-                  {transaction.course.price} KGS
+                <Typography variant="body2">
+                  {dayjs(transaction.createdAt).format(dateFormat)}
                 </Typography>
               </Box>
-            </CardContent>
-            <CardActions style={transactionStyles.cardActions}>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => onMarkingAsPaid(transaction._id)}
-              >
-                Mark as paid
-              </Button>
-            </CardActions>
-          </Card>
+              <Box style={transactionStyles.moderationBtns}>
+                <Button component={Link} href="edit">
+                  Редактировать
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => onDeleteTransaction(transaction._id)}
+                >
+                  Удалить
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item container direction="row" gap={4} wrap="nowrap">
+            <Grid item xs={9}>
+              <Card style={transactionStyles.card}>
+                <CardContent style={transactionStyles.cardContent}>
+                  <Box style={transactionStyles.lineBox}>
+                    <Box style={transactionStyles.lineBox}>
+                      <CardMedia
+                        image={apiURL + '/' + transaction.course.image}
+                        style={transactionStyles.cardImage}
+                      />
+                      <Typography variant="h5">
+                        {transaction.course.title}
+                      </Typography>
+                    </Box>
+                    <Typography variant="subtitle1">
+                      {transaction.course.price} KGS
+                    </Typography>
+                  </Box>
+                  <Typography variant="body1" style={{ marginTop: '15px' }}>
+                    <strong>Тип:</strong> {transaction.course.type}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    <strong>Уровень:</strong> {transaction.course.level}
+                  </Typography>
+                </CardContent>
+                <CardActions style={transactionStyles.cardActions}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => onMarkingAsPaid(transaction._id)}
+                  >
+                    Принять оплату
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={3}>
+              <Card style={transactionStyles.card}>
+                <CardContent style={transactionStyles.cardContent}>
+                  <Typography
+                    variant="h5"
+                    component={Link}
+                    href={'/admin/users/' + transaction.user._id}
+                    gutterBottom
+                  >
+                    {transaction.user.firstName} {transaction.user.lastName}
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom>
+                    <strong>Контактные данные:</strong>
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    component={MuiLink}
+                    href={'mailto:' + transaction.user.email}
+                    gutterBottom
+                  >
+                    {transaction.user.email}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    component={MuiLink}
+                    href={'tel:' + transaction.user.phoneNumber}
+                  >
+                    {transaction.user.phoneNumber}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Card style={transactionStyles.card}>
-            <CardContent style={transactionStyles.cardContent}>
-              <Typography
-                variant="h5"
-                component={Link}
-                href={'/admin/users/' + transaction.user._id}
-                gutterBottom
-              >
-                {transaction.user.firstName} {transaction.user.lastName}
-              </Typography>
-              <Typography variant="subtitle1">Contact information:</Typography>
-              <Typography
-                variant="body1"
-                component={MuiLink}
-                href={'mailto:' + transaction.user.email}
-              >
-                {transaction.user.email}
-              </Typography>
-              <Typography
-                variant="body1"
-                component={MuiLink}
-                href={'tel:' + transaction.user.phoneNumber}
-              >
-                {transaction.user.phoneNumber}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Grid>
+      )}
+    </AdminLayout>
   );
 };
 
