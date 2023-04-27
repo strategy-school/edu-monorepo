@@ -21,7 +21,7 @@ const Sidebar = () => {
       <Box sx={{ width: '240px' }}>
         <Divider />
         <List>
-          {['Categories', 'Users', 'Teachers', 'Transactions', 'Courses'].map(
+          {['Courses', 'Users', 'Teachers', 'Transactions', 'Categories'].map(
             (text) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton
