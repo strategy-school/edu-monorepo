@@ -122,35 +122,27 @@ export interface CategoryMutation {
   image: File | null;
 }
 
+export interface ITransaction {
+  user: string;
+  course: string;
+}
+
 export interface ApiTransaction {
   _id: string;
-  user: {
-    _id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-  };
-  course: {
-    _id: string;
-    title: string;
-    price: number;
-    type: string;
-    level: string;
-    image: string;
-  };
+  user: Pick<User, '_id', 'email', 'firstName', 'lastName', 'phoneNumber'>;
+  course: Pick<FullCourse, '_id', 'title', 'price', 'type', 'level', 'image'>;
   isPaid: 'pending' | 'paid';
   createdAt: string;
   updatedAt: string;
 }
 
-export interface TransactionPagination {
-  transactions: ApiTransaction[];
+export interface IPagination<Type> {
+  [key: string]: Type[];
   currentPage: number;
   totalCount: number;
 }
 
-export interface TransactionResponse {
+export interface ApiResponse<Type> {
   message: 'string';
-  result: ApiTransaction | TransactionPagination;
+  result: Type | IPagination<Type>;
 }
