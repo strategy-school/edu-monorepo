@@ -1,4 +1,4 @@
-import { Comment, ValidationError } from '@/src/types';
+import { IComment, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@/src/features/comments/commentsThunks';
 
 interface CommentsState {
-  items: Comment[];
+  items: IComment[];
   fetchLoading: boolean;
   createLoading: boolean;
   createCommentError: ValidationError | null;

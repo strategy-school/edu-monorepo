@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectCommentDeleting } from '@/src/features/comments/commentsSlice';
+import {
+  selectCommentDeleting,
+  selectCommentUpdating,
+  selectUpdateCommentError,
+} from '@/src/features/comments/commentsSlice';
 import { apiURL } from '@/src/constants';
 import {
   selectUpdateUserLoading,
@@ -22,11 +26,14 @@ import {
 import {
   deleteComment,
   fetchComments,
+  updateComment,
 } from '@/src/features/comments/commentsThunks';
-import { IComment } from '@/src/types';
+import { IComment, ShortCommentMutation } from '@/src/types';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
 import { updateIsBannedStatus } from '@/src/features/users/usersThunks';
+import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
+import MyModal from '@/src/components/UI/Modal/MyModal';
 
 interface Props {
   comment: IComment;
@@ -35,21 +42,28 @@ interface Props {
 
 const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
   const dispatch = useAppDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
   const deleteLoading = useAppSelector(selectCommentDeleting);
   const user = useAppSelector(selectUser);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  let cardImage = '';
   const bannedUserLoading = useAppSelector(selectUpdateUserLoading);
+  const update = useAppSelector(selectCommentUpdating);
+  const error = useAppSelector(selectUpdateCommentError);
+  let cardImage = '';
+  const existingComment: ShortCommentMutation = {
+    rating: comment.rating,
+    text: comment.text,
+  };
 
-  if (comment.user.avatar) {
-    cardImage = apiURL + '/' + comment.user.avatar;
-  }
+  const handleCloseModal = () => {
+    setOpen(!open);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
@@ -57,7 +71,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
     if (window.confirm('Вы действительно хотите удалить этот комментарий?')) {
       await dispatch(deleteComment(comment._id));
       void dispatch(fetchComments(courseId));
-      handleClose();
+      handleCloseMenu();
     }
   };
 
@@ -66,12 +80,25 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
       window.confirm('Вы действительно хотите забанить этого пользователя?')
     ) {
       await dispatch(updateIsBannedStatus(comment.user._id));
-      handleClose();
+      handleCloseMenu();
     }
   };
 
+  const onSubmit = async (commentMutation: ShortCommentMutation) => {
+    await dispatch(
+      updateComment({ id: comment._id, comment: commentMutation }),
+    ).unwrap();
+    void dispatch(fetchComments(courseId));
+    handleCloseModal();
+    handleCloseMenu();
+  };
+
+  if (comment.user.avatar) {
+    cardImage = apiURL + '/' + comment.user.avatar;
+  }
+
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12}>
       <Card style={{ position: 'relative' }}>
         <Box p={2}>
           <Grid container spacing={2}>
@@ -108,9 +135,11 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
       >
-        <MenuItem>Изменить</MenuItem>
+        {user?._id === comment.user._id && (
+          <MenuItem onClick={handleCloseModal}>Изменить</MenuItem>
+        )}
         <MenuItem
           onClick={handleDelete}
           disabled={deleteLoading ? deleteLoading === comment._id : false}
@@ -134,6 +163,15 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
           </MenuItem>
         )}
       </Menu>
+      <MyModal open={open} handleClose={handleCloseModal}>
+        <CommentForm
+          onSubmit={onSubmit}
+          loading={update}
+          error={error}
+          existingComment={existingComment}
+          isEdit
+        />
+      </MyModal>
     </Grid>
   );
 };

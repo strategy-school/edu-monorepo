@@ -23,7 +23,8 @@ commentsRouter.get('/', async (req, res, next) => {
     const comments = await Comment.find(searchParam)
       .populate('user', 'firstName lastName avatar')
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .sort([['createdAt', -1]]);
 
     return res.send(comments);
   } catch (e) {

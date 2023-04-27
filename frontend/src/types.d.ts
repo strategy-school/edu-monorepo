@@ -124,9 +124,11 @@ export interface CategoryMutation {
 
 export interface CommentMutation {
   text: string;
-  rating: string;
+  rating: number;
   course: string;
 }
+
+export type ShortCommentMutation = Omit<CommentMutation, 'course'>;
 
 export interface IComment {
   _id: string;

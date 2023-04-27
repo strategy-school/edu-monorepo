@@ -19,13 +19,7 @@ import MoneyIcon from '@mui/icons-material/Money';
 import { blockStyle, blockTopStyle } from '@/src/styles';
 import Image from 'next/image';
 import { apiURL } from '@/src/constants';
-import {
-  selectComments,
-  selectCommentsFetching,
-} from '@/src/features/comments/commentsSlice';
-import { fetchComments } from '@/src/features/comments/commentsThunks';
-import CommentItem from '@/src/features/comments/components/CommentItem/CommentItem';
-import { IComment } from '@/src/types';
+import CourseComments from '@/src/features/comments/CourseComments';
 
 const imgStyle = {
   xs: 300,
@@ -45,13 +39,10 @@ const CourseId = () => {
   const { courseId } = router.query as { courseId: string };
   const dispatch = useAppDispatch();
   const course = useAppSelector(selectOneCourse);
-  const comments: IComment[] = useAppSelector(selectComments);
-  const commentsLoading = useAppSelector(selectCommentsFetching);
   const courseLoading = useAppSelector(selectOneCourseFetching);
 
   useEffect(() => {
     void dispatch(fetchOneCourse(courseId));
-    void dispatch(fetchComments(courseId));
   }, [dispatch, courseId]);
 
   const typeName =
@@ -184,26 +175,7 @@ const CourseId = () => {
                 </Button>
               </Grid>
             </Grid>
-            {comments.length > 0 && (
-              <Grid item m={4}>
-                <Typography variant="h5" mb={2}>
-                  Отзывы
-                </Typography>
-                <Grid container spacing={3}>
-                  {commentsLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    comments.map((comment) => (
-                      <CommentItem
-                        key={comment._id}
-                        comment={comment}
-                        courseId={courseId}
-                      />
-                    ))
-                  )}
-                </Grid>
-              </Grid>
-            )}
+            <CourseComments courseId={courseId} />
           </Grid>
         )
       )}

@@ -216,6 +216,7 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <TextField
+            multiline
             rows={3}
             id="targetAudience"
             label="Целевая аудитория"
@@ -229,6 +230,7 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <TextField
+            multiline
             rows={3}
             id="programGoal"
             label="Задача программы"

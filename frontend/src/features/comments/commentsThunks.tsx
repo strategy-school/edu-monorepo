@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IComment, CommentMutation, ValidationError } from '@/src/types';
+import {
+  IComment,
+  CommentMutation,
+  ValidationError,
+  ShortCommentMutation,
+} from '@/src/types';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 
@@ -35,10 +40,7 @@ export const createComment = createAsyncThunk<
 
 interface UpdateCommentParams {
   id: string;
-  comment: {
-    text: string;
-    rating: string;
-  };
+  comment: ShortCommentMutation;
 }
 
 export const updateComment = createAsyncThunk<
