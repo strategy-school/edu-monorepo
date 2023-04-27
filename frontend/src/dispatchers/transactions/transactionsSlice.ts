@@ -1,7 +1,8 @@
 import { RootState } from '@/src/app/store';
-import { ApiTransaction, TransactionPagination } from '@/src/types';
+import { ApiTransaction, IPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  createTransaction,
   deleteTransaction,
   fetchSingleTransaction,
   fetchTransactions,
@@ -17,6 +18,7 @@ interface TransitionsState {
   totalCount: number;
   MarkingAsPaid: boolean;
   deleting: boolean;
+  creating: boolean;
 }
 
 const initialState: TransitionsState = {
@@ -28,6 +30,7 @@ const initialState: TransitionsState = {
   totalCount: 1,
   MarkingAsPaid: false,
   deleting: false,
+  creating: false,
 };
 
 const transactionsSlice = createSlice({
@@ -52,7 +55,7 @@ const transactionsSlice = createSlice({
       })
       .addCase(fetchTransactions.fulfilled, (state, { payload }) => {
         state.loadingAll = false;
-        const result = payload.result as TransactionPagination;
+        const result = payload.result as IPagination<ApiTransaction>;
         state.items = result.transactions;
         state.currentPage = result.currentPage;
         state.totalCount = result.totalCount;
@@ -77,6 +80,15 @@ const transactionsSlice = createSlice({
       })
       .addCase(deleteTransaction.rejected, (state) => {
         state.deleting = false;
+      })
+      .addCase(createTransaction.pending, (state) => {
+        state.creating = true;
+      })
+      .addCase(createTransaction.fulfilled, (state) => {
+        state.creating = false;
+      })
+      .addCase(createTransaction.rejected, (state) => {
+        state.creating = false;
       });
   },
 });
@@ -98,3 +110,5 @@ export const selectTransactionPaying = (state: RootState) =>
   state.transactions.MarkingAsPaid;
 export const selectTransactionDeleting = (state: RootState) =>
   state.transactions.deleting;
+export const selectTransactionCreating = (state: RootState) =>
+  state.transactions.creating;

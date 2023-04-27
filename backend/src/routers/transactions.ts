@@ -68,10 +68,11 @@ transactionsRouter.get(
 transactionsRouter.post('/', auth, async (req, res, next) => {
   try {
     const { user } = req as RequestWithUser;
+    const userId = req.body.user || user._id;
     const courseId = req.body.course;
 
     const transaction = await Transaction.create({
-      user: user._id,
+      user: userId,
       course: courseId,
     });
 
