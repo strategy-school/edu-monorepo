@@ -1,4 +1,14 @@
-import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import {
+  selectUpdateUserLoading,
+  selectUsers,
+} from '@/src/dispatchers/users/usersSlice';
+import {
+  fetchUsers,
+  updateIsBannedStatus,
+} from '@/src/dispatchers/users/usersThunks';
+import EditIcon from '@mui/icons-material/Edit';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Container,
   Table,
@@ -8,38 +18,27 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
-import {
-  selectBasicUsers,
-  selectUpdateUserLoading,
-} from '@/src/features/users/usersSlice';
-import {
-  fetchBasicUsers,
-  updateIsBannedStatus,
-} from '@/src/features/users/usersThunks';
-import LoadingButton from '@mui/lab/LoadingButton';
+import React from 'react';
 
 const UserAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const usersBasic = useAppSelector(selectBasicUsers);
+  const usersBasic = useAppSelector(selectUsers);
   const banLoading = useAppSelector(selectUpdateUserLoading);
 
-  useEffect(() => {
-    dispatch(fetchBasicUsers());
-  }, [dispatch]);
+  React.useEffect(() => {
+    dispatch(fetchUsers({ role: 'user' }));
+  }, [dispatch, banLoading]);
 
-  const editBanStatus = async (id: string, banStatus: boolean) => {
+  const editBanStatus = (id: string, banStatus: boolean) => {
     if (
       window.confirm(
         `Подтвердите, что хотите изменить статус бана на 
         ${banStatus ? 'не активный' : 'активный'}`,
       )
     ) {
-      await dispatch(updateIsBannedStatus(id));
-      dispatch(fetchBasicUsers());
+      dispatch(updateIsBannedStatus(id));
     }
   };
 
