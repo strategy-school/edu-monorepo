@@ -5,7 +5,7 @@ import {
   selectCommentUpdating,
   selectUpdateCommentError,
 } from '@/src/features/comments/commentsSlice';
-import { apiURL } from '@/src/constants';
+import { apiURL, dateFormat } from '@/src/constants';
 import {
   selectUpdateUserLoading,
   selectUser,
@@ -28,7 +28,7 @@ import {
   fetchComments,
   updateComment,
 } from '@/src/features/comments/commentsThunks';
-import { IComment, ShortCommentMutation } from '@/src/types';
+import { ApiComment, ShortCommentMutation } from '@/src/types';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
 import { updateIsBannedStatus } from '@/src/features/users/usersThunks';
@@ -36,7 +36,7 @@ import CommentForm from '@/src/features/comments/components/CommentForm/CommentF
 import MyModal from '@/src/components/UI/Modal/MyModal';
 
 interface Props {
-  comment: IComment;
+  comment: ApiComment;
   courseId: string;
 }
 
@@ -114,7 +114,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
                 {comment.user.firstName + ' ' + comment.user.lastName}
               </Typography>
               <Typography variant="body1" style={{ color: '#D3D3D3' }}>
-                {dayjs(comment.createdAt).format('DD.MM.YYYY')}
+                {dayjs(comment.createdAt).format(dateFormat)}
               </Typography>
             </Grid>
           </Grid>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { IComment, ShortCommentMutation } from '@/src/types';
+import { ApiComment, ShortCommentMutation } from '@/src/types';
 import {
   selectCommentCreating,
   selectComments,
@@ -22,7 +22,7 @@ interface Props {
 
 const CourseComments: React.FC<Props> = ({ courseId }) => {
   const dispatch = useAppDispatch();
-  const comments: IComment[] = useAppSelector(selectComments);
+  const comments: ApiComment[] = useAppSelector(selectComments);
   const commentsLoading = useAppSelector(selectCommentsFetching);
   const createLoading = useAppSelector(selectCommentCreating);
   const error = useAppSelector(selectCreateCommentError);

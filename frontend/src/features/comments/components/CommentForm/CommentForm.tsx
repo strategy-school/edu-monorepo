@@ -55,13 +55,13 @@ const CommentForm: React.FC<Props> = ({
     }
   };
 
-  const submitFormHandler = async (e: React.FormEvent) => {
+  const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (state.rating === 0) {
       alert('Пожалуйста, выберите рейтинг.');
       return;
     }
-    await onSubmit(state);
+    onSubmit(state);
   };
 
   return (
