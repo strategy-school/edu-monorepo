@@ -5,7 +5,7 @@ import {
   selectCommentUpdating,
   selectUpdateCommentError,
 } from '@/src/features/comments/commentsSlice';
-import { apiURL, dateFormat } from '@/src/constants';
+import { apiURL, dateCommentFormat, dateFormat } from '@/src/constants';
 import {
   selectUpdateUserLoading,
   selectUser,
@@ -114,7 +114,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
                 {comment.user.firstName + ' ' + comment.user.lastName}
               </Typography>
               <Typography variant="body1" style={{ color: '#D3D3D3' }}>
-                {dayjs(comment.createdAt).format(dateFormat)}
+                {dayjs(comment.createdAt).format(dateCommentFormat)}
               </Typography>
             </Grid>
           </Grid>
