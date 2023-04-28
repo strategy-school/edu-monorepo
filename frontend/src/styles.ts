@@ -1,7 +1,7 @@
 import { Property } from 'csstype';
 import TextTransform = Property.TextTransform;
 import theme from '@/src/theme';
-import studentImage from '@/src/assets/images/students-main.png';
+import marketingBg from '@/src/assets/images/marketing-bg.jpg';
 
 export const stylesGlobal = {
   title: {
@@ -38,9 +38,18 @@ export const welcomeBlockStyle = {
   welcomeBlock: {
     boxShadow,
     borderRadius,
-    background: `url(${studentImage.src}) no-repeat`,
-    backgroundPositionX: 'right',
-    backgroundSize: 'contain',
+    background: `url(${marketingBg.src}) no-repeat`,
+    backgroundSize: 'cover',
+  },
+  after: {
+    content: '',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,.6)',
+    zIndex: 2,
+    borderRadius,
   },
   padding: { sm: '15px', md: '30px' },
   height: { xs: '200px', sm: '300px', md: '400px', lg: '450px' },
