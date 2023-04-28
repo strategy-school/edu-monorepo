@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
   selectCourseDeleting,
   selectCourses,
-} from '@/src/features/courses/coursesSlice';
+} from '@/src/dispatchers/courses/coursesSlice';
 import {
   deleteCourse,
   fetchCourses,
-} from '@/src/features/courses/coursesThunks';
+} from '@/src/dispatchers/courses/coursesThunks';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Button,
   Grid,
@@ -21,16 +22,15 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
+import React from 'react';
 
 const Courses = () => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const deleteLoading = useAppSelector(selectCourseDeleting);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchCourses());
   }, [dispatch]);
 

@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
+import {
+  selectCategories,
+  selectCategoriesFetching,
+} from '@/src/dispatchers/categories/categoriesSlice';
+import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
 import { CourseMutation, ValidationError } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -8,13 +14,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import FileInput from '@/src/components/UI/FileInput/FileInput';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import {
-  selectCategories,
-  selectCategoriesFetching,
-} from '@/src/features/categories/categoriesSlice';
-import { fetchCategories } from '@/src/features/categories/categoriesThunks';
+import React from 'react';
 
 interface Props {
   onSubmit: (courseMutation: CourseMutation) => void;
@@ -48,7 +48,7 @@ const CourseForm: React.FC<Props> = ({
   fetchCourseLoading = false,
 }) => {
   const dispatch = useAppDispatch();
-  const [state, setState] = useState<CourseMutation>(
+  const [state, setState] = React.useState<CourseMutation>(
     existingCourse || initialState,
   );
   const categories = useAppSelector(selectCategories);
@@ -62,11 +62,11 @@ const CourseForm: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     setState(existingCourse || initialState);
   }, [existingCourse]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 

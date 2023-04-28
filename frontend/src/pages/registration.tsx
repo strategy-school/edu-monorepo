@@ -1,8 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { selectRegisterError } from '@/src/features/users/usersSlice';
-import { googleLogin, register } from '@/src/features/users/usersThunks';
+import { googleLogin, register } from '@/src/dispatchers/users/usersThunks';
 import { RegisterMutation } from '@/src/types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
@@ -17,13 +16,14 @@ import {
 import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
+import { selectRegisterError } from '../dispatchers/users/usersSlice';
 
 const Registration = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const error = useAppSelector(selectRegisterError);
-  const [state, setState] = useState<RegisterMutation>({
+  const [state, setState] = React.useState<RegisterMutation>({
     email: '',
     password: '',
     firstName: '',

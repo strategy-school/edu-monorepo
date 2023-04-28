@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectCategoryUpdating,
   selectOneCategory,
   selectOneCategoryFetching,
   selectUpdateCategoryError,
-} from '@/src/features/categories/categoriesSlice';
-import { selectUser } from '@/src/features/users/usersSlice';
+} from '@/src/dispatchers/categories/categoriesSlice';
 import {
   fetchOneCategory,
   updateCategory,
-} from '@/src/features/categories/categoriesThunks';
-import { CategoryMutation } from '@/src/types';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
+} from '@/src/dispatchers/categories/categoriesThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
+import { CategoryMutation } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const Id = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Id = () => {
   const error = useAppSelector(selectUpdateCategoryError);
   const user = useAppSelector(selectUser);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (id) {
       void dispatch(fetchOneCategory(id));
     }

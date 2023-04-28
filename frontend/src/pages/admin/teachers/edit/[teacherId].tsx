@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import {
-  editTeacher,
-  fetchOneTeacher,
-} from '@/src/features/teachers/teachersThunks';
-import { TeacherMutation } from '@/src/types';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectOneTeacher,
   selectTeacherUpdating,
   selectUpdateTeacherError,
-} from '@/src/features/teachers/teachersSlice';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
+} from '@/src/dispatchers/teachers/teachersSlice';
+import {
+  editTeacher,
+  fetchOneTeacher,
+} from '@/src/dispatchers/teachers/teachersThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
-import { selectUser } from '@/src/features/users/usersSlice';
+import { TeacherMutation } from '@/src/types';
 import { Button, Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const TeacherId = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const TeacherId = () => {
   const error = useAppSelector(selectUpdateTeacherError);
   const updateLoading = useAppSelector(selectTeacherUpdating);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (teacherId) {
       void dispatch(fetchOneTeacher(teacherId));
     }

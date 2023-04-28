@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { fetchOneCourse } from '@/src/features/courses/coursesThunks';
-import { selectOneCourse } from '@/src/features/courses/coursesSlice';
-import { Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import Layout from '@/src/components/UI/Layout/Layout';
+import { apiURL } from '@/src/constants';
+import { selectOneCourse } from '@/src/dispatchers/courses/coursesSlice';
+import { fetchOneCourse } from '@/src/dispatchers/courses/coursesThunks';
+import { blockStyle, blockTopStyle } from '@/src/styles';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MoneyIcon from '@mui/icons-material/Money';
-import { blockStyle, blockTopStyle } from '@/src/styles';
+import { Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
-import { apiURL } from '@/src/constants';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const imgStyle = {
   xs: 300,
@@ -30,7 +30,7 @@ const CourseId = () => {
   const dispatch = useAppDispatch();
   const course = useAppSelector(selectOneCourse);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchOneCourse(courseId));
   }, [dispatch, courseId]);
 

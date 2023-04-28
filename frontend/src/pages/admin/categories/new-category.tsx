@@ -1,16 +1,16 @@
-import React from 'react';
-import { CategoryMutation } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectUser } from '@/src/features/users/usersSlice';
-import { useRouter } from 'next/router';
-import { createCategory } from '@/src/features/categories/categoriesThunks';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
-import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
 import {
   selectCategoryCreating,
   selectCreateCategoryError,
-} from '@/src/features/categories/categoriesSlice';
+} from '@/src/dispatchers/categories/categoriesSlice';
+import { createCategory } from '@/src/dispatchers/categories/categoriesThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
+import { CategoryMutation } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const NewCategory = () => {
   const dispatch = useAppDispatch();

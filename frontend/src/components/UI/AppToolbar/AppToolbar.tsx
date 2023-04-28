@@ -1,12 +1,12 @@
-import React from 'react';
-import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material';
-import Link from 'next/link';
-import UserMenu from './UserMenu';
-import AnonymousMenu from './AnonymousMenu';
 import { useAppSelector } from '@/src/app/hooks';
-import { selectUser } from '@/src/features/users/usersSlice';
 import logo from '@/src/assets/images/strategia-logo.png';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
+import AnonymousMenu from './AnonymousMenu';
+import UserMenu from './UserMenu';
+import React from 'react';
 
 const AppToolbar = () => {
   const user = useAppSelector(selectUser);

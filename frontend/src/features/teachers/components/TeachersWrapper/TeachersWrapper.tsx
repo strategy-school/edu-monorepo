@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
 import { useAppSelector } from '@/src/app/hooks';
-import { selectTeachers } from '@/src/features/teachers/teachersSlice';
 import { stylesGlobal } from '@/src/styles';
 import Link from 'next/link';
+import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 
 const TeachersWrapper = () => {
   const teachers = useAppSelector(selectTeachers);

@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectOneTeacher,
   selectOneTeacherFetching,
   selectTeacherDeleting,
-} from '@/src/features/teachers/teachersSlice';
-import { selectUser } from '@/src/features/users/usersSlice';
+} from '@/src/dispatchers/teachers/teachersSlice';
 import {
   deleteTeacher,
   fetchOneTeacher,
   fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
+} from '@/src/dispatchers/teachers/teachersThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import OneTeacher from '@/src/features/teachers/components/OneTeacher/OneTeacher';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const TeacherId = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const TeacherId = () => {
   const deleteLoading = useAppSelector(selectTeacherDeleting);
   const user = useAppSelector(selectUser);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 

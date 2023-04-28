@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectCourseUpdating,
   selectOneCourse,
   selectOneCourseFetching,
   selectUpdateCourseError,
-} from '@/src/features/courses/coursesSlice';
+} from '@/src/dispatchers/courses/coursesSlice';
 import {
   fetchOneCourse,
   updateCourse,
-} from '@/src/features/courses/coursesThunks';
-import { CourseMutation } from '@/src/types';
-import Layout from '@/src/components/UI/Layout/Layout';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import { selectUser } from '@/src/features/users/usersSlice';
+} from '@/src/dispatchers/courses/coursesThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
+import { CourseMutation } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const Id = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Id = () => {
   const error = useAppSelector(selectUpdateCourseError);
   const user = useAppSelector(selectUser);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (id) {
       void dispatch(fetchOneCourse(id));
     }

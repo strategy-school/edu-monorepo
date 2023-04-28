@@ -1,5 +1,13 @@
-import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
+import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
+import {
+  fetchCategories,
+  removeCategory,
+} from '@/src/dispatchers/categories/categoriesThunks';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Container,
   IconButton,
@@ -10,24 +18,16 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import {
-  fetchCategories,
-  removeCategory,
-} from '@/src/features/categories/categoriesThunks';
-import { selectCategories } from '@/src/features/categories/categoriesSlice';
-import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
-import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
+import React from 'react';
 
 const Categories = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchCategories());
   }, [dispatch]);
 

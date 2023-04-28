@@ -1,10 +1,10 @@
 import React from 'react';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import { useAppSelector } from '@/src/app/hooks';
-import { selectUser } from '@/src/features/users/usersSlice';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { Grid } from '@mui/material';
 import Sidebar from '@/src/components/UI/Sidebar/Sidebar';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 interface Props {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ interface Props {
 
 const AdminLayout: React.FC<Props> = ({ children }) => {
   const user = useAppSelector(selectUser);
+
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
       <Layout title="Strategy school: Admin">

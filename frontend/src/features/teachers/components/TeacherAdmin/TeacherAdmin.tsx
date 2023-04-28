@@ -10,16 +10,16 @@ import {
   Typography,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectTeachers } from '@/src/features/teachers/teachersSlice';
-import {
-  deleteTeacher,
-  fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router';
+import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
+import {
+  fetchTeachers,
+  deleteTeacher,
+} from '@/src/dispatchers/teachers/teachersThunks';
 
 const TeacherAdmin = () => {
   const router = useRouter();
