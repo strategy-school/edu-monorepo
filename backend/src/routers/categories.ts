@@ -10,8 +10,18 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', async (req, res, next) => {
   try {
-    const categories = await Category.find();
-    return res.send(categories);
+    const limit: number = parseInt(req.query.limit as string) || 10;
+    const page: number = parseInt(req.query.page as string) || 1;
+
+    const totalCount = await Category.count();
+    const skip = (page - 1) * limit;
+
+    const categories = await Category.find().skip(skip).limit(limit);
+
+    return res.send({
+      message: 'Categories are found',
+      result: { categories, currentPage: page, totalCount },
+    });
   } catch (e) {
     return next(e);
   }
