@@ -122,6 +122,22 @@ export interface CategoryMutation {
   image: File | null;
 }
 
+export interface IComment {
+  text: string;
+  rating: number;
+  course: string;
+}
+
+type CommentUser = Pick<User, '_id' | 'firstName' | 'lastName' | 'avatar'>;
+
+export type ShortCommentMutation = Omit<IComment, 'course'>;
+
+export interface ApiComment extends IComment {
+  _id: string;
+  user: CommentUser;
+  createdAt: string;
+}
+
 export interface ITransaction {
   user: string;
   course: string;

@@ -22,7 +22,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { apiURL, dateFormat } from '../../../constants';
+import { apiURL, dateFormat } from '@/src/constants';
 import transactionStyles from './styles';
 
 const TransactionSingle = () => {
