@@ -13,6 +13,7 @@ import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard'
 import { Property } from 'csstype';
 import TextAlign = Property.TextAlign;
 import { useRouter } from 'next/router';
+import theme from '@/src/theme';
 
 const styles = {
   courses: {
@@ -46,13 +47,19 @@ const CoursesWrapper = () => {
     void router.push(`/courses`);
   };
   return (
-    <Grid style={styles.courses} bgcolor="secondary.dark">
+    <Grid style={styles.courses} bgcolor={theme.palette.warning.main}>
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}
+        fontSize={stylesGlobal.fontSize}
         color="primary.light"
       >
-        <span style={{ ...stylesGlobal.title, ...styles.courseTitle }}>
+        <span
+          style={{
+            ...stylesGlobal.title,
+            ...styles.courseTitle,
+          }}
+        >
           Ознакомьтесь с нашими образовательными программами:
         </span>
       </Typography>
@@ -65,7 +72,7 @@ const CoursesWrapper = () => {
         Лучшие программы. Большой выбор по продолжительности, которые варируются
         по уровням знаний и опыту.
       </Typography>
-      <Grid mt={5} mb={2}>
+      <Typography component="div" mt={5} mb={2}>
         <Carousel
           animation="slide"
           duration={1000}
@@ -80,9 +87,16 @@ const CoursesWrapper = () => {
             <CourseCard key={course._id} course={course} />
           ))}
         </Carousel>
-      </Grid>
+      </Typography>
       <Grid textAlign="center">
-        <Button color="warning" variant="outlined" onClick={fullCoursesView}>
+        <Button
+          style={{
+            color: theme.palette.primary.light,
+            borderColor: theme.palette.primary.light,
+          }}
+          variant="outlined"
+          onClick={fullCoursesView}
+        >
           Просмотреть все курсы
         </Button>
       </Grid>

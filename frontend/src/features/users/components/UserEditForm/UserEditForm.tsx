@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
 
 interface Props {
   onSubmit: (updateMutation: UpdateUserMutation) => void;
@@ -22,6 +23,7 @@ const initialState: UpdateUserMutation = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  avatar: null,
 };
 
 const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
@@ -47,6 +49,14 @@ const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
     setState(initialState);
   };
 
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
+  };
+
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -55,7 +65,7 @@ const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
     }
   };
 
-  const phoneNumberPattern = '^996\\d{9}$';
+  const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
     <Layout title="Strategia school: Edit user">
@@ -118,9 +128,8 @@ const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   variant="outlined"
-                  label="Телефон 996 ХХХ ХХХ ХХХ"
+                  label="Телефон +996 ХХХ ХХХ ХХХ"
                   name="phoneNumber"
                   autoComplete="new-phoneNumber"
                   value={state.phoneNumber}
@@ -130,6 +139,15 @@ const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
                   inputProps={{ pattern: phoneNumberPattern }}
                   type="tel"
                   sx={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs>
+                <FileInput
+                  label="Выберите картинку профиля"
+                  onChange={fileInputChangeHandler}
+                  name="avatar"
+                  type="image/*"
+                  errorCheck={getFieldError}
                 />
               </Grid>
               <Button

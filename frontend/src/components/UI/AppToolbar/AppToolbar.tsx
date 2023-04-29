@@ -12,7 +12,7 @@ const AppToolbar = () => {
   const user = useAppSelector(selectUser);
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'secondary.dark' }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'secondary.light' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={12} md={3}>
@@ -54,9 +54,17 @@ const AppToolbar = () => {
             container
             alignItems="center"
             justifyContent="flex-end"
-            xs={12}
+            xs={15}
             md={9}
+            lg={7}
           >
+            {user?.role === 'admin' ? (
+              <Button component={Link} href="/categories" color="inherit">
+                Категории курсов
+              </Button>
+            ) : (
+              <Typography component="div"></Typography>
+            )}
             <Button component={Link} href="/courses" color="inherit">
               Список курсов
             </Button>

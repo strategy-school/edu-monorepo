@@ -91,12 +91,28 @@ interface UpdateUserParams {
 }
 
 export const updateUser = createAsyncThunk<
-  void,
+  User,
   UpdateUserParams,
   { rejectValue: ValidationError }
 >('users/update', async (params, { rejectWithValue }) => {
+  const formData = new FormData();
+
+  const keys = Object.keys(params.user) as (keyof UpdateUserMutation)[];
+
+  keys.forEach((key) => {
+    const value = params.user[key];
+
+    if (value !== null) {
+      formData.append(key, value);
+    }
+  });
+
   try {
-    await axiosApi.patch('/users/' + params.id, params.user);
+    const response = await axiosApi.patch<RegisterResponse>(
+      '/users/' + params.id,
+      formData,
+    );
+    return response.data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);
@@ -110,5 +126,20 @@ export const fetchBasicUsers = createAsyncThunk<User[]>(
   async () => {
     const response = await axiosApi.get<User[]>('/users/basic');
     return response.data;
+  },
+);
+
+export const fetchOneBasicUser = createAsyncThunk<User, string>(
+  'users/fetchOneBasicUser',
+  async (id) => {
+    const response = await axiosApi.get<User>('/users/basic/' + id);
+    return response.data;
+  },
+);
+
+export const updateIsBannedStatus = createAsyncThunk<void, string>(
+  'users/updateIsBannedStatus',
+  async (id) => {
+    await axiosApi.patch('/users/isBanned/' + id);
   },
 );

@@ -10,11 +10,6 @@ import {
 import { apiURL } from '@/src/constants';
 import Link from 'next/link';
 import { Property } from 'csstype';
-import { useAppDispatch } from '@/src/app/hooks';
-import {
-  deleteTeacher,
-  fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
 import FlexDirection = Property.FlexDirection;
 
 const styles = {
@@ -42,25 +37,9 @@ interface Props {
   firstName: string;
   lastName: string;
   _id: string;
-  role: string | undefined;
 }
 
-const TeacherCard: React.FC<Props> = ({
-  photo,
-  firstName,
-  lastName,
-  _id,
-  role,
-}) => {
-  const dispatch = useAppDispatch();
-
-  const handleDelete = async () => {
-    if (window.confirm('Подтвердите удаление преподавателя')) {
-      await dispatch(deleteTeacher(_id));
-      dispatch(fetchTeachers());
-    }
-  };
-
+const TeacherCard: React.FC<Props> = ({ photo, firstName, lastName, _id }) => {
   return (
     <Card style={styles.card}>
       <CardMedia
@@ -82,29 +61,6 @@ const TeacherCard: React.FC<Props> = ({
         >
           Посмотреть профиль
         </Button>
-        {role === 'admin' && (
-          <>
-            <Button
-              component={Link}
-              href={`teachers/edit/${_id}`}
-              variant="outlined"
-              fullWidth
-              color="primary"
-              style={{ marginLeft: 0, marginTop: 5 }}
-            >
-              Редактировать
-            </Button>
-            <Button
-              variant="outlined"
-              fullWidth
-              color="error"
-              style={{ marginLeft: 0, marginTop: 5 }}
-              onClick={handleDelete}
-            >
-              Удалить
-            </Button>
-          </>
-        )}
       </CardActions>
     </Card>
   );

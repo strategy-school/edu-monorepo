@@ -8,6 +8,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import {
+  selectCategories,
+  selectCategoriesFetching,
+} from '@/src/features/categories/categoriesSlice';
+import { fetchCategories } from '@/src/features/categories/categoriesThunks';
 
 interface Props {
   onSubmit: (courseMutation: CourseMutation) => void;
@@ -22,12 +29,14 @@ const initialState: CourseMutation = {
   title: '',
   type: '',
   description: '',
+  category: '',
   duration: '',
   price: '',
   theme: '',
   targetAudience: '',
   programGoal: '',
   level: '',
+  image: null,
 };
 
 const CourseForm: React.FC<Props> = ({
@@ -38,9 +47,13 @@ const CourseForm: React.FC<Props> = ({
   error,
   fetchCourseLoading = false,
 }) => {
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<CourseMutation>(
     existingCourse || initialState,
   );
+  const categories = useAppSelector(selectCategories);
+  const categoriesLoading = useAppSelector(selectCategoriesFetching);
+
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -53,6 +66,10 @@ const CourseForm: React.FC<Props> = ({
     setState(existingCourse || initialState);
   }, [existingCourse]);
 
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -60,6 +77,14 @@ const CourseForm: React.FC<Props> = ({
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
   };
 
   const submitFormHandler = async (e: React.FormEvent) => {
@@ -91,6 +116,31 @@ const CourseForm: React.FC<Props> = ({
             error={Boolean(getFieldError('title'))}
             helperText={getFieldError('title')}
           />
+        </Grid>
+
+        <Grid item xs>
+          <TextField
+            label="Категория"
+            select
+            name="category"
+            value={state.category}
+            onChange={inputChangeHandler}
+            required
+            error={Boolean(getFieldError('category'))}
+            helperText={getFieldError('category')}
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите категорию{' '}
+              {categoriesLoading && (
+                <CircularProgress size={20} sx={{ ml: 1 }} />
+              )}
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem value={category._id} key={category._id}>
+                {category.title}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
 
         <Grid item xs>
@@ -159,7 +209,6 @@ const CourseForm: React.FC<Props> = ({
             value={state.theme}
             onChange={inputChangeHandler}
             name="theme"
-            required
             error={Boolean(getFieldError('theme'))}
             helperText={getFieldError('theme')}
           />
@@ -167,13 +216,13 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <TextField
+            multiline
             rows={3}
             id="targetAudience"
             label="Целевая аудитория"
             value={state.targetAudience}
             onChange={inputChangeHandler}
             name="targetAudience"
-            required
             error={Boolean(getFieldError('targetAudience'))}
             helperText={getFieldError('targetAudience')}
           />
@@ -181,13 +230,13 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <TextField
+            multiline
             rows={3}
             id="programGoal"
             label="Задача программы"
             value={state.programGoal}
             onChange={inputChangeHandler}
             name="programGoal"
-            required
             error={Boolean(getFieldError('programGoal'))}
             helperText={getFieldError('programGoal')}
           />
@@ -218,6 +267,16 @@ const CourseForm: React.FC<Props> = ({
             InputProps={{ inputProps: { min: 0 } }}
             error={Boolean(getFieldError('price'))}
             helperText={getFieldError('price')}
+          />
+        </Grid>
+
+        <Grid item xs>
+          <FileInput
+            label="Выберите картинку для курса"
+            onChange={fileInputChangeHandler}
+            name="image"
+            type="image/*"
+            errorCheck={getFieldError}
           />
         </Grid>
 

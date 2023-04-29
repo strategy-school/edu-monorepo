@@ -17,7 +17,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   let cardImage = '';
 
-  if (user.avatar !== null) {
+  if (user.avatar) {
     cardImage = apiURL + '/' + user.avatar;
   }
 
@@ -31,7 +31,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    void router.push('/registration');
+    void router.push('/login');
   };
 
   const myProfile = () => {
@@ -60,8 +60,8 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Добавить нового преподавателя
           </MenuItem>
         )}
-        <MenuItem onClick={handleLogout}>Выйти</MenuItem>
         <MenuItem onClick={myProfile}>Мой профиль</MenuItem>
+        <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>
   );

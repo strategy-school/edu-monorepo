@@ -35,19 +35,21 @@ const Id = () => {
 
   const onSubmit = async (courseMutation: CourseMutation) => {
     await dispatch(updateCourse({ id, course: courseMutation })).unwrap();
-    void router.push(`/courses/${id}`);
+    void router.back();
   };
 
   const existingCourse = course && {
     title: course.title,
     description: course.description,
     duration: course.duration,
+    category: course.category._id,
     type: course.type,
     theme: course.theme,
     targetAudience: course.targetAudience,
     level: course.level,
     programGoal: course.programGoal,
     price: course.price.toString(),
+    image: null,
   };
 
   return (

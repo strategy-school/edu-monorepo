@@ -6,7 +6,7 @@ import * as crypto from 'crypto';
 import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
-
+import Comment from './models/Comment';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -15,74 +15,98 @@ const run = async () => {
 
   try {
     await db.dropCollection('users');
-    await db.dropCollection('categories');
     await db.dropCollection('courses');
     await db.dropCollection('teachers');
+    await db.dropCollection('categories');
     await db.dropCollection('transactions');
+    await db.dropCollection('comments');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
 
-  const [admin, teacher, teacher2, teacher3, user] = await User.create(
-    {
-      email: 'admin@gmail.com',
-      firstName: 'Admin',
-      lastName: 'Admin',
-      password: 'admin',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996555555555',
-      role: 'admin',
-    },
-    {
-      email: 'teacher@gmail.com',
-      firstName: 'Teacher',
-      lastName: 'Teacher',
-      password: 'teacher',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996701888789',
-      role: 'teacher',
-    },
-    {
-      email: 'teacher2@gmail.com',
-      firstName: 'Teacher2',
-      lastName: 'Teacher2',
-      password: 'teacher2',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996702702702',
-      role: 'teacher',
-    },
-    {
-      email: 'teacher3@gmail.com',
-      firstName: 'Teacher3',
-      lastName: 'Teacher3',
-      password: 'teacher3',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996703703703',
-      role: 'teacher',
-    },
-    {
-      email: 'user@gmail.com',
-      firstName: 'User',
-      lastName: 'User',
-      password: 'user',
-      token: crypto.randomUUID(),
-      phoneNumber: '+996550902644',
-    },
-  );
-
+  const [admin, teacher, teacher2, teacher3, user, user1, user2] =
+    await User.create(
+      {
+        email: 'admin@gmail.com',
+        firstName: 'Admin',
+        lastName: 'Admin',
+        password: 'admin',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996555555555',
+        role: 'admin',
+        avatar: null,
+      },
+      {
+        email: 'teacher@gmail.com',
+        firstName: 'Teacher',
+        lastName: 'Teacher',
+        password: 'teacher',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996701888789',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'teacher2@gmail.com',
+        firstName: 'Teacher2',
+        lastName: 'Teacher2',
+        password: 'teacher2',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996702702702',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'teacher3@gmail.com',
+        firstName: 'Teacher3',
+        lastName: 'Teacher3',
+        password: 'teacher3',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996703703703',
+        role: 'teacher',
+        avatar: null,
+      },
+      {
+        email: 'user@gmail.com',
+        firstName: 'Walter',
+        lastName: 'White',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902644',
+        avatar: null,
+      },
+      {
+        email: 'user1@gmail.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902645',
+        avatar: null,
+      },
+      {
+        email: 'user2@gmail.com',
+        firstName: 'Tony',
+        lastName: 'Stark',
+        password: 'user',
+        token: crypto.randomUUID(),
+        phoneNumber: '+996550902646',
+        avatar: null,
+      },
+    );
 
   const [marketing, SMM] = await Category.create(
     {
       title: 'Marketing',
       description:
         'Маркетинг – наука, которая рассматривает процессы сбыта продукции или услуг как управляемую рыночную деятельность.',
-      image: 'fixtures/categories/marketing.jpg',
+      image: 'fixtures/marketingCtg.jpg',
     },
     {
       title: 'SMM',
       description:
         'SMM - это комплекс мероприятий по использованию социальных медиа в качестве каналов для продвижения компаний или бренда и решения других бизнес-задач.',
-      image: 'fixtures/categories/marketing.jpg',
+      image: 'fixtures/smmCtg.jpg',
     },
   );
 
@@ -125,6 +149,7 @@ const run = async () => {
       title: 'Не маркетолог',
       price: 0,
       description: `Текст текст текст текст текст текст текст текст`,
+      category: marketing._id,
       theme: `“Что такое маркетинг и как стать маркетологом”, “Что такое реклама, PR, продвижение“, "Что такое брендинг”`,
       targetAudience: `Не маркетологи, выпускники университетов, специалисты без опыта,  все те, кто хочет начать карьеру  маркетолога`,
       programGoal: `Ознакомление с основными понятиями и принципами маркетинга, рекламы, PR, продвижения и брендинга;`,
@@ -137,6 +162,7 @@ const run = async () => {
       title: 'Специалист по маркетингу',
       price: 15000,
       description: `Текст текст текст текст текст текст текст текст`,
+      category: marketing._id,
       theme: `“Специалист по маркетингу” “Специалист PR” “Пресс-секретарь” (для госслужащих) “Специалист по инере маркетингу” “SMM-специалист”`,
       targetAudience: `Начинающие специалисты отдела маркетинга и/или коммерческого блока`,
       programGoal: `Повышение профессиональных компетенций в области интернет-маркетинга`,
@@ -149,11 +175,12 @@ const run = async () => {
       title: 'Менеджер по маркетингу',
       price: 30000,
       description: `Текст Текст Текст Текст ТекстТекст Текст Текст Текст ТекстТекст Текст Текст Текст ТекстТекст Текст Текст Текст ТекстТекст Текст Текст Текст Текст`,
+      category: SMM._id,
       theme: `“Построение и эффективное управление отделом маркетинга”`,
       targetAudience: `Менеджеры отдела маркетинга, коммерческого блока, руководители среднего звена`,
       programGoal: `Реализация маркетинговых компаний, увеличивать продажи и прибыль компании.`,
       level: 'professional',
-      image: 'fixtures/marketing3.jpeg',
+      image: 'fixtures/marketing3.png',
       type: 'course',
       duration: '2 месяца',
     },
@@ -161,11 +188,12 @@ const run = async () => {
       title: 'Директор по маркетингу',
       price: 75000,
       description: `Текст Текст Текст Текст ТекстТекст Текст Текст Текст Текст `,
+      category: marketing._id,
       theme: `“Стратегический маркетинг и управление коммерческим блоком”`,
       targetAudience: `Собственники бизнеса, топ-менеджеры, руководители среднего звена`,
       programGoal: `Разработка стратегии маркетинга и ее реализация в коммерческом блоке компании.`,
       level: 'managerial',
-      image: 'fixtures/marketing4.jpeg',
+      image: 'fixtures/marketing4.jpg',
       type: 'miniMBA',
       duration: '3 месяца',
     },
@@ -183,6 +211,7 @@ const run = async () => {
     {
       user: teacher2._id,
       course: marketing3._id,
+      isPaid: 'paid',
     },
     {
       user: teacher3._id,
@@ -194,6 +223,34 @@ const run = async () => {
       isPaid: 'paid',
     },
   );
+
+  await Comment.create(
+    {
+      user: user._id,
+      course: marketing1._id,
+      rating: 5,
+      text: 'Мне очень понравился вебинар, все было четко и понятно!',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Проверка от админа',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 5,
+      text: 'Проверка от админа',
+    },
+    {
+      user: teacher2._id,
+      course: marketing3._id,
+      rating: 3,
+      text: 'Неплохой курс, были некоторые косяки, но в принципе хорошо!',
+    },
+  );
+
   await db.close();
 };
 

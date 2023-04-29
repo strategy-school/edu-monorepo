@@ -7,7 +7,6 @@ export interface User {
   token: string;
   role: string;
   isBanned: boolean;
-  courses: string[];
   avatar: string | null;
   googleId?: string;
 }
@@ -26,6 +25,7 @@ export interface UpdateUserMutation {
   phoneNumber: string;
   lastName: string;
   firstName: string;
+  avatar: string | null;
 }
 
 export interface RegisterResponse {
@@ -58,7 +58,7 @@ export interface Course {
   _id: string;
   title: string;
   duration: string;
-  image?: string;
+  image: string;
 }
 
 export interface CourseMutation {
@@ -66,8 +66,9 @@ export interface CourseMutation {
   duration: string;
   price: string;
   description: string;
+  category: string;
   type: string;
-  image?: File | null;
+  image: File | null;
   theme: string;
   targetAudience: string;
   programGoal: string;
@@ -79,6 +80,10 @@ export interface FullCourse extends Course {
   description: string;
   type: string;
   theme: string;
+  category: {
+    _id: string;
+    title: string;
+  };
   targetAudience: string;
   programGoal: string;
   level: string;
@@ -110,4 +115,58 @@ export interface Teacher extends TeacherShort {
   portfolio: string[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Category {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface CategoryMutation {
+  title: string;
+  description: string;
+  image: File | null;
+}
+
+export interface IComment {
+  text: string;
+  rating: number;
+  course: string;
+}
+
+type CommentUser = Pick<User, '_id' | 'firstName' | 'lastName' | 'avatar'>;
+
+export type ShortCommentMutation = Omit<IComment, 'course'>;
+
+export interface ApiComment extends IComment {
+  _id: string;
+  user: CommentUser;
+  createdAt: string;
+}
+
+export interface ITransaction {
+  user: string;
+  course: string;
+}
+
+export interface ApiTransaction {
+  _id: string;
+  user: Pick<User, '_id', 'email', 'firstName', 'lastName', 'phoneNumber'>;
+  course: Pick<FullCourse, '_id', 'title', 'price', 'type', 'level', 'image'>;
+  isPaid: 'pending' | 'paid';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPagination<Type> {
+  [key: string]: Type[];
+  currentPage: number;
+  totalCount: number;
+}
+
+export interface ApiResponse<Type> {
+  message: 'string';
+  result: Type | IPagination<Type>;
 }

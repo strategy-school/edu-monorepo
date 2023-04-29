@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import AppToolbar from '@/src/components/UI/AppToolbar/AppToolbar';
 import { Container } from '@mui/material';
+import Footer from '@/src/components/UI/Footer/Footer';
 
 interface Props {
   children: React.ReactNode;
@@ -15,9 +16,13 @@ const Layout: React.FC<Props> = ({ children, title }) => {
         <title>{title}</title>
       </Head>
       <AppToolbar />
-      <Container maxWidth="lg" sx={{ padding: '50px 0' }}>
+      <Container
+        sx={{ padding: '50px 25px' }}
+        style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}
+      >
         {children}
       </Container>
+      <Footer />
     </>
   );
 };

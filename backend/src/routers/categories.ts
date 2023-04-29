@@ -1,6 +1,6 @@
 import express from 'express';
 import Category from '../models/Category';
-import auth, { RequestWithUser } from '../middleware/auth';
+import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 import { imageUpload } from '../multer';
 import mongoose, { HydratedDocument } from 'mongoose';
@@ -60,15 +60,10 @@ categoriesRouter.delete(
   permit('admin'),
   async (req, res, next) => {
     try {
-      const user = (req as RequestWithUser).user;
       const removingCategory = await Category.findById(req.params.id);
 
       if (!removingCategory) {
         return res.status(404).send({ error: 'Category does not exist' });
-      } else if (!user || user.role !== 'admin') {
-        return res
-          .status(403)
-          .send({ error: 'Only admin can delete category entities' });
       } else {
         await Category.deleteOne({ _id: req.params.id });
         return res.send({ message: 'Category was successfully removed' });
@@ -95,7 +90,9 @@ categoriesRouter.put(
 
       category.title = req.body.title;
       category.description = req.body.description;
-      category.image = req.file ? req.file.filename : null;
+      if (req.file) {
+        category.image = req.file.filename;
+      }
 
       await category.save();
 

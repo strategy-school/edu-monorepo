@@ -16,7 +16,7 @@ const Id = () => {
 
   const onSubmit = async (userMutation: UpdateUserMutation) => {
     await dispatch(updateUser({ id, user: userMutation })).unwrap();
-    void router.push(`/profile`);
+    await router.push(`/profile`);
   };
 
   const existingUser = user && {
@@ -24,6 +24,7 @@ const Id = () => {
     lastName: user.lastName,
     firstName: user.firstName,
     phoneNumber: user.phoneNumber,
+    avatar: user.avatar,
   };
 
   return (

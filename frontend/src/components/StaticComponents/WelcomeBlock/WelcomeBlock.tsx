@@ -1,34 +1,44 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
-import studentImage from '../../../assets/images/students-main.png';
-import { borderRadius, boxShadow } from '@/src/styles';
-
-const styles = {
-  welcomeBlock: {
-    boxShadow,
-    borderRadius,
-    padding: '30px',
-    height: '450px',
-    background: `url(${studentImage.src}) no-repeat`,
-    backgroundPositionX: 'right',
-    backgroundSize: 'contain',
-  },
-  title: {
-    fontWeight: 700,
-    fontSize: '40px',
-    lineHeight: '1.5',
-    maxWidth: '635px',
-  },
-};
+import { Button, Grid, Typography } from '@mui/material';
+import { welcomeBlockStyle } from '@/src/styles';
 
 const WelcomeBlock = () => {
   return (
-    <Grid container style={styles.welcomeBlock}>
-      <Grid item container alignItems="center">
-        <Typography variant="h1" style={styles.title} color="secondary.main">
-          Стань востребованным специалистом по маркетингу в Strategia Marketing
-          School
+    <Grid
+      container
+      style={welcomeBlockStyle.welcomeBlock}
+      height={welcomeBlockStyle.height}
+      padding={welcomeBlockStyle.padding}
+      position="relative"
+    >
+      <Typography
+        component="div"
+        position="absolute"
+        style={welcomeBlockStyle.after}
+      ></Typography>
+      <Grid
+        item
+        container
+        marginTop="auto"
+        marginBottom="auto"
+        alignItems="center"
+        textAlign="center"
+        direction="column"
+        position="relative"
+        zIndex={3}
+      >
+        <Typography
+          variant="h1"
+          style={welcomeBlockStyle.title}
+          fontSize={welcomeBlockStyle.fontSize}
+          maxWidth={welcomeBlockStyle.maxWidth}
+          color="#fff"
+        >
+          Strategia School: Стань крутым маркетологом с нуля!
         </Typography>
+        <Button style={{ display: 'block', width: '150px', color: '#fff' }}>
+          Узнать больше
+        </Button>
       </Grid>
     </Grid>
   );

@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
+import Category from './Category';
 
 const Schema = mongoose.Schema;
 
@@ -30,6 +31,16 @@ const CourseSchema = new Schema(
       type: String,
       required: true,
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
+      validate: {
+        validator: async (value: Types.ObjectId) =>
+          await Category.findById(value),
+        message: 'Category does not exist',
+      },
+    },
     theme: String,
     targetAudience: String,
     programGoal: String,
@@ -49,7 +60,7 @@ const CourseSchema = new Schema(
     },
     image: {
       type: String,
-      // required: true,
+      required: true,
     },
   },
   { timestamps: true },
