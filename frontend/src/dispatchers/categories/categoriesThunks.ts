@@ -1,20 +1,33 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import axiosApi from '@/src/axiosApi';
 import {
   ApiResponse,
   Category,
   CategoryMutation,
   ValidationError,
 } from '@/src/types';
-import axiosApi from '@/src/axiosApi';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 
-export const fetchCategories = createAsyncThunk<ApiResponse<Category>>(
-  'categories/fetchAll',
-  async () => {
-    const response = await axiosApi.get<ApiResponse<Category>>('/categories');
-    return response.data;
-  },
-);
+interface SeacrhParam {
+  limit?: number;
+  page?: number;
+}
+
+export const fetchCategories = createAsyncThunk<
+  ApiResponse<Category>,
+  SeacrhParam | undefined
+>('categories/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+  const url = `/categories${queryString ? `?${queryString}` : ''}`;
+
+  const { data } = await axiosApi.get<ApiResponse<Category>>(url);
+  return data;
+});
 
 export const fetchOneCategory = createAsyncThunk<Category, string>(
   'categories/fetchOne',

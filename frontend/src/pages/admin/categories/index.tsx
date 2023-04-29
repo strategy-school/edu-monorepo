@@ -1,6 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
+import {
+  selectCategories,
+  selectCategoriesCount,
+  selectCategoriesPage,
+  selectCategoryDeleting,
+} from '@/src/dispatchers/categories/categoriesSlice';
 import {
   fetchCategories,
   removeCategory,
@@ -14,7 +19,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -26,19 +33,23 @@ const Categories = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
+  const currentPage = useAppSelector(selectCategoriesPage);
+  const totalCount = useAppSelector(selectCategoriesCount);
+  const deleting = useAppSelector(selectCategoryDeleting);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    void dispatch(fetchCategories());
-  }, [dispatch]);
+    void dispatch(fetchCategories({ page, limit }));
+  }, [dispatch, deleting, page, limit]);
 
   const openEditCategory = (id: string) => {
     void router.push(`/admin/categories/edit-category/${id}`);
   };
 
-  const deleteCategory = async (id: string) => {
+  const deleteCategory = (id: string) => {
     if (window.confirm('Вы уверены что хотите удалить категорию?')) {
-      await dispatch(removeCategory(id));
-      await dispatch(fetchCategories());
+      dispatch(removeCategory(id));
     }
   };
 
@@ -77,6 +88,18 @@ const Categories = () => {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                count={totalCount}
+                rowsPerPage={limit}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </Container>
     </AdminLayout>

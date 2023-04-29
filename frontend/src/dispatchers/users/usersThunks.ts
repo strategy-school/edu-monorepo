@@ -96,41 +96,21 @@ interface SearchParam {
   limit?: number;
 }
 
-export const fetchUsers = createAsyncThunk<ApiResponse<User>, SearchParam>(
-  'users/fetch',
-  async (params) => {
-    const {
-      role,
-      email,
-      firstName,
-      lastName,
-      phoneNumber,
-      isBanned,
-      page,
-      limit,
-    } = params || {};
-
-    const queryParams = {
-      role,
-      email,
-      firstName,
-      lastName,
-      phoneNumber,
-      isBanned,
-      page,
-      limit,
-    };
-
-    const queryString = Object.entries(queryParams)
+export const fetchUsers = createAsyncThunk<
+  ApiResponse<User>,
+  SearchParam | undefined
+>('users/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
       .filter(([_, value]) => value !== undefined)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
-    const url = `/users/${queryString ? `?${queryString}` : ''}`;
-    const response = await axiosApi.get<ApiResponse<User>>(url);
-    return response.data;
-  },
-);
+  const url = `/users/${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<User>>(url);
+  return data;
+});
 
 export const fetchOneBasicUser = createAsyncThunk<User, string>(
   'users/fetchOneBasicUser',

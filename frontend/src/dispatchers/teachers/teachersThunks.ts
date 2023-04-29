@@ -10,13 +10,28 @@ import {
 import { isAxiosError } from 'axios';
 import { RootState } from '@/src/app/store';
 
-export const fetchTeachers = createAsyncThunk<ApiResponse<TeacherShort>>(
-  'teachers/fetchAll',
-  async () => {
-    const response = await axiosApi.get<ApiResponse<TeacherShort>>('/teachers');
-    return response.data;
-  },
-);
+interface SearchParam {
+  page?: number;
+  limit?: number;
+  user?: string;
+}
+
+export const fetchTeachers = createAsyncThunk<
+  ApiResponse<TeacherShort>,
+  SearchParam | undefined
+>('teachers/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+  const url = `/teachers/${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<TeacherShort>>(url);
+  return data;
+});
+
 export const fetchOneTeacher = createAsyncThunk<Teacher, string>(
   'teachers/fetchOne',
   async (id) => {

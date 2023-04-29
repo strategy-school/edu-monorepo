@@ -132,3 +132,7 @@ export const selectUpdateTeacherError = (state: RootState) =>
   state.teachers.updateTeacherError;
 export const selectTeacherDeleting = (state: RootState) =>
   state.teachers.deleteLoading;
+export const selectTeachersCount = (state: RootState) =>
+  state.teachers.totalCount;
+export const selectTeacherPage = (state: RootState) =>
+  state.teachers.currentPage;

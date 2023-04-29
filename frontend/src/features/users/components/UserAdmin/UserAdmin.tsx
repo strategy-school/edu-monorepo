@@ -1,7 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import {
   selectUpdateUserLoading,
+  selectUserPage,
   selectUsers,
+  selectUsersCount,
 } from '@/src/dispatchers/users/usersSlice';
 import {
   fetchUsers,
@@ -14,7 +16,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -24,12 +28,16 @@ import React from 'react';
 const UserAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const usersBasic = useAppSelector(selectUsers);
+  const basicUsers = useAppSelector(selectUsers);
   const banLoading = useAppSelector(selectUpdateUserLoading);
+  const totalCount = useAppSelector(selectUsersCount);
+  const currentPage = useAppSelector(selectUserPage);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    dispatch(fetchUsers({ role: 'user' }));
-  }, [dispatch, banLoading]);
+    dispatch(fetchUsers({ role: 'user', page, limit: limit }));
+  }, [dispatch, page, limit, banLoading]);
 
   const editBanStatus = (id: string, banStatus: boolean) => {
     if (
@@ -58,7 +66,7 @@ const UserAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersBasic.map((student) => (
+            {basicUsers.map((student) => (
               <TableRow key={student._id}>
                 <TableCell
                   sx={{ cursor: 'pointer' }}
@@ -90,6 +98,18 @@ const UserAdmin = () => {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                count={totalCount}
+                rowsPerPage={limit}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </Container>
     </>

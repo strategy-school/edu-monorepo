@@ -8,26 +8,30 @@ import {
   ValidationError,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
+import { PanoramaVerticalSelect as params } from '@mui/icons-material';
 
-interface FilterParam {
-  level: string;
-  category: string;
-  minPrice: string;
-  maxPrice: string;
+interface SearchParam {
+  level?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  page?: number;
+  limit?: number;
 }
 
 export const fetchCourses = createAsyncThunk<
   ApiResponse<Course>,
-  FilterParam | undefined
->('courses/fetchAll', async (param) => {
-  if (param) {
-    const { data } = await axiosApi.get<ApiResponse<Course>>(
-      `/courses?level=${param.level}&category=${param.category}&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}`,
-    );
-    return data;
-  }
+  SearchParam | undefined
+>('courses/fetchAll', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
 
-  const { data } = await axiosApi.get<ApiResponse<Course>>('/courses');
+  const url = `/courses/${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<Course>>(url);
   return data;
 });
 

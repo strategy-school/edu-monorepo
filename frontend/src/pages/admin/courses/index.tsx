@@ -2,7 +2,9 @@ import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
   selectCourseDeleting,
+  selectCoursePage,
   selectCourses,
+  selectCoursesCount,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
   deleteCourse,
@@ -18,7 +20,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -29,15 +33,18 @@ const Courses = () => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const deleteLoading = useAppSelector(selectCourseDeleting);
+  const totalCount = useAppSelector(selectCoursesCount);
+  const currentPage = useAppSelector(selectCoursePage);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    void dispatch(fetchCourses());
-  }, [dispatch]);
+    void dispatch(fetchCourses({ page, limit }));
+  }, [dispatch, deleteLoading]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (window.confirm('Подтвердите удаление курса')) {
-      await dispatch(deleteCourse(id));
-      dispatch(fetchCourses());
+      dispatch(deleteCourse(id));
     }
   };
 
@@ -97,6 +104,20 @@ const Courses = () => {
                 </TableRow>
               ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50]}
+                  count={totalCount}
+                  rowsPerPage={limit}
+                  page={currentPage - 1}
+                  onPageChange={(_, newPage) => setPage(newPage + 1)}
+                  onRowsPerPageChange={(e) =>
+                    setLimit(parseInt(e.target.value))
+                  }
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </Grid>
       </Grid>
