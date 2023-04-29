@@ -162,3 +162,35 @@ export interface ApiResponse<Type> {
   message: 'string';
   result: Type | IPagination<Type>;
 }
+
+export interface CourseMini {
+  _id: string;
+  title: string;
+}
+
+export interface Question {
+  question: string;
+  answers: string[];
+  correctAnswer: string;
+}
+
+export interface QuestionFull extends Question {
+  _id: string;
+}
+export interface Test {
+  _id: string;
+  course: CourseMini;
+  title: string;
+  description: string;
+  questions: QuestionFull[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface TestMutation {
+  course: string;
+  title: string;
+  description: string;
+  questions: Question[];
+}
