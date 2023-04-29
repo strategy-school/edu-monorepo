@@ -4,7 +4,7 @@ import {
   selectCommentDeleting,
   selectCommentUpdating,
   selectUpdateCommentError,
-} from '@/src/features/comments/commentsSlice';
+} from '@/src/dispatchers/comments/commentsSlice';
 import { apiURL, dateCommentFormat } from '@/src/constants';
 import {
   Avatar,
@@ -23,7 +23,7 @@ import {
   deleteComment,
   fetchComments,
   updateComment,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 import { ApiComment, ShortCommentMutation } from '@/src/types';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';

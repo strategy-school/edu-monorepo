@@ -15,7 +15,7 @@ import { transacionsReducer } from '../dispatchers/transactions/transactionsSlic
 import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
 import { coursesReducer } from '../dispatchers/courses/coursesSlice';
 import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
-import { commentsReducer } from '@/src/features/comments/commentsSlice';
+import { commentsReducer } from '@/src/dispatchers/comments/commentsSlice';
 
 const usersPersistConfig = {
   key: 'strategia:users',

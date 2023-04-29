@@ -6,11 +6,11 @@ import {
   selectComments,
   selectCommentsFetching,
   selectCreateCommentError,
-} from '@/src/features/comments/commentsSlice';
+} from '@/src/dispatchers/comments/commentsSlice';
 import {
   createComment,
   fetchComments,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import CommentItem from '@/src/features/comments/components/CommentItem/CommentItem';
 import MyModal from '@/src/components/UI/Modal/MyModal';
