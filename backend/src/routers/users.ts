@@ -167,7 +167,7 @@ usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
       searchParam.isBanned = Boolean(parseInt(isBanned as string));
     }
 
-    const totalCount = await User.find(searchParam);
+    const totalCount = await User.count(searchParam);
     const skip = (page - 1) * limit;
 
     const users = await User.find(searchParam).skip(skip).limit(limit);

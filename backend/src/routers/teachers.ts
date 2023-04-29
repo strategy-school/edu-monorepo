@@ -56,7 +56,7 @@ teachersRouter.post(
 
 teachersRouter.get('/', async (req, res, next) => {
   try {
-    const userId = req.query.id as string;
+    const userId = req.query.user as string;
     const limit: number = parseInt(req.query.limit as string) || 10;
     const page: number = parseInt(req.query.page as string) || 1;
 
