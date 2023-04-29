@@ -96,3 +96,14 @@ export const courseCardStyle = {
     md: '26px',
   },
 };
+
+export const whyUs = {
+  whyUsItem: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 0 25px 0 ',
+  },
+  whyUsText: {
+    margin: '0 0 0 15px',
+  },
+};

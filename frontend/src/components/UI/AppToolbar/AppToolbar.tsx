@@ -58,6 +58,9 @@ const AppToolbar = () => {
             md={9}
             lg={7}
           >
+            <Button component={Link} href="/about" color="inherit">
+              О компании
+            </Button>
             {user?.role === 'admin' ? (
               <Button component={Link} href="/categories" color="inherit">
                 Категории курсов

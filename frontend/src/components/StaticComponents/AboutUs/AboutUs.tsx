@@ -1,18 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { stylesGlobal } from '@/src/styles';
-
-const styles = {
-  whyUsItem: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0 0 25px 0 ',
-  },
-  whyUsText: {
-    margin: '0 0 0 15px',
-  },
-};
+import { stylesGlobal, whyUs } from '@/src/styles';
 
 const AboutUs = () => {
   return (
@@ -28,30 +17,30 @@ const AboutUs = () => {
         </Typography>
       </Grid>
       <Grid item container lg={8}>
-        <Grid item style={styles.whyUsItem}>
+        <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon fontSize="small" color="secondary" />
-          <Typography style={styles.whyUsText}>
+          <Typography style={whyUs.whyUsText}>
             Мы разрабатываем индивидуальную программу обучения, как
             краткосрочную, так и долгосрочную
           </Typography>
         </Grid>
-        <Grid item style={styles.whyUsItem}>
+        <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon fontSize="small" color="secondary" />
-          <Typography style={styles.whyUsText}>
+          <Typography style={whyUs.whyUsText}>
             Программа обучения полностью ориентируется на решение задач бизнеса
-            в соврменных условиях
+            в современных условиях
           </Typography>
         </Grid>
-        <Grid item style={styles.whyUsItem}>
+        <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon fontSize="small" color="secondary" />
-          <Typography style={styles.whyUsText}>
+          <Typography style={whyUs.whyUsText}>
             Мы стремится к формированию нового поколения бизнес-профессионалов
             Кыргызстана
           </Typography>
         </Grid>
-        <Grid item style={styles.whyUsItem}>
+        <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon fontSize="small" color="secondary" />
-          <Typography style={styles.whyUsText}>
+          <Typography style={whyUs.whyUsText}>
             Это первый профессиональный подход на рынке образовательных услуг
             Кыргызстана. Все остальное вы можете узнать и так из Интернете
             бесплатно!
