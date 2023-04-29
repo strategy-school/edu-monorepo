@@ -5,7 +5,7 @@ import {
   selectCommentUpdating,
   selectUpdateCommentError,
 } from '@/src/features/comments/commentsSlice';
-import { apiURL, dateCommentFormat, dateFormat } from '@/src/constants';
+import { apiURL, dateCommentFormat } from '@/src/constants';
 import {
   selectUpdateUserLoading,
   selectUser,
@@ -98,7 +98,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
   }
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} md={6}>
       <Card style={{ position: 'relative' }}>
         <Box p={2}>
           <Grid container spacing={2}>
@@ -117,9 +117,11 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
                 {dayjs(comment.createdAt).format(dateCommentFormat)}
               </Typography>
             </Grid>
+            <Grid item>
+              <Rating value={comment.rating} readOnly />
+            </Grid>
           </Grid>
           <CardContent>
-            <Rating value={comment.rating} readOnly />
             <Typography variant="body1">{comment.text}</Typography>
           </CardContent>
         </Box>

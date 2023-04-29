@@ -175,10 +175,10 @@ const CourseId = () => {
                 </Button>
               </Grid>
             </Grid>
-            <CourseComments courseId={courseId} />
           </Grid>
         )
       )}
+      <CourseComments courseId={courseId} />
     </Layout>
   );
 };

@@ -138,6 +138,11 @@ export interface ApiComment extends IComment {
   createdAt: string;
 }
 
+export interface ApiCommentsResponse {
+  comments: ApiComment[];
+  payingUser: boolean;
+}
+
 export interface ITransaction {
   user: string;
   course: string;
