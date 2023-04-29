@@ -46,14 +46,7 @@ export interface GlobalError {
   error: string;
 }
 
-export interface Course {
-  _id: string;
-  title: string;
-  duration: string;
-  image: string;
-}
-
-export interface CourseMutation {
+export interface ICourse {
   title: string;
   duration: string;
   price: string;
@@ -67,15 +60,18 @@ export interface CourseMutation {
   level: string;
 }
 
-export interface FullCourse extends Course {
+export type CourseShort = Pick<ApiCourse, '_id', 'title', 'duration', 'image'>;
+
+export interface ApiCourse {
+  _id: string;
+  title: string;
+  duration: string;
+  image: string;
   price: number;
   description: string;
   type: string;
   theme: string;
-  category: {
-    _id: string;
-    title: string;
-  };
+  category: Pick<ApiCategory, '_id', 'title'>;
   targetAudience: string;
   programGoal: string;
   level: string;
@@ -83,43 +79,36 @@ export interface FullCourse extends Course {
   updatedAt: string;
 }
 
-export interface TeacherMutation {
+export interface ITeacher {
   user: string;
   info: string;
   photo: File | null;
   portfolio: string[];
 }
 
-export interface MiniUser {
+export interface ApiTeacher {
   _id: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface TeacherShort {
+  user: Pick<User, '_id', 'firstName', 'lastName'>;
   photo: string;
-  user: MiniUser;
-  _id: string;
-}
-
-export interface Teacher extends TeacherShort {
   info: string;
   portfolio: string[];
   createdAt: string;
   updatedAt: string;
 }
 
-export interface Category {
+export type TeacherShort = Pick<ApiTeacher, '_id', 'user', 'photo'>;
+
+export interface ICategory {
+  title: string;
+  description: string;
+  image: File | null;
+}
+
+export interface ApiCategory {
   _id: string;
   title: string;
   description: string;
   image: string;
-}
-
-export interface CategoryMutation {
-  title: string;
-  description: string;
-  image: File | null;
 }
 
 export interface ITransaction {
@@ -130,7 +119,7 @@ export interface ITransaction {
 export interface ApiTransaction {
   _id: string;
   user: Pick<User, '_id', 'email', 'firstName', 'lastName', 'phoneNumber'>;
-  course: Pick<FullCourse, '_id', 'title', 'price', 'type', 'level', 'image'>;
+  course: Pick<ApiCourse, '_id', 'title', 'price', 'type', 'level', 'image'>;
   isPaid: 'pending' | 'paid';
   createdAt: string;
   updatedAt: string;

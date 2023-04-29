@@ -1,6 +1,6 @@
 import {
   IPagination,
-  Teacher,
+  ApiTeacher,
   TeacherShort,
   ValidationError,
 } from '@/src/types';
@@ -16,7 +16,7 @@ import {
 
 interface TeacherState {
   teachersList: TeacherShort[];
-  oneTeacher: Teacher | null;
+  oneTeacher: ApiTeacher | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;

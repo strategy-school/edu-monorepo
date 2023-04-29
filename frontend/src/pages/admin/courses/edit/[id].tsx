@@ -13,7 +13,7 @@ import {
 } from '@/src/dispatchers/courses/coursesThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
-import { CourseMutation } from '@/src/types';
+import { ICourse } from '@/src/types';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -33,7 +33,7 @@ const Id = () => {
     }
   }, [dispatch, id]);
 
-  const onSubmit = async (courseMutation: CourseMutation) => {
+  const onSubmit = async (courseMutation: ICourse) => {
     await dispatch(updateCourse({ id, course: courseMutation })).unwrap();
     void router.back();
   };

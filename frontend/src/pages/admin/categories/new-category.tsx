@@ -8,7 +8,7 @@ import {
 import { createCategory } from '@/src/dispatchers/categories/categoriesThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
-import { CategoryMutation } from '@/src/types';
+import { ICategory } from '@/src/types';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -19,7 +19,7 @@ const NewCategory = () => {
   const createLoading = useAppSelector(selectCategoryCreating);
   const error = useAppSelector(selectCreateCategoryError);
 
-  const onFormSubmit = async (mutation: CategoryMutation) => {
+  const onFormSubmit = async (mutation: ICategory) => {
     await dispatch(createCategory(mutation)).unwrap();
     void router.push('/admin/categories');
   };

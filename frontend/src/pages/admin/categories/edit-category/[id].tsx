@@ -13,7 +13,7 @@ import {
 } from '@/src/dispatchers/categories/categoriesThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
-import { CategoryMutation } from '@/src/types';
+import { ICategory } from '@/src/types';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -33,7 +33,7 @@ const Id = () => {
     }
   }, [dispatch, id]);
 
-  const onSubmit = async (categoryMutation: CategoryMutation) => {
+  const onSubmit = async (categoryMutation: ICategory) => {
     await dispatch(updateCategory({ id, categoryMutation })).unwrap();
     void router.push('/admin/categories');
   };

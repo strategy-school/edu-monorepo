@@ -1,4 +1,9 @@
-import { Course, FullCourse, IPagination, ValidationError } from '@/src/types';
+import {
+  CourseShort,
+  ApiCourse,
+  IPagination,
+  ValidationError,
+} from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
@@ -10,9 +15,9 @@ import {
 } from './coursesThunks';
 
 interface CourseState {
-  items: Course[];
+  items: CourseShort[];
   fetchLoading: boolean;
-  oneCourse: FullCourse | null;
+  oneCourse: ApiCourse | null;
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCourseError: ValidationError | null;
@@ -47,7 +52,7 @@ const coursesSlice = createSlice({
     });
     builder.addCase(fetchCourses.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      const result = payload.result as IPagination<Course>;
+      const result = payload.result as IPagination<CourseShort>;
       state.items = result.courses;
       state.currentPage = result.currentPage;
       state.totalCount = result.totalCount;

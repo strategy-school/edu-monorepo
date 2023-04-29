@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { apiURL } from '@/src/constants';
-import { Category } from '@/src/types';
+import { ApiCategory } from '@/src/types';
 import { boxShadow } from '@/src/styles';
 
 const ImageCardMedia = styled(CardMedia)({
@@ -17,7 +17,7 @@ const ImageCardMedia = styled(CardMedia)({
 });
 
 interface Props {
-  category: Category;
+  category: ApiCategory;
 }
 
 const CategoryItem: React.FC<Props> = ({ category }) => {

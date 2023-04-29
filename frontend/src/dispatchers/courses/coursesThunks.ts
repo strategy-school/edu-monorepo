@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '@/src/axiosApi';
 import {
   ApiResponse,
-  Course,
-  CourseMutation,
-  FullCourse,
+  CourseShort,
+  ICourse,
+  ApiCourse,
   ValidationError,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
@@ -20,7 +20,7 @@ interface SearchParam {
 }
 
 export const fetchCourses = createAsyncThunk<
-  ApiResponse<Course>,
+  ApiResponse<CourseShort>,
   SearchParam | undefined
 >('courses/fetchAll', async (params) => {
   const queryString =
@@ -31,11 +31,11 @@ export const fetchCourses = createAsyncThunk<
       .join('&');
 
   const url = `/courses/${queryString ? `?${queryString}` : ''}`;
-  const { data } = await axiosApi.get<ApiResponse<Course>>(url);
+  const { data } = await axiosApi.get<ApiResponse<CourseShort>>(url);
   return data;
 });
 
-export const fetchOneCourse = createAsyncThunk<FullCourse, string>(
+export const fetchOneCourse = createAsyncThunk<ApiCourse, string>(
   'courses/fetchOne',
   async (id) => {
     const response = await axiosApi.get('/courses/' + id);
@@ -45,13 +45,13 @@ export const fetchOneCourse = createAsyncThunk<FullCourse, string>(
 
 export const createCourse = createAsyncThunk<
   void,
-  CourseMutation,
+  ICourse,
   { rejectValue: ValidationError }
 >('courses/create', async (courseMutation, { rejectWithValue }) => {
   try {
     const formData = new FormData();
 
-    const keys = Object.keys(courseMutation) as (keyof CourseMutation)[];
+    const keys = Object.keys(courseMutation) as (keyof ICourse)[];
 
     keys.forEach((key) => {
       const value = courseMutation[key];
@@ -72,7 +72,7 @@ export const createCourse = createAsyncThunk<
 
 interface UpdateCourseParams {
   id: string;
-  course: CourseMutation;
+  course: ICourse;
 }
 
 export const updateCourse = createAsyncThunk<
@@ -83,7 +83,7 @@ export const updateCourse = createAsyncThunk<
   try {
     const formData = new FormData();
 
-    const keys = Object.keys(course) as (keyof CourseMutation)[];
+    const keys = Object.keys(course) as (keyof ICourse)[];
 
     keys.forEach((key) => {
       const value = course[key];

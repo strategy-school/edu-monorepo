@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '@/src/axiosApi';
 import {
   ApiResponse,
-  Teacher,
-  TeacherMutation,
+  ApiTeacher,
+  ITeacher,
   TeacherShort,
   ValidationError,
 } from '@/src/types';
@@ -32,21 +32,21 @@ export const fetchTeachers = createAsyncThunk<
   return data;
 });
 
-export const fetchOneTeacher = createAsyncThunk<Teacher, string>(
+export const fetchOneTeacher = createAsyncThunk<ApiTeacher, string>(
   'teachers/fetchOne',
   async (id) => {
-    const response = await axiosApi.get<Teacher>('/teachers/' + id);
+    const response = await axiosApi.get<ApiTeacher>('/teachers/' + id);
     return response.data;
   },
 );
 
 export const createTeacher = createAsyncThunk<
   void,
-  TeacherMutation,
+  ITeacher,
   { rejectValue: ValidationError; state: RootState }
 >('teachers/create', async (teacherData, { rejectWithValue }) => {
   const formData = new FormData();
-  const keys = Object.keys(teacherData) as (keyof TeacherMutation)[];
+  const keys = Object.keys(teacherData) as (keyof ITeacher)[];
 
   keys.forEach((key) => {
     const value: File | null | string | string[] = teacherData[key] as
@@ -75,11 +75,11 @@ export const createTeacher = createAsyncThunk<
 
 export const editTeacher = createAsyncThunk<
   void,
-  { id: string; teacherData: TeacherMutation },
+  { id: string; teacherData: ITeacher },
   { rejectValue: ValidationError; state: RootState }
 >('teachers/edit', async ({ id, teacherData }, { rejectWithValue }) => {
   const formData = new FormData();
-  const keys = Object.keys(teacherData) as (keyof TeacherMutation)[];
+  const keys = Object.keys(teacherData) as (keyof ITeacher)[];
 
   keys.forEach((key) => {
     const value: File | null | string | string[] = teacherData[key] as

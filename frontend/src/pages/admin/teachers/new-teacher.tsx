@@ -8,7 +8,7 @@ import {
 import { createTeacher } from '@/src/dispatchers/teachers/teachersThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
-import { TeacherMutation } from '@/src/types';
+import { ITeacher } from '@/src/types';
 import { Button, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -20,7 +20,7 @@ const NewTeacher = () => {
   const loading = useAppSelector(selectTeacherCreating);
   const error = useAppSelector(selectCreateTeacherError);
 
-  const onSubmit = async (teacher: TeacherMutation) => {
+  const onSubmit = async (teacher: ITeacher) => {
     await dispatch(createTeacher(teacher)).unwrap();
     void router.push('/admin/teachers');
   };

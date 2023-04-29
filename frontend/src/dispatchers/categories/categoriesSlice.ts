@@ -1,5 +1,5 @@
 import { RootState } from '@/src/app/store';
-import { Category, IPagination, ValidationError } from '@/src/types';
+import { ApiCategory, IPagination, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createCategory,
@@ -10,8 +10,8 @@ import {
 } from './categoriesThunks';
 
 interface CategoryState {
-  items: Category[];
-  oneItem: Category | null;
+  items: ApiCategory[];
+  oneItem: ApiCategory | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
@@ -47,7 +47,7 @@ export const categoriesSlice = createSlice({
     });
     builder.addCase(fetchCategories.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      const result = payload.result as IPagination<Category>;
+      const result = payload.result as IPagination<ApiCategory>;
       state.items = result.categories;
       state.currentPage = result.currentPage;
       state.totalCount = result.totalCount;

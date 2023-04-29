@@ -5,7 +5,7 @@ import {
   selectCategoriesFetching,
 } from '@/src/dispatchers/categories/categoriesSlice';
 import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
-import { CourseMutation, ValidationError } from '@/src/types';
+import { ICourse, ValidationError } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   CircularProgress,
@@ -17,15 +17,15 @@ import {
 import React from 'react';
 
 interface Props {
-  onSubmit: (courseMutation: CourseMutation) => void;
-  existingCourse?: CourseMutation;
+  onSubmit: (courseMutation: ICourse) => void;
+  existingCourse?: ICourse;
   isEdit?: boolean;
   loading: boolean;
   error: ValidationError | null;
   fetchCourseLoading?: boolean;
 }
 
-const initialState: CourseMutation = {
+const initialState: ICourse = {
   title: '',
   type: '',
   description: '',
@@ -48,7 +48,7 @@ const CourseForm: React.FC<Props> = ({
   fetchCourseLoading = false,
 }) => {
   const dispatch = useAppDispatch();
-  const [state, setState] = React.useState<CourseMutation>(
+  const [state, setState] = React.useState<ICourse>(
     existingCourse || initialState,
   );
   const categories = useAppSelector(selectCategories);

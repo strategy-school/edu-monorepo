@@ -12,7 +12,7 @@ import {
 } from '@/src/dispatchers/teachers/teachersThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
-import { TeacherMutation } from '@/src/types';
+import { ITeacher } from '@/src/types';
 import { Button, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -32,7 +32,7 @@ const TeacherId = () => {
     }
   }, [dispatch, teacherId]);
 
-  const onSubmit = async (teacher: TeacherMutation) => {
+  const onSubmit = async (teacher: ITeacher) => {
     await dispatch(
       editTeacher({ id: teacherId, teacherData: teacher }),
     ).unwrap();

@@ -9,7 +9,7 @@ import {
   selectCreateCourseError,
 } from '@/src/dispatchers/courses/coursesSlice';
 import { createCourse } from '@/src/dispatchers/courses/coursesThunks';
-import { CourseMutation } from '@/src/types';
+import { ICourse } from '@/src/types';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 const NewCourse = () => {
@@ -19,7 +19,7 @@ const NewCourse = () => {
   const error = useAppSelector(selectCreateCourseError);
   const user = useAppSelector(selectUser);
 
-  const onSubmit = async (courseMutation: CourseMutation) => {
+  const onSubmit = async (courseMutation: ICourse) => {
     await dispatch(createCourse(courseMutation)).unwrap();
     void router.back();
   };
