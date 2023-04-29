@@ -67,10 +67,6 @@ export const courseCardStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
-    transition: 'box-shadow 0.3s ease-in-out',
-    '&:hover': {
-      boxShadow: 'inset 0px 0px 21px 4px #ECECEC',
-    },
   },
   cardBody: {
     borderRadius,
