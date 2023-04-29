@@ -15,6 +15,7 @@ import { transacionsReducer } from '../dispatchers/transactions/transactionsSlic
 import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
 import { coursesReducer } from '../dispatchers/courses/coursesSlice';
 import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
+import { commentsReducer } from '@/src/features/comments/commentsSlice';
 
 const usersPersistConfig = {
   key: 'strategia:users',
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   courses: coursesReducer,
   teachers: teacherReducer,
   categories: categoriesReducer,
+  comments: commentsReducer,
   transactions: transacionsReducer,
 });
 

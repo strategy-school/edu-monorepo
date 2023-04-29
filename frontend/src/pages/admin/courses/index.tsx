@@ -40,7 +40,7 @@ const Courses = () => {
 
   React.useEffect(() => {
     void dispatch(fetchCourses({ page, limit }));
-  }, [dispatch, deleteLoading]);
+  }, [dispatch, deleteLoading, page, limit]);
 
   const handleDelete = (id: string) => {
     if (window.confirm('Подтвердите удаление курса')) {
