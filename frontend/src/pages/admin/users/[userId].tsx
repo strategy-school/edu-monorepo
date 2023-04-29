@@ -1,4 +1,11 @@
-import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import Layout from '@/src/components/UI/Layout/Layout';
+import { apiURL } from '@/src/constants';
+import {
+  selectFetchingOneUser,
+  selectOneBasicUser,
+} from '@/src/dispatchers/users/usersSlice';
+import { fetchOneBasicUser } from '@/src/dispatchers/users/usersThunks';
 import {
   Button,
   CircularProgress,
@@ -6,17 +13,10 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { apiURL } from '@/src/constants';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { fetchOneBasicUser } from '@/src/features/users/usersThunks';
-import {
-  selectFetchingOneUser,
-  selectOneBasicUser,
-} from '@/src/features/users/usersSlice';
-import noAvatar from '../../../assets/images/noAvatar.jpg';
 import Image from 'next/image';
-import Layout from '@/src/components/UI/Layout/Layout';
+import { useRouter } from 'next/router';
+import React from 'react';
+import noAvatar from '../../../assets/images/noAvatar.jpg';
 
 const OneUser = () => {
   const router = useRouter();
@@ -24,7 +24,8 @@ const OneUser = () => {
   const dispatch = useAppDispatch();
   const oneStudent = useAppSelector(selectOneBasicUser);
   const loading = useAppSelector(selectFetchingOneUser);
-  useEffect(() => {
+
+  React.useEffect(() => {
     dispatch(fetchOneBasicUser(userId));
   }, [dispatch, userId]);
 

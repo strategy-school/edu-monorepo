@@ -1,4 +1,4 @@
-import { ApiComment, ValidationError } from '@/src/types';
+import { ApiCommentsResponse, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
@@ -6,10 +6,10 @@ import {
   deleteComment,
   fetchComments,
   updateComment,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 
 interface CommentsState {
-  items: ApiComment[];
+  items: ApiCommentsResponse | null;
   fetchLoading: boolean;
   createLoading: boolean;
   createCommentError: ValidationError | null;
@@ -19,7 +19,7 @@ interface CommentsState {
 }
 
 const initialState: CommentsState = {
-  items: [],
+  items: null,
   fetchLoading: false,
   createLoading: false,
   createCommentError: null,

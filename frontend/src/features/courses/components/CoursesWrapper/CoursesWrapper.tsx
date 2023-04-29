@@ -7,13 +7,13 @@ import {
   stylesGlobal,
 } from '@/src/styles';
 import { useAppSelector } from '@/src/app/hooks';
-import { selectCourses } from '@/src/features/courses/coursesSlice';
 import Carousel from 'react-material-ui-carousel';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import { Property } from 'csstype';
 import TextAlign = Property.TextAlign;
 import { useRouter } from 'next/router';
 import theme from '@/src/theme';
+import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 
 const styles = {
   courses: {

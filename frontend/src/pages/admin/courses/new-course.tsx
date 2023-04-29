@@ -1,16 +1,16 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectCourseCreating,
   selectCreateCourseError,
-} from '@/src/features/courses/coursesSlice';
-import { CourseMutation } from '@/src/types';
-import { createCourse } from '@/src/features/courses/coursesThunks';
-import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import { selectUser } from '@/src/features/users/usersSlice';
-import Layout from '@/src/components/UI/Layout/Layout';
+} from '@/src/dispatchers/courses/coursesSlice';
+import { createCourse } from '@/src/dispatchers/courses/coursesThunks';
+import { ICourse } from '@/src/types';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 const NewCourse = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const NewCourse = () => {
   const error = useAppSelector(selectCreateCourseError);
   const user = useAppSelector(selectUser);
 
-  const onSubmit = async (courseMutation: CourseMutation) => {
+  const onSubmit = async (courseMutation: ICourse) => {
     await dispatch(createCourse(courseMutation)).unwrap();
     void router.back();
   };

@@ -1,4 +1,9 @@
-import { Teacher, TeacherShort, ValidationError } from '@/src/types';
+import {
+  IPagination,
+  ApiTeacher,
+  TeacherShort,
+  ValidationError,
+} from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
@@ -7,11 +12,11 @@ import {
   editTeacher,
   fetchOneTeacher,
   fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
+} from './teachersThunks';
 
 interface TeacherState {
   teachersList: TeacherShort[];
-  oneTeacher: Teacher | null;
+  oneTeacher: ApiTeacher | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
@@ -19,6 +24,8 @@ interface TeacherState {
   updateLoading: boolean;
   updateTeacherError: ValidationError | null;
   deleteLoading: string | false;
+  currentPage: number;
+  totalCount: number;
 }
 
 const initialState: TeacherState = {
@@ -31,6 +38,8 @@ const initialState: TeacherState = {
   updateLoading: false,
   updateTeacherError: null,
   deleteLoading: false,
+  currentPage: 1,
+  totalCount: 1,
 };
 
 const teacherSlice = createSlice({
@@ -42,9 +51,12 @@ const teacherSlice = createSlice({
       state.teachersList = [];
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTeachers.fulfilled, (state, { payload: teachers }) => {
+    builder.addCase(fetchTeachers.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.teachersList = teachers;
+      const result = payload.result as IPagination<TeacherShort>;
+      state.teachersList = result.teachers;
+      state.currentPage = result.currentPage;
+      state.totalCount = result.totalCount;
     });
     builder.addCase(fetchTeachers.rejected, (state) => {
       state.fetchLoading = false;
@@ -120,3 +132,7 @@ export const selectUpdateTeacherError = (state: RootState) =>
   state.teachers.updateTeacherError;
 export const selectTeacherDeleting = (state: RootState) =>
   state.teachers.deleteLoading;
+export const selectTeachersCount = (state: RootState) =>
+  state.teachers.totalCount;
+export const selectTeacherPage = (state: RootState) =>
+  state.teachers.currentPage;

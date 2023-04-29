@@ -54,15 +54,33 @@ teachersRouter.post(
   },
 );
 
-teachersRouter.get('/', async (req, res) => {
+teachersRouter.get('/', async (req, res, next) => {
   try {
-    const results = await Teacher.find()
+    const userId = req.query.user as string;
+    const limit: number = parseInt(req.query.limit as string) || 10;
+    const page: number = parseInt(req.query.page as string) || 1;
+
+    const searchParam: { user?: string } = {};
+
+    if (userId) {
+      searchParam.user = userId;
+    }
+
+    const totalCount = await Teacher.count(searchParam);
+    const skip = (page - 1) * limit;
+
+    const teachers = await Teacher.find(searchParam)
       .populate('user', 'firstName lastName')
       .select('user photo')
+      .skip(skip)
+      .limit(limit)
       .exec();
-    return res.send(results);
-  } catch {
-    return res.sendStatus(500);
+    return res.send({
+      message: 'Teachers are found',
+      result: { teachers, currentPage: page, totalCount },
+    });
+  } catch (e) {
+    return next(e);
   }
 });
 

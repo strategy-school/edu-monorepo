@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { apiURL } from '@/src/constants';
-import { Teacher } from '@/src/types';
+import { ApiTeacher } from '@/src/types';
 import { borderRadius, boxShadow } from '@/src/styles';
 import { Property } from 'csstype';
 import TextAlign = Property.TextAlign;
@@ -16,7 +16,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import theme from '@/src/theme';
 
 interface Props {
-  teacher: Teacher | null;
+  teacher: ApiTeacher | null;
   loading: boolean;
   goBack: () => void;
   deleteLoading?: string | false;

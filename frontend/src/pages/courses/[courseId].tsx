@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { fetchOneCourse } from '@/src/features/courses/coursesThunks';
+import Layout from '@/src/components/UI/Layout/Layout';
+import { apiURL } from '@/src/constants';
 import {
   selectOneCourse,
   selectOneCourseFetching,
-} from '@/src/features/courses/coursesSlice';
+} from '@/src/dispatchers/courses/coursesSlice';
+import { fetchOneCourse } from '@/src/dispatchers/courses/coursesThunks';
+import { blockStyle, blockTopStyle } from '@/src/styles';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MoneyIcon from '@mui/icons-material/Money';
 import {
   Button,
   CircularProgress,
@@ -13,13 +16,10 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import Layout from '@/src/components/UI/Layout/Layout';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import MoneyIcon from '@mui/icons-material/Money';
-import { blockStyle, blockTopStyle } from '@/src/styles';
 import Image from 'next/image';
-import { apiURL } from '@/src/constants';
 import CourseComments from '@/src/features/comments/CourseComments';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const imgStyle = {
   xs: 300,
@@ -41,7 +41,7 @@ const CourseId = () => {
   const course = useAppSelector(selectOneCourse);
   const courseLoading = useAppSelector(selectOneCourseFetching);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchOneCourse(courseId));
   }, [dispatch, courseId]);
 
@@ -175,10 +175,10 @@ const CourseId = () => {
                 </Button>
               </Grid>
             </Grid>
-            <CourseComments courseId={courseId} />
           </Grid>
         )
       )}
+      <CourseComments courseId={courseId} />
     </Layout>
   );
 };

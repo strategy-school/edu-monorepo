@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectOneTeacher,
   selectOneTeacherFetching,
-} from '@/src/features/teachers/teachersSlice';
-import { fetchOneTeacher } from '@/src/features/teachers/teachersThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
+} from '@/src/dispatchers/teachers/teachersSlice';
+import { fetchOneTeacher } from '@/src/dispatchers/teachers/teachersThunks';
 import OneTeacher from '@/src/features/teachers/components/OneTeacher/OneTeacher';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const TeacherId = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const TeacherId = () => {
   const teacher = useAppSelector(selectOneTeacher);
   const loading = useAppSelector(selectOneTeacherFetching);
 
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchOneTeacher(teacherId));
   }, [dispatch, teacherId]);
 

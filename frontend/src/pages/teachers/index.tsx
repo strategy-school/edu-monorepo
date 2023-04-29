@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectTeachers } from '@/src/features/teachers/teachersSlice';
-import { fetchTeachers } from '@/src/features/teachers/teachersThunks';
-import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
-import Layout from '@/src/components/UI/Layout/Layout';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
+import Layout from '@/src/components/UI/Layout/Layout';
+import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
+import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
+import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
+import { Grid } from '@mui/material';
+import React from 'react';
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const teachers = useAppSelector(selectTeachers);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchTeachers());
   }, [dispatch]);
 
