@@ -3,8 +3,6 @@ import Test from '../models/Test';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 import Course from '../models/Course';
-import Teacher from '../models/Teacher';
-import course from '../models/Course';
 import mongoose from 'mongoose';
 
 const testsRouter = express.Router();
@@ -12,12 +10,6 @@ const testsRouter = express.Router();
 testsRouter.post('/', auth, permit('admin'), async (req, res, next) => {
   try {
     const { course, title, description, questions } = req.body;
-
-    const existingCourse = await Course.findById(course);
-
-    if (!existingCourse) {
-      return res.status(500).send({ error: 'Курс не найден!' });
-    }
 
     const test = await Test.create({
       course,

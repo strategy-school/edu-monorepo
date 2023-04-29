@@ -1,6 +1,5 @@
 import mongoose, { Types } from 'mongoose';
 import Course from './Course';
-
 const Schema = mongoose.Schema;
 
 const TestSchema = new Schema(
@@ -15,6 +14,11 @@ const TestSchema = new Schema(
           const existingTest = await Test.findOne({ course: value });
           if (existingTest) {
             throw new Error('Такой тест уже существует');
+          }
+
+          const existingCourse = await Course.findById(value);
+          if (!existingCourse) {
+            throw new Error('Курс не найден');
           }
         },
       },
