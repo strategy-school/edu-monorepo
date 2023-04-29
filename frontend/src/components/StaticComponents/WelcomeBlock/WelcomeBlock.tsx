@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import { welcomeBlockStyle } from '@/src/styles';
+import Link from 'next/link';
 
 const WelcomeBlock = () => {
   return (
@@ -36,7 +37,11 @@ const WelcomeBlock = () => {
         >
           Strategia School: Стань крутым маркетологом с нуля!
         </Typography>
-        <Button style={{ display: 'block', width: '150px', color: '#fff' }}>
+        <Button
+          component={Link}
+          href={`/about`}
+          style={{ display: 'block', width: '150px', color: '#fff' }}
+        >
           Узнать больше
         </Button>
       </Grid>

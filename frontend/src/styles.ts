@@ -67,10 +67,6 @@ export const courseCardStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
-    transition: 'box-shadow 0.3s ease-in-out',
-    '&:hover': {
-      boxShadow: 'inset 0px 0px 21px 4px #ECECEC',
-    },
   },
   cardBody: {
     borderRadius,
@@ -94,5 +90,16 @@ export const courseCardStyle = {
     xs: '14px',
     sm: '18px',
     md: '26px',
+  },
+};
+
+export const whyUs = {
+  whyUsItem: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 0 25px 0 ',
+  },
+  whyUsText: {
+    margin: '0 0 0 15px',
   },
 };

@@ -31,7 +31,7 @@ const styles = {
   },
   indicator: {
     color: '#fff',
-    margin: '0 10px',
+    margin: '0 12px',
   },
   activeIndicator: {
     color: '#58595BFF',
@@ -69,11 +69,12 @@ const CoursesWrapper = () => {
         color="primary.light"
         textAlign="center"
       >
-        Лучшие программы. Большой выбор по продолжительности, которые варируются
-        по уровням знаний и опыту.
+        Большой выбор программ в зависимости от продолжительности,уровня знаний
+        и опыта
       </Typography>
       <Typography component="div" mt={5} mb={2}>
         <Carousel
+          sx={{ pt: 1 }}
           animation="slide"
           duration={1000}
           indicatorIconButtonProps={{

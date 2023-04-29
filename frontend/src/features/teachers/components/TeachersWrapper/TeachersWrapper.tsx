@@ -15,7 +15,7 @@ const TeachersWrapper = () => {
           <Typography
             variant="h1"
             style={stylesGlobal.title}
-            color="secondary.main"
+            color="info.dark"
             fontSize={stylesGlobal.fontSize}
             textAlign="center"
           >
@@ -51,7 +51,7 @@ const TeachersWrapper = () => {
               component={Link}
               href="/teachers/"
               variant="contained"
-              color="secondary"
+              color="info"
             >
               Посмотреть всех тренеров
             </Button>
