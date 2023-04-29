@@ -5,6 +5,7 @@ import { fetchCategories } from '@/src/features/categories/categoriesThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import CategoryItem from '@/src/features/categories/components/CategoryItem/CategoryItem';
 import { Grid } from '@mui/material';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Index = () => {
 
   return (
     <Layout title="Strategia School: Course categories">
+      <BlocksTitle titleText="Список всех категорий" />
       <Grid container direction="column" spacing={2}>
         <Grid item container spacing={2}>
           {categories.map((category) => (
