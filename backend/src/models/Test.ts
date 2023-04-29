@@ -9,32 +9,34 @@ const TestSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Course',
       required: true,
+      unique: true,
       validate: {
-        validator: async (value: Types.ObjectId) =>
-          await Course.findById(value),
-        message: 'Course does not exist',
+        async validator(value: Types.ObjectId) {
+          const existingTest = await Test.findOne({ course: value });
+          if (existingTest) {
+            throw new Error('Такой тест уже существует');
+          }
+        },
       },
     },
     title: String,
     description: String,
-    questions: {
-      type: [
-        {
-          question: {
-            type: String,
-            required: true,
-          },
-          answers: {
-            type: [String],
-            required: true,
-          },
-          correctAnswer: {
-            type: String,
-            required: true,
-          },
+    questions: [
+      {
+        question: {
+          type: String,
+          required: true,
         },
-      ],
-    },
+        answers: {
+          type: [String],
+          required: true,
+        },
+        correctAnswer: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true },
 );
