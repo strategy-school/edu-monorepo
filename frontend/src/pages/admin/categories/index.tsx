@@ -10,15 +10,15 @@ import {
   fetchCategories,
   removeCategory,
 } from '@/src/dispatchers/categories/categoriesThunks';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
-  Container,
-  IconButton,
+  Button,
+  Grid,
+  IconButton, Paper,
   Table,
   TableBody,
-  TableCell,
+  TableCell, TableContainer,
   TableFooter,
   TableHead,
   TablePagination,
@@ -54,55 +54,69 @@ const Categories = () => {
   };
 
   return (
-    <AdminLayout>
-      <Container>
-        <Typography sx={{ pl: 2 }}>
-          Категории{' '}
-          <IconButton component={Link} href="/admin/categories/new-category">
-            <AddIcon />
-          </IconButton>
-        </Typography>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Название категории</TableCell>
-
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {categories.map((category) => (
-              <TableRow key={category._id}>
-                <TableCell>{category.title}</TableCell>
-                <TableCell>
-                  <IconButton onClick={() => openEditCategory(category._id)}>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => deleteCategory(category._id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                count={totalCount}
-                rowsPerPage={limit}
-                page={currentPage - 1}
-                onPageChange={(_, newPage) => setPage(newPage + 1)}
-                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </Container>
-    </AdminLayout>
+      <AdminLayout>
+        <Grid container spacing={2} direction="column">
+          <Grid item container xs justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h4">Категории</Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                  component={Link}
+                  href="/admin/categories/new-category"
+                  color="primary"
+                  variant="contained"
+              >
+                Добавить новую категорию
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <TableContainer component={Paper}>
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Название категории</TableCell>
+                    <TableCell>Изменить</TableCell>
+                    <TableCell>Удалить</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {categories.map((category) => (
+                      <TableRow key={category._id} hover>
+                        <TableCell>{category.title}</TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => openEditCategory(category._id)}>
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => deleteCategory(category._id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 50]}
+                        count={totalCount}
+                        rowsPerPage={limit}
+                        page={currentPage - 1}
+                        onPageChange={(_, newPage) => setPage(newPage + 1)}
+                        onRowsPerPageChange={(e) =>
+                            setLimit(parseInt(e.target.value))
+                        }
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Grid>
+      </AdminLayout>
   );
 };
 

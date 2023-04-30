@@ -16,10 +16,10 @@ import {
   Button,
   Grid,
   IconButton,
-  Link as MUILink,
+  Link as MUILink, Paper,
   Table,
   TableBody,
-  TableCell,
+  TableCell, TableContainer,
   TableFooter,
   TableHead,
   TablePagination,
@@ -67,58 +67,60 @@ const Courses = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Название курса</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {courses.map((course) => (
-                <TableRow key={course._id}>
-                  <TableCell>
-                    <MUILink component={Link} href={`courses/${course._id}`}>
-                      {course.title}
-                    </MUILink>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      component={Link}
-                      href={`courses/edit/${course._id}`}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      disabled={
-                        deleteLoading ? deleteLoading === course._id : false
-                      }
-                      onClick={() => handleDelete(course._id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
+          <TableContainer component={Paper}>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Название курса</TableCell>
+                  <TableCell>Изменить</TableCell>
+                  <TableCell>Удалить</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 50]}
-                  count={totalCount}
-                  rowsPerPage={limit}
-                  page={currentPage - 1}
-                  onPageChange={(_, newPage) => setPage(newPage + 1)}
-                  onRowsPerPageChange={(e) =>
-                    setLimit(parseInt(e.target.value))
-                  }
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {courses.map((course) => (
+                    <TableRow key={course._id} hover>
+                      <TableCell>
+                        <MUILink component={Link} href={`courses/${course._id}`}>
+                          {course.title}
+                        </MUILink>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                            component={Link}
+                            href={`courses/edit/${course._id}`}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                            disabled={
+                              deleteLoading ? deleteLoading === course._id : false
+                            }
+                            onClick={() => handleDelete(course._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                      rowsPerPageOptions={[10, 25, 50]}
+                      count={totalCount}
+                      rowsPerPage={limit}
+                      page={currentPage - 1}
+                      onPageChange={(_, newPage) => setPage(newPage + 1)}
+                      onRowsPerPageChange={(e) =>
+                          setLimit(parseInt(e.target.value))
+                      }
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
     </AdminLayout>
