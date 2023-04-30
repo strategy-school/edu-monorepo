@@ -60,7 +60,10 @@ export interface ICourse {
   level: string;
 }
 
-export type CourseShort = Pick<ApiCourse, '_id', 'title', 'duration', 'image'>;
+export type CourseShort = Pick<
+  ApiCourse,
+  '_id' | 'title' | 'duration' | 'image'
+>;
 
 export interface ApiCourse {
   _id: string;
@@ -71,7 +74,7 @@ export interface ApiCourse {
   description: string;
   type: string;
   theme: string;
-  category: Pick<ApiCategory, '_id', 'title'>;
+  category: Pick<ApiCategory, '_id' | 'title'>;
   targetAudience: string;
   programGoal: string;
   level: string;
@@ -88,7 +91,7 @@ export interface ITeacher {
 
 export interface ApiTeacher {
   _id: string;
-  user: Pick<User, '_id', 'firstName', 'lastName'>;
+  user: Pick<User, '_id' | 'firstName' | 'lastName'>;
   photo: string;
   info: string;
   portfolio: string[];
@@ -96,7 +99,7 @@ export interface ApiTeacher {
   updatedAt: string;
 }
 
-export type TeacherShort = Pick<ApiTeacher, '_id', 'user', 'photo'>;
+export type TeacherShort = Pick<ApiTeacher, '_id' | 'user' | 'photo'>;
 
 export interface ICategory {
   title: string;
@@ -139,8 +142,11 @@ export interface ITransaction {
 
 export interface ApiTransaction {
   _id: string;
-  user: Pick<User, '_id', 'email', 'firstName', 'lastName', 'phoneNumber'>;
-  course: Pick<ApiCourse, '_id', 'title', 'price', 'type', 'level', 'image'>;
+  user: Pick<User, '_id' | 'email' | 'firstName' | 'lastName' | 'phoneNumber'>;
+  course: Pick<
+    ApiCourse,
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+  >;
   isPaid: 'pending' | 'paid';
   createdAt: string;
   updatedAt: string;

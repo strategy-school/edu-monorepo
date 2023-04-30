@@ -7,7 +7,6 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 
-
 const Index = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
