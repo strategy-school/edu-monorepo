@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import {
-  selectCategories,
-  selectCategoriesFetching,
-} from '@/src/features/categories/categoriesSlice';
-import { fetchCategories } from '@/src/features/categories/categoriesThunks';
-import { fetchCourses } from '@/src/features/courses/coursesThunks';
-import {
   Button,
   CircularProgress,
   FormControl,
@@ -20,7 +14,13 @@ import {
   Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { selectCoursesFetching } from '@/src/features/courses/coursesSlice';
+import { selectCoursesFetching } from '@/src/dispatchers/courses/coursesSlice';
+import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
+import {
+  selectCategories,
+  selectCategoriesFetching,
+} from '@/src/dispatchers/categories/categoriesSlice';
+import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
 
 const CourseFilterForm = () => {
   const dispatch = useAppDispatch();

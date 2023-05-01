@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { usersReducer } from '../features/users/usersSlice';
+import { usersReducer } from '../dispatchers/users/usersSlice';
 import {
   FLUSH,
   REHYDRATE,
@@ -11,11 +11,11 @@ import {
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { coursesReducer } from '@/src/features/courses/coursesSlice';
-import { teacherReducer } from '@/src/features/teachers/teachersSlice';
-import { categoriesReducer } from '@/src/features/categories/categoriesSlice';
 import { transacionsReducer } from '../dispatchers/transactions/transactionsSlice';
-import { commentsReducer } from '@/src/features/comments/commentsSlice';
+import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
+import { coursesReducer } from '../dispatchers/courses/coursesSlice';
+import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
+import { commentsReducer } from '@/src/dispatchers/comments/commentsSlice';
 import { testsReducer } from '@/src/dispatchers/tests/testsSlice';
 
 const usersPersistConfig = {

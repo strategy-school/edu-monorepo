@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { Box, Grid } from '@mui/material';
-import Layout from '@/src/components/UI/Layout/Layout';
 import { useAppDispatch } from '@/src/app/hooks';
-import { fetchCourses } from '@/src/features/courses/coursesThunks';
-import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
 import AboutUs from '@/src/components/StaticComponents/AboutUs/AboutUs';
+import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
+import Layout from '@/src/components/UI/Layout/Layout';
 import CoursesWrapper from '@/src/features/courses/components/CoursesWrapper/CoursesWrapper';
-import { fetchTeachers } from '@/src/features/teachers/teachersThunks';
 import TeachersWrapper from '@/src/features/teachers/components/TeachersWrapper/TeachersWrapper';
+import { Box, Grid } from '@mui/material';
+import React from 'react';
+import { fetchCourses } from '../dispatchers/courses/coursesThunks';
+import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchCourses());
     dispatch(fetchTeachers());
   }, [dispatch]);

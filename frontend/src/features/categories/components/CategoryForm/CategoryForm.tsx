@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { CategoryMutation } from '@/src/types';
+import { ICategory } from '@/src/types';
 import { CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import { ValidationError } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 interface Props {
-  onSubmit: (categoryMutation: CategoryMutation) => void;
-  existingCategory?: CategoryMutation;
+  onSubmit: (categoryMutation: ICategory) => void;
+  existingCategory?: ICategory;
   isEdit?: boolean;
   loading?: boolean;
   fetchCategoryLoading?: boolean;
   error: ValidationError | null;
 }
 
-const initialState: CategoryMutation = {
+const initialState: ICategory = {
   title: '',
   description: '',
   image: null,
@@ -28,7 +28,7 @@ const CategoryForm: React.FC<Props> = ({
   fetchCategoryLoading = false,
   error,
 }) => {
-  const [state, setState] = useState<CategoryMutation>(
+  const [state, setState] = useState<ICategory>(
     existingCategory || initialState,
   );
 

@@ -1,45 +1,52 @@
-import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import {
+  selectUpdateUserLoading,
+  selectUserPage,
+  selectUsers,
+  selectUsersCount,
+} from '@/src/dispatchers/users/usersSlice';
+import {
+  fetchUsers,
+  updateIsBannedStatus,
+} from '@/src/dispatchers/users/usersThunks';
+import EditIcon from '@mui/icons-material/Edit';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Container,
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
-import {
-  selectBasicUsers,
-  selectUpdateUserLoading,
-} from '@/src/features/users/usersSlice';
-import {
-  fetchBasicUsers,
-  updateIsBannedStatus,
-} from '@/src/features/users/usersThunks';
-import LoadingButton from '@mui/lab/LoadingButton';
+import React from 'react';
 
 const UserAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const usersBasic = useAppSelector(selectBasicUsers);
+  const basicUsers = useAppSelector(selectUsers);
   const banLoading = useAppSelector(selectUpdateUserLoading);
+  const totalCount = useAppSelector(selectUsersCount);
+  const currentPage = useAppSelector(selectUserPage);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
-  useEffect(() => {
-    dispatch(fetchBasicUsers());
-  }, [dispatch]);
+  React.useEffect(() => {
+    dispatch(fetchUsers({ role: 'user', page, limit: limit }));
+  }, [dispatch, page, limit, banLoading]);
 
-  const editBanStatus = async (id: string, banStatus: boolean) => {
+  const editBanStatus = (id: string, banStatus: boolean) => {
     if (
       window.confirm(
         `Подтвердите, что хотите изменить статус бана на 
         ${banStatus ? 'не активный' : 'активный'}`,
       )
     ) {
-      await dispatch(updateIsBannedStatus(id));
-      dispatch(fetchBasicUsers());
+      dispatch(updateIsBannedStatus(id));
     }
   };
 
@@ -59,7 +66,7 @@ const UserAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersBasic.map((student) => (
+            {basicUsers.map((student) => (
               <TableRow key={student._id}>
                 <TableCell
                   sx={{ cursor: 'pointer' }}
@@ -91,6 +98,18 @@ const UserAdmin = () => {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                count={totalCount}
+                rowsPerPage={limit}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </Container>
     </>

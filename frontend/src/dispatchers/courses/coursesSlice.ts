@@ -1,4 +1,9 @@
-import { Course, FullCourse, ValidationError } from '@/src/types';
+import {
+  CourseShort,
+  ApiCourse,
+  IPagination,
+  ValidationError,
+} from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
@@ -7,18 +12,20 @@ import {
   fetchCourses,
   fetchOneCourse,
   updateCourse,
-} from '@/src/features/courses/coursesThunks';
+} from './coursesThunks';
 
 interface CourseState {
-  items: Course[];
+  items: CourseShort[];
   fetchLoading: boolean;
-  oneCourse: FullCourse | null;
+  oneCourse: ApiCourse | null;
   fetchOneLoading: boolean;
   createLoading: boolean;
   createCourseError: ValidationError | null;
   updateLoading: boolean;
   updateCourseError: ValidationError | null;
   deleteLoading: string | false;
+  currentPage: number;
+  totalCount: number;
 }
 
 const initialState: CourseState = {
@@ -31,6 +38,8 @@ const initialState: CourseState = {
   updateLoading: false,
   updateCourseError: null,
   deleteLoading: false,
+  currentPage: 1,
+  totalCount: 1,
 };
 
 const coursesSlice = createSlice({
@@ -41,9 +50,12 @@ const coursesSlice = createSlice({
     builder.addCase(fetchCourses.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchCourses.fulfilled, (state, { payload: courses }) => {
+    builder.addCase(fetchCourses.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.items = courses;
+      const result = payload.result as IPagination<CourseShort>;
+      state.items = result.courses;
+      state.currentPage = result.currentPage;
+      state.totalCount = result.totalCount;
     });
     builder.addCase(fetchCourses.rejected, (state) => {
       state.fetchLoading = false;
@@ -114,3 +126,6 @@ export const selectUpdateCourseError = (state: RootState) =>
   state.courses.updateCourseError;
 export const selectCourseDeleting = (state: RootState) =>
   state.courses.deleteLoading;
+export const selectCoursePage = (state: RootState) => state.courses.currentPage;
+export const selectCoursesCount = (state: RootState) =>
+  state.courses.totalCount;

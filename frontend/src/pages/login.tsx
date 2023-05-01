@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { LoginMutation } from '../types';
+import Layout from '@/src/components/UI/Layout/Layout';
+import { googleLogin, login } from '@/src/dispatchers/users/usersThunks';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Alert,
   Avatar,
@@ -11,24 +12,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { GoogleLogin } from '@react-oauth/google';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import LoadingButton from '@mui/lab/LoadingButton';
 import {
   selectLoginError,
   selectLoginLoading,
-} from '@/src/features/users/usersSlice';
-import { googleLogin, login } from '@/src/features/users/usersThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
-import Link from 'next/link';
-import { GoogleLogin } from '@react-oauth/google';
+} from '../dispatchers/users/usersSlice';
+import { LoginMutation } from '../types';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectLoginError);
   const loading = useAppSelector(selectLoginLoading);
   const router = useRouter();
-  const [state, setState] = useState<LoginMutation>({
+  const [state, setState] = React.useState<LoginMutation>({
     email: '',
     password: '',
   });

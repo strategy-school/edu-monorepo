@@ -45,4 +45,16 @@ testsRouter.get('/:id', async (req, res) => {
   }
 });
 
+testsRouter.get('/', async (req, res) => {
+  try {
+    const result = await Test.find();
+    if (result.length === 0) {
+      return res.status(404).send({ error: 'Тесты не найдены!' });
+    }
+    return res.send(result);
+  } catch {
+    return res.sendStatus(500);
+  }
+});
+
 export default testsRouter;
