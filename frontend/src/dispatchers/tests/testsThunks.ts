@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TestMutation, ValidationError } from '@/src/types';
+import { Test, TestMutation, ValidationError } from '@/src/types';
 import { RootState } from '@/src/app/store';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
@@ -18,3 +18,11 @@ export const createTest = createAsyncThunk<
     throw e;
   }
 });
+
+export const fetchTests = createAsyncThunk<Test[]>(
+  'tests/fetchAll',
+  async () => {
+    const response = await axiosApi.get<Test[]>('/tests');
+    return response.data;
+  },
+);

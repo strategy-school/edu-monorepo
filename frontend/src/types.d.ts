@@ -163,7 +163,7 @@ export interface ApiResponse<Type> {
   result: Type | IPagination<Type>;
 }
 
-export interface CourseMini {
+export interface CategoryMini {
   _id: string;
   title: string;
 }
@@ -179,7 +179,7 @@ export interface QuestionFull extends Question {
 }
 export interface Test {
   _id: string;
-  course: CourseMini;
+  category: CategoryMini;
   title: string;
   description: string;
   questions: QuestionFull[];
@@ -189,7 +189,7 @@ export interface Test {
 }
 
 export interface TestMutation {
-  course: string;
+  category: string;
   title: string;
   description: string;
   questions: Question[];
