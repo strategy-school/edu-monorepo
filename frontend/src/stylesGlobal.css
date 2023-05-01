@@ -8,5 +8,12 @@ a {
 }
 
 .card:hover {
-  box-shadow: inset 0 0 21px 4px #eca8a8;
+  box-shadow: inset 0 0 21px 4px #dfeaf5;
+  transform: scale(1.05, 1.05);
+  transition: transform 100ms ease-out;
+}
+
+.teacher-card:hover {
+  transform: scale(1.01, 1.01);
+  transition: transform 100ms ease-out;
 }

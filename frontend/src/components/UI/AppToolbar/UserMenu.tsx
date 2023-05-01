@@ -4,7 +4,7 @@ import { Avatar, Button, Menu, MenuItem } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
-import { logout } from '@/src/features/users/usersThunks';
+import { logout } from '@/src/dispatchers/users/usersThunks';
 import Link from 'next/link';
 
 interface Props {

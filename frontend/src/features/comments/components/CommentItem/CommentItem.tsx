@@ -4,12 +4,8 @@ import {
   selectCommentDeleting,
   selectCommentUpdating,
   selectUpdateCommentError,
-} from '@/src/features/comments/commentsSlice';
+} from '@/src/dispatchers/comments/commentsSlice';
 import { apiURL, dateCommentFormat } from '@/src/constants';
-import {
-  selectUpdateUserLoading,
-  selectUser,
-} from '@/src/features/users/usersSlice';
 import {
   Avatar,
   Box,
@@ -28,13 +24,17 @@ import {
   deleteComment,
   fetchComments,
   updateComment,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 import { ApiComment, ShortCommentMutation } from '@/src/types';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
-import { updateIsBannedStatus } from '@/src/features/users/usersThunks';
 import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import {
+  selectUpdateUserLoading,
+  selectUser,
+} from '@/src/dispatchers/users/usersSlice';
+import { updateIsBannedStatus } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   comment: ApiComment;

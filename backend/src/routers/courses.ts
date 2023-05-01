@@ -24,6 +24,8 @@ coursesRouter.get('/', async (req, res, next) => {
     const category = req.query.category as string;
     const minPrice = req.query.minPrice as string;
     const maxPrice = req.query.maxPrice as string;
+    const limit: number = parseInt(req.query.limit as string) || 10;
+    const page: number = parseInt(req.query.page as string) || 1;
 
     const searchParam: CourseSearchParam = {};
 
@@ -43,8 +45,17 @@ coursesRouter.get('/', async (req, res, next) => {
       };
     }
 
-    const courses = await Course.find(searchParam, 'title duration image');
-    return res.send(courses);
+    const totalCount = await Course.count(searchParam);
+    const skip = (page - 1) * limit;
+
+    const courses = await Course.find(searchParam, 'title duration image')
+      .skip(skip)
+      .limit(limit);
+
+    return res.send({
+      message: 'Courses are found',
+      result: { courses, currentPage: page, totalCount },
+    });
   } catch (e) {
     return next(e);
   }

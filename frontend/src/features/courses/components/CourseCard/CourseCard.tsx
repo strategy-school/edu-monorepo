@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import { Course } from '@/src/types';
+import { CourseShort } from '@/src/types';
 import { courseCardStyle } from '@/src/styles';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import { apiURL } from '@/src/constants';
 import theme from '@/src/theme';
 
 interface Props {
-  course: Course;
+  course: CourseShort;
 }
 
 const CourseCard: React.FC<Props> = ({ course }) => {

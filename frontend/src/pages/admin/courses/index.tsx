@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
-import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
   selectCourseDeleting,
+  selectCoursePage,
   selectCourses,
-} from '@/src/features/courses/coursesSlice';
+  selectCoursesCount,
+} from '@/src/dispatchers/courses/coursesSlice';
 import {
   deleteCourse,
   fetchCourses,
-} from '@/src/features/courses/coursesThunks';
+} from '@/src/dispatchers/courses/coursesThunks';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Button,
   Grid,
@@ -17,27 +20,31 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
+import React from 'react';
 
 const Courses = () => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const deleteLoading = useAppSelector(selectCourseDeleting);
+  const totalCount = useAppSelector(selectCoursesCount);
+  const currentPage = useAppSelector(selectCoursePage);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
-  useEffect(() => {
-    void dispatch(fetchCourses());
-  }, [dispatch]);
+  React.useEffect(() => {
+    void dispatch(fetchCourses({ page, limit }));
+  }, [dispatch, deleteLoading, page, limit]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (window.confirm('Подтвердите удаление курса')) {
-      await dispatch(deleteCourse(id));
-      dispatch(fetchCourses());
+      dispatch(deleteCourse(id));
     }
   };
 
@@ -97,6 +104,20 @@ const Courses = () => {
                 </TableRow>
               ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50]}
+                  count={totalCount}
+                  rowsPerPage={limit}
+                  page={currentPage - 1}
+                  onPageChange={(_, newPage) => setPage(newPage + 1)}
+                  onRowsPerPageChange={(e) =>
+                    setLimit(parseInt(e.target.value))
+                  }
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </Grid>
       </Grid>

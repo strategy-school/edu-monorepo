@@ -6,7 +6,7 @@ import {
   deleteComment,
   fetchComments,
   updateComment,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 
 interface CommentsState {
   items: ApiCommentsResponse | null;

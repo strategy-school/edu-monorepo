@@ -1,17 +1,35 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Category, CategoryMutation, ValidationError } from '@/src/types';
 import axiosApi from '@/src/axiosApi';
+import {
+  ApiResponse,
+  ApiCategory,
+  ICategory,
+  ValidationError,
+} from '@/src/types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 
-export const fetchCategories = createAsyncThunk<Category[]>(
-  'categories/fetchAll',
-  async () => {
-    const response = await axiosApi.get('/categories');
-    return response.data;
-  },
-);
+interface SeacrhParam {
+  limit?: number;
+  page?: number;
+}
 
-export const fetchOneCategory = createAsyncThunk<Category, string>(
+export const fetchCategories = createAsyncThunk<
+  ApiResponse<ApiCategory>,
+  SeacrhParam | undefined
+>('categories/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+  const url = `/categories${queryString ? `?${queryString}` : ''}`;
+
+  const { data } = await axiosApi.get<ApiResponse<ApiCategory>>(url);
+  return data;
+});
+
+export const fetchOneCategory = createAsyncThunk<ApiCategory, string>(
   'categories/fetchOne',
   async (id) => {
     const response = await axiosApi.get('/categories/' + id);
@@ -21,12 +39,12 @@ export const fetchOneCategory = createAsyncThunk<Category, string>(
 
 export const createCategory = createAsyncThunk<
   void,
-  CategoryMutation,
+  ICategory,
   { rejectValue: ValidationError }
 >('categories/create', async (categoryMutation, { rejectWithValue }) => {
   try {
     const formData = new FormData();
-    const keys = Object.keys(categoryMutation) as (keyof CategoryMutation)[];
+    const keys = Object.keys(categoryMutation) as (keyof ICategory)[];
     keys.forEach((key) => {
       const value = categoryMutation[key];
       if (value !== null) {
@@ -44,14 +62,14 @@ export const createCategory = createAsyncThunk<
 
 export const updateCategory = createAsyncThunk<
   void,
-  { id: string; categoryMutation: CategoryMutation },
+  { id: string; categoryMutation: ICategory },
   { rejectValue: ValidationError }
 >(
   'categories/update',
   async ({ id, categoryMutation }, { rejectWithValue }) => {
     try {
       const formData = new FormData();
-      const keys = Object.keys(categoryMutation) as (keyof CategoryMutation)[];
+      const keys = Object.keys(categoryMutation) as (keyof ICategory)[];
 
       keys.forEach((key) => {
         const value = categoryMutation[key];

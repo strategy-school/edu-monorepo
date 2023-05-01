@@ -6,11 +6,11 @@ import {
   selectComments,
   selectCommentsFetching,
   selectCreateCommentError,
-} from '@/src/features/comments/commentsSlice';
+} from '@/src/dispatchers/comments/commentsSlice';
 import {
   createComment,
   fetchComments,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 import {
   Alert,
   Box,
@@ -23,7 +23,7 @@ import {
 import CommentItem from '@/src/features/comments/components/CommentItem/CommentItem';
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
-import { selectUser } from '@/src/features/users/usersSlice';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 interface Props {
   courseId: string;
