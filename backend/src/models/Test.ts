@@ -1,30 +1,31 @@
 import mongoose, { Types } from 'mongoose';
-import Course from './Course';
+import Category from './Category';
+
 const Schema = mongoose.Schema;
 
 const TestSchema = new Schema(
   {
-    course: {
+    category: {
       type: Schema.Types.ObjectId,
-      ref: 'Course',
+      ref: 'Category',
       required: true,
-      unique: true,
       validate: {
         async validator(value: Types.ObjectId) {
-          const existingTest = await Test.findOne({ course: value });
-          if (existingTest) {
-            throw new Error('Такой тест уже существует');
-          }
-
-          const existingCourse = await Course.findById(value);
-          if (!existingCourse) {
+          const existingCategory = await Category.findById(value);
+          if (!existingCategory) {
             throw new Error('Курс не найден');
           }
         },
       },
     },
-    title: String,
-    description: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
     questions: [
       {
         question: {

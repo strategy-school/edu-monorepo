@@ -11,16 +11,18 @@ import {
   Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { TestMutation } from '@/src/types';
-import { ValidationError } from 'json-schema';
+import { TestMutation, ValidationError } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { fetchCourses } from '@/src/features/courses/coursesThunks';
 import { selectCourses } from '@/src/features/courses/coursesSlice';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
+import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
+
 interface Props {
-  // onSubmit: (test: TestMutation) => void;
+  onSubmit: (test: TestMutation) => void;
   existingTest?: TestMutation;
   isEdit?: boolean;
   loading: boolean;
@@ -28,33 +30,33 @@ interface Props {
 }
 
 const initialState: TestMutation = {
-  course: '',
+  category: '',
   title: '',
   description: '',
-  questions: [{ question: '', answers: [''], correctAnswer: '' }],
+  questions: [{ question: '', answers: ['', ''], correctAnswer: '' }],
 };
 
 const TestForm: React.FC<Props> = ({
-  // onSubmit,
+  onSubmit,
   existingTest,
   loading,
   error,
   isEdit,
 }) => {
   const dispatch = useAppDispatch();
-  const courses = useAppSelector(selectCourses);
+  const categories = useAppSelector(selectCategories);
   const [state, setState] = useState<TestMutation>(
     existingTest || initialState,
   );
   useEffect(() => {
-    dispatch(fetchCourses());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(state);
-    // await onSubmit(state);
-    // setState(initialState);
+    await onSubmit(state);
+    setState(initialState);
   };
 
   const inputChangeHandler = (
@@ -143,6 +145,14 @@ const TestForm: React.FC<Props> = ({
     });
   };
 
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
+  };
+
   return (
     <form onSubmit={submitFormHandler}>
       <Grid container direction="column" spacing={2}>
@@ -154,21 +164,21 @@ const TestForm: React.FC<Props> = ({
         {!isEdit && (
           <Grid item xs={12}>
             <TextField
-              label="Выберите курс"
+              label="Выберите категорию"
               select
-              name="course"
-              value={state.course}
+              name="category"
+              value={state.category}
               onChange={inputChangeHandler}
               required
-              // error={Boolean(getFieldError('user'))}
-              // helperText={getFieldError('user')}
+              error={Boolean(getFieldError('category'))}
+              helperText={getFieldError('category')}
             >
               <MenuItem value="" disabled>
                 Пожалуйста, выберите курс
               </MenuItem>
-              {courses.map((course) => (
-                <MenuItem key={course._id} value={course._id}>
-                  {course.title}
+              {categories.map((category) => (
+                <MenuItem key={category._id} value={category._id}>
+                  {category.title}
                 </MenuItem>
               ))}
             </TextField>
@@ -182,8 +192,8 @@ const TestForm: React.FC<Props> = ({
             onChange={inputChangeHandler}
             name="title"
             required
-            // error={Boolean(getFieldError('info'))}
-            // helperText={getFieldError('info')}
+            error={Boolean(getFieldError('title'))}
+            helperText={getFieldError('title')}
           />
         </Grid>
         <Grid item xs={12}>
@@ -196,8 +206,8 @@ const TestForm: React.FC<Props> = ({
             onChange={inputChangeHandler}
             name="description"
             required
-            // error={Boolean(getFieldError('info'))}
-            // helperText={getFieldError('info')}
+            error={Boolean(getFieldError('description'))}
+            helperText={getFieldError('description')}
           />
         </Grid>
 
@@ -222,9 +232,8 @@ const TestForm: React.FC<Props> = ({
                 value={question.question}
                 onChange={(event) => questionsInputChangeHandler(event, index)}
                 sx={{ mb: 1 }}
-                // autoComplete="new-ingredients"
-                // error={Boolean(getFieldError('ingredients'))}
-                // helperText={getFieldError('ingredients')}
+                error={Boolean(getFieldError(`questions.${index}.question`))}
+                helperText={getFieldError(`questions.${index}.question`)}
                 required
               />
             </Grid>
@@ -256,12 +265,20 @@ const TestForm: React.FC<Props> = ({
                           onChange={(event) =>
                             answerInputChangeHandler(event, index, answerIndex)
                           }
+                          error={Boolean(
+                            getFieldError(
+                              `questions.${index}.answers.${answerIndex}`,
+                            ),
+                          )}
+                          helperText={getFieldError(
+                            `questions.${index}.answers.${answerIndex}`,
+                          )}
                           required
                         />
                       </Grid>
                       <Grid item container justifyContent="center" xs={1}>
                         <FormControlLabel
-                          value={!answer ? null : answer}
+                          value={!answer ? false : answer}
                           control={
                             <Radio
                               id={`answer-${answerIndex}`}
