@@ -10,12 +10,8 @@ const TestSchema = new Schema(
       ref: 'Category',
       required: true,
       validate: {
-        async validator(value: Types.ObjectId) {
-          const existingCategory = await Category.findById(value);
-          if (!existingCategory) {
-            throw new Error('Курс не найден');
-          }
-        },
+        validator: async (value: Types.ObjectId) => Category.findById(value),
+        message: 'Категория не найдена!',
       },
     },
     title: {

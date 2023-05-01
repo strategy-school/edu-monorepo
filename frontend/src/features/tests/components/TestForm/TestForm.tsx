@@ -48,6 +48,7 @@ const TestForm: React.FC<Props> = ({
   const [state, setState] = useState<TestMutation>(
     existingTest || initialState,
   );
+
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
@@ -109,16 +110,27 @@ const TestForm: React.FC<Props> = ({
     answerIndex: number,
   ) => {
     const { value } = e.target;
+    console.log(answerIndex);
+
     setState((prevState) => {
       const updatedQuestions = [...prevState.questions];
-      updatedQuestions[questionIndex].answers[answerIndex] = value;
+      const updatedAnswers = [...updatedQuestions[questionIndex].answers];
+      updatedAnswers[answerIndex] = value;
+      updatedQuestions[questionIndex] = {
+        ...updatedQuestions[questionIndex],
+        answers: updatedAnswers,
+      };
       return { ...prevState, questions: updatedQuestions };
     });
   };
+
   const addAnswer = (questionIndex: number) => {
     setState((prevState) => {
       const updatedQuestions = [...prevState.questions];
-      updatedQuestions[questionIndex].answers.push('');
+      updatedQuestions[questionIndex].answers = [
+        ...updatedQuestions[questionIndex].answers,
+        '',
+      ];
       return { ...prevState, questions: updatedQuestions };
     });
   };
@@ -126,7 +138,9 @@ const TestForm: React.FC<Props> = ({
   const removeAnswer = (questionIndex: number, answerIndex: number) => {
     setState((prevState) => {
       const updatedQuestions = [...prevState.questions];
-      updatedQuestions[questionIndex].answers.splice(answerIndex, 1);
+      const updatedAnswers = [...updatedQuestions[questionIndex].answers];
+      updatedAnswers.splice(answerIndex, 1);
+      updatedQuestions[questionIndex].answers = updatedAnswers;
       return { ...prevState, questions: updatedQuestions };
     });
   };
@@ -161,29 +175,29 @@ const TestForm: React.FC<Props> = ({
             {isEdit ? 'Редактировать' : 'Добавить'} тест
           </Typography>
         </Grid>
-        {!isEdit && (
-          <Grid item xs={12}>
-            <TextField
-              label="Выберите категорию"
-              select
-              name="category"
-              value={state.category}
-              onChange={inputChangeHandler}
-              required
-              error={Boolean(getFieldError('category'))}
-              helperText={getFieldError('category')}
-            >
-              <MenuItem value="" disabled>
-                Пожалуйста, выберите курс
+
+        <Grid item xs={12}>
+          <TextField
+            label="Выберите категорию"
+            select
+            name="category"
+            value={state.category}
+            onChange={inputChangeHandler}
+            required
+            error={Boolean(getFieldError('category'))}
+            helperText={getFieldError('category')}
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите курс
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category._id} value={category._id}>
+                {category.title}
               </MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category._id} value={category._id}>
-                  {category.title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        )}
+            ))}
+          </TextField>
+        </Grid>
+
         <Grid item xs={12}>
           <TextField
             id="title"

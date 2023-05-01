@@ -26,3 +26,26 @@ export const fetchTests = createAsyncThunk<Test[]>(
     return response.data;
   },
 );
+
+export const fetchOneTest = createAsyncThunk<Test, string>(
+  'tests/OneTest',
+  async (id) => {
+    const response = await axiosApi.get<Test>('/tests/' + id);
+    return response.data;
+  },
+);
+
+export const editTest = createAsyncThunk<
+  void,
+  { id: string; test: TestMutation },
+  { rejectValue: ValidationError; state: RootState }
+>('tests/update', async ({ id, test }, { rejectWithValue }) => {
+  try {
+    await axiosApi.patch(`/tests/${id}`, test);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
+});

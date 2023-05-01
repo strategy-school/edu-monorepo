@@ -1,7 +1,16 @@
 import { Test, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTest, fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import {
+  createTest,
+  fetchTests,
+  editTest,
+  fetchOneTest,
+} from '@/src/dispatchers/tests/testsThunks';
 import { RootState } from '@/src/app/store';
+import {
+  editTeacher,
+  fetchOneTeacher,
+} from '@/src/dispatchers/teachers/teachersThunks';
 
 interface TestsState {
   test: Test | null;
@@ -39,6 +48,7 @@ const testsSlice = createSlice({
       state.createTestError = error || null;
       state.createLoading = false;
     });
+
     builder.addCase(fetchTests.pending, (state) => {
       state.tests = [];
       state.fetchLoading = true;
@@ -49,6 +59,30 @@ const testsSlice = createSlice({
     });
     builder.addCase(fetchTests.rejected, (state) => {
       state.fetchLoading = false;
+    });
+
+    builder.addCase(fetchOneTest.pending, (state) => {
+      state.fetchLoading = true;
+      state.test = null;
+    });
+    builder.addCase(fetchOneTest.fulfilled, (state, { payload: test }) => {
+      state.fetchLoading = false;
+      state.test = test;
+    });
+    builder.addCase(fetchOneTest.rejected, (state) => {
+      state.fetchLoading = false;
+    });
+
+    builder.addCase(editTest.pending, (state) => {
+      state.updateTestError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(editTest.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(editTest.rejected, (state, { payload: error }) => {
+      state.updateTestError = error || null;
+      state.updateLoading = false;
     });
   },
 });

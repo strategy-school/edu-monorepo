@@ -32,7 +32,7 @@ testsRouter.post('/', auth, permit('admin'), async (req, res, next) => {
 
 testsRouter.get('/:id', async (req, res) => {
   try {
-    const result = await Test.findOne({ category: req.params.id }).populate(
+    const result = await Test.findById(req.params.id).populate(
       'category',
       'title',
     );
@@ -54,6 +54,41 @@ testsRouter.get('/', async (req, res) => {
     return res.send(result);
   } catch {
     return res.sendStatus(500);
+  }
+});
+
+testsRouter.patch('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { category, title, description, questions } = req.body;
+
+    const test = await Test.findByIdAndUpdate(
+      id,
+      {
+        category,
+        title,
+        description,
+        questions,
+      },
+      { new: true },
+    );
+
+    if (!test) {
+      return res.status(404).send({
+        message: 'Тест не найден',
+      });
+    }
+
+    return res.send({
+      message: 'Тест успешно обновлен!',
+      test,
+    });
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    } else {
+      return next(e);
+    }
   }
 });
 
