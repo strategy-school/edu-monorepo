@@ -2,7 +2,6 @@ import express from 'express';
 import Test from '../models/Test';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
-import Course from '../models/Course';
 import mongoose from 'mongoose';
 
 const testsRouter = express.Router();
