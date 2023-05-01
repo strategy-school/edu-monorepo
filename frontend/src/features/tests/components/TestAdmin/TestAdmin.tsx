@@ -54,36 +54,39 @@ const TestAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tests.map((test) => (
-              <TableRow key={test._id}>
-                <TableCell align="left" sx={{ cursor: 'pointer' }}>
-                  <Button
-                    onClick={() => openOneTest(test._id)}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    {test.title}
-                  </Button>
-                </TableCell>
-                <TableCell
-                // onClick={() => openOneTeacher(test._id)}
-                >
-                  {test.category.title}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton component={Link} href={`tests/edit/${test._id}`}>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    // onClick={() => handleDelete(test._id)}
-                    disabled={test._id === deleting}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {tests.length > 0 &&
+              tests.map((test) => (
+                <TableRow key={test._id}>
+                  <TableCell align="left" sx={{ cursor: 'pointer' }}>
+                    <Button
+                      variant="text"
+                      onClick={() => openOneTest(test._id)}
+                      sx={{ textTransform: 'none' }}
+                    >
+                      {test.title}
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    {test.category.title && test.category.title}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      component={Link}
+                      href={`tests/edit/${test._id}`}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      // onClick={() => handleDelete(test._id)}
+                      disabled={test._id === deleting}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
           {/*<TableFooter>*/}
           {/*  <TableRow>*/}
