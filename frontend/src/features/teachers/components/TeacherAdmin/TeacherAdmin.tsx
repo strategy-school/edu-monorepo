@@ -5,41 +5,53 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectTeachers } from '@/src/features/teachers/teachersSlice';
-import {
-  deleteTeacher,
-  fetchTeachers,
-} from '@/src/features/teachers/teachersThunks';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router';
+import {
+  selectTeacherDeleting,
+  selectTeacherPage,
+  selectTeachers,
+  selectTeachersCount,
+} from '@/src/dispatchers/teachers/teachersSlice';
+import {
+  fetchTeachers,
+  deleteTeacher,
+} from '@/src/dispatchers/teachers/teachersThunks';
 
 const TeacherAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const teachers = useAppSelector(selectTeachers);
+  const deleting = useAppSelector(selectTeacherDeleting);
+  const currentPage = useAppSelector(selectTeacherPage);
+  const totalCount = useAppSelector(selectTeachersCount);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
 
   useEffect(() => {
-    dispatch(fetchTeachers());
-  }, [dispatch]);
+    dispatch(fetchTeachers({ page, limit }));
+  }, [dispatch, page, limit, deleting]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (window.confirm('Подтвердите удаление преподавателя')) {
-      await dispatch(deleteTeacher(id));
-      dispatch(fetchTeachers());
+      dispatch(deleteTeacher(id));
     }
   };
 
   const openOneTeacher = (id: string) => {
     void router.push(`teachers/${id}`);
   };
+
   return (
     <>
       <Container>
@@ -75,13 +87,28 @@ const TeacherAdmin = () => {
                   </IconButton>
                 </TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={() => handleDelete(teacher._id)}>
+                  <IconButton
+                    onClick={() => handleDelete(teacher._id)}
+                    disabled={teacher._id === deleting}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                count={totalCount}
+                rowsPerPage={limit}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </Container>
     </>

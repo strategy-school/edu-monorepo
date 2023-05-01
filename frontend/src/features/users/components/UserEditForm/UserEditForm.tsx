@@ -1,6 +1,5 @@
 import { useAppSelector } from '@/src/app/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { selectRegisterError } from '@/src/features/users/usersSlice';
 import { UpdateUserMutation } from '@/src/types';
 import {
   Box,
@@ -12,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
+import { selectUpdateUserError } from '@/src/dispatchers/users/usersSlice';
 
 interface Props {
   onSubmit: (updateMutation: UpdateUserMutation) => void;
@@ -27,7 +27,7 @@ const initialState: UpdateUserMutation = {
 };
 
 const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
-  const error = useAppSelector(selectRegisterError);
+  const error = useAppSelector(selectUpdateUserError);
   const [state, setState] = useState<UpdateUserMutation>(
     existingUser || initialState,
   );

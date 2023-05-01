@@ -30,9 +30,11 @@ transactionsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
     const transactions = await Transaction.find(searchParam)
       .populate('user', 'email firstName lastName phoneNumber')
       .populate('course', 'title price type level image')
-      .sort({ createdAt: -1 })
+      .sort([['createdAt', -1]])
       .skip(skip)
       .limit(limit);
+
+    console.log(transactions);
 
     return res.send({
       message: 'Transactions are found',

@@ -164,13 +164,59 @@ usersRouter.patch(
   },
 );
 
-usersRouter.get('/basic', auth, permit('admin'), async (req, res, next) => {
+usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
   try {
-    const users = await User.find({ role: 'user' });
+    const { role, email, firstName, lastName, phoneNumber, isBanned } =
+      req.query;
+    const page: number = parseInt(req.query.page as string) || 1;
+    const limit: number = parseInt(req.query.limit as string) || 10;
+
+    const searchParam: {
+      role?: string;
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+      phoneNumber?: string;
+      isBanned?: boolean;
+    } = {};
+
+    if (role) {
+      searchParam.role = role as string;
+    }
+
+    if (email) {
+      searchParam.email = email as string;
+    }
+
+    if (firstName) {
+      searchParam.firstName = firstName as string;
+    }
+
+    if (lastName) {
+      searchParam.lastName = lastName as string;
+    }
+
+    if (phoneNumber) {
+      searchParam.phoneNumber = phoneNumber as string;
+    }
+
+    if (isBanned) {
+      searchParam.isBanned = Boolean(parseInt(isBanned as string));
+    }
+
+    const totalCount = await User.count(searchParam);
+    const skip = (page - 1) * limit;
+
+    const users = await User.find(searchParam).skip(skip).limit(limit);
+
     if (users.length === 0) {
       return res.status(500).send({ error: 'Пользователи не найдены!' });
     }
-    return res.send(users);
+
+    return res.send({
+      message: 'Users are found',
+      result: { users, currentPage: page, totalCount },
+    });
   } catch (e) {
     return next(e);
   }

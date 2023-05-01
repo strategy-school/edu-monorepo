@@ -1,22 +1,22 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { TeacherMutation, ValidationError } from '@/src/types';
+import { ITeacher, ValidationError } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectBasicUsers } from '@/src/features/users/usersSlice';
-import { fetchBasicUsers } from '@/src/features/users/usersThunks';
+import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
 import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { selectUsers } from '@/src/dispatchers/users/usersSlice';
 
 interface Props {
-  onSubmit: (teacher: TeacherMutation) => void;
-  existingTeacher?: TeacherMutation;
+  onSubmit: (teacher: ITeacher) => void;
+  existingTeacher?: ITeacher;
   isEdit?: boolean;
   loading: boolean;
   error: ValidationError | null;
 }
 
-const initialState: TeacherMutation = {
+const initialState: ITeacher = {
   user: '',
   info: '',
   photo: null,
@@ -31,13 +31,11 @@ const TeacherForm: React.FC<Props> = ({
   error,
 }) => {
   const dispatch = useAppDispatch();
-  const basicUsers = useAppSelector(selectBasicUsers);
+  const basicUsers = useAppSelector(selectUsers);
 
-  const [state, setState] = useState<TeacherMutation>(
-    existingTeacher || initialState,
-  );
+  const [state, setState] = useState<ITeacher>(existingTeacher || initialState);
   useEffect(() => {
-    dispatch(fetchBasicUsers());
+    dispatch(fetchUsers({ role: 'user' }));
   }, [dispatch]);
 
   const submitFormHandler = async (e: React.FormEvent) => {

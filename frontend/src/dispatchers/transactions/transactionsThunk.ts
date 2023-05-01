@@ -12,13 +12,26 @@ export const fetchSingleTransaction = createAsyncThunk<
   return data;
 });
 
+interface SearchParam {
+  page?: number;
+  limit?: number;
+  user?: string;
+  course?: string;
+}
+
 export const fetchTransactions = createAsyncThunk<
   ApiResponse<ApiTransaction>,
-  { page: number | undefined; limit: number | undefined }
->('transactions/fetch', async ({ page, limit }) => {
-  const { data } = await axiosApi.get<ApiResponse<ApiTransaction>>(
-    `/transactions?page=${page}&limit=${limit}`,
-  );
+  SearchParam | undefined
+>('transactions/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+  const url = `/transactions${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<ApiTransaction>>(url);
   return data;
 });
 

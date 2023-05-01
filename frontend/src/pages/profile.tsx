@@ -2,13 +2,13 @@ import React from 'react';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { useAppSelector } from '@/src/app/hooks';
-import { selectUser } from '@/src/features/users/usersSlice';
 import icon from '@/src/assets/images/user-icon.jpg';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import Image from 'next/image';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 const Profile = () => {
   const router = useRouter();

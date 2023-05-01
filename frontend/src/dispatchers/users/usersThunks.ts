@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  ApiResponse,
   GlobalError,
   LoginMutation,
   RegisterMutation,
@@ -10,7 +11,7 @@ import {
 } from '@/src/types';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
-import { unsetUser } from '@/src/features/users/usersSlice';
+import { unsetUser } from './usersSlice';
 
 export const register = createAsyncThunk<
   User,
@@ -118,13 +119,32 @@ export const updateUser = createAsyncThunk<
   }
 });
 
-export const fetchBasicUsers = createAsyncThunk<User[]>(
-  'users/fetchBasicUsers',
-  async () => {
-    const response = await axiosApi.get<User[]>('/users/basic');
-    return response.data;
-  },
-);
+interface SearchParam {
+  role?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  isBanned?: string;
+  page?: number;
+  limit?: number;
+}
+
+export const fetchUsers = createAsyncThunk<
+  ApiResponse<User>,
+  SearchParam | undefined
+>('users/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+  const url = `/users/${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<User>>(url);
+  return data;
+});
 
 export const fetchOneBasicUser = createAsyncThunk<User, string>(
   'users/fetchOneBasicUser',

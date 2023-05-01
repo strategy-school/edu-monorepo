@@ -4,12 +4,8 @@ import {
   selectCommentDeleting,
   selectCommentUpdating,
   selectUpdateCommentError,
-} from '@/src/features/comments/commentsSlice';
+} from '@/src/dispatchers/comments/commentsSlice';
 import { apiURL, dateCommentFormat } from '@/src/constants';
-import {
-  selectUpdateUserLoading,
-  selectUser,
-} from '@/src/features/users/usersSlice';
 import {
   Avatar,
   Box,
@@ -27,13 +23,17 @@ import {
   deleteComment,
   fetchComments,
   updateComment,
-} from '@/src/features/comments/commentsThunks';
+} from '@/src/dispatchers/comments/commentsThunks';
 import { ApiComment, ShortCommentMutation } from '@/src/types';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
-import { updateIsBannedStatus } from '@/src/features/users/usersThunks';
 import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import {
+  selectUpdateUserLoading,
+  selectUser,
+} from '@/src/dispatchers/users/usersSlice';
+import { updateIsBannedStatus } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   comment: ApiComment;
@@ -98,7 +98,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
   }
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} md={6}>
       <Card style={{ position: 'relative' }}>
         <Box p={2}>
           <Grid container spacing={2}>
@@ -117,9 +117,11 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
                 {dayjs(comment.createdAt).format(dateCommentFormat)}
               </Typography>
             </Grid>
+            <Grid item>
+              <Rating value={comment.rating} readOnly />
+            </Grid>
           </Grid>
           <CardContent>
-            <Rating value={comment.rating} readOnly />
             <Typography variant="body1">{comment.text}</Typography>
           </CardContent>
         </Box>

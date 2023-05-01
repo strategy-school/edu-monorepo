@@ -1,4 +1,5 @@
-import { Category, ValidationError } from '@/src/types';
+import { RootState } from '@/src/app/store';
+import { ApiCategory, IPagination, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createCategory,
@@ -6,12 +7,11 @@ import {
   fetchOneCategory,
   removeCategory,
   updateCategory,
-} from '@/src/features/categories/categoriesThunks';
-import { RootState } from '@/src/app/store';
+} from './categoriesThunks';
 
 interface CategoryState {
-  items: Category[];
-  oneItem: Category | null;
+  items: ApiCategory[];
+  oneItem: ApiCategory | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
@@ -19,6 +19,8 @@ interface CategoryState {
   updateCategoryError: ValidationError | null;
   deleteLoading: false | string;
   updateLoading: boolean;
+  currentPage: number;
+  totalCount: number;
 }
 
 const initialState: CategoryState = {
@@ -31,6 +33,8 @@ const initialState: CategoryState = {
   updateCategoryError: null,
   deleteLoading: false,
   updateLoading: false,
+  currentPage: 1,
+  totalCount: 1,
 };
 
 export const categoriesSlice = createSlice({
@@ -43,7 +47,10 @@ export const categoriesSlice = createSlice({
     });
     builder.addCase(fetchCategories.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.items = payload;
+      const result = payload.result as IPagination<ApiCategory>;
+      state.items = result.categories;
+      state.currentPage = result.currentPage;
+      state.totalCount = result.totalCount;
     });
     builder.addCase(fetchCategories.rejected, (state) => {
       state.fetchLoading = false;
@@ -112,3 +119,7 @@ export const selectCategoryUpdating = (state: RootState) =>
   state.categories.updateLoading;
 export const selectUpdateCategoryError = (state: RootState) =>
   state.categories.updateCategoryError;
+export const selectCategoriesCount = (state: RootState) =>
+  state.categories.totalCount;
+export const selectCategoriesPage = (state: RootState) =>
+  state.categories.currentPage;

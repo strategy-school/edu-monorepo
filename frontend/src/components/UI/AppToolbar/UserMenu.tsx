@@ -4,8 +4,7 @@ import { Avatar, Button, Menu, MenuItem } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
-import { logout } from '@/src/features/users/usersThunks';
-import Link from 'next/link';
+import { logout } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   user: User;
@@ -50,16 +49,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="/new-course">
-            Добавить новый курс
-          </MenuItem>
-        )}
-        {user && user.role === 'admin' && (
-          <MenuItem component={Link} href="teachers/new-teacher">
-            Добавить нового преподавателя
-          </MenuItem>
-        )}
         <MenuItem onClick={myProfile}>Мой профиль</MenuItem>
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>

@@ -1,36 +1,40 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '@/src/axiosApi';
 import {
-  Course,
-  CourseMutation,
-  FullCourse,
+  ApiResponse,
+  CourseShort,
+  ICourse,
+  ApiCourse,
   ValidationError,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
 
-interface FilterParam {
-  level: string;
-  category: string;
-  minPrice: string;
-  maxPrice: string;
+interface SearchParam {
+  level?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  page?: number;
+  limit?: number;
 }
 
-export const fetchCourses = createAsyncThunk<Course[], FilterParam | undefined>(
-  'courses/fetchAll',
-  async (param) => {
-    if (param) {
-      const response = await axiosApi.get<Course[]>(
-        `/courses?level=${param.level}&category=${param.category}&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}`,
-      );
-      return response.data;
-    }
+export const fetchCourses = createAsyncThunk<
+  ApiResponse<CourseShort>,
+  SearchParam | undefined
+>('courses/fetchAll', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
 
-    const response = await axiosApi.get<Course[]>('/courses');
-    return response.data;
-  },
-);
+  const url = `/courses/${queryString ? `?${queryString}` : ''}`;
+  const { data } = await axiosApi.get<ApiResponse<CourseShort>>(url);
+  return data;
+});
 
-export const fetchOneCourse = createAsyncThunk<FullCourse, string>(
+export const fetchOneCourse = createAsyncThunk<ApiCourse, string>(
   'courses/fetchOne',
   async (id) => {
     const response = await axiosApi.get('/courses/' + id);
@@ -40,13 +44,13 @@ export const fetchOneCourse = createAsyncThunk<FullCourse, string>(
 
 export const createCourse = createAsyncThunk<
   void,
-  CourseMutation,
+  ICourse,
   { rejectValue: ValidationError }
 >('courses/create', async (courseMutation, { rejectWithValue }) => {
   try {
     const formData = new FormData();
 
-    const keys = Object.keys(courseMutation) as (keyof CourseMutation)[];
+    const keys = Object.keys(courseMutation) as (keyof ICourse)[];
 
     keys.forEach((key) => {
       const value = courseMutation[key];
@@ -67,7 +71,7 @@ export const createCourse = createAsyncThunk<
 
 interface UpdateCourseParams {
   id: string;
-  course: CourseMutation;
+  course: ICourse;
 }
 
 export const updateCourse = createAsyncThunk<
@@ -78,7 +82,7 @@ export const updateCourse = createAsyncThunk<
   try {
     const formData = new FormData();
 
-    const keys = Object.keys(course) as (keyof CourseMutation)[];
+    const keys = Object.keys(course) as (keyof ICourse)[];
 
     keys.forEach((key) => {
       const value = course[key];

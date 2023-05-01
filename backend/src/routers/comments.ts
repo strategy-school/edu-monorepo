@@ -4,15 +4,20 @@ import auth, { RequestWithUser } from '../middleware/auth';
 import { Error, HydratedDocument } from 'mongoose';
 import Transaction from '../models/Transactions';
 import { IComment, ITransaction } from '../types';
+import getUser from '../middleware/getUser';
 
 const commentsRouter = express.Router();
 
-commentsRouter.get('/', async (req, res, next) => {
+commentsRouter.get('/', getUser, async (req, res, next) => {
   try {
+    const user = (req as RequestWithUser).user;
     const limit: number = parseInt(req.query.limit as string) || 10;
     const page: number = parseInt(req.query.page as string) || 1;
     const course = req.query.course as string;
     const searchParam: { course?: string } = {};
+    const transaction = (
+      await Transaction.find({ user: user._id, course })
+    ).find((transaction) => transaction.isPaid === 'paid');
 
     if (course) {
       searchParam.course = course;
@@ -26,7 +31,7 @@ commentsRouter.get('/', async (req, res, next) => {
       .limit(limit)
       .sort([['createdAt', -1]]);
 
-    return res.send(comments);
+    return res.send({ comments, payingUser: Boolean(transaction) });
   } catch (e) {
     return next(e);
   }

@@ -1,17 +1,17 @@
-import React from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { selectUser } from '@/src/features/users/usersSlice';
-import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
 import {
   selectCreateTeacherError,
   selectTeacherCreating,
-} from '@/src/features/teachers/teachersSlice';
-import { useRouter } from 'next/router';
-import { TeacherMutation } from '@/src/types';
-import { createTeacher } from '@/src/features/teachers/teachersThunks';
+} from '@/src/dispatchers/teachers/teachersSlice';
+import { createTeacher } from '@/src/dispatchers/teachers/teachersThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import TeacherForm from '@/src/features/teachers/components/TeacherForm/TeacherForm';
+import { ITeacher } from '@/src/types';
 import { Button, Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const NewTeacher = () => {
   const dispatch = useAppDispatch();
@@ -20,13 +20,14 @@ const NewTeacher = () => {
   const loading = useAppSelector(selectTeacherCreating);
   const error = useAppSelector(selectCreateTeacherError);
 
-  const onSubmit = async (teacher: TeacherMutation) => {
+  const onSubmit = async (teacher: ITeacher) => {
     await dispatch(createTeacher(teacher)).unwrap();
     void router.push('/admin/teachers');
   };
   const handleGoBack = () => {
     router.back();
   };
+
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
       <Layout title="Strategia: admin panel | add teacher">

@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { UpdateUserMutation } from '@/src/types';
-import { selectUser } from '@/src/features/users/usersSlice';
 import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
-import { updateUser } from '@/src/features/users/usersThunks';
 import { Grid } from '@mui/material';
+import { updateUser } from '@/src/dispatchers/users/usersThunks';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
 const Id = () => {
   const router = useRouter();

@@ -29,12 +29,12 @@ const Transactions = () => {
   const transactions = useAppSelector(selectTransactions);
   const currentPage = useAppSelector(selectTransactionsPage);
   const totalCount = useAppSelector(selectTransactionsTotalCount);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    dispatch(fetchTransactions({ page: page, limit: rowsPerPage }));
-  }, [dispatch, page, rowsPerPage]);
+    dispatch(fetchTransactions({ page, limit }));
+  }, [dispatch, page, limit]);
 
   return (
     <AdminLayout>
@@ -80,11 +80,11 @@ const Transactions = () => {
                   <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     count={totalCount}
-                    rowsPerPage={rowsPerPage}
+                    rowsPerPage={limit}
                     page={currentPage - 1}
                     onPageChange={(_, newPage) => setPage(newPage + 1)}
                     onRowsPerPageChange={(e) =>
-                      setRowsPerPage(parseInt(e.target.value))
+                      setLimit(parseInt(e.target.value))
                     }
                   />
                 </TableRow>

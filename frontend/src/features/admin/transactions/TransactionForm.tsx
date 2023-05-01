@@ -3,10 +3,10 @@ import { selectTransactionSubmitting } from '@/src/dispatchers/transactions/tran
 import { ITransaction } from '@/src/types';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
-import { selectCourses } from '../../courses/coursesSlice';
-import { fetchCourses } from '../../courses/coursesThunks';
-import { selectBasicUsers } from '../../users/usersSlice';
-import { fetchBasicUsers } from '../../users/usersThunks';
+import { selectCourses } from '../../../dispatchers/courses/coursesSlice';
+import { fetchCourses } from '../../../dispatchers/courses/coursesThunks';
+import { selectUsers } from '../../../dispatchers/users/usersSlice';
+import { fetchUsers } from '../../../dispatchers/users/usersThunks';
 
 interface Props {
   onSubmit: (transaction: ITransaction) => void;
@@ -23,7 +23,7 @@ const TransactionForm: React.FC<Props> = ({
   onSubmit,
 }) => {
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectBasicUsers);
+  const users = useAppSelector(selectUsers);
   const courses = useAppSelector(selectCourses);
   const submittingTransaction = useAppSelector(selectTransactionSubmitting);
   const [state, setState] = React.useState<ITransaction>(existingTransaction);
@@ -45,7 +45,7 @@ const TransactionForm: React.FC<Props> = ({
   );
 
   React.useEffect(() => {
-    void dispatch(fetchBasicUsers());
+    void dispatch(fetchUsers({ role: 'user' }));
     void dispatch(fetchCourses());
   }, [dispatch]);
 
