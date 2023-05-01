@@ -11,7 +11,15 @@ import {
   createComment,
   fetchComments,
 } from '@/src/features/comments/commentsThunks';
-import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Pagination,
+  Typography,
+} from '@mui/material';
 import CommentItem from '@/src/features/comments/components/CommentItem/CommentItem';
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
@@ -29,6 +37,8 @@ const CourseComments: React.FC<Props> = ({ courseId }) => {
   const error = useAppSelector(selectCreateCommentError);
   const [open, setOpen] = useState(false);
   const user = useAppSelector(selectUser);
+  const [page, setPage] = useState(1);
+  const limit = 4;
 
   const handleClose = () => {
     setOpen(!open);
@@ -41,42 +51,70 @@ const CourseComments: React.FC<Props> = ({ courseId }) => {
         course: courseId,
       }),
     ).unwrap();
-    void dispatch(fetchComments(courseId));
+    void dispatch(fetchComments({ page, limit, courseId }));
     handleClose();
   };
 
   useEffect(() => {
-    void dispatch(fetchComments(courseId));
-  }, [dispatch, courseId]);
+    void dispatch(fetchComments({ page, limit, courseId }));
+  }, [dispatch, page, limit, courseId]);
 
   return (
     <>
-      {comments && comments.comments.length > 0 && (
+      {comments && (
         <Grid item m={4}>
-          <Typography variant="h5" mb={2}>
-            Отзывы
-          </Typography>
-          <Grid container spacing={3}>
-            {commentsLoading ? (
-              <CircularProgress />
-            ) : (
-              comments?.comments.map((comment) => (
-                <CommentItem
-                  key={comment._id}
-                  comment={comment}
-                  courseId={courseId}
+          <Grid container spacing={2} mb={2}>
+            <Grid item>
+              <Typography variant="h5" mb={2}>
+                Отзывы
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Alert severity="success">Оставлены покупателями курса!</Alert>
+            </Grid>
+          </Grid>
+
+          {comments.comments.length > 0 ? (
+            <Grid container spacing={3}>
+              {commentsLoading ? (
+                <CircularProgress />
+              ) : (
+                comments?.comments.map((comment) => (
+                  <CommentItem
+                    key={comment._id}
+                    comment={comment}
+                    courseId={courseId}
+                    page={page}
+                    limit={limit}
+                  />
+                ))
+              )}
+            </Grid>
+          ) : (
+            <Alert severity="warning">Здесь пока нет отзывов!</Alert>
+          )}
+          <Grid container spacing={2} justifyContent="space-between">
+            <Grid item xs>
+              {(comments.payingUser || user?.role === 'admin') &&
+                !user?.isBanned && (
+                  <Box my={2}>
+                    <Button onClick={handleClose} variant="contained">
+                      Оставить отзыв
+                    </Button>
+                  </Box>
+                )}
+            </Grid>
+            {comments.totalCount > 1 && (
+              <Grid item xs mt={2}>
+                <Pagination
+                  count={comments.totalCount}
+                  page={page}
+                  onChange={(_, newPage) => setPage(newPage)}
                 />
-              ))
+              </Grid>
             )}
           </Grid>
-          {(comments?.payingUser || user?.role === 'admin') && (
-            <Box my={2}>
-              <Button onClick={handleClose} variant="contained">
-                Оставить отзыв
-              </Button>
-              {/*Проверка на отображение этой кнопки будет, когда на фронте появятся транзакции (кнопка будет видна только админам и людям купившим этот курс)*/}
-            </Box>
-          )}
+
           <MyModal open={open} handleClose={handleClose}>
             <CommentForm
               onSubmit={onSubmit}

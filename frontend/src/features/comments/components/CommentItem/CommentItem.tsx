@@ -22,6 +22,7 @@ import {
   MenuItem,
   Rating,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import {
   deleteComment,
@@ -38,12 +39,15 @@ import MyModal from '@/src/components/UI/Modal/MyModal';
 interface Props {
   comment: ApiComment;
   courseId: string;
+  page: number;
+  limit: number;
 }
 
-const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
+const CommentItem: React.FC<Props> = ({ comment, courseId, page, limit }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [open, setOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [fullOpen, setFullOpen] = useState(false);
   const deleteLoading = useAppSelector(selectCommentDeleting);
   const user = useAppSelector(selectUser);
   const bannedUserLoading = useAppSelector(selectUpdateUserLoading);
@@ -55,8 +59,14 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
     text: comment.text,
   };
 
-  const handleCloseModal = () => {
-    setOpen(!open);
+  const isMd = useMediaQuery('(max-width:900px)');
+
+  const handleCloseFormModal = () => {
+    setFormOpen(!formOpen);
+  };
+
+  const handleCloseFullModal = () => {
+    setFullOpen(!fullOpen);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,7 +80,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
   const handleDelete = async () => {
     if (window.confirm('Вы действительно хотите удалить этот комментарий?')) {
       await dispatch(deleteComment(comment._id));
-      void dispatch(fetchComments(courseId));
+      void dispatch(fetchComments({ page, limit, courseId }));
       handleCloseMenu();
     }
   };
@@ -80,6 +90,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
       window.confirm('Вы действительно хотите забанить этого пользователя?')
     ) {
       await dispatch(updateIsBannedStatus(comment.user._id));
+      await handleDelete();
       handleCloseMenu();
     }
   };
@@ -88,8 +99,8 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
     await dispatch(
       updateComment({ id: comment._id, comment: commentMutation }),
     ).unwrap();
-    void dispatch(fetchComments(courseId));
-    handleCloseModal();
+    void dispatch(fetchComments({ page, limit, courseId }));
+    handleCloseFormModal();
     handleCloseMenu();
   };
 
@@ -99,8 +110,11 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
 
   return (
     <Grid item xs={12} md={6}>
-      <Card style={{ position: 'relative' }}>
-        <Box p={2}>
+      <Card style={{ position: 'relative', height: '100%' }}>
+        <Box
+          p={2}
+          style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+        >
           <Grid container spacing={2}>
             <Grid item>
               <Avatar
@@ -110,10 +124,10 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
               />
             </Grid>
             <Grid item>
-              <Typography variant="h6">
+              <Typography variant="body1">
                 {comment.user.firstName + ' ' + comment.user.lastName}
               </Typography>
-              <Typography variant="body1" style={{ color: '#D3D3D3' }}>
+              <Typography variant="body2" style={{ color: '#D3D3D3' }}>
                 {dayjs(comment.createdAt).format(dateCommentFormat)}
               </Typography>
             </Grid>
@@ -122,8 +136,28 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
             </Grid>
           </Grid>
           <CardContent>
-            <Typography variant="body1">{comment.text}</Typography>
+            <Typography
+              variant="body1"
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {comment.text}
+            </Typography>
           </CardContent>
+          {(isMd ? comment.text.length > 81 : comment.text.length > 55) && (
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography
+                variant="body2"
+                sx={{ color: '#3f51b5', cursor: 'pointer' }}
+                onClick={() => setFullOpen(true)}
+              >
+                Раскрыть
+              </Typography>
+            </Box>
+          )}
         </Box>
         {(user?._id === comment.user._id || user?.role === 'admin') && (
           <Box style={{ position: 'absolute', top: 0, right: 0 }}>
@@ -140,7 +174,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
         onClose={handleCloseMenu}
       >
         {user?._id === comment.user._id && (
-          <MenuItem onClick={handleCloseModal}>Изменить</MenuItem>
+          <MenuItem onClick={handleCloseFormModal}>Изменить</MenuItem>
         )}
         <MenuItem
           onClick={handleDelete}
@@ -165,7 +199,7 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
           </MenuItem>
         )}
       </Menu>
-      <MyModal open={open} handleClose={handleCloseModal}>
+      <MyModal open={formOpen} handleClose={handleCloseFormModal}>
         <CommentForm
           onSubmit={onSubmit}
           loading={update}
@@ -173,6 +207,35 @@ const CommentItem: React.FC<Props> = ({ comment, courseId }) => {
           existingComment={existingComment}
           isEdit
         />
+      </MyModal>
+      <MyModal open={fullOpen} handleClose={handleCloseFullModal}>
+        <Box p={2}>
+          <Grid container spacing={2}>
+            <Grid item>
+              <Avatar
+                src={cardImage}
+                alt={comment.user.firstName}
+                sx={{ ml: 2 }}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">
+                {comment.user.firstName + ' ' + comment.user.lastName}
+              </Typography>
+              <Typography variant="body2" style={{ color: '#D3D3D3' }}>
+                {dayjs(comment.createdAt).format(dateCommentFormat)}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Rating value={comment.rating} readOnly />
+            </Grid>
+          </Grid>
+          <CardContent>
+            <Typography variant="body1" style={{ wordWrap: 'break-word' }}>
+              {comment.text}
+            </Typography>
+          </CardContent>
+        </Box>
       </MyModal>
     </Grid>
   );
