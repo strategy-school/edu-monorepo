@@ -5,9 +5,11 @@ import {
   fetchTests,
   editTest,
   fetchOneTest,
+  deleteTest,
 } from '@/src/dispatchers/tests/testsThunks';
 import { RootState } from '@/src/app/store';
 import {
+  deleteTeacher,
   editTeacher,
   fetchOneTeacher,
 } from '@/src/dispatchers/teachers/teachersThunks';
@@ -85,6 +87,16 @@ const testsSlice = createSlice({
     builder.addCase(editTest.rejected, (state, { payload: error }) => {
       state.updateTestError = error || null;
       state.updateLoading = false;
+    });
+
+    builder.addCase(deleteTest.pending, (state, { meta: { arg: id } }) => {
+      state.deleteLoading = id;
+    });
+    builder.addCase(deleteTest.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(deleteTest.rejected, (state) => {
+      state.deleteLoading = false;
     });
   },
 });

@@ -92,4 +92,18 @@ testsRouter.patch('/:id', auth, permit('admin'), async (req, res, next) => {
   }
 });
 
+testsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const test = await Test.findByIdAndDelete(req.params.id);
+
+    if (!test) {
+      return res.status(404).send({ message: 'Тест не найден' });
+    }
+
+    return res.send({ message: 'Тест успешно удален!', test });
+  } catch (e) {
+    return next(e);
+  }
+});
+
 export default testsRouter;
