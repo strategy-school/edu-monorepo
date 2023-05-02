@@ -20,6 +20,11 @@ export interface RegisterMutation {
   phoneNumber: string;
 }
 
+export type UpdateUserMutation = Pick<
+  RegisterMutation,
+  'email' | 'phoneNumber' | 'lastName' | 'firstName' | 'avatar'
+>;
+
 export interface RegisterResponse {
   message: string;
   user: User;
@@ -133,6 +138,7 @@ export interface ApiComment extends IComment {
 export interface ApiCommentsResponse {
   comments: ApiComment[];
   payingUser: boolean;
+  totalCount: number;
 }
 
 export interface ITransaction {

@@ -236,6 +236,12 @@ const run = async () => {
     {
       user: admin._id,
       course: marketing3._id,
+      rating: 2,
+      text: 'Проверка от админа',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
       rating: 3,
       text: 'Проверка от админа',
     },
@@ -244,6 +250,12 @@ const run = async () => {
       course: marketing3._id,
       rating: 5,
       text: 'Проверка от админа',
+    },
+    {
+      user: admin._id,
+      course: marketing3._id,
+      rating: 5,
+      text: 'Проверка от админа Проверка от админа Проверка от админа Проверка от админа Проверка от админа Проверка от админа Проверка от админа Проверка от админа Проверка от админа ',
     },
     {
       user: teacher2._id,

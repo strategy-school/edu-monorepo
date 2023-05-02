@@ -8,7 +8,6 @@ import {
   ValidationError,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
-import { PanoramaVerticalSelect as params } from '@mui/icons-material';
 
 interface SearchParam {
   level?: string;

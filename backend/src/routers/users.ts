@@ -6,7 +6,7 @@ import { imageUpload } from '../multer';
 import config from '../config';
 import { downloadFile } from '../helper';
 import { randomUUID } from 'crypto';
-import auth from '../middleware/auth';
+import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 
 const usersRouter = express.Router();
@@ -126,6 +126,44 @@ usersRouter.post('/google', async (req, res, next) => {
     return next(e);
   }
 });
+
+usersRouter.patch(
+  '/',
+  auth,
+  imageUpload.single('avatar'),
+  async (req, res, next) => {
+    try {
+      const { user } = req as RequestWithUser;
+
+      if (!user) {
+        return res
+          .status(500)
+          .send({ error: 'Учетная запись пользователя не найдена!' });
+      }
+
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
+      user.email = req.body.email || user.email;
+      user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+      if (req.file) {
+        user.avatar = req.file.filename;
+      }
+
+      await user.save();
+
+      return res.send({
+        message: 'Информация пользователя обновлена!',
+        user,
+      });
+    } catch (e) {
+      if (e instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send(e);
+      } else {
+        return next(e);
+      }
+    }
+  },
+);
 
 usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
   try {

@@ -7,6 +7,7 @@ import {
   login,
   register,
   updateIsBannedStatus,
+  updateUser,
 } from '@/src/dispatchers/users/usersThunks';
 import { RootState } from '@/src/app/store';
 
@@ -21,6 +22,7 @@ interface UsersState {
   fetchLoading: boolean;
   fetchOneUserLoading: boolean;
   updateUserLoading: false | string;
+  updateUserError: ValidationError | null;
   currentPage: number;
   totalCount: number;
 }
@@ -36,6 +38,7 @@ const initialState: UsersState = {
   fetchLoading: false,
   fetchOneUserLoading: false,
   updateUserLoading: false,
+  updateUserError: null,
   currentPage: 1,
   totalCount: 1,
 };
@@ -72,6 +75,15 @@ export const usersSlice = createSlice({
     builder.addCase(login.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
       state.loginError = error || null;
+    });
+    builder.addCase(updateUser.pending, (state) => {
+      state.updateUserError = null;
+    });
+    builder.addCase(updateUser.fulfilled, (state, { payload: user }) => {
+      state.user = user;
+    });
+    builder.addCase(updateUser.rejected, (state, { payload: error }) => {
+      state.updateUserError = error || null;
     });
     builder.addCase(googleLogin.pending, (state) => {
       state.loginLoading = true;
@@ -144,6 +156,8 @@ export const selectLoginLoading = (state: RootState) =>
 export const selectLoginError = (state: RootState) => state.users.loginError;
 export const selectUpdateUserLoading = (state: RootState) =>
   state.users.updateUserLoading;
+export const selectUpdateUserError = (state: RootState) =>
+  state.users.updateUserError;
 export const selectFetchingOneUser = (state: RootState) =>
   state.users.fetchOneUserLoading;
 export const selectUsersCount = (state: RootState) => state.users.totalCount;
