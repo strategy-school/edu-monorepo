@@ -20,6 +20,11 @@ export interface RegisterMutation {
   phoneNumber: string;
 }
 
+export type UpdateUserMutation = Pick<
+  RegisterMutation,
+  'email' | 'phoneNumber' | 'lastName' | 'firstName' | 'avatar'
+>;
+
 export interface RegisterResponse {
   message: string;
   user: User;

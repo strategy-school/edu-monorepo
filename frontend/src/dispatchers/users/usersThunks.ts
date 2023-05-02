@@ -5,6 +5,7 @@ import {
   LoginMutation,
   RegisterMutation,
   RegisterResponse,
+  UpdateUserMutation,
   User,
   ValidationError,
 } from '@/src/types';
@@ -80,6 +81,38 @@ export const googleLogin = createAsyncThunk<
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
+
+interface UpdateUserParams {
+  user: UpdateUserMutation;
+}
+
+export const updateUser = createAsyncThunk<
+  User,
+  UpdateUserParams,
+  { rejectValue: ValidationError }
+>('users/update', async (params, { rejectWithValue }) => {
+  const formData = new FormData();
+
+  const keys = Object.keys(params.user) as (keyof UpdateUserMutation)[];
+
+  keys.forEach((key) => {
+    const value = params.user[key];
+
+    if (value !== null) {
+      formData.append(key, value);
+    }
+  });
+
+  try {
+    const response = await axiosApi.patch('/users', formData);
+    return response.data.user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
     }
     throw e;
   }
