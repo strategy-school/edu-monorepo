@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Test, TestMutation, ValidationError } from '@/src/types';
+import { Test, TestMini, TestMutation, ValidationError } from '@/src/types';
 import { RootState } from '@/src/app/store';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
@@ -19,7 +19,7 @@ export const createTest = createAsyncThunk<
   }
 });
 
-export const fetchTests = createAsyncThunk<Test[]>(
+export const fetchTests = createAsyncThunk<TestMini[]>(
   'tests/fetchAll',
   async () => {
     const response = await axiosApi.get<Test[]>('/tests');
@@ -31,6 +31,13 @@ export const fetchOneTest = createAsyncThunk<Test, string>(
   'tests/OneTest',
   async (id) => {
     const response = await axiosApi.get<Test>('/tests/' + id);
+    return response.data;
+  },
+);
+export const fetchTestByCategory = createAsyncThunk<TestMini[], string>(
+  'tests/fetchByCategory',
+  async (id) => {
+    const response = await axiosApi.get<Test[]>('/tests/category/' + id);
     return response.data;
   },
 );

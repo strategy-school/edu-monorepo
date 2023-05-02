@@ -194,3 +194,9 @@ export interface TestMutation {
   description: string;
   questions: Question[];
 }
+
+export interface TestMini {
+  _id: string;
+  category: CategoryMini;
+  title: string;
+}

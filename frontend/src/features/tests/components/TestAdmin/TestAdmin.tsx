@@ -21,7 +21,6 @@ import {
   selectTests,
 } from '@/src/dispatchers/tests/testsSlice';
 import { deleteTest, fetchTests } from '@/src/dispatchers/tests/testsThunks';
-import { deleteTeacher } from '@/src/dispatchers/teachers/teachersThunks';
 
 const TestAdmin = () => {
   const router = useRouter();
