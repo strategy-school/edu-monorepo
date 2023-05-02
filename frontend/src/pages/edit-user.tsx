@@ -7,15 +7,14 @@ import { Grid } from '@mui/material';
 import { updateUser } from '@/src/dispatchers/users/usersThunks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 
-const Id = () => {
+const EditUser = () => {
   const router = useRouter();
-  const { id } = router.query as { id: string };
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   console.log(user);
 
   const onSubmit = async (userMutation: UpdateUserMutation) => {
-    await dispatch(updateUser({ id, user: userMutation })).unwrap();
+    await dispatch(updateUser({ user: userMutation })).unwrap();
     await router.push(`/profile`);
   };
 
@@ -36,4 +35,4 @@ const Id = () => {
   );
 };
 
-export default Id;
+export default EditUser;

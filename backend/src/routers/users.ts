@@ -6,7 +6,7 @@ import { imageUpload } from '../multer';
 import config from '../config';
 import { downloadFile } from '../helper';
 import { randomUUID } from 'crypto';
-import auth from '../middleware/auth';
+import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 
 const usersRouter = express.Router();
@@ -128,11 +128,12 @@ usersRouter.post('/google', async (req, res, next) => {
 });
 
 usersRouter.patch(
-  '/:id',
+  '/',
+  auth,
   imageUpload.single('avatar'),
   async (req, res, next) => {
     try {
-      const user = await User.findById(req.params.id);
+      const { user } = req as RequestWithUser;
 
       if (!user) {
         return res

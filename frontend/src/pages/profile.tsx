@@ -16,7 +16,7 @@ const Profile = () => {
   const image = 'http://localhost:8000/' + user?.avatar;
 
   const openEditPage = () => {
-    void router.push(`/edit-user/` + user?._id);
+    void router.push(`/edit-user`);
   };
 
   return (

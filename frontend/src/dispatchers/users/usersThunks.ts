@@ -87,7 +87,6 @@ export const googleLogin = createAsyncThunk<
 });
 
 interface UpdateUserParams {
-  id: string;
   user: UpdateUserMutation;
 }
 
@@ -109,7 +108,7 @@ export const updateUser = createAsyncThunk<
   });
 
   try {
-    const response = await axiosApi.patch('/users/' + params.id, formData);
+    const response = await axiosApi.patch('/users', formData);
     return response.data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
