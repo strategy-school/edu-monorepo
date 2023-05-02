@@ -49,3 +49,10 @@ export const editTest = createAsyncThunk<
     throw e;
   }
 });
+
+export const deleteTest = createAsyncThunk<void, string>(
+  'tests/delete',
+  async (id) => {
+    await axiosApi.delete('/tests/' + id);
+  },
+);

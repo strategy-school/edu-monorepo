@@ -20,7 +20,8 @@ import {
   selectTestDeleting,
   selectTests,
 } from '@/src/dispatchers/tests/testsSlice';
-import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import { deleteTest, fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import { deleteTeacher } from '@/src/dispatchers/teachers/teachersThunks';
 
 const TestAdmin = () => {
   const router = useRouter();
@@ -31,6 +32,14 @@ const TestAdmin = () => {
   useEffect(() => {
     dispatch(fetchTests());
   }, [dispatch]);
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Подтвердите удаление теста')) {
+      dispatch(deleteTest(id));
+      dispatch(fetchTests());
+    }
+  };
+
   const openOneTest = (id: string) => {
     void router.push(`tests/${id}`);
   };
@@ -79,7 +88,7 @@ const TestAdmin = () => {
                   </TableCell>
                   <TableCell align="right">
                     <IconButton
-                      // onClick={() => handleDelete(test._id)}
+                      onClick={() => handleDelete(test._id)}
                       disabled={test._id === deleting}
                     >
                       <DeleteIcon />
