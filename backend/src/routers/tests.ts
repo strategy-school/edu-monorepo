@@ -45,9 +45,26 @@ testsRouter.get('/:id', async (req, res) => {
   }
 });
 
+testsRouter.get('/category/:id', async (req, res) => {
+  try {
+    const result = await Test.find({ category: req.params.id })
+      .select('title  category')
+      .populate('category', 'title');
+    if (!result) {
+      return res.status(404).send({ error: 'Тесты не найдены!' });
+    }
+    return res.send(result);
+  } catch {
+    return res.sendStatus(500);
+  }
+});
+
 testsRouter.get('/', async (req, res) => {
   try {
-    const result = await Test.find().populate('category', 'title');
+    const result = await Test.find()
+      .select('title  category')
+      .populate('category', 'title');
+
     if (result.length === 0) {
       return res.status(404).send({ error: 'Тесты не найдены!' });
     }

@@ -1,20 +1,17 @@
-import { Test, ValidationError } from '@/src/types';
+import { Test, TestMini, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createTest,
-  fetchTests,
+  deleteTest,
   editTest,
   fetchOneTest,
-  deleteTest,
+  fetchTestByCategory,
+  fetchTests,
 } from '@/src/dispatchers/tests/testsThunks';
 import { RootState } from '@/src/app/store';
-import {
-  deleteTeacher,
-  editTeacher,
-  fetchOneTeacher,
-} from '@/src/dispatchers/teachers/teachersThunks';
 
 interface TestsState {
+  tests: TestMini[];
   test: Test | null;
   fetchLoading: boolean;
   createLoading: boolean;
@@ -72,6 +69,21 @@ const testsSlice = createSlice({
       state.test = test;
     });
     builder.addCase(fetchOneTest.rejected, (state) => {
+      state.fetchLoading = false;
+    });
+
+    builder.addCase(fetchTestByCategory.pending, (state) => {
+      state.tests = [];
+      state.fetchLoading = true;
+    });
+    builder.addCase(
+      fetchTestByCategory.fulfilled,
+      (state, { payload: tests }) => {
+        state.fetchLoading = false;
+        state.tests = tests;
+      },
+    );
+    builder.addCase(fetchTestByCategory.rejected, (state) => {
       state.fetchLoading = false;
     });
 
