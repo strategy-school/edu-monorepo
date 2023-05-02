@@ -23,7 +23,7 @@ const EditUser = () => {
     lastName: user.lastName,
     firstName: user.firstName,
     phoneNumber: user.phoneNumber,
-    avatar: user.avatar,
+    avatar: null,
   };
 
   return (

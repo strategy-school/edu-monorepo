@@ -26,11 +26,12 @@ const initialState: UpdateUserMutation = {
   avatar: null,
 };
 
-const UpdateUser: React.FC<Props> = ({ onSubmit, existingUser }) => {
+const UpdateUser: React.FC<Props> = ({
+  onSubmit,
+  existingUser = initialState,
+}) => {
   const error = useAppSelector(selectUpdateUserError);
-  const [state, setState] = useState<UpdateUserMutation>(
-    existingUser || initialState,
-  );
+  const [state, setState] = useState<UpdateUserMutation>(existingUser);
 
   useEffect(() => {
     setState(existingUser || initialState);
