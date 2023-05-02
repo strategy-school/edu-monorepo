@@ -8,6 +8,7 @@ import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { CircularProgress, Grid } from '@mui/material';
 import TestCard from '@/src/features/tests/components/TestCard/TestCard';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,8 @@ const Index = () => {
 
   return (
     <Layout title="Strategia School | Тесты ">
+      <BlocksTitle titleText="Список всех тестов" />
+
       <Grid container justifyContent="center" spacing={1} mt={5}>
         {loading && <CircularProgress />}
         {tests.length > 0 &&
