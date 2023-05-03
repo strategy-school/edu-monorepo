@@ -1,5 +1,10 @@
 import { RootState } from '@/src/app/store';
-import { ApiCategory, IPagination, ValidationError } from '@/src/types';
+import {
+  ApiCategory,
+  GlobalError,
+  IPagination,
+  ValidationError,
+} from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   categoryToggleDeleted,
@@ -19,6 +24,7 @@ interface CategoryState {
   togglingIsDeleted: boolean;
   createCategoryError: ValidationError | null;
   updateCategoryError: ValidationError | null;
+  removeError: GlobalError | null;
   deleteLoading: false | string;
   updateLoading: boolean;
   currentPage: number;
@@ -34,6 +40,7 @@ const initialState: CategoryState = {
   togglingIsDeleted: false,
   createCategoryError: null,
   updateCategoryError: null,
+  removeError: null,
   deleteLoading: false,
   updateLoading: false,
   currentPage: 1,
@@ -87,8 +94,12 @@ export const categoriesSlice = createSlice({
         state.deleteLoading = categoryId;
       },
     );
-    builder.addCase(removeCategory.rejected, (state) => {
+    builder.addCase(removeCategory.rejected, (state, { payload: error }) => {
+      window.alert(
+        'Категория не может быть удалена, так как у нее есть связанные курсы',
+      );
       state.deleteLoading = false;
+      state.removeError = error || null;
     });
     builder.addCase(updateCategory.pending, (state) => {
       state.updateCategoryError = null;
