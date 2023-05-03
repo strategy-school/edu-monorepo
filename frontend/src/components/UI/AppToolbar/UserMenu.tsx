@@ -34,6 +34,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     void router.push('/login');
   };
 
+  const myProfile = () => {
+    void router.push(`/profile`);
+  };
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
@@ -51,6 +55,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Админ панель
           </MenuItem>
         )}
+        <MenuItem onClick={myProfile}>Мой профиль</MenuItem>
         <MenuItem onClick={handleLogout}>Выйти</MenuItem>
       </Menu>
     </>

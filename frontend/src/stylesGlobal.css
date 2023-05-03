@@ -13,7 +13,7 @@ a {
   transition: transform 100ms ease-out;
 }
 
-.teacher-card:hover{
+.teacher-card:hover {
   transform: scale(1.01, 1.01);
   transition: transform 100ms ease-out;
 }
