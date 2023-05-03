@@ -6,6 +6,7 @@ import {
   ICourse,
   ApiCourse,
   ValidationError,
+  GlobalError,
   PageLimit,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
@@ -92,9 +93,24 @@ export const updateCourse = createAsyncThunk<
   }
 });
 
-export const deleteCourse = createAsyncThunk<void, string>(
-  'courses/delete',
-  async (id) => {
+export const deleteCourse = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: GlobalError }
+>('courses/delete', async (id, { rejectWithValue }) => {
+  try {
     await axiosApi.delete('/courses/' + id);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
+
+export const courseToggleDeleted = createAsyncThunk<void, string>(
+  'courses/toggleIsDeleted',
+  async (id) => {
+    await axiosApi.patch(`/courses/${id}/toggleIsDeleted`);
   },
 );

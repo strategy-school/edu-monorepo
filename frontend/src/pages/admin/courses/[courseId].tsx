@@ -7,6 +7,7 @@ import {
   selectOneCourse,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
+  courseToggleDeleted,
   deleteCourse,
   fetchOneCourse,
 } from '@/src/dispatchers/courses/coursesThunks';
@@ -58,6 +59,11 @@ const CourseId = () => {
       await dispatch(deleteCourse(course._id));
       void router.push('/admin/courses');
     }
+  };
+
+  const toggleCourseDeleted = async (id: string) => {
+    await dispatch(courseToggleDeleted(id));
+    await dispatch(fetchOneCourse(courseId));
   };
 
   const typeName =
@@ -209,6 +215,15 @@ const CourseId = () => {
                   >
                     <span>Удалить</span>
                   </LoadingButton>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="warning"
+                    onClick={() => toggleCourseDeleted(course?._id)}
+                  >
+                    {course.isDeleted ? 'Показать' : 'Скрыть'}
+                  </Button>
                 </Grid>
                 <Grid item>
                   <Button

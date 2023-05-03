@@ -1,32 +1,38 @@
 import express from 'express';
-import Course from '../models/Course';
-import mongoose, { HydratedDocument } from 'mongoose';
-import auth from '../middleware/auth';
-import permit from '../middleware/permit';
-import { ICourse, PageLimit, SearchParam } from '../types';
-import { imageUpload } from '../multer';
 import { promises as fs } from 'fs';
+import mongoose, { HydratedDocument } from 'mongoose';
+import auth, { RequestWithUser } from '../middleware/auth';
+import getUser from '../middleware/getUser';
+import permit from '../middleware/permit';
+import Course from '../models/Course';
+import Transaction from '../models/Transactions';
+import { imageUpload } from '../multer';
+import { ICourse, PageLimit, SearchParam, SwitchToString } from '../types';
 
-type QueryParams = Pick<
-  ICourse,
-  | 'title'
-  | 'description'
-  | 'type'
-  | 'theme'
-  | 'targetAudience'
-  | 'programGoal'
-  | 'level'
-> &
-  PageLimit & {
-    minPrice: string;
-    maxPrice: string;
-  };
+type QueryParams = SwitchToString<
+  Pick<
+    ICourse,
+    | 'title'
+    | 'description'
+    | 'type'
+    | 'theme'
+    | 'targetAudience'
+    | 'programGoal'
+    | 'level'
+    | 'isDeleted'
+  > &
+    PageLimit & {
+      minPrice: string;
+      maxPrice: string;
+    }
+>;
 
 const coursesRouter = express.Router();
 
-coursesRouter.get('/', async (req, res, next) => {
+coursesRouter.get('/', getUser, async (req, res, next) => {
   try {
-    const { page, limit, ...params }: Partial<QueryParams> = req.query;
+    const user = (req as RequestWithUser).user;
+    const { page, limit, ...params }: QueryParams = req.query;
 
     const l: number = parseInt(limit as string) || 10;
     const p: number = parseInt(page as string) || 1;
@@ -172,11 +178,57 @@ coursesRouter.put(
 
 coursesRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
-    await Course.deleteOne({ _id: req.params.id });
-    return res.send({ message: 'Deleted' });
+    const removingCourse = await Course.findById(req.params.id);
+    const relatedTransactions = await Transaction.find({
+      course: req.params.id,
+    });
+
+    if (!removingCourse) {
+      return res.status(404).send({ error: 'Course not found' });
+    } else if (relatedTransactions.length) {
+      return res.status(403).send({
+        error: 'Courses having related transactions cannot be removed',
+      });
+    } else {
+      await Course.deleteOne({ _id: req.params.id });
+      return res.send({ message: 'Deleted' });
+    }
   } catch (e) {
     return next(e);
   }
 });
+
+coursesRouter.patch(
+  '/:id/toggleIsDeleted',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const currentCourse = await Course.findById(req.params.id);
+      if (!currentCourse) {
+        return res.status(404).send({ error: 'Course not found' });
+      }
+
+      if (!currentCourse.isDeleted) {
+        await Course.updateOne(
+          { _id: req.params.id },
+          { $set: { isDeleted: true } },
+        );
+      } else {
+        await Course.updateOne(
+          { _id: req.params.id },
+          { $set: { isDeleted: false } },
+        );
+      }
+
+      return res.send({
+        message: `isDeleted status was updated for ${currentCourse.isDeleted}`,
+        currentCourse,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  },
+);
 
 export default coursesRouter;

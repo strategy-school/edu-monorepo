@@ -7,6 +7,7 @@ import {
   selectCoursesCount,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
+  courseToggleDeleted,
   deleteCourse,
   fetchCourses,
 } from '@/src/dispatchers/courses/coursesThunks';
@@ -26,6 +27,8 @@ import {
   TableRow,
 } from '@mui/material';
 import Link from 'next/link';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { selectCategoryTogglingDeleted } from '@/src/dispatchers/categories/categoriesSlice';
 import React from 'react';
 
 const CoursesAdmin = () => {
@@ -36,6 +39,7 @@ const CoursesAdmin = () => {
   const currentPage = useAppSelector(selectCoursePage);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const togglingDeleted = useAppSelector(selectCategoryTogglingDeleted);
 
   React.useEffect(() => {
     void dispatch(fetchCourses({ page, limit }));
@@ -45,6 +49,11 @@ const CoursesAdmin = () => {
     if (window.confirm('Подтвердите удаление курса')) {
       dispatch(deleteCourse(id));
     }
+  };
+
+  const toggleCourseDeleted = async (id: string) => {
+    await dispatch(courseToggleDeleted(id));
+    await dispatch(fetchCourses());
   };
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +71,8 @@ const CoursesAdmin = () => {
               <TableCell>Название курса</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
+              <TableCell>Скрыть / Показать</TableCell>
+              <TableCell>Статус</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -82,14 +93,21 @@ const CoursesAdmin = () => {
                 </TableCell>
                 <TableCell>
                   <IconButton
-                    disabled={
-                      deleteLoading ? deleteLoading === course._id : false
-                    }
+                    disabled={deleteLoading === course._id || togglingDeleted}
                     onClick={() => handleDelete(course._id)}
                   >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
+                <TableCell>
+                  <IconButton
+                    disabled={deleteLoading === course._id || togglingDeleted}
+                    onClick={() => toggleCourseDeleted(course._id)}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>{course.isDeleted ? 'Скрыт' : 'Активен'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -26,6 +26,7 @@ export interface ICourse {
   programGoal: string;
   level: string;
   image: string;
+  isDeleted: boolean;
 }
 
 export interface ICategory {
