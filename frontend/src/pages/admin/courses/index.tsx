@@ -1,16 +1,10 @@
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import {
-  Button,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import CoursesAdmin from "@/src/features/courses/CoursesAdmin/CoursesAdmin";
+import CoursesAdmin from '@/src/features/courses/CoursesAdmin/CoursesAdmin';
 
 const Courses = () => {
-
-
   return (
     <AdminLayout>
       <Grid container spacing={2} direction="column">
@@ -30,7 +24,7 @@ const Courses = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <CoursesAdmin/>
+          <CoursesAdmin />
         </Grid>
       </Grid>
     </AdminLayout>
