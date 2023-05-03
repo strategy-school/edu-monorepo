@@ -149,6 +149,7 @@ export interface ApiComment extends IComment {
 export interface ApiCommentsResponse {
   comments: ApiComment[];
   payingUser: boolean;
+  totalCount: number;
 }
 
 export interface ITransaction {

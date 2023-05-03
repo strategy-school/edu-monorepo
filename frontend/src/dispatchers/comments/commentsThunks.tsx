@@ -8,20 +8,23 @@ import {
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 
-export const fetchComments = createAsyncThunk<
-  ApiCommentsResponse,
-  string | undefined
->('comments/fetchAll', async (courseId) => {
-  if (courseId) {
+interface FilterParam {
+  page: number | undefined;
+  limit: number | undefined;
+  courseId: string | undefined;
+}
+
+export const fetchComments = createAsyncThunk<ApiCommentsResponse, FilterParam>(
+  'comments/fetchAll',
+  async ({ page, limit, courseId }) => {
     const response = await axiosApi.get<ApiCommentsResponse>(
-      `/comments?course=${courseId}`,
+      `/comments?course=${courseId || ''}&page=${page || 1}&limit=${
+        limit || 4
+      }`,
     );
     return response.data;
-  }
-
-  const response = await axiosApi.get<ApiCommentsResponse>('/comments');
-  return response.data;
-});
+  },
+);
 
 export const createComment = createAsyncThunk<
   void,
