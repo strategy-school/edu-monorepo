@@ -29,6 +29,7 @@ export interface RegisterMutation {
 export interface IChangePassword {
   currentPassword: string;
   newPassword: string;
+  confirmPassword: string;
 }
 
 export type UpdateUserMutation = Pick<

@@ -30,6 +30,7 @@ const ChangePassowrd = () => {
   const [state, setState] = React.useState<IChangePassword>({
     currentPassword: '',
     newPassword: '',
+    confirmPassword: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,6 +88,18 @@ const ChangePassowrd = () => {
                   type="newPassword"
                   autoComplete="current-newPassword"
                   value={state.newPassword}
+                  onChange={inputChangeHandler}
+                  sx={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  label="Введите новый пароль еще для подтверждения"
+                  name="confirmPassword"
+                  type="confirmPassword"
+                  autoComplete="current-confirmPassword"
+                  value={state.confirmPassword}
                   onChange={inputChangeHandler}
                   sx={{ width: '100%' }}
                 />
