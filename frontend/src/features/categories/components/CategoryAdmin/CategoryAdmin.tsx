@@ -28,7 +28,6 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { ApiCategory } from '@/src/types';
 
 const CategoryAdmin = () => {
   const router = useRouter();
@@ -55,10 +54,8 @@ const CategoryAdmin = () => {
     }
   };
 
-  const toggleCategoryDeleted = async (category: ApiCategory) => {
-    category.isDeleted
-      ? await dispatch(categoryToggleDeleted({ ...category, isDeleted: false }))
-      : await dispatch(categoryToggleDeleted({ ...category, isDeleted: true }));
+  const toggleCategoryDeleted = async (id: string) => {
+    await dispatch(categoryToggleDeleted(id));
     await dispatch(fetchCategories());
   };
 
@@ -71,7 +68,7 @@ const CategoryAdmin = () => {
               <TableCell>Название категории</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
-              <TableCell>Скрыть</TableCell>
+              <TableCell>Скрыть / Показать</TableCell>
               <TableCell>Статус</TableCell>
             </TableRow>
           </TableHead>
@@ -95,7 +92,7 @@ const CategoryAdmin = () => {
                 <TableCell>
                   <IconButton
                     disabled={deleting === category._id || togglingDeleted}
-                    onClick={() => toggleCategoryDeleted(category)}
+                    onClick={() => toggleCategoryDeleted(category._id)}
                   >
                     <HighlightOffIcon />
                   </IconButton>
