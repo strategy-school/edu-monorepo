@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   ApiResponse,
   GlobalError,
+  IChangePassword,
   LoginMutation,
   RegisterMutation,
   RegisterResponse,
@@ -118,16 +119,12 @@ export const updateUser = createAsyncThunk<
   }
 });
 
-interface SearchParam {
-  role?: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: string;
-  isBanned?: string;
-  page?: number;
-  limit?: number;
-}
+type SearchParam = Partial<
+  Pick<
+    User,
+    'role' | 'email' | 'firstName' | 'lastName' | 'isBanned' | 'phoneNumber'
+  > & { page: number; limit: number }
+>;
 
 export const fetchUsers = createAsyncThunk<
   ApiResponse<User>,
@@ -159,3 +156,26 @@ export const updateIsBannedStatus = createAsyncThunk<void, string>(
     await axiosApi.patch('/users/isBanned/' + id);
   },
 );
+
+export const changePassword = createAsyncThunk<
+  User,
+  IChangePassword,
+  { rejectValue: GlobalError }
+>('users/changePassword', async (passwords, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.post<ApiResponse<User>>(
+      '/users/change-password',
+      passwords,
+    );
+    return data.result as User;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});

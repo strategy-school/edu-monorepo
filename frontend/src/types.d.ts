@@ -3,6 +3,7 @@ export enum UserRole {
   Teacher = 'teacher',
   Admin = 'admin',
 }
+
 export interface User {
   _id: string;
   email: string;
@@ -23,6 +24,11 @@ export interface RegisterMutation {
   lastName: string;
   avatar: File | null;
   phoneNumber: string;
+}
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
 }
 
 export type UpdateUserMutation = Pick<
