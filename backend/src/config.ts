@@ -11,6 +11,7 @@ const config = {
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
   },
+  telegramApi: process.env.TELEGRAM_BOT_API,
 };
 
 export default config;

@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import {
   Button,
   Grid,
-  IconButton, Paper,
+  IconButton,
+  Paper,
   Table,
   TableBody,
-  TableCell, TableContainer,
+  TableCell,
+  TableContainer,
   TableFooter,
   TableHead,
   TablePagination,
@@ -61,10 +63,10 @@ const TeacherAdmin = () => {
           </Grid>
           <Grid item>
             <Button
-                component={Link}
-                href="teachers/new-teacher"
-                color="primary"
-                variant="contained"
+              component={Link}
+              href="teachers/new-teacher"
+              color="primary"
+              variant="contained"
             >
               Добавить нового преподавателя
             </Button>
@@ -82,41 +84,43 @@ const TeacherAdmin = () => {
               </TableHead>
               <TableBody>
                 {teachers.map((teacher) => (
-                    <TableRow key={teacher._id} hover>
-                      <TableCell
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => openOneTeacher(teacher._id)}
+                  <TableRow key={teacher._id} hover>
+                    <TableCell
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => openOneTeacher(teacher._id)}
+                    >
+                      {teacher.user.firstName} {teacher.user.lastName}
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton
+                        component={Link}
+                        href={`teachers/edit/${teacher._id}`}
                       >
-                        {teacher.user.firstName} {teacher.user.lastName}
-                      </TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                            component={Link}
-                            href={`teachers/edit/${teacher._id}`}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                            onClick={() => handleDelete(teacher._id)}
-                            disabled={teacher._id === deleting}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton
+                        onClick={() => handleDelete(teacher._id)}
+                        disabled={teacher._id === deleting}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                      rowsPerPageOptions={[10, 25, 50]}
-                      count={totalCount}
-                      rowsPerPage={limit}
-                      page={currentPage - 1}
-                      onPageChange={(_, newPage) => setPage(newPage + 1)}
-                      onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+                    rowsPerPageOptions={[10, 25, 50]}
+                    count={totalCount}
+                    rowsPerPage={limit}
+                    page={currentPage - 1}
+                    onPageChange={(_, newPage) => setPage(newPage + 1)}
+                    onRowsPerPageChange={(e) =>
+                      setLimit(parseInt(e.target.value))
+                    }
                   />
                 </TableRow>
               </TableFooter>
