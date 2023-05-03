@@ -117,6 +117,7 @@ export interface ApiCategory {
   title: string;
   description: string;
   image: string;
+  isDeleted: boolean;
 }
 
 export interface IComment {

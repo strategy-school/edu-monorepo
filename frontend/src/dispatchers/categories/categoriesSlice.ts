@@ -2,6 +2,7 @@ import { RootState } from '@/src/app/store';
 import { ApiCategory, IPagination, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  categoryToggleDeleted,
   createCategory,
   fetchCategories,
   fetchOneCategory,
@@ -15,6 +16,7 @@ interface CategoryState {
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
+  togglingIsDeleted: boolean;
   createCategoryError: ValidationError | null;
   updateCategoryError: ValidationError | null;
   deleteLoading: false | string;
@@ -29,6 +31,7 @@ const initialState: CategoryState = {
   fetchLoading: false,
   fetchOneLoading: false,
   createLoading: false,
+  togglingIsDeleted: false,
   createCategoryError: null,
   updateCategoryError: null,
   deleteLoading: false,
@@ -98,6 +101,15 @@ export const categoriesSlice = createSlice({
       state.updateCategoryError = error || null;
       state.updateLoading = false;
     });
+    builder.addCase(categoryToggleDeleted.pending, (state) => {
+      state.togglingIsDeleted = true;
+    });
+    builder.addCase(categoryToggleDeleted.fulfilled, (state) => {
+      state.togglingIsDeleted = false;
+    });
+    builder.addCase(categoryToggleDeleted.rejected, (state) => {
+      state.togglingIsDeleted = false;
+    });
   },
 });
 
@@ -123,3 +135,5 @@ export const selectCategoriesCount = (state: RootState) =>
   state.categories.totalCount;
 export const selectCategoriesPage = (state: RootState) =>
   state.categories.currentPage;
+export const selectCategoryTogglingDeleted = (state: RootState) =>
+  state.categories.togglingIsDeleted;
