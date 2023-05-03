@@ -7,6 +7,7 @@ import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
 import Comment from './models/Comment';
+import Test from './models/Test';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -20,6 +21,7 @@ const run = async () => {
     await db.dropCollection('categories');
     await db.dropCollection('transactions');
     await db.dropCollection('comments');
+    await db.dropCollection('tests');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -260,6 +262,124 @@ const run = async () => {
       course: marketing3._id,
       rating: 3,
       text: 'Неплохой курс, были некоторые косяки, но в принципе хорошо!',
+    },
+  );
+
+  await Test.create(
+    {
+      category: marketing._id,
+      title: 'Тестовые вопросы “Маркетинг”',
+      description:
+        'В каждом вопросе только один вариант может быть верным. За один правильный ответ 1 балл.',
+      questions: [
+        {
+          question: 'Что такое “рынок”?',
+          answers: [
+            'Это место где, торгуются покупатель и продавец',
+            'Это место где, торгуются покупатель и продавец в присутствии государства',
+          ],
+          correctAnswer:
+            'Это место где, торгуются покупатель и продавец в присутствии государства',
+        },
+        {
+          question: 'Кто такой “клиент”?',
+          answers: [
+            'Клиент – это тот, кто потребляет наши товары и услуги',
+            'Клиент – это тот, кто покупает наши товары и услуги',
+          ],
+          correctAnswer: 'Клиент – это тот, кто покупает наши товары и услуги',
+        },
+        {
+          question: 'Кто такой “конкурент”?',
+          answers: [
+            'Конкурентом является компания, чьи товары или услуги, соперничают с вашими товарами или услугами за конечного покупателя',
+            'Конкурентом является компания, которая производит аналогичные товары или услуги на вашем рынке',
+          ],
+          correctAnswer:
+            'Конкурентом является компания, чьи товары или услуги, соперничают с вашими товарами или услугами за конечного покупателя',
+        },
+        {
+          question: 'Назовите пять базовых методов исследования рынка',
+          answers: [
+            'Интервью, фокус-группа, полевые исследования, опросы, наблюдения',
+            'Анкетирование, тестирование, дегустация, тайный покупатель, телефонные опросы',
+          ],
+          correctAnswer:
+            'Интервью, фокус-группа, полевые исследования, опросы, наблюдения',
+        },
+        {
+          question: 'Назовите три уровня размера рынка',
+          answers: [
+            'Занятый, конкурентный, будущий',
+            'Реальный, доступный, потенциальный',
+          ],
+          correctAnswer: 'Реальный, доступный, потенциальный',
+        },
+        {
+          question: 'Что такое “маркетинг”?',
+          answers: [
+            'Маркетинг – это рекламная акция по привлечению клиентов с целью продать больше товаров и услуг',
+            'Маркетинг – это распродажи товаров по цене ниже, чем у конкурентов с целью привлечения больше клиентов',
+            'Маркетинг – это пиар кампания в СМИ и Интернете с целью повышению узнаваемости бренда',
+            'Маркетинг – это комплекс мер по выявлению потребности рынка, вывод конкурентного продукта, разработки бренда и коммуникации с потребителем с целью получения выгоды',
+          ],
+          correctAnswer:
+            'Маркетинг – это комплекс мер по выявлению потребности рынка, вывод конкурентного продукта, разработки бренда и коммуникации с потребителем с целью получения выгоды',
+        },
+        {
+          question: 'Что такое реклама?',
+          answers: [
+            'Реклама это пиар продукта среди целевой аудитории',
+            'Реклама это продвижение продукта',
+            'Реклама это инструмент донесения информации о продукте ',
+            'Реклама это формирование положительного имиджа о компании у целевой аудитории',
+          ],
+          correctAnswer:
+            'Реклама это инструмент донесения информации о продукте',
+        },
+        {
+          question: 'Что такое ROMI?',
+          answers: [
+            'Return of Marketing Investment – коэффициент рентабельности вложений в маркетинг',
+            'Rebranding Of Marketing in Internet – ребррендинг маркетинга в интернете',
+          ],
+          correctAnswer:
+            'Return of Marketing Investment – коэффициент рентабельности вложений в маркетинг',
+        },
+      ],
+    },
+    {
+      category: SMM._id,
+      title: 'Social Media Marketing Quiz',
+      description: 'Test your knowledge of social media marketing concepts',
+      questions: [
+        {
+          question: 'What is the best time to post on Facebook?',
+          answers: [
+            'Monday at 8am',
+            'Wednesday at 1pm',
+            'Saturday at 5pm',
+            'It depends on your audience',
+          ],
+          correctAnswer: 'It depends on your audience',
+        },
+        {
+          question: 'Which of the following is NOT a social media platform?',
+          answers: ['Twitter', 'LinkedIn', 'Google Ads', 'Instagram'],
+          correctAnswer: 'Google Ads',
+        },
+        {
+          question:
+            'What is the purpose of A/B testing in social media marketing?',
+          answers: [
+            'To increase engagement',
+            'To improve ROI',
+            'To test different ad creatives',
+            'All of the above',
+          ],
+          correctAnswer: 'All of the above',
+        },
+      ],
     },
   );
 
