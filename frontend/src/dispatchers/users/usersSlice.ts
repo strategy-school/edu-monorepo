@@ -1,15 +1,16 @@
-import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
-import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '@/src/app/store';
 import {
-  fetchUsers,
+  changePassword,
   fetchOneBasicUser,
+  fetchUsers,
   googleLogin,
   login,
   register,
   updateIsBannedStatus,
   updateUser,
 } from '@/src/dispatchers/users/usersThunks';
-import { RootState } from '@/src/app/store';
+import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
@@ -23,6 +24,8 @@ interface UsersState {
   fetchOneUserLoading: boolean;
   updateUserLoading: false | string;
   updateUserError: ValidationError | null;
+  passwordChanging: boolean;
+  passwordChangeError: GlobalError | null;
   currentPage: number;
   totalCount: number;
 }
@@ -39,6 +42,8 @@ const initialState: UsersState = {
   fetchOneUserLoading: false,
   updateUserLoading: false,
   updateUserError: null,
+  passwordChanging: false,
+  passwordChangeError: null,
   currentPage: 1,
   totalCount: 1,
 };
@@ -137,12 +142,23 @@ export const usersSlice = createSlice({
     builder.addCase(fetchOneBasicUser.rejected, (state) => {
       state.fetchOneUserLoading = false;
     });
+    builder.addCase(changePassword.pending, (state) => {
+      (state.passwordChangeError = null), (state.passwordChanging = true);
+    });
+    builder.addCase(changePassword.fulfilled, (state, { payload: user }) => {
+      state.passwordChangeError = null;
+      state.passwordChanging = false;
+      state.user = user;
+    });
+    builder.addCase(changePassword.rejected, (state, { payload: error }) => {
+      state.passwordChanging = false;
+      state.passwordChangeError = error || null;
+    });
   },
 });
 
 export const usersReducer = usersSlice.reducer;
 export const { unsetUser } = usersSlice.actions;
-
 export const selectUser = (state: RootState) => state.users.user;
 export const selectUsers = (state: RootState) => state.users.users;
 export const selectOneBasicUser = (state: RootState) =>
@@ -162,3 +178,7 @@ export const selectFetchingOneUser = (state: RootState) =>
   state.users.fetchOneUserLoading;
 export const selectUsersCount = (state: RootState) => state.users.totalCount;
 export const selectUserPage = (state: RootState) => state.users.currentPage;
+export const selectPasswordChanging = (state: RootState) =>
+  state.users.passwordChanging;
+export const selectPasswordChangeError = (state: RootState) =>
+  state.users.passwordChangeError;

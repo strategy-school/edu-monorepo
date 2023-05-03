@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { selectTransactionSubmitting } from '@/src/dispatchers/transactions/transactionsSlice';
-import { ITransaction } from '@/src/types';
+import { ITransaction, UserRole } from '@/src/types.d';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
 import { selectCourses } from '../../../dispatchers/courses/coursesSlice';
@@ -45,7 +45,7 @@ const TransactionForm: React.FC<Props> = ({
   );
 
   React.useEffect(() => {
-    void dispatch(fetchUsers({ role: 'user' }));
+    void dispatch(fetchUsers({ role: UserRole.User }));
     void dispatch(fetchCourses());
   }, [dispatch]);
 

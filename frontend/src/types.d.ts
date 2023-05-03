@@ -1,3 +1,9 @@
+export enum UserRole {
+  User = 'user',
+  Teacher = 'teacher',
+  Admin = 'admin',
+}
+
 export interface User {
   _id: string;
   email: string;
@@ -5,7 +11,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   token: string;
-  role: string;
+  role: UserRole;
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
@@ -18,6 +24,12 @@ export interface RegisterMutation {
   lastName: string;
   avatar: File | null;
   phoneNumber: string;
+}
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export type UpdateUserMutation = Pick<

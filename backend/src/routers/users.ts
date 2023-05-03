@@ -262,4 +262,36 @@ usersRouter.patch(
   },
 );
 
+usersRouter.post('/change-password', auth, async (req, res, next) => {
+  try {
+    const { user } = req as RequestWithUser;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    const isMatch = await user.checkPassword(currentPassword);
+
+    if (!isMatch) {
+      return res.status(400).send({ error: 'Текущий пароль указан неверно' });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
+    }
+
+    user.password = newPassword;
+    await user.generateToken();
+    await user.save();
+    return res.send({
+      message: 'Password has been changed successfully',
+      result: user,
+    });
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+    return next(e);
+  }
+});
+
 export default usersRouter;
