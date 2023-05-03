@@ -6,8 +6,10 @@ import {
   selectCategoriesCount,
   selectCategoriesPage,
   selectCategoryDeleting,
+  selectCategoryTogglingDeleted,
 } from '@/src/dispatchers/categories/categoriesSlice';
 import {
+  categoryToggleDeleted,
   fetchCategories,
   removeCategory,
 } from '@/src/dispatchers/categories/categoriesThunks';
@@ -26,6 +28,8 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { ApiCategory } from '@/src/types';
 
 const CategoryAdmin = () => {
   const router = useRouter();
@@ -36,6 +40,7 @@ const CategoryAdmin = () => {
   const deleting = useAppSelector(selectCategoryDeleting);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const togglingDeleted = useAppSelector(selectCategoryTogglingDeleted);
 
   React.useEffect(() => {
     void dispatch(fetchCategories({ page, limit }));
@@ -56,6 +61,13 @@ const CategoryAdmin = () => {
     dispatch(fetchCategories({ [name]: value }));
   };
 
+  const toggleCategoryDeleted = async (category: ApiCategory) => {
+    category.isDeleted
+      ? await dispatch(categoryToggleDeleted({ ...category, isDeleted: false }))
+      : await dispatch(categoryToggleDeleted({ ...category, isDeleted: true }));
+    await dispatch(fetchCategories());
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -66,6 +78,8 @@ const CategoryAdmin = () => {
               <TableCell>Название категории</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
+              <TableCell>Скрыть</TableCell>
+              <TableCell>Статус</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -78,9 +92,23 @@ const CategoryAdmin = () => {
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => deleteCategory(category._id)}>
+                  <IconButton
+                    onClick={() => deleteCategory(category._id)}
+                    disabled={deleting === category._id || togglingDeleted}
+                  >
                     <DeleteIcon />
                   </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    disabled={deleting === category._id || togglingDeleted}
+                    onClick={() => toggleCategoryDeleted(category)}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  {category.isDeleted ? 'Скрыта' : 'Активна'}
                 </TableCell>
               </TableRow>
             ))}

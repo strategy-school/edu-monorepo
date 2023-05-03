@@ -85,3 +85,10 @@ export const removeCategory = createAsyncThunk<void, string>(
     await axiosApi.delete('/categories/' + id);
   },
 );
+
+export const categoryToggleDeleted = createAsyncThunk<void, ApiCategory>(
+  'categories/toggleIsDeleted',
+  async (category) => {
+    await axiosApi.patch(`/categories/${category._id}/toggleIsDeleted`);
+  },
+);

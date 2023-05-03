@@ -4,6 +4,7 @@ import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 import { imageUpload } from '../multer';
 import mongoose, { HydratedDocument } from 'mongoose';
+import Course from '../models/Course';
 import { ICategory, PageLimit, SearchParam } from '../types';
 
 type QueryParams = Omit<ICategory, 'image'> & PageLimit;
@@ -81,9 +82,16 @@ categoriesRouter.delete(
   async (req, res, next) => {
     try {
       const removingCategory = await Category.findById(req.params.id);
+      const relatedCourses = await Course.find({
+        category: req.params.id,
+      });
 
       if (!removingCategory) {
         return res.status(404).send({ error: 'Category does not exist' });
+      } else if (relatedCourses.length) {
+        return res.status(403).send({
+          error: 'Categories having related courses cannot be removed',
+        });
       } else {
         await Category.deleteOne({ _id: req.params.id });
         return res.send({ message: 'Category was successfully removed' });
@@ -123,6 +131,39 @@ categoriesRouter.put(
       } else {
         return next(e);
       }
+    }
+  },
+);
+
+categoriesRouter.patch(
+  '/:id/toggleIsDeleted',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const currentCategory = await Category.findById(req.params.id);
+      if (!currentCategory) {
+        return res.status(404).send({ error: 'Category not found' });
+      }
+
+      if (!currentCategory.isDeleted) {
+        await Category.updateOne(
+          { _id: req.params.id },
+          { $set: { isDeleted: true } },
+        );
+      } else {
+        await Category.updateOne(
+          { _id: req.params.id },
+          { $set: { isDeleted: false } },
+        );
+      }
+
+      return res.send({
+        message: `isDeleted status was updated for ${currentCategory.isDeleted}`,
+        currentCategory,
+      });
+    } catch (e) {
+      return next(e);
     }
   },
 );
