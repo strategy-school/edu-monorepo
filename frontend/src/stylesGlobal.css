@@ -8,7 +8,7 @@ a {
 }
 
 .card:hover {
-  box-shadow:  0 0 21px 4px #dfeaf5;
+  box-shadow: 0 0 21px 4px #dfeaf5;
   transform: scale(1.05, 1.05);
   transition: transform 500ms ease-out;
 }

@@ -50,8 +50,8 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {user.role === 'admin' && (
-          <MenuItem component={Link} href="/admin/categories">
+        {user && user.role === 'admin' && (
+          <MenuItem component={Link} href="/admin/courses">
             Админ панель
           </MenuItem>
         )}

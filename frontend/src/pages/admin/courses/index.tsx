@@ -1,53 +1,10 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import {
-  selectCourseDeleting,
-  selectCoursePage,
-  selectCourses,
-  selectCoursesCount,
-} from '@/src/dispatchers/courses/coursesSlice';
-import {
-  deleteCourse,
-  fetchCourses,
-} from '@/src/dispatchers/courses/coursesThunks';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import {
-  Button,
-  Grid,
-  IconButton,
-  Link as MUILink,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
+import CoursesAdmin from '@/src/features/courses/CoursesAdmin/CoursesAdmin';
 
 const Courses = () => {
-  const dispatch = useAppDispatch();
-  const courses = useAppSelector(selectCourses);
-  const deleteLoading = useAppSelector(selectCourseDeleting);
-  const totalCount = useAppSelector(selectCoursesCount);
-  const currentPage = useAppSelector(selectCoursePage);
-  const [limit, setLimit] = React.useState(10);
-  const [page, setPage] = React.useState(1);
-
-  React.useEffect(() => {
-    void dispatch(fetchCourses({ page, limit }));
-  }, [dispatch, deleteLoading, page, limit]);
-
-  const handleDelete = (id: string) => {
-    if (window.confirm('Подтвердите удаление курса')) {
-      dispatch(deleteCourse(id));
-    }
-  };
-
   return (
     <AdminLayout>
       <Grid container spacing={2} direction="column">
@@ -67,58 +24,7 @@ const Courses = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Название курса</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {courses.map((course) => (
-                <TableRow key={course._id}>
-                  <TableCell>
-                    <MUILink component={Link} href={`courses/${course._id}`}>
-                      {course.title}
-                    </MUILink>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      component={Link}
-                      href={`courses/edit/${course._id}`}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      disabled={
-                        deleteLoading ? deleteLoading === course._id : false
-                      }
-                      onClick={() => handleDelete(course._id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 50]}
-                  count={totalCount}
-                  rowsPerPage={limit}
-                  page={currentPage - 1}
-                  onPageChange={(_, newPage) => setPage(newPage + 1)}
-                  onRowsPerPageChange={(e) =>
-                    setLimit(parseInt(e.target.value))
-                  }
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
+          <CoursesAdmin />
         </Grid>
       </Grid>
     </AdminLayout>
