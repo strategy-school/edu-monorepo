@@ -1,4 +1,4 @@
-import { Test, TestMini, ValidationError } from '@/src/types';
+import { IPagination, Test, TestMini, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createTest,
@@ -19,6 +19,8 @@ interface TestsState {
   updateLoading: boolean;
   updateTestError: ValidationError | null;
   deleteLoading: string | false;
+  currentPage: number;
+  totalCount: number;
 }
 
 const initialState: TestsState = {
@@ -29,6 +31,8 @@ const initialState: TestsState = {
   updateLoading: false,
   updateTestError: null,
   deleteLoading: false,
+  currentPage: 1,
+  totalCount: 1,
 };
 
 const testsSlice = createSlice({
@@ -52,9 +56,12 @@ const testsSlice = createSlice({
       state.tests = [];
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTests.fulfilled, (state, { payload: tests }) => {
+    builder.addCase(fetchTests.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.tests = tests;
+      const result = payload.result as IPagination<TestMini>;
+      state.tests = result.tests;
+      state.currentPage = result.currentPage;
+      state.totalCount = result.totalCount;
     });
     builder.addCase(fetchTests.rejected, (state) => {
       state.fetchLoading = false;
@@ -111,3 +118,19 @@ const testsSlice = createSlice({
   },
 });
 export const testsReducer = testsSlice.reducer;
+export const selectTests = (state: RootState) => state.tests.tests;
+export const selectOneTest = (state: RootState) => state.tests.test;
+export const selectTestsFetching = (state: RootState) =>
+  state.tests.fetchLoading;
+export const selectTestCreating = (state: RootState) =>
+  state.tests.createLoading;
+export const selectTestUpdating = (state: RootState) =>
+  state.tests.updateLoading;
+export const selectTestDeleting = (state: RootState) =>
+  state.tests.deleteLoading;
+export const selectTestCreatingError = (state: RootState) =>
+  state.tests.createTestError;
+export const selectTestUpdatingError = (state: RootState) =>
+  state.tests.updateTestError;
+export const selectTestCount = (state: RootState) => state.tests.totalCount;
+export const selectTestPage = (state: RootState) => state.tests.currentPage;

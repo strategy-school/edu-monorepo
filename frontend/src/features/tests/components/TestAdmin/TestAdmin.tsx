@@ -6,7 +6,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -17,25 +19,32 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import {
+  selectTestCount,
   selectTestDeleting,
+  selectTestPage,
   selectTests,
 } from '@/src/dispatchers/tests/testsSlice';
 import { deleteTest, fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import { selectTeachersCount } from '@/src/dispatchers/teachers/teachersSlice';
 
 const TestAdmin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const tests = useAppSelector(selectTests);
   const deleting = useAppSelector(selectTestDeleting);
+  const currentPage = useAppSelector(selectTestPage);
+  const totalCount = useAppSelector(selectTestCount);
+  const [limit, setLimit] = React.useState(5);
+  const [page, setPage] = React.useState(1);
 
   useEffect(() => {
-    dispatch(fetchTests());
-  }, [dispatch]);
+    dispatch(fetchTests({ page, limit }));
+  }, [dispatch, page, limit, deleting]);
 
   const handleDelete = (id: string) => {
     if (window.confirm('Подтвердите удаление теста')) {
       dispatch(deleteTest(id));
-      dispatch(fetchTests());
+      dispatch(fetchTests({ page, limit }));
     }
   };
 
@@ -96,18 +105,18 @@ const TestAdmin = () => {
                 </TableRow>
               ))}
           </TableBody>
-          {/*<TableFooter>*/}
-          {/*  <TableRow>*/}
-          {/*    <TablePagination*/}
-          {/*      rowsPerPageOptions={[10, 25, 50]}*/}
-          {/*      count={totalCount}*/}
-          {/*      rowsPerPage={limit}*/}
-          {/*      page={currentPage - 1}*/}
-          {/*      onPageChange={(_, newPage) => setPage(newPage + 1)}*/}
-          {/*      onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}*/}
-          {/*    />*/}
-          {/*  </TableRow>*/}
-          {/*</TableFooter>*/}
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15]}
+                count={totalCount}
+                rowsPerPage={limit}
+                page={currentPage - 1}
+                onPageChange={(_, newPage) => setPage(newPage + 1)}
+                onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </Container>
     </>
