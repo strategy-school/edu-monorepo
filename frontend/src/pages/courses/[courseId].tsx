@@ -59,10 +59,6 @@ const CourseId = () => {
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
-  const openTest = (id: string) => {
-    void router.push('/tests/' + id);
-  };
-
   return (
     <Layout title={`${course?.title} page`}>
       {courseLoading ? (
@@ -175,11 +171,7 @@ const CourseId = () => {
             {course && (
               <Grid item container sx={{ mb: 3 }}>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button
-                    onClick={() => openTest(course.category._id)}
-                    variant="contained"
-                    color="secondary"
-                  >
+                  <Button variant="contained" color="secondary">
                     Запишись сейчас!
                   </Button>
                 </Grid>
