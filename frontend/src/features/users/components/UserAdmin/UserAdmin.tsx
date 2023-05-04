@@ -9,6 +9,7 @@ import {
   fetchUsers,
   updateIsBannedStatus,
 } from '@/src/dispatchers/users/usersThunks';
+import { UserRole } from '@/src/types.d';
 import EditIcon from '@mui/icons-material/Edit';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -38,7 +39,7 @@ const UserAdmin = () => {
   const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    dispatch(fetchUsers({ role: 'user', page, limit: limit }));
+    dispatch(fetchUsers({ role: UserRole.User, page, limit: limit }));
   }, [dispatch, page, limit, banLoading]);
 
   const editBanStatus = (id: string, banStatus: boolean) => {

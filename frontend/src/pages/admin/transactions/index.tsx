@@ -1,16 +1,10 @@
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import {
-  Button,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import AdminTransaction from "@/src/features/admin/transactions/AdminTransaction/AdminTransaction";
+import AdminTransaction from '@/src/features/admin/transactions/AdminTransaction/AdminTransaction';
 
 const Transactions = () => {
-
-
   return (
     <AdminLayout>
       <Grid container direction="column" gap={2}>
@@ -29,7 +23,7 @@ const Transactions = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <AdminTransaction/>
+          <AdminTransaction />
         </Grid>
       </Grid>
     </AdminLayout>

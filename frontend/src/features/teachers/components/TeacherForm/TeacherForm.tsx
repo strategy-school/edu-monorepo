@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { ITeacher, ValidationError } from '@/src/types';
+import { ITeacher, UserRole, ValidationError } from '@/src/types.d';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
 import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
@@ -35,7 +35,7 @@ const TeacherForm: React.FC<Props> = ({
 
   const [state, setState] = useState<ITeacher>(existingTeacher || initialState);
   useEffect(() => {
-    dispatch(fetchUsers({ role: 'user' }));
+    dispatch(fetchUsers({ role: UserRole.Teacher }));
   }, [dispatch]);
 
   const submitFormHandler = async (e: React.FormEvent) => {

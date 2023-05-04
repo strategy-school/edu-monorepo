@@ -1,3 +1,9 @@
+export enum UserRole {
+  User = 'user',
+  Teacher = 'teacher',
+  Admin = 'admin',
+}
+
 export interface User {
   _id: string;
   email: string;
@@ -5,7 +11,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   token: string;
-  role: string;
+  role: UserRole;
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
@@ -18,6 +24,12 @@ export interface RegisterMutation {
   lastName: string;
   avatar: File | null;
   phoneNumber: string;
+}
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export type UpdateUserMutation = Pick<
@@ -169,4 +181,42 @@ export interface IPagination<Type> {
 export interface ApiResponse<Type> {
   message: 'string';
   result: Type | IPagination<Type>;
+}
+
+export interface CategoryMini {
+  _id: string;
+  title: string;
+}
+
+export interface Question {
+  question: string;
+  answers: string[];
+  correctAnswer: string;
+}
+
+export interface QuestionFull extends Question {
+  _id: string;
+}
+export interface Test {
+  _id: string;
+  category: CategoryMini;
+  title: string;
+  description: string;
+  questions: QuestionFull[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface TestMutation {
+  category: string;
+  title: string;
+  description: string;
+  questions: Question[];
+}
+
+export interface TestMini {
+  _id: string;
+  category: CategoryMini;
+  title: string;
 }
