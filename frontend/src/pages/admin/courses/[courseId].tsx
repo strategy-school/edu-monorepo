@@ -36,12 +36,6 @@ const marginTop = {
   lg: '80px',
 };
 
-const paddingTop = {
-  xs: '10px',
-  sm: '10px',
-  md: 0,
-};
-
 const CourseId = () => {
   const router = useRouter();
   const { courseId } = router.query as { courseId: string };
@@ -195,51 +189,38 @@ const CourseId = () => {
                   Запишись сейчас!
                 </Button>
               </Grid>
-              <Grid
-                item
-                container
-                md={6}
-                sm={8}
-                xs={10}
-                paddingTop={paddingTop}
-                style={{ marginLeft: 'auto' }}
-                spacing={2}
-              >
-                <Grid item>
-                  <LoadingButton
-                    color="error"
-                    variant="contained"
-                    loading={
-                      deleteLoading ? deleteLoading === course._id : false
-                    }
-                    disabled={togglingDeleted}
-                    onClick={handleDelete}
-                    sx={{ width: '89px' }}
-                  >
-                    <span>Удалить</span>
-                  </LoadingButton>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    onClick={() => toggleCourseDeleted(course?._id)}
-                    disabled={togglingDeleted || deleteLoading === course._id}
-                  >
-                    {course.isDeleted ? 'Показать' : 'Скрыть'}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    href={`edit/${course._id}`}
-                    variant="contained"
-                    color="primary"
-                    disabled={togglingDeleted || deleteLoading === course._id}
-                  >
-                    Редактировать
-                  </Button>
-                </Grid>
+              <Grid item sx={{ ml: 3 }}>
+                <LoadingButton
+                  color="error"
+                  variant="contained"
+                  loading={deleteLoading ? deleteLoading === course._id : false}
+                  disabled={togglingDeleted}
+                  onClick={handleDelete}
+                  sx={{ width: '89px' }}
+                >
+                  <span>Удалить</span>
+                </LoadingButton>
+              </Grid>
+              <Grid item sx={{ ml: 3 }}>
+                <Button
+                  variant="contained"
+                  color="warning"
+                  onClick={() => toggleCourseDeleted(course?._id)}
+                  disabled={togglingDeleted || deleteLoading === course._id}
+                >
+                  {course.isDeleted ? 'Показать' : 'Скрыть'}
+                </Button>
+              </Grid>
+              <Grid item sx={{ ml: 3 }}>
+                <Button
+                  component={Link}
+                  href={`edit/${course._id}`}
+                  variant="contained"
+                  color="primary"
+                  disabled={togglingDeleted || deleteLoading === course._id}
+                >
+                  Редактировать
+                </Button>
               </Grid>
             </Grid>
           </Grid>
