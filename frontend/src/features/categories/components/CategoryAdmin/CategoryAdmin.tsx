@@ -84,7 +84,10 @@ const CategoryAdmin = () => {
               <TableRow key={category._id} hover>
                 <TableCell>{category.title}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => openEditCategory(category._id)}>
+                  <IconButton
+                    onClick={() => openEditCategory(category._id)}
+                    disabled={deleting === category._id || togglingDeleted}
+                  >
                     <EditIcon />
                   </IconButton>
                 </TableCell>

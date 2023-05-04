@@ -5,6 +5,7 @@ import {
   selectCoursePage,
   selectCourses,
   selectCoursesCount,
+  selectCourseTogglingDeleted,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
   courseToggleDeleted,
@@ -39,7 +40,7 @@ const CoursesAdmin = () => {
   const currentPage = useAppSelector(selectCoursePage);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
-  const togglingDeleted = useAppSelector(selectCategoryTogglingDeleted);
+  const togglingDeleted = useAppSelector(selectCourseTogglingDeleted);
 
   React.useEffect(() => {
     void dispatch(fetchCourses({ page, limit }));
@@ -87,6 +88,7 @@ const CoursesAdmin = () => {
                   <IconButton
                     component={Link}
                     href={`courses/edit/${course._id}`}
+                    disabled={deleteLoading === course._id || togglingDeleted}
                   >
                     <EditIcon />
                   </IconButton>
