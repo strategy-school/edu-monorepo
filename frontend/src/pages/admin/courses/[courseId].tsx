@@ -4,6 +4,7 @@ import Layout from '@/src/components/UI/Layout/Layout';
 import { apiURL } from '@/src/constants';
 import {
   selectCourseDeleting,
+  selectCourseTogglingDeleted,
   selectOneCourse,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
@@ -48,6 +49,7 @@ const CourseId = () => {
   const course = useAppSelector(selectOneCourse);
   const user = useAppSelector(selectUser);
   const deleteLoading = useAppSelector(selectCourseDeleting);
+  const togglingDeleted = useAppSelector(selectCourseTogglingDeleted);
 
   React.useEffect(() => {
     void dispatch(fetchOneCourse(courseId));
@@ -196,7 +198,7 @@ const CourseId = () => {
               <Grid
                 item
                 container
-                md={4}
+                md={6}
                 sm={8}
                 xs={10}
                 paddingTop={paddingTop}
@@ -210,6 +212,7 @@ const CourseId = () => {
                     loading={
                       deleteLoading ? deleteLoading === course._id : false
                     }
+                    disabled={togglingDeleted}
                     onClick={handleDelete}
                     sx={{ width: '89px' }}
                   >
@@ -221,6 +224,7 @@ const CourseId = () => {
                     variant="contained"
                     color="warning"
                     onClick={() => toggleCourseDeleted(course?._id)}
+                    disabled={togglingDeleted || deleteLoading === course._id}
                   >
                     {course.isDeleted ? 'Показать' : 'Скрыть'}
                   </Button>
@@ -231,6 +235,7 @@ const CourseId = () => {
                     href={`edit/${course._id}`}
                     variant="contained"
                     color="primary"
+                    disabled={togglingDeleted || deleteLoading === course._id}
                   >
                     Редактировать
                   </Button>
