@@ -79,7 +79,7 @@ export interface ICourse {
 
 export type CourseShort = Pick<
   ApiCourse,
-  '_id' | 'title' | 'duration' | 'image'
+  '_id' | 'title' | 'duration' | 'image' | 'isDeleted'
 >;
 
 export interface ApiCourse {
@@ -95,6 +95,7 @@ export interface ApiCourse {
   targetAudience: string;
   programGoal: string;
   level: string;
+  isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -129,6 +130,7 @@ export interface ApiCategory {
   title: string;
   description: string;
   image: string;
+  isDeleted: boolean;
 }
 
 export interface IComment {

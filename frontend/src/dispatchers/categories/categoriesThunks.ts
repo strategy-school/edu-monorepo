@@ -4,6 +4,7 @@ import {
   ApiCategory,
   ICategory,
   ValidationError,
+  GlobalError,
 } from '@/src/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
@@ -87,9 +88,24 @@ export const updateCategory = createAsyncThunk<
   },
 );
 
-export const removeCategory = createAsyncThunk<void, string>(
-  'categories/remove',
-  async (id) => {
+export const removeCategory = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: GlobalError }
+>('categories/remove', async (id, { rejectWithValue }) => {
+  try {
     await axiosApi.delete('/categories/' + id);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
+
+export const categoryToggleDeleted = createAsyncThunk<void, string>(
+  'categories/toggleIsDeleted',
+  async (id) => {
+    await axiosApi.patch(`/categories/${id}/toggleIsDeleted`);
   },
 );

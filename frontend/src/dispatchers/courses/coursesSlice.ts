@@ -3,10 +3,12 @@ import {
   ApiCourse,
   IPagination,
   ValidationError,
+  GlobalError,
 } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/src/app/store';
 import {
+  courseToggleDeleted,
   createCourse,
   deleteCourse,
   fetchCourses,
@@ -24,6 +26,8 @@ interface CourseState {
   updateLoading: boolean;
   updateCourseError: ValidationError | null;
   deleteLoading: string | false;
+  removeError: GlobalError | null;
+  togglingIsDeleted: boolean;
   currentPage: number;
   totalCount: number;
 }
@@ -38,6 +42,8 @@ const initialState: CourseState = {
   updateLoading: false,
   updateCourseError: null,
   deleteLoading: false,
+  removeError: null,
+  togglingIsDeleted: false,
   currentPage: 1,
   totalCount: 1,
 };
@@ -102,8 +108,21 @@ const coursesSlice = createSlice({
     builder.addCase(deleteCourse.fulfilled, (state) => {
       state.deleteLoading = false;
     });
-    builder.addCase(deleteCourse.rejected, (state) => {
+    builder.addCase(deleteCourse.rejected, (state, { payload: error }) => {
+      window.alert(
+        'Данный курс не может быть удален, так как с ним связаны транзакции. Курс можно сделать скрытым. Для этого нажмите на кнопку Скрыть в админ-панели',
+      );
+      state.removeError = error || null;
       state.deleteLoading = false;
+    });
+    builder.addCase(courseToggleDeleted.pending, (state) => {
+      state.togglingIsDeleted = true;
+    });
+    builder.addCase(courseToggleDeleted.fulfilled, (state) => {
+      state.togglingIsDeleted = false;
+    });
+    builder.addCase(courseToggleDeleted.rejected, (state) => {
+      state.togglingIsDeleted = false;
     });
   },
 });
@@ -129,3 +148,5 @@ export const selectCourseDeleting = (state: RootState) =>
 export const selectCoursePage = (state: RootState) => state.courses.currentPage;
 export const selectCoursesCount = (state: RootState) =>
   state.courses.totalCount;
+export const selectCourseTogglingDeleted = (state: RootState) =>
+  state.courses.togglingIsDeleted;

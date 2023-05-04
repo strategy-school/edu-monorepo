@@ -103,12 +103,14 @@ const run = async () => {
       description:
         'Маркетинг – наука, которая рассматривает процессы сбыта продукции или услуг как управляемую рыночную деятельность.',
       image: 'fixtures/marketingCtg.jpg',
+      isDeleted: false,
     },
     {
       title: 'SMM',
       description:
         'SMM - это комплекс мероприятий по использованию социальных медиа в качестве каналов для продвижения компаний или бренда и решения других бизнес-задач.',
       image: 'fixtures/smmCtg.jpg',
+      isDeleted: false,
     },
   );
 
@@ -159,6 +161,7 @@ const run = async () => {
       image: 'fixtures/marketing1.jpg',
       type: 'seminar',
       duration: 'до 2 часов',
+      isDeleted: false,
     },
     {
       title: 'Специалист по маркетингу',
@@ -172,6 +175,7 @@ const run = async () => {
       image: 'fixtures/marketing2.jpeg',
       type: 'training',
       duration: '1 месяц',
+      isDeleted: false,
     },
     {
       title: 'Менеджер по маркетингу',
@@ -185,6 +189,7 @@ const run = async () => {
       image: 'fixtures/marketing3.png',
       type: 'course',
       duration: '2 месяца',
+      isDeleted: true,
     },
     {
       title: 'Директор по маркетингу',
@@ -198,6 +203,7 @@ const run = async () => {
       image: 'fixtures/marketing4.jpg',
       type: 'miniMBA',
       duration: '3 месяца',
+      isDeleted: true,
     },
   );
 
