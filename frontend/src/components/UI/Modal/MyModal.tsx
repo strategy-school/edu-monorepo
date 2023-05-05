@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
@@ -21,7 +14,7 @@ const MyModal: React.FC<Props> = ({ open, handleClose, title, children }) => {
     <Dialog
       open={open}
       onClose={handleClose}
-      sx={{ '& .MuiPaper-root': { width: '70%', maxWidth: 'none' } }}
+      sx={{ '& .MuiPaper-root': { width: '60%', maxWidth: 'none' } }}
     >
       <DialogTitle>
         {title}
@@ -34,15 +27,6 @@ const MyModal: React.FC<Props> = ({ open, handleClose, title, children }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button
-          variant="outlined"
-          onClick={handleClose}
-          sx={{ paddingX: '30px' }}
-        >
-          Закрыть
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

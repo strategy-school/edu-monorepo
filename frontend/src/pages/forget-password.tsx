@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import Layout from '@/src/components/UI/Layout/Layout';
 import {
+  Alert,
   Avatar,
   Box,
-  Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
   Grid,
   TextField,
   Typography,
@@ -15,13 +12,23 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmailerrorred';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import {
+  selectPasswordForgetError,
+  selectPasswordForgetLoading,
+} from '@/src/dispatchers/users/usersSlice';
+import { forgotPassword } from '@/src/dispatchers/users/usersThunks';
 
 const ForgetPassword = () => {
+  const dispatch = useAppDispatch();
+  const error = useAppSelector(selectPasswordForgetError);
+  const loading = useAppSelector(selectPasswordForgetLoading);
   const [email, setEmail] = useState('');
   const [open, setOpen] = useState(false);
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    await dispatch(forgotPassword({ email })).unwrap();
     setOpen(true);
     console.log(email);
   };
@@ -45,7 +52,11 @@ const ForgetPassword = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <NoEncryptionGmailerrorredIcon />
             </Avatar>
-
+            {error && (
+              <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
+                {error.error}
+              </Alert>
+            )}
             <Box
               component="form"
               onSubmit={submitFormHandler}
@@ -66,7 +77,7 @@ const ForgetPassword = () => {
                 </Grid>
               </Grid>
               <LoadingButton
-                loading={false}
+                loading={loading}
                 variant="contained"
                 type="submit"
                 sx={{ mt: 3, mb: 2 }}

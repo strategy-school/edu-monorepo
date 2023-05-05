@@ -300,7 +300,7 @@ usersRouter.post('/forgot-password', async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(400).send({ error: 'Email адрес не найден' });
     }
     const generateRandomString = () => {
       return crypto.randomBytes(4).toString('hex');
@@ -330,7 +330,6 @@ usersRouter.post('/forgot-password', async (req, res, next) => {
       <p>Дорогой/ая ${user.firstName},</p>
       <p>Команда Strategia School получила ваш запрос на сброс пароля. Пройдите по нижеуказанной ссылке для сброса пароля.</p>
        <p><a href="${process.env.APP_URL}/reset-password/${token}" target="_blank" rel="noopener noreferrer">${process.env.APP_URL}/reset-password/${token}</a></p>
-
       <p>Если вы не отправляли вышеуказанный запрос, пожалуйста, проигнорируйте это сообщение.</p>
       <p style="margin-top: 20px">С уважением,</p>
       <p style="font-weight: bold">Команда Strategia School</p>
@@ -358,10 +357,16 @@ usersRouter.post('/reset-password/:token', async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: 'Неверный токен' });
+      return res.status(404).send({ error: 'Неверный токен' });
     }
 
-    user.password = req.body.password;
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return res
+        .status(400)
+        .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
+    }
+
+    user.password = req.body.newPassword;
     user.resetPasswordToken = null;
     await user.generateToken();
     await user.save();
