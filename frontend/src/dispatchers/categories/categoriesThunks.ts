@@ -4,28 +4,20 @@ import {
   ApiCategory,
   ICategory,
   ValidationError,
+  PageLimit,
 } from '@/src/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 
-interface SeacrhParam {
-  limit?: number;
-  page?: number;
-}
+type SeacrhParam = Partial<Omit<ICategory, 'image'> & PageLimit>;
 
 export const fetchCategories = createAsyncThunk<
   ApiResponse<ApiCategory>,
   SeacrhParam | undefined
 >('categories/fetch', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-  const url = `/categories${queryString ? `?${queryString}` : ''}`;
-
-  const { data } = await axiosApi.get<ApiResponse<ApiCategory>>(url);
+  const { data } = await axiosApi.get<ApiResponse<ApiCategory>>('/categories', {
+    params,
+  });
   return data;
 });
 

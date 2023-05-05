@@ -1,5 +1,10 @@
 import axiosApi from '@/src/axiosApi';
-import { ApiResponse, ApiTransaction, ITransaction } from '@/src/types';
+import {
+  ApiResponse,
+  ApiTransaction,
+  ITransaction,
+  PageLimit,
+} from '@/src/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchSingleTransaction = createAsyncThunk<
@@ -12,26 +17,18 @@ export const fetchSingleTransaction = createAsyncThunk<
   return data;
 });
 
-interface SearchParam {
-  page?: number;
-  limit?: number;
-  user?: string;
-  course?: string;
-}
+type SearchParam = Partial<
+  ITransaction & PageLimit & { isPaid: 'paid' | 'pending' }
+>;
 
 export const fetchTransactions = createAsyncThunk<
   ApiResponse<ApiTransaction>,
   SearchParam | undefined
 >('transactions/fetch', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-
-  const url = `/transactions${queryString ? `?${queryString}` : ''}`;
-  const { data } = await axiosApi.get<ApiResponse<ApiTransaction>>(url);
+  const { data } = await axiosApi.get<ApiResponse<ApiTransaction>>(
+    '/transactions',
+    { params },
+  );
   return data;
 });
 

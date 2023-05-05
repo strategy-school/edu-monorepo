@@ -180,3 +180,8 @@ export interface ApiResponse<Type> {
   message: 'string';
   result: Type | IPagination<Type>;
 }
+
+export interface PageLimit {
+  page: number;
+  limit: number;
+}
