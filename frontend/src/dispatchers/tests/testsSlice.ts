@@ -1,4 +1,4 @@
-import { Test, TestMini, ValidationError } from '@/src/types';
+import { IPagination, Test, TestMini, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createTest,
@@ -19,6 +19,8 @@ interface TestsState {
   updateLoading: boolean;
   updateTestError: ValidationError | null;
   deleteLoading: string | false;
+  currentPage: number;
+  totalCount: number;
 }
 
 const initialState: TestsState = {
@@ -30,6 +32,8 @@ const initialState: TestsState = {
   updateLoading: false,
   updateTestError: null,
   deleteLoading: false,
+  currentPage: 1,
+  totalCount: 1,
 };
 
 const testsSlice = createSlice({
@@ -53,9 +57,12 @@ const testsSlice = createSlice({
       state.tests = [];
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTests.fulfilled, (state, { payload: tests }) => {
+    builder.addCase(fetchTests.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.tests = tests;
+      const result = payload.result as IPagination<TestMini>;
+      state.tests = result.tests;
+      state.currentPage = result.currentPage;
+      state.totalCount = result.totalCount;
     });
     builder.addCase(fetchTests.rejected, (state) => {
       state.fetchLoading = false;
@@ -126,3 +133,5 @@ export const selectTestCreatingError = (state: RootState) =>
   state.tests.createTestError;
 export const selectTestUpdatingError = (state: RootState) =>
   state.tests.updateTestError;
+export const selectTestCount = (state: RootState) => state.tests.totalCount;
+export const selectTestPage = (state: RootState) => state.tests.currentPage;
