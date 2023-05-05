@@ -65,3 +65,19 @@ export interface IComment {
   rating: number;
   text: string;
 }
+
+export type SwitchToString<Type> = {
+  [Property in keyof Type]?: string;
+};
+
+export type SearchParam = {
+  [field: string]:
+    | string
+    | { $regex: string; $options?: string }
+    | { $gte?: number; $lte?: number };
+};
+
+export interface PageLimit {
+  page: string;
+  limit: string;
+}
