@@ -29,7 +29,6 @@ import {
   TableRow,
 } from '@mui/material';
 import Link from 'next/link';
-import { selectCategoryTogglingDeleted } from '@/src/dispatchers/categories/categoriesSlice';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const CoursesAdmin = () => {
