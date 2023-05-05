@@ -24,6 +24,7 @@ interface TestsState {
 }
 
 const initialState: TestsState = {
+  tests: [],
   test: null,
   fetchLoading: false,
   createLoading: false,

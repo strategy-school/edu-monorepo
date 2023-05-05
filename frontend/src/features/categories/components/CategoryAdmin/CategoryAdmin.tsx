@@ -55,14 +55,13 @@ const CategoryAdmin = () => {
     }
   };
 
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    dispatch(fetchCategories({ [name]: value }));
-  };
-
   const toggleCategoryDeleted = async (id: string) => {
     await dispatch(categoryToggleDeleted(id));
     await dispatch(fetchCategories());
+  };
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(fetchCategories({ [name]: value }));
   };
 
   return (

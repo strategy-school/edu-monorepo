@@ -13,8 +13,6 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import { TestMutation, ValidationError } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
-import { fetchCourses } from '@/src/features/courses/coursesThunks';
-import { selectCourses } from '@/src/features/courses/coursesSlice';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -352,7 +350,7 @@ const TestForm: React.FC<Props> = ({
             loadingIndicator="Loading…"
             loading={loading}
             type="submit"
-            color="info"
+            color="success"
             variant="contained"
             fullWidth
             sx={{ padding: '10px 0' }}

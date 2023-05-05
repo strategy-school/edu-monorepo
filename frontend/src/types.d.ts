@@ -183,7 +183,7 @@ export interface ApiResponse<Type> {
   result: Type | IPagination<Type>;
 }
 
-export interface CourseMini {
+export interface CategoryMini {
   _id: string;
   title: string;
 }
@@ -219,4 +219,9 @@ export interface TestMini {
   _id: string;
   category: CategoryMini;
   title: string;
+}
+
+export interface PageLimit {
+  page: number;
+  limit: number;
 }

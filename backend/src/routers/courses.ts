@@ -1,5 +1,4 @@
 import express from 'express';
-import { promises as fs } from 'fs';
 import mongoose, { HydratedDocument } from 'mongoose';
 import auth, { RequestWithUser } from '../middleware/auth';
 import getUser from '../middleware/getUser';
@@ -7,6 +6,7 @@ import permit from '../middleware/permit';
 import Course from '../models/Course';
 import Transaction from '../models/Transactions';
 import { imageUpload } from '../multer';
+import { promises as fs } from 'fs';
 import { ICourse, PageLimit, SearchParam, SwitchToString } from '../types';
 
 type QueryParams = SwitchToString<

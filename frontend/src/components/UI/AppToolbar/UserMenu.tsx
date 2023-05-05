@@ -6,7 +6,6 @@ import { useAppDispatch } from '@/src/app/hooks';
 import { apiURL } from '@/src/constants';
 import { logout } from '@/src/dispatchers/users/usersThunks';
 import Link from 'next/link';
-import Link from 'next/link';
 
 interface Props {
   user: User;

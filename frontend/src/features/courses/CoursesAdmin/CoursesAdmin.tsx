@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
+import React from 'react';
 import {
   selectCourseDeleting,
   selectCoursePage,
@@ -28,9 +29,8 @@ import {
   TableRow,
 } from '@mui/material';
 import Link from 'next/link';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { selectCategoryTogglingDeleted } from '@/src/dispatchers/categories/categoriesSlice';
-import React from 'react';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const CoursesAdmin = () => {
   const dispatch = useAppDispatch();
