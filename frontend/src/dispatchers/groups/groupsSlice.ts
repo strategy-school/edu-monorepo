@@ -1,6 +1,9 @@
 import { ApiGroup, IPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchGroups } from '@/src/dispatchers/groups/groupsThunks';
+import {
+  fetchGroups,
+  fetchOneGroup,
+} from '@/src/dispatchers/groups/groupsThunks';
 import { RootState } from '@/src/app/store';
 
 interface GroupState {
@@ -40,6 +43,16 @@ export const groupSlice = createSlice({
     builder.addCase(fetchGroups.rejected, (state) => {
       state.fetchLoading = false;
     });
+    builder.addCase(fetchOneGroup.pending, (state) => {
+      state.fetchOneLoading = true;
+    });
+    builder.addCase(fetchOneGroup.fulfilled, (state, { payload }) => {
+      state.fetchOneLoading = false;
+      state.oneItem = payload;
+    });
+    builder.addCase(fetchOneGroup.rejected, (state) => {
+      state.fetchOneLoading = false;
+    });
   },
 });
 
@@ -50,3 +63,6 @@ export const selectGroupsFetching = (state: RootState) =>
   state.groups.fetchLoading;
 export const selectGroupsCount = (state: RootState) => state.groups.totalCount;
 export const selectGroupPage = (state: RootState) => state.groups.currentPage;
+export const selectOneGroup = (state: RootState) => state.groups.oneItem;
+export const selectOneGroupFetching = (state: RootState) =>
+  state.groups.fetchOneLoading;

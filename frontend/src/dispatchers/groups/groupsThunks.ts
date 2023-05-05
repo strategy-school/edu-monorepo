@@ -23,3 +23,11 @@ export const fetchGroups = createAsyncThunk<
   const { data } = await axiosApi.get(url);
   return data;
 });
+
+export const fetchOneGroup = createAsyncThunk<ApiGroup, string>(
+  'groups/fetchOne',
+  async (id) => {
+    const response = await axiosApi.get(`/groups/${id}`);
+    return response.data;
+  },
+);
