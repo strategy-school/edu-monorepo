@@ -106,6 +106,10 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     googleId: String,
     facebookId: String,
     linkedinId: String,
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );
