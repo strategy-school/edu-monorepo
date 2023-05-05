@@ -4,23 +4,33 @@ import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 import { imageUpload } from '../multer';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { ICategory } from '../types';
+import { ICategory, PageLimit, SearchParam } from '../types';
+
+type QueryParams = Omit<ICategory, 'image'> & PageLimit;
 
 const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', async (req, res, next) => {
   try {
-    const limit: number = parseInt(req.query.limit as string) || 10;
-    const page: number = parseInt(req.query.page as string) || 1;
+    const { page, limit, ...params }: Partial<QueryParams> = req.query;
+    const l: number = parseInt(limit as string) || 10;
+    const p: number = parseInt(page as string) || 1;
 
-    const totalCount = await Category.count();
-    const skip = (page - 1) * limit;
+    const searchParam = Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .reduce<SearchParam>((acc, [key, value]) => {
+        acc[key] = { $regex: value, $options: 'i' };
+        return acc;
+      }, {});
 
-    const categories = await Category.find().skip(skip).limit(limit);
+    const totalCount = await Category.count(searchParam);
+    const skip = (p - 1) * l;
+
+    const categories = await Category.find(searchParam).skip(skip).limit(l);
 
     return res.send({
       message: 'Categories are found',
-      result: { categories, currentPage: page, totalCount },
+      result: { categories, currentPage: p, totalCount },
     });
   } catch (e) {
     return next(e);

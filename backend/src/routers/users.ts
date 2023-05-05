@@ -1,13 +1,22 @@
+import { randomUUID } from 'crypto';
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import mongoose from 'mongoose';
-import User from '../models/User';
-import { imageUpload } from '../multer';
 import config from '../config';
 import { downloadFile } from '../helper';
-import { randomUUID } from 'crypto';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
+import User from '../models/User';
+import { imageUpload } from '../multer';
+import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
+
+type QueryParams = SwitchToString<
+  Pick<
+    IUser,
+    'email' | 'role' | 'firstName' | 'lastName' | 'phoneNumber' | 'isBanned'
+  >
+> &
+  PageLimit;
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
@@ -167,48 +176,25 @@ usersRouter.patch(
 
 usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
   try {
-    const { role, email, firstName, lastName, phoneNumber, isBanned } =
-      req.query;
-    const page: number = parseInt(req.query.page as string) || 1;
-    const limit: number = parseInt(req.query.limit as string) || 10;
+    const { page, limit, ...params }: Partial<QueryParams> = req.query;
+    const p: number = parseInt(page as string) || 1;
+    const l: number = parseInt(limit as string) || 10;
 
-    const searchParam: {
-      role?: string;
-      email?: string;
-      firstName?: string;
-      lastName?: string;
-      phoneNumber?: string;
-      isBanned?: boolean;
-    } = {};
-
-    if (role) {
-      searchParam.role = role as string;
-    }
-
-    if (email) {
-      searchParam.email = email as string;
-    }
-
-    if (firstName) {
-      searchParam.firstName = firstName as string;
-    }
-
-    if (lastName) {
-      searchParam.lastName = lastName as string;
-    }
-
-    if (phoneNumber) {
-      searchParam.phoneNumber = phoneNumber as string;
-    }
-
-    if (isBanned) {
-      searchParam.isBanned = Boolean(parseInt(isBanned as string));
-    }
+    const searchParam = Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .reduce<SearchParam>((acc, [key, value]) => {
+        if (['lastName', 'firstName', 'email'].includes(key)) {
+          acc[key] = { $regex: value, $options: 'i' };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
 
     const totalCount = await User.count(searchParam);
-    const skip = (page - 1) * limit;
+    const skip = (p - 1) * l;
 
-    const users = await User.find(searchParam).skip(skip).limit(limit);
+    const users = await User.find(searchParam).skip(skip).limit(l);
 
     if (users.length === 0) {
       return res.status(500).send({ error: 'Пользователи не найдены!' });
@@ -216,7 +202,7 @@ usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
 
     return res.send({
       message: 'Users are found',
-      result: { users, currentPage: page, totalCount },
+      result: { users, currentPage: p, totalCount },
     });
   } catch (e) {
     return next(e);

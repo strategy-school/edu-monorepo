@@ -3,58 +3,71 @@ import Course from '../models/Course';
 import mongoose, { HydratedDocument } from 'mongoose';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
-import { ICourse } from '../types';
+import { ICourse, PageLimit, SearchParam } from '../types';
 import { imageUpload } from '../multer';
 import { promises as fs } from 'fs';
 
-const coursesRouter = express.Router();
-
-interface CourseSearchParam {
-  level?: string;
-  category?: string;
-  price?: {
-    $gte?: number;
-    $lte?: number;
+type QueryParams = Pick<
+  ICourse,
+  | 'title'
+  | 'description'
+  | 'type'
+  | 'theme'
+  | 'targetAudience'
+  | 'programGoal'
+  | 'level'
+> &
+  PageLimit & {
+    minPrice: string;
+    maxPrice: string;
   };
-}
+
+const coursesRouter = express.Router();
 
 coursesRouter.get('/', async (req, res, next) => {
   try {
-    const level = req.query.level as string;
-    const category = req.query.category as string;
-    const minPrice = req.query.minPrice as string;
-    const maxPrice = req.query.maxPrice as string;
-    const limit: number = parseInt(req.query.limit as string) || 10;
-    const page: number = parseInt(req.query.page as string) || 1;
+    const { page, limit, ...params }: Partial<QueryParams> = req.query;
 
-    const searchParam: CourseSearchParam = {};
+    const l: number = parseInt(limit as string) || 10;
+    const p: number = parseInt(page as string) || 1;
 
-    if (level) {
-      searchParam.level = level;
-    }
-
-    if (category) {
-      searchParam.category = category;
-    }
-
-    if (minPrice || maxPrice) {
-      searchParam.price = {
-        ...(searchParam.price || {}),
-        $gte: parseFloat(minPrice),
-        $lte: parseFloat(maxPrice),
-      };
-    }
+    const searchParam = Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .reduce<SearchParam>((acc, [key, value]) => {
+        if (
+          [
+            'title',
+            'description',
+            'type',
+            'theme',
+            'targetAudience',
+            'programGoal',
+            'level',
+          ].includes(key)
+        ) {
+          acc[key] = { $regex: value, $options: 'i' };
+        } else if (key === 'minPrice') {
+          acc.price = acc.price || {};
+          acc.price = Object.assign(acc.price, { $gte: parseFloat(value) });
+        } else if (key === 'maxPrice') {
+          acc.price = acc.price || {};
+          acc.price = Object.assign(acc.price, { $lte: parseFloat(value) });
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
 
     const totalCount = await Course.count(searchParam);
-    const skip = (page - 1) * limit;
+    const skip = (p - 1) * l;
 
     const courses = await Course.find(searchParam, 'title duration image')
       .skip(skip)
-      .limit(limit);
+      .limit(l);
 
     return res.send({
       message: 'Courses are found',
-      result: { courses, currentPage: page, totalCount },
+      result: { courses, currentPage: p, totalCount },
     });
   } catch (e) {
     return next(e);
