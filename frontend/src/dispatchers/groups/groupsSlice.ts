@@ -1,6 +1,7 @@
-import { ApiGroup, IPagination } from '@/src/types';
+import { ApiGroup, IPagination, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  createGroup,
   fetchGroups,
   fetchOneGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
@@ -11,6 +12,8 @@ interface GroupState {
   oneItem: ApiGroup | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
+  createLoading: boolean;
+  createGroupError: ValidationError | null;
   currentPage: number;
   totalCount: number;
 }
@@ -20,6 +23,8 @@ const initialState: GroupState = {
   oneItem: null,
   fetchLoading: false,
   fetchOneLoading: false,
+  createLoading: false,
+  createGroupError: null,
   currentPage: 1,
   totalCount: 1,
 };
@@ -53,6 +58,17 @@ export const groupSlice = createSlice({
     builder.addCase(fetchOneGroup.rejected, (state) => {
       state.fetchOneLoading = false;
     });
+    builder.addCase(createGroup.pending, (state) => {
+      state.createGroupError = null;
+      state.createLoading = true;
+    });
+    builder.addCase(createGroup.fulfilled, (state) => {
+      state.createLoading = false;
+    });
+    builder.addCase(createGroup.rejected, (state, { payload: error }) => {
+      state.createGroupError = error || null;
+      state.createLoading = false;
+    });
   },
 });
 
@@ -66,3 +82,7 @@ export const selectGroupPage = (state: RootState) => state.groups.currentPage;
 export const selectOneGroup = (state: RootState) => state.groups.oneItem;
 export const selectOneGroupFetching = (state: RootState) =>
   state.groups.fetchOneLoading;
+export const selectGroupCreating = (state: RootState) =>
+  state.groups.createLoading;
+export const selectCreateGroupError = (state: RootState) =>
+  state.groups.createGroupError;
