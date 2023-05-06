@@ -15,6 +15,7 @@ export interface User {
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
+  verified: boolean;
 }
 
 export interface RegisterMutation {

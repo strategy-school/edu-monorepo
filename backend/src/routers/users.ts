@@ -5,6 +5,7 @@ import User from '../models/User';
 import { imageUpload } from '../multer';
 import config from '../config';
 import { downloadFile } from '../helper';
+import * as crypto from 'crypto';
 import { randomUUID } from 'crypto';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
@@ -13,8 +14,31 @@ import nodemailer from 'nodemailer';
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
 
+const sendEmail = async (email: string, subject: string, html: string) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: true,
+    auth: {
+      user: process.env.VERIFY_EMAIL_USER,
+      pass: process.env.VERIFY_EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"Strategia School" <do-not-reply@strategia.school>`,
+    to: email,
+    subject: subject,
+    html: html,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
 usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
   try {
+    const token = crypto.randomBytes(4).toString('hex');
     const user = new User({
       email: req.body.email,
       firstName: req.body.firstName,
@@ -22,60 +46,37 @@ usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
       password: req.body.password,
       phoneNumber: req.body.phoneNumber ? req.body.phoneNumber : null,
       avatar: req.file ? req.file.filename : null,
-    });
-
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: true,
-      auth: {
-        user: process.env.VERIFY_EMAIL_USER,
-        pass: process.env.VERIFY_EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: 'lepri4dw@gmail.com',
-      to: req.body.email,
-      subject: 'Подтверджение почты',
-      html: `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
-        <table class="m_67968070139110097mail-body" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
-          <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-          <td style="margin-top:0;margin-bottom:0;width:470px;padding:0;border-width:0"><table class="m_67968070139110097mail-body__content" style="width:100%;border-collapse:initial;border-spacing:0;max-width:470px;text-align:left;border-radius:8px;overflow:hidden;margin:32px auto 0;padding:0;border:1px solid #c9cccf"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><table class="m_67968070139110097mail-sections" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:20px;border-width:0">
-            <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0 0 20px;border-width:0"><table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody>
-            <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><h1 style="margin-top:0;margin-bottom:0;font-size:16px;font-weight:600;line-height:24px;text-transform:initial;letter-spacing:initial;padding:0">
-              Здравствуйте, ${req.body.firstName}
-            </h1></td></tr>
-            <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
-              Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
-            </h2></td></tr>
-            <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a href="http://localhost:3000/" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://accounts.shopify.com/email-verifications/PE7yBWmFNR5bcd15ZdVsT2qpxxVo5krPb7ZkQeK8Ba_kGinVgybTXulqaGfSsZe_vwE&amp;source=gmail&amp;ust=1683274193604000&amp;usg=AOvVaw1lX_3ozMrxC-omWlOMWWt_">Подтвердить email</a></td></tr>
-            </tbody></table></td></tr></tbody></table>
-          </td></tr></tbody></table></td></tr></tbody></table></td>
-          <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-        </tr>
-          </tbody>
-        </table>
-      </div>`,
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-        return res.status(400).send({
-          errors: { username: { message: 'Такого email не существует!' } },
-        });
-      } else {
-        console.log('Email sent: ' + info.response);
-        console.log(info);
-        res.json({ isValid: true });
-      }
+      verifyEmailToken: token,
     });
 
     user.generateToken();
     await user.save();
-    return res.send({ message: 'Registered successfully!', user });
+
+    await sendEmail(
+      req.body.email,
+      'Подтверджение почты',
+      `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
+      <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
+        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
+        <td style="margin-top:0;margin-bottom:0;width:470px;padding:0;border-width:0"><table style="width:100%;border-collapse:initial;border-spacing:0;max-width:470px;text-align:left;border-radius:8px;overflow:hidden;margin:32px auto 0;padding:0;border:1px solid #c9cccf"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><table class="m_67968070139110097mail-sections" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:20px;border-width:0">
+          <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0 0 20px;border-width:0"><table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><h1 style="margin-top:0;margin-bottom:0;font-size:16px;font-weight:600;line-height:24px;text-transform:initial;letter-spacing:initial;padding:0">
+            Здравствуйте, ${req.body.firstName}
+          </h1></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
+            Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
+          </h2></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
+          </tbody></table></td></tr></tbody></table>
+        </td></tr></tbody></table></td></tr></tbody></table></td>
+        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
+      </tr>
+        </tbody>
+      </table>
+    </div>`,
+    );
+
+    return res.send({ message: 'Registered successfully!' });
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
@@ -96,6 +97,38 @@ usersRouter.post('/sessions', async (req, res, next) => {
 
   if (!isMatch) {
     return res.status(400).send({ error: 'Неверный email и/или пароль' });
+  }
+
+  if (!user.verified) {
+    const token = crypto.randomBytes(4).toString('hex');
+    user.verifyEmailToken = token;
+    await user.save();
+    await sendEmail(
+      req.body.email,
+      'Подтверджение почты',
+      `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
+      <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
+        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
+        <td style="margin-top:0;margin-bottom:0;width:470px;padding:0;border-width:0"><table style="width:100%;border-collapse:initial;border-spacing:0;max-width:470px;text-align:left;border-radius:8px;overflow:hidden;margin:32px auto 0;padding:0;border:1px solid #c9cccf"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><table class="m_67968070139110097mail-sections" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:20px;border-width:0">
+          <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0 0 20px;border-width:0"><table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><h1 style="margin-top:0;margin-bottom:0;font-size:16px;font-weight:600;line-height:24px;text-transform:initial;letter-spacing:initial;padding:0">
+            Здравствуйте, ${user.firstName}
+          </h1></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
+            Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
+          </h2></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
+          </tbody></table></td></tr></tbody></table>
+        </td></tr></tbody></table></td></tr></tbody></table></td>
+        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
+      </tr>
+        </tbody>
+      </table>
+    </div>`,
+    );
+    return res.status(400).send({
+      error: 'Email не подтвержден, на вашу почту было выслано письмо!',
+    });
   }
 
   try {
@@ -340,6 +373,29 @@ usersRouter.post('/change-password', auth, async (req, res, next) => {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(e);
     }
+    return next(e);
+  }
+});
+
+usersRouter.post('/verify-email/:token', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      verifyEmailToken: req.params.token,
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ error: 'Неверный токен, вам было вышлено новое ' });
+    }
+
+    user.verified = true;
+    user.generateToken();
+    await user.save();
+    return res
+      .status(200)
+      .send({ message: 'Почта успешно подтверждена!', user });
+  } catch (e) {
     return next(e);
   }
 });

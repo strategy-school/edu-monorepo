@@ -8,6 +8,7 @@ import {
   register,
   updateIsBannedStatus,
   updateUser,
+  verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
 import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
@@ -18,6 +19,7 @@ interface UsersState {
   oneBasicUser: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
+  verifyEmailLoading: boolean;
   loginLoading: boolean;
   loginError: GlobalError | null;
   fetchLoading: boolean;
@@ -36,6 +38,7 @@ const initialState: UsersState = {
   oneBasicUser: null,
   registerLoading: false,
   registerError: null,
+  verifyEmailLoading: false,
   loginLoading: false,
   loginError: null,
   fetchLoading: false,
@@ -61,14 +64,25 @@ export const usersSlice = createSlice({
       state.registerError = null;
       state.registerLoading = true;
     });
-    builder.addCase(register.fulfilled, (state, { payload: user }) => {
+    builder.addCase(register.fulfilled, (state) => {
       state.registerLoading = false;
-      state.user = user;
     });
     builder.addCase(register.rejected, (state, { payload: error }) => {
       state.registerLoading = false;
       state.registerError = error || null;
     });
+
+    builder.addCase(verifyEmail.pending, (state) => {
+      state.verifyEmailLoading = true;
+    });
+    builder.addCase(verifyEmail.fulfilled, (state, { payload: user }) => {
+      state.verifyEmailLoading = false;
+      state.user = user;
+    });
+    builder.addCase(verifyEmail.rejected, (state) => {
+      state.verifyEmailLoading = false;
+    });
+
     builder.addCase(login.pending, (state) => {
       state.loginLoading = true;
       state.loginError = null;
@@ -182,3 +196,5 @@ export const selectPasswordChanging = (state: RootState) =>
   state.users.passwordChanging;
 export const selectPasswordChangeError = (state: RootState) =>
   state.users.passwordChangeError;
+export const selectVerifyEmailLoading = (state: RootState) =>
+  state.users.verifyEmailLoading;
