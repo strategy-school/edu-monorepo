@@ -179,3 +179,59 @@ export const changePassword = createAsyncThunk<
     throw error;
   }
 });
+
+interface ForgotPasswordPayload {
+  email: string;
+}
+
+export const forgotPassword = createAsyncThunk<
+  void,
+  ForgotPasswordPayload,
+  { rejectValue: GlobalError }
+>('users/forgotPassword', async (email, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post('/users/forgot-password', email);
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});
+
+interface ResetPassword {
+  newPassword: string;
+  confirmPassword: string;
+  token: string;
+}
+
+export const resetPassword = createAsyncThunk<
+  void,
+  ResetPassword,
+  { rejectValue: GlobalError }
+>('users/resetPassword', async (data, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post(
+      `/users/reset-password/${data.token}`,
+      {
+        newPassword: data.newPassword,
+        confirmPassword: data.confirmPassword,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});

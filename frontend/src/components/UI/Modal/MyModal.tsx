@@ -14,7 +14,7 @@ const MyModal: React.FC<Props> = ({ open, handleClose, title, children }) => {
     <Dialog
       open={open}
       onClose={handleClose}
-      sx={{ '& .MuiPaper-root': { width: '70%', maxWidth: 'none' } }}
+      sx={{ '& .MuiPaper-root': { width: '60%', maxWidth: 'none' } }}
     >
       <DialogTitle>
         {title}
