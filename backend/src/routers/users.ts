@@ -8,6 +8,8 @@ import { downloadFile } from '../helper';
 import { randomUUID } from 'crypto';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
+import * as crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
@@ -286,6 +288,90 @@ usersRouter.post('/change-password', auth, async (req, res, next) => {
       message: 'Password has been changed successfully',
       result: user,
     });
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+    return next(e);
+  }
+});
+usersRouter.post('/forgot-password', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(400).send({ error: 'Email адрес не найден' });
+    }
+    const generateRandomString = () => {
+      return crypto.randomBytes(4).toString('hex');
+    };
+
+    const token = generateRandomString();
+    user.resetPasswordToken = token;
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: true,
+      auth: {
+        user: process.env.VERIFY_EMAIL_USER,
+        pass: process.env.VERIFY_EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: '"Strategia School" <do-not-reply@strategia.school>',
+      to: user.email,
+      subject: 'Password reset request',
+      html: `
+    <div style="font-family: Arial, sans-serif; font-size: 14px;">
+      <p>Дорогой/ая ${user.firstName},</p>
+      <p>Команда Strategia School получила ваш запрос на сброс пароля. Пройдите по нижеуказанной ссылке для сброса пароля.</p>
+       <p><a href="${process.env.APP_URL}/reset-password/${token}" target="_blank" rel="noopener noreferrer">${process.env.APP_URL}/reset-password/${token}</a></p>
+      <p>Если вы не отправляли вышеуказанный запрос, пожалуйста, проигнорируйте это сообщение.</p>
+      <p style="margin-top: 20px">С уважением,</p>
+      <p style="font-weight: bold">Команда Strategia School</p>
+    </div> `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.send({
+      message: 'Запрос на сброс пароля отправлен',
+      result: user,
+    });
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+    return next(e);
+  }
+});
+
+usersRouter.post('/reset-password/:token', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+    });
+
+    if (!user) {
+      return res.status(404).send({ error: 'Неверный токен' });
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return res
+        .status(400)
+        .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
+    }
+
+    user.password = req.body.newPassword;
+    user.resetPasswordToken = null;
+    await user.generateToken();
+    await user.save();
+
+    return res.status(200).send({ message: 'Пароль обновлен!' });
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(e);
