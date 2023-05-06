@@ -129,7 +129,9 @@ const GroupForm: React.FC<Props> = ({
           </TextField>
         </Grid>
         <Grid item xs>
-          <Typography component="p">Дата начала обучения</Typography>
+          <Typography component="p" sx={{ pb: 2 }}>
+            Дата начала обучения
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Choose date"
@@ -144,7 +146,9 @@ const GroupForm: React.FC<Props> = ({
           </LocalizationProvider>
         </Grid>
         <Grid item xs>
-          <Typography component="p">Дата завершения обучения</Typography>
+          <Typography component="p" sx={{ pb: 2 }}>
+            Дата завершения обучения
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="ChooseDate"
@@ -159,7 +163,9 @@ const GroupForm: React.FC<Props> = ({
           </LocalizationProvider>
         </Grid>
         <Grid item xs>
-          <Typography component="p">Время начала занятий</Typography>
+          <Typography component="p" sx={{ pb: 2 }}>
+            Время начала занятий
+          </Typography>
           <TextField
             type="time"
             id="startsAt"

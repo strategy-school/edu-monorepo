@@ -4,6 +4,7 @@ import {
   createGroup,
   fetchGroups,
   fetchOneGroup,
+  removeGroup,
   updateGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
 import { RootState } from '@/src/app/store';
@@ -17,6 +18,7 @@ interface GroupState {
   createGroupError: ValidationError | null;
   updateLoading: boolean;
   updateGroupError: ValidationError | null;
+  deleteLoading: string | false;
   currentPage: number;
   totalCount: number;
 }
@@ -30,6 +32,7 @@ const initialState: GroupState = {
   createGroupError: null,
   updateLoading: false,
   updateGroupError: null,
+  deleteLoading: false,
   currentPage: 1,
   totalCount: 1,
 };
@@ -85,6 +88,15 @@ export const groupSlice = createSlice({
       state.updateLoading = false;
       state.updateGroupError = error || null;
     });
+    builder.addCase(removeGroup.pending, (state, { meta: { arg: id } }) => {
+      state.deleteLoading = id;
+    });
+    builder.addCase(removeGroup.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(removeGroup.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   },
 });
 
@@ -106,3 +118,5 @@ export const selectGroupUpdating = (state: RootState) =>
   state.groups.updateLoading;
 export const selectUpdateGroupError = (state: RootState) =>
   state.groups.updateGroupError;
+export const selectGroupRemoving = (state: RootState) =>
+  state.groups.deleteLoading;

@@ -62,3 +62,10 @@ export const updateGroup = createAsyncThunk<
     throw e;
   }
 });
+
+export const removeGroup = createAsyncThunk<void, string>(
+  'groups/remove',
+  async (id) => {
+    await axiosApi.delete(`/groups/${id}`);
+  },
+);
