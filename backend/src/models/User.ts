@@ -128,6 +128,10 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: Boolean,
       default: false,
     },
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );

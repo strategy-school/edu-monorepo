@@ -13,6 +13,7 @@ export interface IUser {
   facebookId: string | null;
   linkedinId: string | null;
   isBanned: boolean;
+  resetPasswordToken: string | null;
   verifyEmailToken: string | null;
   verified: boolean;
 }

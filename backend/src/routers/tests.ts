@@ -61,14 +61,30 @@ testsRouter.get('/category/:id', async (req, res) => {
 
 testsRouter.get('/', async (req, res) => {
   try {
-    const result = await Test.find()
-      .select('title  category')
-      .populate('category', 'title');
+    const userId = req.query.user as string;
+    const limit: number = parseInt(req.query.limit as string) || 10;
+    const page: number = parseInt(req.query.page as string) || 1;
 
-    if (result.length === 0) {
-      return res.status(404).send({ error: 'Тесты не найдены!' });
+    const searchParam: { user?: string } = {};
+
+    if (userId) {
+      searchParam.user = userId;
     }
-    return res.send(result);
+
+    const totalCount = await Test.count(searchParam);
+    const skip = (page - 1) * limit;
+
+    const tests = await Test.find(searchParam)
+      .select('title  category')
+      .populate('category', 'title')
+      .skip(skip)
+      .limit(limit)
+      .exec();
+
+    return res.send({
+      message: 'Тесты найдены',
+      result: { tests, currentPage: page, totalCount },
+    });
   } catch {
     return res.sendStatus(500);
   }
