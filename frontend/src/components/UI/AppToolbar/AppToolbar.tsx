@@ -70,6 +70,9 @@ const AppToolbar = () => {
             <Button component={Link} href="/courses" color="inherit">
               Список курсов
             </Button>
+            <Button component={Link} href="/groups" color="inherit">
+              Учебные группы
+            </Button>
             <Button component={Link} href="/teachers" color="inherit">
               Наши преподаватели
             </Button>

@@ -8,6 +8,7 @@ import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
 import Comment from './models/Comment';
 import Test from './models/Test';
+import Group from './models/Group';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -22,6 +23,7 @@ const run = async () => {
     await db.dropCollection('transactions');
     await db.dropCollection('comments');
     await db.dropCollection('tests');
+    await db.dropCollection('groups');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -386,6 +388,31 @@ const run = async () => {
           correctAnswer: 'All of the above',
         },
       ],
+    },
+  );
+
+  await Group.create(
+    {
+      title: 'Специалист по маркетингу - Группа 1',
+      description:
+        'Численность группы: 20 человек, учебное время - с 09:00 до 10:00, языки обучения - русский, кыргызский',
+      course: marketing2,
+      startDate: new Date('May 1, 2023, 09:00'),
+      endDate: new Date('June 1, 2023, 10:00'),
+      startsAt: '09:00',
+      duration: '1 час',
+      telegramLink: 'https://t.me/+12345',
+    },
+    {
+      title: 'Менеджер по маркетингу - Группа 2',
+      description:
+        'Численность группы: 15 человек, учебное время - с 13:00 до 14:00, языки обучения - русский, кыргызский',
+      course: marketing3,
+      startDate: new Date('May 3, 2023, 13:00'),
+      endDate: new Date('July 3, 2023, 14:00'),
+      startsAt: '13:00',
+      duration: '1 час',
+      telegramLink: 'https://t.me/+abcd',
     },
   );
 
