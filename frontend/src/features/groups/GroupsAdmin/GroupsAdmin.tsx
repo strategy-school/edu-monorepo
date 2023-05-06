@@ -7,6 +7,7 @@ import {
 } from '@/src/dispatchers/groups/groupsSlice';
 import { fetchGroups } from '@/src/dispatchers/groups/groupsThunks';
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -17,6 +18,8 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import Link from 'next/link';
 
 const GroupsAdmin = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +47,14 @@ const GroupsAdmin = () => {
             {groups.map((group) => (
               <TableRow key={group._id} hover>
                 <TableCell>{group.title}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <IconButton
+                    component={Link}
+                    href={`/admin/groups/edit-group/${group._id}`}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             ))}

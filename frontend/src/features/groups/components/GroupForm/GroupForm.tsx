@@ -1,30 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { IGroup, ValidationError } from '@/src/types';
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 interface Props {
   onSubmit: (groupMutation: IGroup) => void;
   loading: boolean;
   error: ValidationError | null;
+  isEdit?: boolean;
+  fetchGroupLoading?: boolean;
+  existingGroup?: IGroup;
 }
 
-const GroupForm: React.FC<Props> = ({ onSubmit, loading, error }) => {
+const initialState: IGroup = {
+  title: '',
+  description: '',
+  course: '',
+  startDate: '',
+  endDate: '',
+  startsAt: '',
+  duration: '',
+  telegramLink: '',
+};
+
+const GroupForm: React.FC<Props> = ({
+  onSubmit,
+  existingGroup,
+  loading,
+  error,
+  isEdit = false,
+  fetchGroupLoading = false,
+}) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
 
-  const [state, setState] = useState<IGroup>({
-    title: '',
-    description: '',
-    course: '',
-    startDate: '',
-    endDate: '',
-    startsAt: '',
-    duration: '',
-    telegramLink: '',
-  });
+  const [state, setState] = useState<IGroup>(existingGroup || initialState);
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +75,11 @@ const GroupForm: React.FC<Props> = ({ onSubmit, loading, error }) => {
 
   return (
     <form onSubmit={submitFormHandler}>
-      <Grid container direction="column" spacing={2}>
+      <Typography variant="h4">
+        {isEdit ? 'Редактировать' : 'Добавить'} группу{' '}
+        {fetchGroupLoading && <CircularProgress size={20} sx={{ ml: 1 }} />}
+      </Typography>
+      <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
         <Grid item xs>
           <TextField
             label="Название группы"
@@ -103,29 +130,33 @@ const GroupForm: React.FC<Props> = ({ onSubmit, loading, error }) => {
         </Grid>
         <Grid item xs>
           <Typography component="p">Дата начала обучения</Typography>
-          <TextField
-            type="date"
-            id="startDate"
-            name="startDate"
-            value={state.startDate}
-            onChange={inputChangeHandler}
-            required
-            error={Boolean(getFieldError('startDate'))}
-            helperText={getFieldError('startDate')}
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Choose date"
+              value={dayjs(state.startDate)}
+              onChange={(newValue) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  startDate: newValue ? newValue.format('YYYY-MM-DD') : '',
+                }))
+              }
+            />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs>
           <Typography component="p">Дата завершения обучения</Typography>
-          <TextField
-            type="date"
-            id="endDate"
-            name="endDate"
-            value={state.endDate}
-            onChange={inputChangeHandler}
-            required
-            error={Boolean(getFieldError('endDate'))}
-            helperText={getFieldError('endDate')}
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="ChooseDate"
+              value={dayjs(state.endDate)}
+              onChange={(newValue) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  endDate: newValue ? newValue.format('YYYY-MM-DD') : '',
+                }))
+              }
+            />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs>
           <Typography component="p">Время начала занятий</Typography>
@@ -172,7 +203,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, loading, error }) => {
             variant="contained"
             disabled={loading}
           >
-            Создать группу
+            {isEdit ? 'Обновить' : 'Создать'} группу
           </Button>
         </Grid>
       </Grid>

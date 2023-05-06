@@ -47,3 +47,18 @@ export const createGroup = createAsyncThunk<
     throw e;
   }
 });
+
+export const updateGroup = createAsyncThunk<
+  void,
+  { id: string; group: IGroup },
+  { rejectValue: ValidationError }
+>('groups/update', async ({ id, group }, { rejectWithValue }) => {
+  try {
+    await axiosApi.put(`/groups/${id}`, group);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
+});

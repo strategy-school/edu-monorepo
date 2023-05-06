@@ -4,6 +4,7 @@ import {
   createGroup,
   fetchGroups,
   fetchOneGroup,
+  updateGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
 import { RootState } from '@/src/app/store';
 
@@ -14,6 +15,8 @@ interface GroupState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   createGroupError: ValidationError | null;
+  updateLoading: boolean;
+  updateGroupError: ValidationError | null;
   currentPage: number;
   totalCount: number;
 }
@@ -25,6 +28,8 @@ const initialState: GroupState = {
   fetchOneLoading: false,
   createLoading: false,
   createGroupError: null,
+  updateLoading: false,
+  updateGroupError: null,
   currentPage: 1,
   totalCount: 1,
 };
@@ -69,6 +74,17 @@ export const groupSlice = createSlice({
       state.createGroupError = error || null;
       state.createLoading = false;
     });
+    builder.addCase(updateGroup.pending, (state) => {
+      state.updateGroupError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(updateGroup.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateGroup.rejected, (state, { payload: error }) => {
+      state.updateLoading = false;
+      state.updateGroupError = error || null;
+    });
   },
 });
 
@@ -86,3 +102,7 @@ export const selectGroupCreating = (state: RootState) =>
   state.groups.createLoading;
 export const selectCreateGroupError = (state: RootState) =>
   state.groups.createGroupError;
+export const selectGroupUpdating = (state: RootState) =>
+  state.groups.updateLoading;
+export const selectUpdateGroupError = (state: RootState) =>
+  state.groups.updateGroupError;
