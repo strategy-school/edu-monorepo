@@ -24,7 +24,7 @@ const Index = () => {
     <Layout title="Strategia School: Groups">
       <BlocksTitle titleText={'Список учебных групп'} />
       <Grid container spacing={4} sx={{ mt: 3 }}>
-        <Grid item xs container direction="column">
+        <Grid item xs container direction="row">
           {groupsFetching ? (
             <CircularProgress />
           ) : (

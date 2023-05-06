@@ -19,13 +19,15 @@ const GroupItem: React.FC<Props> = ({ group }) => {
   return (
     <Card
       sx={{ m: 1 }}
-      style={{ boxShadow, cursor: 'pointer' }}
+      style={{ boxShadow, cursor: 'pointer', width: '40vw' }}
       className="card"
     >
       <CardContent onClick={openPage}>
         <Grid container direction="column" color={theme.palette.info.dark}>
           <Grid item>
-            <Typography component="div">{group.title}</Typography>
+            <Typography component="div" fontWeight={700}>
+              {group.title}
+            </Typography>
           </Grid>
           <Grid item>
             <Typography component="div">
