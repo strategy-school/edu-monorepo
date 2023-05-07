@@ -15,7 +15,7 @@ import { isAxiosError } from 'axios';
 import { unsetUser } from './usersSlice';
 
 export const register = createAsyncThunk<
-  User,
+  void,
   RegisterMutation,
   { rejectValue: ValidationError }
 >('users/register', async (registerMutation, { rejectWithValue }) => {
@@ -32,8 +32,7 @@ export const register = createAsyncThunk<
       }
     });
 
-    const response = await axiosApi.post<RegisterResponse>('/users', formData);
-    return response.data.user;
+    await axiosApi.post<RegisterResponse>('/users', formData);
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);
@@ -235,3 +234,11 @@ export const resetPassword = createAsyncThunk<
     throw error;
   }
 });
+
+export const verifyEmail = createAsyncThunk<User, string>(
+  'users/verifyEmail',
+  async (token) => {
+    const response = await axiosApi.post(`/users/verify-email/${token}`);
+    return response.data.user;
+  },
+);
