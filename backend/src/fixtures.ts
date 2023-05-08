@@ -9,6 +9,7 @@ import Transaction from './models/Transactions';
 import Comment from './models/Comment';
 import Test from './models/Test';
 import Group from './models/Group';
+import VideoReview from './models/VideoReview';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -24,6 +25,7 @@ const run = async () => {
     await db.dropCollection('comments');
     await db.dropCollection('tests');
     await db.dropCollection('groups');
+    await db.dropCollection('videoreviews');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -420,6 +422,19 @@ const run = async () => {
       startsAt: '13:00',
       duration: '1 час',
       telegramLink: 'https://t.me/+abcd',
+    },
+  );
+
+  await VideoReview.create(
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review1.webp',
+      youtubeURL: 'B20UrosFLjU',
+    },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review2.webp',
+      youtubeURL: 'IMgL-z4GX-c',
     },
   );
 

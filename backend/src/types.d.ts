@@ -68,3 +68,9 @@ export interface IComment {
   rating: number;
   text: string;
 }
+
+export interface IVideoReview {
+  title: string;
+  previewImage: string;
+  youtubeURL: string;
+}
