@@ -20,18 +20,15 @@ type QueryParams = SwitchToString<
     | 'programGoal'
     | 'level'
     | 'isDeleted'
+    | 'category'
   > &
-    PageLimit & {
-      minPrice: string;
-      maxPrice: string;
-    }
+    PageLimit
 >;
 
 const coursesRouter = express.Router();
 
-coursesRouter.get('/', getUser, async (req, res, next) => {
+coursesRouter.get('/', async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
     const { page, limit, ...params }: QueryParams = req.query;
 
     const l: number = parseInt(limit as string) || 10;
@@ -48,16 +45,9 @@ coursesRouter.get('/', getUser, async (req, res, next) => {
             'theme',
             'targetAudience',
             'programGoal',
-            'level',
           ].includes(key)
         ) {
           acc[key] = { $regex: value, $options: 'i' };
-        } else if (key === 'minPrice') {
-          acc.price = acc.price || {};
-          acc.price = Object.assign(acc.price, { $gte: parseFloat(value) });
-        } else if (key === 'maxPrice') {
-          acc.price = acc.price || {};
-          acc.price = Object.assign(acc.price, { $lte: parseFloat(value) });
         } else {
           acc[key] = value;
         }
