@@ -96,4 +96,38 @@ notificationsRouter.post('/', async (req, res, next) => {
   }
 });
 
+notificationsRouter.patch(
+  '/:id/toggleIsChecked',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const currentNotification = await Notification.findById(req.params.id);
+
+      if (!currentNotification) {
+        return res.status(404).send({ error: 'Notification not found' });
+      }
+
+      if (!currentNotification.isChecked) {
+        await Notification.updateOne(
+          { _id: req.params.id },
+          { $set: { isChecked: true } },
+        );
+      } else {
+        await Notification.updateOne(
+          { _id: req.params.id },
+          { $set: { isChecked: false } },
+        );
+      }
+
+      return res.send({
+        message: `isChecked status was change into ${currentNotification.isChecked}`,
+        currentNotification,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  },
+);
+
 export default notificationsRouter;
