@@ -10,6 +10,7 @@ import teachersRouter from './routers/teachers';
 import commentsRouter from './routers/comments';
 import testsRouter from './routers/tests';
 import groupsRouter from './routers/groups';
+import notificationsRouter from './routers/notifications';
 import attachTelegramBot from './telegram-bot';
 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/teachers', teachersRouter);
 app.use('/comments', commentsRouter);
 app.use('/tests', testsRouter);
 app.use('/groups', groupsRouter);
+app.use('/notifications', notificationsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
