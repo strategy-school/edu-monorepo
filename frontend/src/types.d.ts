@@ -222,6 +222,11 @@ export interface TestMini {
   title: string;
 }
 
+export interface PageLimit {
+  page: number;
+  limit: number;
+}
+
 export interface ApiGroup {
   _id: string;
   title: string;

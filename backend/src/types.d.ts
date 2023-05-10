@@ -29,6 +29,7 @@ export interface ICourse {
   programGoal: string;
   level: string;
   image: string;
+  isDeleted: boolean;
 }
 
 export interface ICategory {
@@ -69,32 +70,18 @@ export interface IComment {
   text: string;
 }
 
-export interface ITelegramBotResponse {
-  message_id: number;
-  from: From;
-  chat: Chat;
-  date: number;
-  text: string;
-  entities: Entity[];
-}
+export type SwitchToString<Type> = {
+  [Property in keyof Type]?: string;
+};
 
-export interface From {
-  id: number;
-  is_bot: boolean;
-  first_name: string;
-  username: string;
-  language_code: string;
-}
+export type SearchParam = {
+  [field: string]:
+    | string
+    | { $regex: string; $options?: string }
+    | { $gte?: number; $lte?: number };
+};
 
-export interface Chat {
-  id: number;
-  first_name: string;
-  username: string;
-  type: string;
-}
-
-export interface Entity {
-  offset: number;
-  length: number;
-  type: string;
+export interface PageLimit {
+  page: string;
+  limit: string;
 }

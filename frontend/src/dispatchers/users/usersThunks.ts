@@ -4,6 +4,7 @@ import {
   GlobalError,
   IChangePassword,
   LoginMutation,
+  PageLimit,
   RegisterMutation,
   RegisterResponse,
   UpdateUserMutation,
@@ -122,22 +123,15 @@ type SearchParam = Partial<
   Pick<
     User,
     'role' | 'email' | 'firstName' | 'lastName' | 'isBanned' | 'phoneNumber'
-  > & { page: number; limit: number }
+  > &
+    PageLimit
 >;
 
 export const fetchUsers = createAsyncThunk<
   ApiResponse<User>,
   SearchParam | undefined
 >('users/fetch', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-
-  const url = `/users/${queryString ? `?${queryString}` : ''}`;
-  const { data } = await axiosApi.get<ApiResponse<User>>(url);
+  const { data } = await axiosApi.get<ApiResponse<User>>('/users', { params });
   return data;
 });
 

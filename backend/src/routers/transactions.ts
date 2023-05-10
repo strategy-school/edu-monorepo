@@ -3,42 +3,42 @@ import { Error } from 'mongoose';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 import Transaction from '../models/Transactions';
+import { PageLimit, ITransaction, SearchParam, SwitchToString } from '../types';
+
+type QueryParams = SwitchToString<ITransaction> & PageLimit;
 
 const transactionsRouter = Router();
 
 transactionsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
   try {
-    const userId = req.query.user as string;
-    const courseId = req.query.course as string;
-    const limit: number = parseInt(req.query.limit as string) || 10;
-    const page: number = parseInt(req.query.page as string) || 1;
+    const { page, limit, ...params }: Partial<QueryParams> = req.query;
+    const l: number = parseInt(limit as string) || 10;
+    const p: number = parseInt(page as string) || 1;
 
-    const searchParam: { user?: string; course?: string } = {};
-
-    if (userId) {
-      searchParam.user = userId;
-    }
-
-    if (courseId) {
-      searchParam.course = courseId;
-    }
+    const searchParam = Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .reduce<SearchParam>((acc, [key, value]) => {
+        if (key === 'isPaid') {
+          acc[key] = value as ITransaction['isPaid'];
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
 
     const totalCount = await Transaction.count(searchParam);
-
-    const skip = (page - 1) * limit;
+    const skip = (p - 1) * l;
 
     const transactions = await Transaction.find(searchParam)
       .populate('user', 'email firstName lastName phoneNumber')
       .populate('course', 'title price type level image')
       .sort([['createdAt', -1]])
       .skip(skip)
-      .limit(limit);
-
-    console.log(transactions);
+      .limit(l);
 
     return res.send({
       message: 'Transactions are found',
-      result: { transactions, currentPage: page, totalCount },
+      result: { transactions, currentPage: p, totalCount },
     });
   } catch (e) {
     return next(e);
