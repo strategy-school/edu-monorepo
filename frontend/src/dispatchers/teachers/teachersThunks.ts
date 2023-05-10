@@ -20,15 +20,9 @@ export const fetchTeachers = createAsyncThunk<
   ApiResponse<TeacherShort>,
   SearchParam | undefined
 >('teachers/fetch', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-
-  const url = `/teachers/${queryString ? `?${queryString}` : ''}`;
-  const { data } = await axiosApi.get<ApiResponse<TeacherShort>>(url);
+  const { data } = await axiosApi.get<ApiResponse<TeacherShort>>('/teachers', {
+    params,
+  });
   return data;
 });
 

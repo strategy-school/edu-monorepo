@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
 import {
   selectUpdateUserLoading,
   selectUserPage,
@@ -57,6 +58,11 @@ const UserAdmin = () => {
     void router.push(`users/${id}`);
   };
 
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(fetchUsers({ [name]: value, role: UserRole.User }));
+  };
+
   return (
     <>
       <Grid container spacing={2} direction="column">
@@ -66,6 +72,7 @@ const UserAdmin = () => {
 
         <Grid item xs>
           <TableContainer component={Paper}>
+            <SearchBar name="firstName" onChange={onNameChange} />
             <Table stickyHeader>
               <TableHead>
                 <TableRow sx={{ width: '100%' }}>
