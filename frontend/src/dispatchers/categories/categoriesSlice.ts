@@ -1,7 +1,13 @@
 import { RootState } from '@/src/app/store';
-import { ApiCategory, IPagination, ValidationError } from '@/src/types';
+import {
+  ApiCategory,
+  GlobalError,
+  IPagination,
+  ValidationError,
+} from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  categoryToggleDeleted,
   createCategory,
   fetchCategories,
   fetchOneCategory,
@@ -15,8 +21,10 @@ interface CategoryState {
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
+  togglingIsDeleted: boolean;
   createCategoryError: ValidationError | null;
   updateCategoryError: ValidationError | null;
+  removeError: GlobalError | null;
   deleteLoading: false | string;
   updateLoading: boolean;
   currentPage: number;
@@ -29,8 +37,10 @@ const initialState: CategoryState = {
   fetchLoading: false,
   fetchOneLoading: false,
   createLoading: false,
+  togglingIsDeleted: false,
   createCategoryError: null,
   updateCategoryError: null,
+  removeError: null,
   deleteLoading: false,
   updateLoading: false,
   currentPage: 1,
@@ -84,8 +94,12 @@ export const categoriesSlice = createSlice({
         state.deleteLoading = categoryId;
       },
     );
-    builder.addCase(removeCategory.rejected, (state) => {
+    builder.addCase(removeCategory.rejected, (state, { payload: error }) => {
+      window.alert(
+        'Категория не может быть удалена, так как у нее есть связанные курсы',
+      );
       state.deleteLoading = false;
+      state.removeError = error || null;
     });
     builder.addCase(updateCategory.pending, (state) => {
       state.updateCategoryError = null;
@@ -97,6 +111,15 @@ export const categoriesSlice = createSlice({
     builder.addCase(updateCategory.rejected, (state, { payload: error }) => {
       state.updateCategoryError = error || null;
       state.updateLoading = false;
+    });
+    builder.addCase(categoryToggleDeleted.pending, (state) => {
+      state.togglingIsDeleted = true;
+    });
+    builder.addCase(categoryToggleDeleted.fulfilled, (state) => {
+      state.togglingIsDeleted = false;
+    });
+    builder.addCase(categoryToggleDeleted.rejected, (state) => {
+      state.togglingIsDeleted = false;
     });
   },
 });
@@ -123,3 +146,5 @@ export const selectCategoriesCount = (state: RootState) =>
   state.categories.totalCount;
 export const selectCategoriesPage = (state: RootState) =>
   state.categories.currentPage;
+export const selectCategoryTogglingDeleted = (state: RootState) =>
+  state.categories.togglingIsDeleted;

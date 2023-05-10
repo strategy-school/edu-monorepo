@@ -5,8 +5,10 @@ import {
   selectCoursePage,
   selectCourses,
   selectCoursesCount,
+  selectCourseTogglingDeleted,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
+  courseToggleDeleted,
   deleteCourse,
   fetchCourses,
 } from '@/src/dispatchers/courses/coursesThunks';
@@ -26,6 +28,7 @@ import {
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const CoursesAdmin = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +38,7 @@ const CoursesAdmin = () => {
   const currentPage = useAppSelector(selectCoursePage);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const togglingDeleted = useAppSelector(selectCourseTogglingDeleted);
 
   React.useEffect(() => {
     void dispatch(fetchCourses({ page, limit }));
@@ -46,6 +50,11 @@ const CoursesAdmin = () => {
     }
   };
 
+  const toggleCourseDeleted = async (id: string) => {
+    await dispatch(courseToggleDeleted(id));
+    await dispatch(fetchCourses());
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -55,6 +64,8 @@ const CoursesAdmin = () => {
               <TableCell>Название курса</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
+              <TableCell>Скрыть / Показать</TableCell>
+              <TableCell>Статус</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -69,20 +80,28 @@ const CoursesAdmin = () => {
                   <IconButton
                     component={Link}
                     href={`courses/edit/${course._id}`}
+                    disabled={deleteLoading === course._id || togglingDeleted}
                   >
                     <EditIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
                   <IconButton
-                    disabled={
-                      deleteLoading ? deleteLoading === course._id : false
-                    }
+                    disabled={deleteLoading === course._id || togglingDeleted}
                     onClick={() => handleDelete(course._id)}
                   >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
+                <TableCell>
+                  <IconButton
+                    disabled={deleteLoading === course._id || togglingDeleted}
+                    onClick={() => toggleCourseDeleted(course._id)}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>{course.isDeleted ? 'Скрыт' : 'Активен'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

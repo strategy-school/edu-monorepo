@@ -7,6 +7,8 @@ import Category from './models/Category';
 import Teacher from './models/Teacher';
 import Transaction from './models/Transactions';
 import Comment from './models/Comment';
+import Test from './models/Test';
+import Group from './models/Group';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -20,6 +22,8 @@ const run = async () => {
     await db.dropCollection('categories');
     await db.dropCollection('transactions');
     await db.dropCollection('comments');
+    await db.dropCollection('tests');
+    await db.dropCollection('groups');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -35,6 +39,7 @@ const run = async () => {
         phoneNumber: '+996555555555',
         role: 'admin',
         avatar: null,
+        verified: true,
       },
       {
         email: 'teacher@gmail.com',
@@ -45,6 +50,7 @@ const run = async () => {
         phoneNumber: '+996701888789',
         role: 'teacher',
         avatar: null,
+        verified: true,
       },
       {
         email: 'teacher2@gmail.com',
@@ -55,6 +61,7 @@ const run = async () => {
         phoneNumber: '+996702702702',
         role: 'teacher',
         avatar: null,
+        verified: true,
       },
       {
         email: 'teacher3@gmail.com',
@@ -65,6 +72,7 @@ const run = async () => {
         phoneNumber: '+996703703703',
         role: 'teacher',
         avatar: null,
+        verified: true,
       },
       {
         email: 'user@gmail.com',
@@ -74,6 +82,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996550902644',
         avatar: null,
+        verified: true,
       },
       {
         email: 'user1@gmail.com',
@@ -83,6 +92,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996550902645',
         avatar: null,
+        verified: true,
       },
       {
         email: 'user2@gmail.com',
@@ -92,6 +102,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         phoneNumber: '+996550902646',
         avatar: null,
+        verified: true,
       },
     );
 
@@ -101,12 +112,14 @@ const run = async () => {
       description:
         'Маркетинг – наука, которая рассматривает процессы сбыта продукции или услуг как управляемую рыночную деятельность.',
       image: 'fixtures/marketingCtg.jpg',
+      isDeleted: false,
     },
     {
       title: 'SMM',
       description:
         'SMM - это комплекс мероприятий по использованию социальных медиа в качестве каналов для продвижения компаний или бренда и решения других бизнес-задач.',
       image: 'fixtures/smmCtg.jpg',
+      isDeleted: false,
     },
   );
 
@@ -157,6 +170,7 @@ const run = async () => {
       image: 'fixtures/marketing1.jpg',
       type: 'seminar',
       duration: 'до 2 часов',
+      isDeleted: false,
     },
     {
       title: 'Специалист по маркетингу',
@@ -170,6 +184,7 @@ const run = async () => {
       image: 'fixtures/marketing2.jpeg',
       type: 'training',
       duration: '1 месяц',
+      isDeleted: false,
     },
     {
       title: 'Менеджер по маркетингу',
@@ -183,6 +198,7 @@ const run = async () => {
       image: 'fixtures/marketing3.png',
       type: 'course',
       duration: '2 месяца',
+      isDeleted: true,
     },
     {
       title: 'Директор по маркетингу',
@@ -196,6 +212,7 @@ const run = async () => {
       image: 'fixtures/marketing4.jpg',
       type: 'miniMBA',
       duration: '3 месяца',
+      isDeleted: true,
     },
   );
 
@@ -260,6 +277,149 @@ const run = async () => {
       course: marketing3._id,
       rating: 3,
       text: 'Неплохой курс, были некоторые косяки, но в принципе хорошо!',
+    },
+  );
+
+  await Test.create(
+    {
+      category: marketing._id,
+      title: 'Тестовые вопросы “Маркетинг”',
+      description:
+        'В каждом вопросе только один вариант может быть верным. За один правильный ответ 1 балл.',
+      questions: [
+        {
+          question: 'Что такое “рынок”?',
+          answers: [
+            'Это место где, торгуются покупатель и продавец',
+            'Это место где, торгуются покупатель и продавец в присутствии государства',
+          ],
+          correctAnswer:
+            'Это место где, торгуются покупатель и продавец в присутствии государства',
+        },
+        {
+          question: 'Кто такой “клиент”?',
+          answers: [
+            'Клиент – это тот, кто потребляет наши товары и услуги',
+            'Клиент – это тот, кто покупает наши товары и услуги',
+          ],
+          correctAnswer: 'Клиент – это тот, кто покупает наши товары и услуги',
+        },
+        {
+          question: 'Кто такой “конкурент”?',
+          answers: [
+            'Конкурентом является компания, чьи товары или услуги, соперничают с вашими товарами или услугами за конечного покупателя',
+            'Конкурентом является компания, которая производит аналогичные товары или услуги на вашем рынке',
+          ],
+          correctAnswer:
+            'Конкурентом является компания, чьи товары или услуги, соперничают с вашими товарами или услугами за конечного покупателя',
+        },
+        {
+          question: 'Назовите пять базовых методов исследования рынка',
+          answers: [
+            'Интервью, фокус-группа, полевые исследования, опросы, наблюдения',
+            'Анкетирование, тестирование, дегустация, тайный покупатель, телефонные опросы',
+          ],
+          correctAnswer:
+            'Интервью, фокус-группа, полевые исследования, опросы, наблюдения',
+        },
+        {
+          question: 'Назовите три уровня размера рынка',
+          answers: [
+            'Занятый, конкурентный, будущий',
+            'Реальный, доступный, потенциальный',
+          ],
+          correctAnswer: 'Реальный, доступный, потенциальный',
+        },
+        {
+          question: 'Что такое “маркетинг”?',
+          answers: [
+            'Маркетинг – это рекламная акция по привлечению клиентов с целью продать больше товаров и услуг',
+            'Маркетинг – это распродажи товаров по цене ниже, чем у конкурентов с целью привлечения больше клиентов',
+            'Маркетинг – это пиар кампания в СМИ и Интернете с целью повышению узнаваемости бренда',
+            'Маркетинг – это комплекс мер по выявлению потребности рынка, вывод конкурентного продукта, разработки бренда и коммуникации с потребителем с целью получения выгоды',
+          ],
+          correctAnswer:
+            'Маркетинг – это комплекс мер по выявлению потребности рынка, вывод конкурентного продукта, разработки бренда и коммуникации с потребителем с целью получения выгоды',
+        },
+        {
+          question: 'Что такое реклама?',
+          answers: [
+            'Реклама это пиар продукта среди целевой аудитории',
+            'Реклама это продвижение продукта',
+            'Реклама это инструмент донесения информации о продукте ',
+            'Реклама это формирование положительного имиджа о компании у целевой аудитории',
+          ],
+          correctAnswer:
+            'Реклама это инструмент донесения информации о продукте',
+        },
+        {
+          question: 'Что такое ROMI?',
+          answers: [
+            'Return of Marketing Investment – коэффициент рентабельности вложений в маркетинг',
+            'Rebranding Of Marketing in Internet – ребррендинг маркетинга в интернете',
+          ],
+          correctAnswer:
+            'Return of Marketing Investment – коэффициент рентабельности вложений в маркетинг',
+        },
+      ],
+    },
+    {
+      category: SMM._id,
+      title: 'Social Media Marketing Quiz',
+      description: 'Test your knowledge of social media marketing concepts',
+      questions: [
+        {
+          question: 'What is the best time to post on Facebook?',
+          answers: [
+            'Monday at 8am',
+            'Wednesday at 1pm',
+            'Saturday at 5pm',
+            'It depends on your audience',
+          ],
+          correctAnswer: 'It depends on your audience',
+        },
+        {
+          question: 'Which of the following is NOT a social media platform?',
+          answers: ['Twitter', 'LinkedIn', 'Google Ads', 'Instagram'],
+          correctAnswer: 'Google Ads',
+        },
+        {
+          question:
+            'What is the purpose of A/B testing in social media marketing?',
+          answers: [
+            'To increase engagement',
+            'To improve ROI',
+            'To test different ad creatives',
+            'All of the above',
+          ],
+          correctAnswer: 'All of the above',
+        },
+      ],
+    },
+  );
+
+  await Group.create(
+    {
+      title: 'Специалист по маркетингу - Группа 1',
+      description:
+        'Численность группы: 20 человек, учебное время - с 09:00 до 10:00, языки обучения - русский, кыргызский',
+      course: marketing2,
+      startDate: new Date('May 1, 2023, 09:00'),
+      endDate: new Date('June 1, 2023, 10:00'),
+      startsAt: '09:00',
+      duration: '1 час',
+      telegramLink: 'https://t.me/+12345',
+    },
+    {
+      title: 'Менеджер по маркетингу - Группа 2',
+      description:
+        'Численность группы: 15 человек, учебное время - с 13:00 до 14:00, языки обучения - русский, кыргызский',
+      course: marketing3,
+      startDate: new Date('May 3, 2023, 13:00'),
+      endDate: new Date('July 3, 2023, 14:00'),
+      startsAt: '13:00',
+      duration: '1 час',
+      telegramLink: 'https://t.me/+abcd',
     },
   );
 

@@ -114,10 +114,21 @@ const Login = () => {
             >
               <span>Войти</span>
             </LoadingButton>
-            <Grid container justifyContent="flex-end">
+            <Grid
+              container
+              justifyContent="flex-end"
+              flexDirection="column"
+              alignItems="flex-end"
+              gap={1}
+            >
               <Grid item>
                 <Button component={Link} href="/registration" variant="text">
                   или зарегистрироваться
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button component={Link} href="/forget-password" variant="text">
+                  не помните пароль?
                 </Button>
               </Grid>
             </Grid>

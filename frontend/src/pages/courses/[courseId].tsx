@@ -168,13 +168,15 @@ const CourseId = () => {
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item container sx={{ mb: 3 }}>
-              <Grid item sx={{ ml: 3 }}>
-                <Button variant="contained" color="secondary">
-                  Запишись сейчас!
-                </Button>
+            {course && (
+              <Grid item container sx={{ mb: 3 }}>
+                <Grid item sx={{ ml: 3 }}>
+                  <Button variant="contained" color="secondary">
+                    Запишись сейчас!
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Grid>
         )
       )}

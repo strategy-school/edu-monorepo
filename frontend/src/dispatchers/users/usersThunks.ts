@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   ApiResponse,
   GlobalError,
+  IChangePassword,
   LoginMutation,
   RegisterMutation,
   RegisterResponse,
@@ -14,7 +15,7 @@ import { isAxiosError } from 'axios';
 import { unsetUser } from './usersSlice';
 
 export const register = createAsyncThunk<
-  User,
+  void,
   RegisterMutation,
   { rejectValue: ValidationError }
 >('users/register', async (registerMutation, { rejectWithValue }) => {
@@ -31,8 +32,7 @@ export const register = createAsyncThunk<
       }
     });
 
-    const response = await axiosApi.post<RegisterResponse>('/users', formData);
-    return response.data.user;
+    await axiosApi.post<RegisterResponse>('/users', formData);
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);
@@ -118,16 +118,12 @@ export const updateUser = createAsyncThunk<
   }
 });
 
-interface SearchParam {
-  role?: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: string;
-  isBanned?: string;
-  page?: number;
-  limit?: number;
-}
+type SearchParam = Partial<
+  Pick<
+    User,
+    'role' | 'email' | 'firstName' | 'lastName' | 'isBanned' | 'phoneNumber'
+  > & { page: number; limit: number }
+>;
 
 export const fetchUsers = createAsyncThunk<
   ApiResponse<User>,
@@ -157,5 +153,92 @@ export const updateIsBannedStatus = createAsyncThunk<void, string>(
   'users/updateIsBannedStatus',
   async (id) => {
     await axiosApi.patch('/users/isBanned/' + id);
+  },
+);
+
+export const changePassword = createAsyncThunk<
+  User,
+  IChangePassword,
+  { rejectValue: GlobalError }
+>('users/changePassword', async (passwords, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.post<ApiResponse<User>>(
+      '/users/change-password',
+      passwords,
+    );
+    return data.result as User;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});
+
+interface ForgotPasswordPayload {
+  email: string;
+}
+
+export const forgotPassword = createAsyncThunk<
+  void,
+  ForgotPasswordPayload,
+  { rejectValue: GlobalError }
+>('users/forgotPassword', async (email, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post('/users/forgot-password', email);
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});
+
+interface ResetPassword {
+  newPassword: string;
+  confirmPassword: string;
+  token: string;
+}
+
+export const resetPassword = createAsyncThunk<
+  void,
+  ResetPassword,
+  { rejectValue: GlobalError }
+>('users/resetPassword', async (data, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post(
+      `/users/reset-password/${data.token}`,
+      {
+        newPassword: data.newPassword,
+        confirmPassword: data.confirmPassword,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
+  }
+});
+
+export const verifyEmail = createAsyncThunk<User, string>(
+  'users/verifyEmail',
+  async (token) => {
+    const response = await axiosApi.post(`/users/verify-email/${token}`);
+    return response.data.user;
   },
 );

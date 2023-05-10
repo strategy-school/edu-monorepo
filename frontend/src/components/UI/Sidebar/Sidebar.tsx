@@ -21,17 +21,21 @@ const Sidebar = () => {
       <Box sx={{ width: '240px' }}>
         <Divider />
         <List>
-          {['Courses', 'Users', 'Teachers', 'Transactions', 'Categories'].map(
-            (text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  onClick={() => openClickPage(text.toLowerCase())}
-                >
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ),
-          )}
+          {[
+            'Courses',
+            'Users',
+            'Teachers',
+            'Transactions',
+            'Categories',
+            'Tests',
+            'Groups',
+          ].map((text) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => openClickPage(text.toLowerCase())}>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
       </Box>

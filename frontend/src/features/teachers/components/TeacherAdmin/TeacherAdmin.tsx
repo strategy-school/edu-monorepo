@@ -44,9 +44,10 @@ const TeacherAdmin = () => {
     dispatch(fetchTeachers({ page, limit }));
   }, [dispatch, page, limit, deleting]);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Подтвердите удаление преподавателя')) {
-      dispatch(deleteTeacher(id));
+      await dispatch(deleteTeacher(id));
+      dispatch(fetchTeachers({ page, limit }));
     }
   };
 

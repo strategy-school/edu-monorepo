@@ -1,15 +1,19 @@
-import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
-import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '@/src/app/store';
 import {
-  fetchUsers,
+  changePassword,
   fetchOneBasicUser,
+  fetchUsers,
+  forgotPassword,
   googleLogin,
   login,
   register,
+  resetPassword,
   updateIsBannedStatus,
   updateUser,
+  verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
-import { RootState } from '@/src/app/store';
+import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
@@ -17,12 +21,19 @@ interface UsersState {
   oneBasicUser: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
+  verifyEmailLoading: boolean;
   loginLoading: boolean;
   loginError: GlobalError | null;
   fetchLoading: boolean;
   fetchOneUserLoading: boolean;
   updateUserLoading: false | string;
   updateUserError: ValidationError | null;
+  passwordChanging: boolean;
+  passwordChangeError: GlobalError | null;
+  passwordForgetLoading: boolean;
+  passwordForgetError: GlobalError | null;
+  passwordResetLoading: boolean;
+  passwordResetError: GlobalError | null;
   currentPage: number;
   totalCount: number;
 }
@@ -33,12 +44,19 @@ const initialState: UsersState = {
   oneBasicUser: null,
   registerLoading: false,
   registerError: null,
+  verifyEmailLoading: false,
   loginLoading: false,
   loginError: null,
   fetchLoading: false,
   fetchOneUserLoading: false,
   updateUserLoading: false,
   updateUserError: null,
+  passwordChanging: false,
+  passwordChangeError: null,
+  passwordForgetLoading: false,
+  passwordForgetError: null,
+  passwordResetLoading: false,
+  passwordResetError: null,
   currentPage: 1,
   totalCount: 1,
 };
@@ -56,14 +74,25 @@ export const usersSlice = createSlice({
       state.registerError = null;
       state.registerLoading = true;
     });
-    builder.addCase(register.fulfilled, (state, { payload: user }) => {
+    builder.addCase(register.fulfilled, (state) => {
       state.registerLoading = false;
-      state.user = user;
     });
     builder.addCase(register.rejected, (state, { payload: error }) => {
       state.registerLoading = false;
       state.registerError = error || null;
     });
+
+    builder.addCase(verifyEmail.pending, (state) => {
+      state.verifyEmailLoading = true;
+    });
+    builder.addCase(verifyEmail.fulfilled, (state, { payload: user }) => {
+      state.verifyEmailLoading = false;
+      state.user = user;
+    });
+    builder.addCase(verifyEmail.rejected, (state) => {
+      state.verifyEmailLoading = false;
+    });
+
     builder.addCase(login.pending, (state) => {
       state.loginLoading = true;
       state.loginError = null;
@@ -76,6 +105,7 @@ export const usersSlice = createSlice({
       state.loginLoading = false;
       state.loginError = error || null;
     });
+
     builder.addCase(updateUser.pending, (state) => {
       state.updateUserError = null;
     });
@@ -85,6 +115,7 @@ export const usersSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, { payload: error }) => {
       state.updateUserError = error || null;
     });
+
     builder.addCase(googleLogin.pending, (state) => {
       state.loginLoading = true;
       state.registerLoading = true;
@@ -99,6 +130,7 @@ export const usersSlice = createSlice({
       state.registerLoading = false;
       state.loginError = error || null;
     });
+
     builder.addCase(fetchUsers.pending, (state) => {
       state.fetchLoading = true;
       state.users = [];
@@ -113,6 +145,7 @@ export const usersSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state) => {
       state.fetchLoading = false;
     });
+
     builder.addCase(
       updateIsBannedStatus.pending,
       (state, { meta: { arg: id } }) => {
@@ -137,12 +170,50 @@ export const usersSlice = createSlice({
     builder.addCase(fetchOneBasicUser.rejected, (state) => {
       state.fetchOneUserLoading = false;
     });
+
+    builder.addCase(changePassword.pending, (state) => {
+      (state.passwordChangeError = null), (state.passwordChanging = true);
+    });
+    builder.addCase(changePassword.fulfilled, (state, { payload: user }) => {
+      state.passwordChangeError = null;
+      state.passwordChanging = false;
+      state.user = user;
+    });
+    builder.addCase(changePassword.rejected, (state, { payload: error }) => {
+      state.passwordChanging = false;
+      state.passwordChangeError = error || null;
+    });
+
+    builder.addCase(forgotPassword.pending, (state) => {
+      state.passwordForgetError = null;
+      state.passwordForgetLoading = true;
+    });
+    builder.addCase(forgotPassword.fulfilled, (state) => {
+      state.passwordForgetError = null;
+      state.passwordForgetLoading = false;
+    });
+    builder.addCase(forgotPassword.rejected, (state, { payload: error }) => {
+      state.passwordForgetError = error || null;
+      state.passwordForgetLoading = false;
+    });
+
+    builder.addCase(resetPassword.pending, (state) => {
+      state.passwordResetError = null;
+      state.passwordResetLoading = true;
+    });
+    builder.addCase(resetPassword.fulfilled, (state) => {
+      state.passwordResetError = null;
+      state.passwordResetLoading = false;
+    });
+    builder.addCase(resetPassword.rejected, (state, { payload: error }) => {
+      state.passwordResetError = error || null;
+      state.passwordResetLoading = false;
+    });
   },
 });
 
 export const usersReducer = usersSlice.reducer;
 export const { unsetUser } = usersSlice.actions;
-
 export const selectUser = (state: RootState) => state.users.user;
 export const selectUsers = (state: RootState) => state.users.users;
 export const selectOneBasicUser = (state: RootState) =>
@@ -160,5 +231,19 @@ export const selectUpdateUserError = (state: RootState) =>
   state.users.updateUserError;
 export const selectFetchingOneUser = (state: RootState) =>
   state.users.fetchOneUserLoading;
+export const selectPasswordChanging = (state: RootState) =>
+  state.users.passwordChanging;
+export const selectPasswordChangeError = (state: RootState) =>
+  state.users.passwordChangeError;
+export const selectVerifyEmailLoading = (state: RootState) =>
+  state.users.verifyEmailLoading;
+export const selectPasswordForgetLoading = (state: RootState) =>
+  state.users.passwordForgetLoading;
+export const selectPasswordForgetError = (state: RootState) =>
+  state.users.passwordForgetError;
+export const selectPasswordResetLoading = (state: RootState) =>
+  state.users.passwordResetLoading;
+export const selectPasswordResetError = (state: RootState) =>
+  state.users.passwordResetError;
 export const selectUsersCount = (state: RootState) => state.users.totalCount;
 export const selectUserPage = (state: RootState) => state.users.currentPage;

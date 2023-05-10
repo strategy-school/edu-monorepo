@@ -54,9 +54,8 @@ const AppToolbar = () => {
             container
             alignItems="center"
             justifyContent="flex-end"
-            xs={15}
+            xs={12}
             md={9}
-            lg={7}
           >
             <Button component={Link} href="/about" color="inherit">
               О компании
@@ -71,8 +70,14 @@ const AppToolbar = () => {
             <Button component={Link} href="/courses" color="inherit">
               Список курсов
             </Button>
+            <Button component={Link} href="/groups" color="inherit">
+              Учебные группы
+            </Button>
             <Button component={Link} href="/teachers" color="inherit">
               Наши преподаватели
+            </Button>
+            <Button component={Link} href="/tests" color="inherit">
+              Пройти тестирование
             </Button>
             <div
               style={{
