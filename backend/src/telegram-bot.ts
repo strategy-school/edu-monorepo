@@ -42,7 +42,7 @@ export default function attachTelegramBot(app: Express, db: mongoose.Mongoose) {
     },
     {
       command: '/consultation',
-      description: 'Могу ли я получить индивидуальные консультации?',
+      description: 'Могу ли я получить консультацию?',
     },
   ]);
 
