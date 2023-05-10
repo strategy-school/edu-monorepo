@@ -1,4 +1,5 @@
 import mongoose, { Types } from 'mongoose';
+import { ICourse } from '../types';
 import Category from './Category';
 
 const Schema = mongoose.Schema;
@@ -17,7 +18,7 @@ enum Level {
   Managerial = 'managerial',
 }
 
-const CourseSchema = new Schema(
+const CourseSchema = new Schema<ICourse>(
   {
     title: {
       type: String,
@@ -71,5 +72,5 @@ const CourseSchema = new Schema(
   { timestamps: true },
 );
 
-const Course = mongoose.model('Course', CourseSchema);
+const Course = mongoose.model<ICourse>('Course', CourseSchema);
 export default Course;
