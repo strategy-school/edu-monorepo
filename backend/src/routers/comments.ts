@@ -60,6 +60,13 @@ commentsRouter.post('/', auth, async (req, res, next) => {
       });
     }
 
+    if (!user.verified) {
+      return res.status(403).send({
+        error:
+          'Вы не можете отправить комментарий, так как ваша почта не подтверждена!',
+      });
+    }
+
     if (
       !(transaction && transaction.isPaid === 'paid') &&
       user.role !== 'admin'

@@ -15,6 +15,7 @@ export interface User {
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
+  verified: boolean;
 }
 
 export interface RegisterMutation {
@@ -224,4 +225,29 @@ export interface TestMini {
 export interface PageLimit {
   page: number;
   limit: number;
+}
+
+export interface ApiGroup {
+  _id: string;
+  title: string;
+  description: string;
+  course: Pick<ApiCourse, '_id' | 'title' | 'duration'>;
+  startDate: string;
+  endDate: string;
+  startsAt: string;
+  duration: string;
+  telegramLink: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IGroup {
+  title: string;
+  description: string;
+  course: string;
+  startDate: string;
+  endDate: string;
+  startsAt: string;
+  duration: string;
+  telegramLink: string;
 }

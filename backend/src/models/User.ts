@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { HydratedDocument, model, Model, Schema } from 'mongoose';
 import { IUser } from '../types';
+import validate from 'deep-email-validator';
 
 const SALT_WORK_FACTOR = 10;
 
@@ -24,19 +25,32 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: String,
       required: true,
       unique: true,
-      validate: {
-        validator: async function (
-          this: HydratedDocument<IUser>,
-          email: string,
-        ): Promise<boolean> {
-          if (!this.isModified('email')) return true;
-          const user = await User.findOne({
-            email,
-          });
-          return !user;
+      validate: [
+        {
+          validator: async function (
+            this: HydratedDocument<IUser>,
+            email: string,
+          ): Promise<boolean> {
+            if (!this.isModified('email')) return true;
+            const user = await User.findOne({
+              email,
+            });
+            return !user;
+          },
+          message: 'Пользователь под таким email-ом уже зарегистрирован!',
         },
-        message: 'Пользователь под таким email-ом уже зарегистрирован!',
-      },
+        // {
+        //   validator: async function (email: string): Promise<boolean> {
+        //     try {
+        //       const { valid } = await validate(email);
+        //       return valid;
+        //     } catch {
+        //       return false;
+        //     }
+        //   },
+        //   message: 'Некорректный адрес электронной почты',
+        // }
+      ],
     },
     firstName: {
       type: String,
@@ -106,6 +120,18 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     googleId: String,
     facebookId: String,
     linkedinId: String,
+    verifyEmailToken: {
+      type: String,
+      default: null,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );
