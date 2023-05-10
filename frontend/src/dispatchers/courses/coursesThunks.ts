@@ -8,13 +8,11 @@ import {
   ValidationError,
   GlobalError,
   PageLimit,
+  SearchCourse,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
 
-type SearchParam = Partial<
-  Omit<ICourse, 'duration' | 'price' | 'category' | 'image'> &
-    PageLimit & { minPrice: string; maxPrice: string }
->;
+type SearchParam = SearchCourse & PageLimit;
 
 export const fetchCourses = createAsyncThunk<
   ApiResponse<CourseShort>,

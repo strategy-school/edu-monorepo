@@ -30,6 +30,7 @@ export interface ICourse {
   level: string;
   image: string;
   isDeleted: boolean;
+  category: Types.ObjectId;
 }
 
 export interface ICategory {
@@ -42,19 +43,6 @@ export interface ITransaction {
   user: Types.ObjectId;
   course: Types.ObjectId;
   isPaid: 'pending' | 'paid';
-}
-
-export interface ICourse {
-  title: string;
-  duration: string;
-  price: number;
-  description: string;
-  type: string;
-  theme: string;
-  targetAudience: string;
-  programGoal: string;
-  level: string;
-  image: string;
 }
 
 export interface ICategory {
@@ -75,10 +63,7 @@ export type SwitchToString<Type> = {
 };
 
 export type SearchParam = {
-  [field: string]:
-    | string
-    | { $regex: string; $options?: string }
-    | { $gte?: number; $lte?: number };
+  [field: string]: string | { $regex: string; $options?: string };
 };
 
 export interface PageLimit {
