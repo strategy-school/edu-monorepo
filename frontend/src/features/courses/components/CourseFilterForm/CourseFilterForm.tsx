@@ -40,24 +40,29 @@ const CourseFilterForm = () => {
     dispatch(fetchCourses(state));
   }, [state, dispatch]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prev) => ({ ...prev, [name]: value }));
-    setState((prev) => filterState<SearchCourse>(prev));
-  };
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setState((prev) => ({ ...prev, [name]: value }));
+      setState((prev) => filterState<SearchCourse>(prev));
+    },
+    [],
+  );
 
-  const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prev) => ({ ...prev, price: { ...prev.price, [name]: value } }));
-    setState((prev) => ({
-      ...prev,
-      price: prev.price && filterState<CoursePrice>(prev.price),
-    }));
-  };
-
-  const clearState = () => {
-    setState({});
-  };
+  const onPriceChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setState((prev) => ({
+        ...prev,
+        price: { ...prev.price, [name]: value },
+      }));
+      setState((prev) => ({
+        ...prev,
+        price: prev.price && filterState<CoursePrice>(prev.price),
+      }));
+    },
+    [],
+  );
 
   return (
     <form>
@@ -152,7 +157,7 @@ const CourseFilterForm = () => {
               type="button"
               color="error"
               variant="contained"
-              onClick={clearState}
+              onClick={() => setState({})}
             >
               Сбросить
             </Button>
