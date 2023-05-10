@@ -10,6 +10,7 @@ import teachersRouter from './routers/teachers';
 import commentsRouter from './routers/comments';
 import testsRouter from './routers/tests';
 import groupsRouter from './routers/groups';
+import attachTelegramBot from './telegram-bot';
 
 const app = express();
 const port = 8000;
@@ -28,8 +29,8 @@ app.use('/groups', groupsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
-  await mongoose.connect(config.db);
-
+  const db = await mongoose.connect(config.db);
+  attachTelegramBot(app, db);
   app.listen(port, () => {
     console.log('We are live on', port);
   });
