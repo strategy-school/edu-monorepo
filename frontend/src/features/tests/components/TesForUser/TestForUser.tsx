@@ -68,10 +68,12 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
     setScore(0);
   };
 
+  const resultMessage = `${score} ${
+    score === 1 ? 'балл' : score > 1 && score < 5 ? 'балла' : 'баллов'
+  } из ${oneTest.questions.length}`;
+
   const url = 'https://youtu.be/GoNNW0iXc5s';
-  const title = `Я прошел тест на сайте Strategia School и набрал ${
-    score === 1 ? 'балл' : score < 5 ? 'балла' : 'баллов'
-  }. Попробуйте и вы!`;
+  const title = `Я прошел тест на сайте Strategia School и набрал ${resultMessage}. Попробуйте и вы!`;
 
   return (
     <>
@@ -126,8 +128,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
               : 'Есть что улучшить'}
           </Typography>
           <Typography variant="h6" align="center">
-            Ваш результат: {score}{' '}
-            {score === 1 ? 'балл' : score < 5 ? 'балла' : 'баллов'}
+            Ваш результат: {resultMessage}
           </Typography>
         </DialogContent>
         <DialogActions
