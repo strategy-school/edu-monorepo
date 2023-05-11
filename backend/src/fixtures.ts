@@ -9,6 +9,7 @@ import Transaction from './models/Transactions';
 import Comment from './models/Comment';
 import Test from './models/Test';
 import Group from './models/Group';
+import Notification from './models/Notification';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -24,6 +25,7 @@ const run = async () => {
     await db.dropCollection('comments');
     await db.dropCollection('tests');
     await db.dropCollection('groups');
+    await db.dropCollection('notifications');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -418,6 +420,23 @@ const run = async () => {
       startsAt: '13:00',
       duration: '1 час',
       telegramLink: 'https://t.me/+abcd',
+    },
+  );
+
+  await Notification.create(
+    {
+      name: 'Joe Biden',
+      email: 'joe@gmail.com',
+      phoneNumber: '0555111222',
+      message: 'Могут ли здесь учиться иностранцы?',
+      isChecked: false,
+    },
+    {
+      name: 'Max Martin',
+      email: 'maxmartin@gmail.com',
+      phoneNumber: '0523112233',
+      message: null,
+      isChecked: true,
     },
   );
 

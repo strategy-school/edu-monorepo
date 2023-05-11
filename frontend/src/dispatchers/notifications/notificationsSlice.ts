@@ -1,24 +1,25 @@
 import { ApiNotification, IPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNotifications } from '@/src/dispatchers/notifications/notificationsThunks';
+import {
+  fetchNotifications,
+  notificationToggleChecked,
+} from '@/src/dispatchers/notifications/notificationsThunks';
 import { RootState } from '@/src/app/store';
 
 interface NotificationsState {
   items: ApiNotification[];
-  oneItem: ApiNotification | null;
   fetchLoading: boolean;
-  fetchOneLoading: boolean;
   currentPage: number;
   totalCount: number;
+  togglingIsChecked: boolean;
 }
 
 const initialState: NotificationsState = {
   items: [],
-  oneItem: null,
   fetchLoading: false,
-  fetchOneLoading: false,
   currentPage: 1,
   totalCount: 1,
+  togglingIsChecked: false,
 };
 
 export const notificationsSlice = createSlice({
@@ -38,6 +39,15 @@ export const notificationsSlice = createSlice({
     });
     builder.addCase(fetchNotifications.rejected, (state) => {
       state.fetchLoading = false;
+    });
+    builder.addCase(notificationToggleChecked.pending, (state) => {
+      state.togglingIsChecked = true;
+    });
+    builder.addCase(notificationToggleChecked.fulfilled, (state) => {
+      state.togglingIsChecked = false;
+    });
+    builder.addCase(notificationToggleChecked.rejected, (state) => {
+      state.togglingIsChecked = false;
     });
   },
 });

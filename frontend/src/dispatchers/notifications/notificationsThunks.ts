@@ -21,3 +21,10 @@ export const fetchNotifications = createAsyncThunk<
   const response = await axiosApi.get(url);
   return response.data;
 });
+
+export const notificationToggleChecked = createAsyncThunk<void, string>(
+  'notifications/toggleIsChecked',
+  async (id) => {
+    await axiosApi.patch(`/notifications/${id}/toggleIsChecked`);
+  },
+);
