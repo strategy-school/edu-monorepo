@@ -1,22 +1,22 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import Carousel from 'react-material-ui-carousel';
 import {
   blockPadding,
   borderRadius,
   boxShadow,
   stylesGlobal,
 } from '@/src/styles';
-import { useAppSelector } from '@/src/app/hooks';
-import Carousel from 'react-material-ui-carousel';
-import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
-import { Property } from 'csstype';
-import TextAlign = Property.TextAlign;
-import { useRouter } from 'next/router';
+import { Button, Grid, Typography } from '@mui/material';
 import theme from '@/src/theme';
-import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
+import { Property } from 'csstype';
+import Link from 'next/link';
+import { useAppSelector } from '@/src/app/hooks';
+import { selectTests } from '@/src/dispatchers/tests/testsSlice';
+import TestCardForSlide from '@/src/features/tests/components/TestCardForSlide/TestCardForSlide';
+import TextAlign = Property.TextAlign;
 
 const styles = {
-  courses: {
+  tests: {
     borderRadius,
     boxShadow,
     padding: blockPadding,
@@ -26,7 +26,7 @@ const styles = {
     justifyContent: 'center',
   },
   courseTitle: {
-    maxWidth: '600px',
+    maxWidth: '700px',
     textAlign: 'center' as TextAlign,
   },
   indicator: {
@@ -38,16 +38,11 @@ const styles = {
   },
 };
 
-const CoursesWrapper = () => {
-  const courses = useAppSelector(selectCourses);
+const TestWrapper = () => {
+  const tests = useAppSelector(selectTests);
 
-  const router = useRouter();
-
-  const fullCoursesView = () => {
-    void router.push(`/courses`);
-  };
   return (
-    <Grid style={styles.courses} bgcolor={theme.palette.warning.main}>
+    <Grid style={styles.tests} bgcolor={theme.palette.warning.main}>
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}
@@ -60,23 +55,16 @@ const CoursesWrapper = () => {
             ...styles.courseTitle,
           }}
         >
-          Ознакомьтесь с нашими образовательными программами:
+          Пройдите тест и узнайте свой уровень
         </span>
       </Typography>
-      <Typography
-        variant="body1"
-        mt={5}
-        color="primary.light"
-        textAlign="center"
-      >
-        Большой выбор программ в зависимости от продолжительности,уровня знаний
-        и опыта
-      </Typography>
-      <Typography component="div" mt={5} mb={2}>
+      <Typography component="div" mt={1} mb={2}>
         <Carousel
-          sx={{ pt: 1 }}
+          sx={{
+            pt: 1,
+          }}
           animation="slide"
-          duration={1000}
+          // duration={1000}
           indicatorIconButtonProps={{
             style: styles.indicator,
           }}
@@ -84,8 +72,8 @@ const CoursesWrapper = () => {
             style: styles.activeIndicator,
           }}
         >
-          {courses.map((course) => (
-            <CourseCard key={course._id} course={course} />
+          {tests.map((test) => (
+            <TestCardForSlide test={test} key={test._id} />
           ))}
         </Carousel>
       </Typography>
@@ -96,13 +84,14 @@ const CoursesWrapper = () => {
             borderColor: theme.palette.primary.light,
           }}
           variant="outlined"
-          onClick={fullCoursesView}
+          component={Link}
+          href="/tests"
         >
-          Просмотреть все курсы
+          Просмотреть все тесты
         </Button>
       </Grid>
     </Grid>
   );
 };
 
-export default CoursesWrapper;
+export default TestWrapper;

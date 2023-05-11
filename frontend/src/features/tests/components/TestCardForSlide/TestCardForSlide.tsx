@@ -1,23 +1,22 @@
 import React from 'react';
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import { CourseShort } from '@/src/types';
 import { cardStyle } from '@/src/styles';
-import { useRouter } from 'next/router';
+import theme from '@/src/theme';
 import Image from 'next/image';
 import { apiURL } from '@/src/constants';
-import theme from '@/src/theme';
+import { TestMini } from '@/src/types';
+import { useRouter } from 'next/router';
 
 interface Props {
-  course: CourseShort;
+  test: TestMini;
 }
 
-const CourseCard: React.FC<Props> = ({ course }) => {
+const TestCardForSlide: React.FC<Props> = ({ test }) => {
   const router = useRouter();
 
   const openCard = () => {
-    void router.push(`/courses/${course._id}`);
+    void router.push(`/tests/one-test/${test._id}`);
   };
-
   return (
     <Box style={cardStyle.card}>
       <Card style={cardStyle.cardBody} className="card">
@@ -31,32 +30,25 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             style={cardStyle.innerStyle}
             sx={{ pl: 2 }}
           >
-            <Grid item xs={6} md={8} lg={8}>
+            <Grid item xs>
               <Typography
                 component="div"
                 color={theme.palette.info.dark}
                 fontSize={cardStyle.fontSize}
                 fontWeight={700}
+                textAlign="center"
               >
-                {course.title}
+                {test.title}
               </Typography>
               <Typography
                 variant="body2"
                 color={theme.palette.info.dark}
                 fontWeight={600}
                 mt={1}
+                textAlign="center"
               >
-                Продолжительность: {course.duration.toLowerCase()}
+                Категория: {test.category.title}
               </Typography>
-            </Grid>
-            <Grid item xs={6} md={4} lg={4}>
-              <Image
-                style={{ margin: '0 auto', borderRadius: '10%' }}
-                src={apiURL + '/' + course.image}
-                alt={course.title}
-                width={100}
-                height={100}
-              />
             </Grid>
           </Grid>
         </CardContent>
@@ -65,4 +57,4 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   );
 };
 
-export default CourseCard;
+export default TestCardForSlide;

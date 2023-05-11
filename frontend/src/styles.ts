@@ -61,8 +61,8 @@ export const welcomeBlockStyle = {
   maxWidth: { xs: '170px', sm: '250px', md: '450px', lg: '495px', xl: '635px' },
 };
 
-export const courseCardStyle = {
-  courseCard: {
+export const cardStyle = {
+  card: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -71,6 +71,7 @@ export const courseCardStyle = {
   cardBody: {
     borderRadius,
     position: 'relative' as const,
+    margin: '20px',
   },
   height: {
     xs: '100px',
