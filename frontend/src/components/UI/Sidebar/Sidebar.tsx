@@ -29,6 +29,7 @@ const Sidebar = () => {
             'Categories',
             'Tests',
             'Groups',
+            'Notifications',
           ].map((text) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => openClickPage(text.toLowerCase())}>

@@ -262,3 +262,12 @@ export interface IGroup {
   duration: string;
   telegramLink: string;
 }
+
+export interface ApiNotification {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+  isChecked: boolean;
+}
