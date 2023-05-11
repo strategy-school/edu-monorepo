@@ -64,7 +64,7 @@ const TestWrapper = () => {
             pt: 1,
           }}
           animation="slide"
-          // duration={1000}
+          duration={1000}
           indicatorIconButtonProps={{
             style: styles.indicator,
           }}
