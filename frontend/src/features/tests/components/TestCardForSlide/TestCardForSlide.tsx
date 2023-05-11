@@ -2,8 +2,6 @@ import React from 'react';
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import { cardStyle } from '@/src/styles';
 import theme from '@/src/theme';
-import Image from 'next/image';
-import { apiURL } from '@/src/constants';
 import { TestMini } from '@/src/types';
 import { useRouter } from 'next/router';
 
