@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
   DialogActions,
   DialogContent,
   FormControlLabel,
@@ -13,6 +12,23 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  OKIcon,
+  OKShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  VKIcon,
+  VKShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from 'react-share';
+import MyModal from '@/src/components/UI/Modal/MyModal';
 
 export interface Props {
   oneTest: Test;
@@ -46,6 +62,11 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
     setScore(0);
     void router.push('/courses/');
   };
+
+  const url = 'https://youtu.be/GoNNW0iXc5s';
+  const title = `Я прошел тест на сайте Strategia School и набрал ${
+    score === 1 ? 'балл' : score < 5 ? 'балла' : 'баллов'
+  }. Попробуйте и вы!`;
 
   return (
     <>
@@ -91,7 +112,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
         </Button>
       </Container>
 
-      <Dialog open={open} fullWidth>
+      <MyModal open={open} handleClose={() => setOpen(false)}>
         <DialogContent>
           <Typography variant="h6" align="center" mb={2}>
             {score > oneTest.questions.length / 2
@@ -103,12 +124,50 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
             {score === 1 ? 'балл' : score < 5 ? 'балла' : 'баллов'}
           </Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography>Поделитесь результатом теста с друзьями</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              marginY: '15px',
+            }}
+          >
+            <FacebookShareButton url={url} quote={title}>
+              <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
+            <TwitterShareButton url={url} title={title}>
+              <TwitterIcon size={32} round={true} />
+            </TwitterShareButton>
+            <TelegramShareButton url={url} title={title}>
+              <TelegramIcon size={32} round={true} />
+            </TelegramShareButton>
+            <VKShareButton url={url}>
+              <VKIcon size={32} round={true} />
+            </VKShareButton>
+            <WhatsappShareButton url={url} title={title}>
+              <WhatsappIcon size={32} round={true} />
+            </WhatsappShareButton>
+            <OKShareButton url={url}>
+              <OKIcon size={32} round={true} />
+            </OKShareButton>
+            <LinkedinShareButton url={url} title={title}>
+              <LinkedinIcon size={32} round={true} />
+            </LinkedinShareButton>
+          </Box>
           <Button variant="outlined" onClick={openCourses} fullWidth>
             Выбрать подходящий курс
           </Button>
         </DialogActions>
-      </Dialog>
+      </MyModal>
     </>
   );
 };
