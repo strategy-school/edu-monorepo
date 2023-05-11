@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
   DialogActions,
   DialogContent,
   FormControlLabel,
@@ -13,6 +12,23 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  OKIcon,
+  OKShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  VKIcon,
+  VKShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from 'react-share';
+import MyModal from '@/src/components/UI/Modal/MyModal';
 
 export interface Props {
   oneTest: Test;
@@ -22,6 +38,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [score, setScore] = useState<number>(0);
   const [open, setOpen] = useState(false);
+
   const handleAnswerChange = (index: number, answer: string) => {
     const newAnswers = [...answers];
     newAnswers[index] = answer;
@@ -41,11 +58,22 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
   };
 
   const openCourses = () => {
+    onModalClose();
+    void router.push('/courses/');
+  };
+
+  const onModalClose = () => {
     setOpen(false);
     setAnswers([]);
     setScore(0);
-    void router.push('/courses/');
   };
+
+  const resultMessage = `${score} ${
+    score === 1 ? 'балл' : score > 1 && score < 5 ? 'балла' : 'баллов'
+  } из ${oneTest.questions.length}`;
+
+  const url = 'https://youtu.be/GoNNW0iXc5s';
+  const title = `Я прошел тест на сайте Strategia School и набрал ${resultMessage}. Попробуйте и вы!`;
 
   return (
     <>
@@ -86,12 +114,13 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
           color="success"
           onClick={handleSubmit}
           sx={{ mt: 2 }}
+          disabled={oneTest.questions.length !== answers.length}
         >
           Завершить
         </Button>
       </Container>
 
-      <Dialog open={open} fullWidth>
+      <MyModal open={open} handleClose={onModalClose}>
         <DialogContent>
           <Typography variant="h6" align="center" mb={2}>
             {score > oneTest.questions.length / 2
@@ -99,16 +128,53 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
               : 'Есть что улучшить'}
           </Typography>
           <Typography variant="h6" align="center">
-            Ваш результат: {score}{' '}
-            {score === 1 ? 'балл' : score < 5 ? 'балла' : 'баллов'}
+            Ваш результат: {resultMessage}
           </Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography>Поделитесь результатом теста с друзьями</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              marginY: '15px',
+            }}
+          >
+            <FacebookShareButton url={url} quote={title}>
+              <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
+            <TwitterShareButton url={url} title={title}>
+              <TwitterIcon size={32} round={true} />
+            </TwitterShareButton>
+            <TelegramShareButton url={url} title={title}>
+              <TelegramIcon size={32} round={true} />
+            </TelegramShareButton>
+            <VKShareButton url={url}>
+              <VKIcon size={32} round={true} />
+            </VKShareButton>
+            <WhatsappShareButton url={url} title={title}>
+              <WhatsappIcon size={32} round={true} />
+            </WhatsappShareButton>
+            <OKShareButton url={url}>
+              <OKIcon size={32} round={true} />
+            </OKShareButton>
+            <LinkedinShareButton url={url} title={title}>
+              <LinkedinIcon size={32} round={true} />
+            </LinkedinShareButton>
+          </Box>
           <Button variant="outlined" onClick={openCourses} fullWidth>
             Выбрать подходящий курс
           </Button>
         </DialogActions>
-      </Dialog>
+      </MyModal>
     </>
   );
 };

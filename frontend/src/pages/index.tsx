@@ -8,12 +8,15 @@ import { Box, Grid } from '@mui/material';
 import React from 'react';
 import { fetchCourses } from '../dispatchers/courses/coursesThunks';
 import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
+import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 
 export default function Home() {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(fetchCourses());
     dispatch(fetchTeachers());
+    dispatch(fetchTests());
   }, [dispatch]);
 
   return (
@@ -38,6 +41,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <TeachersWrapper />
+          </Grid>
+          <Grid item>
+            <TestWrapper />
           </Grid>
         </Grid>
       </Box>
