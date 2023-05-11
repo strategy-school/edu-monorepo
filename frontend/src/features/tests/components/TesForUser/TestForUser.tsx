@@ -38,6 +38,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [score, setScore] = useState<number>(0);
   const [open, setOpen] = useState(false);
+
   const handleAnswerChange = (index: number, answer: string) => {
     const newAnswers = [...answers];
     newAnswers[index] = answer;
@@ -57,10 +58,14 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
   };
 
   const openCourses = () => {
+    onModalClose();
+    void router.push('/courses/');
+  };
+
+  const onModalClose = () => {
     setOpen(false);
     setAnswers([]);
     setScore(0);
-    void router.push('/courses/');
   };
 
   const url = 'https://youtu.be/GoNNW0iXc5s';
@@ -107,12 +112,13 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
           color="success"
           onClick={handleSubmit}
           sx={{ mt: 2 }}
+          disabled={oneTest.questions.length !== answers.length}
         >
           Завершить
         </Button>
       </Container>
 
-      <MyModal open={open} handleClose={() => setOpen(false)}>
+      <MyModal open={open} handleClose={onModalClose}>
         <DialogContent>
           <Typography variant="h6" align="center" mb={2}>
             {score > oneTest.questions.length / 2
