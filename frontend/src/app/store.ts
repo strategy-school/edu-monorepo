@@ -18,6 +18,7 @@ import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
 import { commentsReducer } from '@/src/dispatchers/comments/commentsSlice';
 import { testsReducer } from '@/src/dispatchers/tests/testsSlice';
 import { groupReducer } from '@/src/dispatchers/groups/groupsSlice';
+import { videoReviewsReducer } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
 
 const usersPersistConfig = {
   key: 'strategia:users',
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   transactions: transacionsReducer,
   tests: testsReducer,
   groups: groupReducer,
+  videoReviews: videoReviewsReducer,
 });
 
 export const store = configureStore({

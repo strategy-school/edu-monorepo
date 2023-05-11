@@ -436,6 +436,16 @@ const run = async () => {
       previewImage: 'fixtures/video-review2.webp',
       youtubeURL: 'IMgL-z4GX-c',
     },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review1.webp',
+      youtubeURL: 'B20UrosFLjU',
+    },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review2.webp',
+      youtubeURL: 'IMgL-z4GX-c',
+    },
   );
 
   await db.close();

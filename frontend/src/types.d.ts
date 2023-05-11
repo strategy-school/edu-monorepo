@@ -246,3 +246,16 @@ export interface IGroup {
   duration: string;
   telegramLink: string;
 }
+
+export interface IVideoReview {
+  title: string;
+  previewImage: File | null;
+  youtubeURL: string;
+}
+
+export interface ApiVideoReview {
+  _id: string;
+  previewImage: string;
+  title: string;
+  youtubeURL: string;
+}
