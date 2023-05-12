@@ -1,87 +1,70 @@
 import express from 'express';
-import Course from '../models/Course';
 import mongoose, { HydratedDocument } from 'mongoose';
 import auth, { RequestWithUser } from '../middleware/auth';
+import getUser from '../middleware/getUser';
 import permit from '../middleware/permit';
-import { ICourse } from '../types';
+import Course from '../models/Course';
+import Transaction from '../models/Transactions';
 import { imageUpload } from '../multer';
 import { promises as fs } from 'fs';
-import getUser from '../middleware/getUser';
-import Transaction from '../models/Transactions';
+import { ICourse, PageLimit, SearchParam, SwitchToString } from '../types';
+
+type QueryParams = SwitchToString<
+  Pick<
+    ICourse,
+    | 'title'
+    | 'description'
+    | 'type'
+    | 'theme'
+    | 'targetAudience'
+    | 'programGoal'
+    | 'level'
+    | 'isDeleted'
+    | 'category'
+  > &
+    PageLimit
+>;
 
 const coursesRouter = express.Router();
 
-interface CourseSearchParam {
-  level?: string;
-  category?: string;
-  isDeleted?: boolean;
-  price?: {
-    $gte?: number;
-    $lte?: number;
-  };
-}
-
-coursesRouter.get('/', getUser, async (req, res, next) => {
+coursesRouter.get('/', async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-    const level = req.query.level as string;
-    const category = req.query.category as string;
-    const minPrice = req.query.minPrice as string;
-    const maxPrice = req.query.maxPrice as string;
-    const limit: number = parseInt(req.query.limit as string) || 10;
-    const page: number = parseInt(req.query.page as string) || 1;
+    const { page, limit, ...params }: QueryParams = req.query;
 
-    const searchParam: CourseSearchParam = {};
+    const l: number = parseInt(limit as string) || 10;
+    const p: number = parseInt(page as string) || 1;
 
-    if (level) {
-      searchParam.level = level;
-    }
+    const searchParam = Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .reduce<SearchParam>((acc, [key, value]) => {
+        if (
+          [
+            'title',
+            'description',
+            'type',
+            'theme',
+            'targetAudience',
+            'programGoal',
+          ].includes(key)
+        ) {
+          acc[key] = { $regex: value, $options: 'i' };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
 
-    if (category) {
-      searchParam.category = category;
-    }
+    const totalCount = await Course.count(searchParam);
+    const skip = (p - 1) * l;
 
-    if (minPrice || maxPrice) {
-      searchParam.price = {
-        ...(searchParam.price || {}),
-        $gte: parseFloat(minPrice),
-        $lte: parseFloat(maxPrice),
-      };
-    }
+    const courses = await Course.find(searchParam, 'title duration image')
+      .skip(skip)
+      .limit(l);
 
-    const skip = (page - 1) * limit;
-
-    if (!user || user.role === 'user') {
-      searchParam.isDeleted = false;
-      const totalCount = await Course.count(searchParam);
-      const courses = await Course.find(
-        searchParam,
-        'title duration image isDeleted',
-        {
-          isDeleted: false,
-        },
-      )
-        .skip(skip)
-        .limit(limit);
-
-      return res.send({
-        message: 'Courses are found',
-        result: { courses, currentPage: page, totalCount },
-      });
-    } else {
-      const totalCount = await Course.count(searchParam);
-      const courses = await Course.find(
-        searchParam,
-        'title duration image isDeleted',
-      )
-        .skip(skip)
-        .limit(limit);
-
-      return res.send({
-        message: 'Courses are found',
-        result: { courses, currentPage: page, totalCount },
-      });
-    }
+    return res.send({
+      message: 'Courses are found',
+      result: { courses, currentPage: p, totalCount },
+    });
   } catch (e) {
     return next(e);
   }

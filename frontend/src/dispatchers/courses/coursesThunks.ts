@@ -7,31 +7,20 @@ import {
   ApiCourse,
   ValidationError,
   GlobalError,
+  PageLimit,
+  SearchCourse,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
 
-interface SearchParam {
-  level?: string;
-  category?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  page?: number;
-  limit?: number;
-}
+type SearchParam = SearchCourse & PageLimit;
 
 export const fetchCourses = createAsyncThunk<
   ApiResponse<CourseShort>,
   SearchParam | undefined
 >('courses/fetchAll', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-
-  const url = `/courses/${queryString ? `?${queryString}` : ''}`;
-  const { data } = await axiosApi.get<ApiResponse<CourseShort>>(url);
+  const { data } = await axiosApi.get<ApiResponse<CourseShort>>('/courses', {
+    params,
+  });
   return data;
 });
 

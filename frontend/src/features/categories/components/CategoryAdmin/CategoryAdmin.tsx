@@ -27,6 +27,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const CategoryAdmin = () => {
@@ -48,9 +49,9 @@ const CategoryAdmin = () => {
     void router.push(`/admin/categories/edit-category/${id}`);
   };
 
-  const deleteCategory = async (id: string) => {
+  const deleteCategory = (id: string) => {
     if (window.confirm('Вы уверены что хотите удалить категорию?')) {
-      await dispatch(removeCategory(id));
+      dispatch(removeCategory(id));
     }
   };
 
@@ -58,10 +59,15 @@ const CategoryAdmin = () => {
     await dispatch(categoryToggleDeleted(id));
     await dispatch(fetchCategories());
   };
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(fetchCategories({ [name]: value }));
+  };
 
   return (
     <>
       <TableContainer component={Paper}>
+        <SearchBar name="title" onChange={onTitleChange} />
         <Table stickyHeader>
           <TableHead>
             <TableRow>

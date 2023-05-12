@@ -1,22 +1,22 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { usersReducer } from '../dispatchers/users/usersSlice';
 import {
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
+  REHYDRATE,
 } from 'redux-persist';
+import { usersReducer } from '../dispatchers/users/usersSlice';
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { transacionsReducer } from '../dispatchers/transactions/transactionsSlice';
 import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
+import { commentsReducer } from '../dispatchers/comments/commentsSlice';
 import { coursesReducer } from '../dispatchers/courses/coursesSlice';
 import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
-import { commentsReducer } from '@/src/dispatchers/comments/commentsSlice';
-import { testsReducer } from '@/src/dispatchers/tests/testsSlice';
+import { testsReducer } from '../dispatchers/tests/testsSlice';
+import { transacionsReducer } from '../dispatchers/transactions/transactionsSlice';
 import { groupReducer } from '@/src/dispatchers/groups/groupsSlice';
 import { videoReviewsReducer } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
 

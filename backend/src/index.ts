@@ -11,6 +11,7 @@ import commentsRouter from './routers/comments';
 import testsRouter from './routers/tests';
 import groupsRouter from './routers/groups';
 import videoReviewsRouter from './routers/videoReviews';
+import attachTelegramBot from './telegram-bot';
 
 const app = express();
 const port = 8000;
@@ -30,8 +31,8 @@ app.use('/video-reviews', videoReviewsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
-  await mongoose.connect(config.db);
-
+  const db = await mongoose.connect(config.db);
+  attachTelegramBot(app, db);
   app.listen(port, () => {
     console.log('We are live on', port);
   });

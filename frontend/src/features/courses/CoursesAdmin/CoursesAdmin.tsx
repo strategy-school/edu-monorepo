@@ -1,5 +1,6 @@
-import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
+import React from 'react';
 import {
   selectCourseDeleting,
   selectCoursePage,
@@ -12,6 +13,8 @@ import {
   deleteCourse,
   fetchCourses,
 } from '@/src/dispatchers/courses/coursesThunks';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   IconButton,
   Link as MUILink,
@@ -26,8 +29,6 @@ import {
   TableRow,
 } from '@mui/material';
 import Link from 'next/link';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const CoursesAdmin = () => {
@@ -55,9 +56,15 @@ const CoursesAdmin = () => {
     await dispatch(fetchCourses());
   };
 
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(fetchCourses({ [name]: value }));
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
+        <SearchBar name="title" onChange={onTitleChange} />
         <Table stickyHeader>
           <TableHead>
             <TableRow>

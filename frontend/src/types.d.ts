@@ -101,6 +101,17 @@ export interface ApiCourse {
   updatedAt: string;
 }
 
+export interface CoursePrice {
+  $gte?: number;
+  $lte?: number;
+}
+
+export type SearchCourse = Partial<
+  Omit<ICourse, 'duration' | 'price' | 'image'> & {
+    price: CoursePrice;
+  }
+>;
+
 export interface ITeacher {
   user: string;
   info: string;
@@ -220,6 +231,11 @@ export interface TestMini {
   _id: string;
   category: CategoryMini;
   title: string;
+}
+
+export interface PageLimit {
+  page?: number;
+  limit?: number;
 }
 
 export interface ApiGroup {

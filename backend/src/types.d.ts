@@ -29,6 +29,8 @@ export interface ICourse {
   programGoal: string;
   level: string;
   image: string;
+  isDeleted: boolean;
+  category: Types.ObjectId;
 }
 
 export interface ICategory {
@@ -67,6 +69,19 @@ export interface IComment {
   course: Types.ObjectId;
   rating: number;
   text: string;
+}
+
+export type SwitchToString<Type> = {
+  [Property in keyof Type]?: string;
+};
+
+export type SearchParam = {
+  [field: string]: string | { $regex: string; $options?: string };
+};
+
+export interface PageLimit {
+  page: string;
+  limit: string;
 }
 
 export interface IVideoReview {
