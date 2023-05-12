@@ -9,6 +9,13 @@ import {
   selectNotificationCreating,
 } from '@/src/dispatchers/notifications/notificationsSlice';
 
+const inputStyle = {
+  background: '#fff',
+  borderColor: '#fff',
+  margin: 0,
+  borderRadius: '5px',
+};
+
 const FeedbackForm = () => {
   const dispatch = useAppDispatch();
   const notificationCreating = useAppSelector(selectNotificationCreating);
@@ -53,6 +60,7 @@ const FeedbackForm = () => {
       container
       style={{ background: '#c7efcf', borderRadius, padding: '20px' }}
       direction="row"
+      alignItems="center"
     >
       <Grid item lg>
         <Typography variant="h4">
@@ -73,6 +81,7 @@ const FeedbackForm = () => {
                 disabled={notificationCreating}
                 error={Boolean(getFieldError('name'))}
                 helperText={getFieldError('name')}
+                style={inputStyle}
               />
             </Grid>
             <Grid item xs>
@@ -87,6 +96,7 @@ const FeedbackForm = () => {
                 disabled={notificationCreating}
                 error={Boolean(getFieldError('email'))}
                 helperText={getFieldError('email')}
+                style={inputStyle}
               />
             </Grid>
             <Grid item xs>
@@ -100,6 +110,7 @@ const FeedbackForm = () => {
                 disabled={notificationCreating}
                 error={Boolean(getFieldError('phoneNumber'))}
                 helperText={getFieldError('phoneNumber')}
+                style={inputStyle}
               />
             </Grid>
             <Grid item xs>
@@ -112,6 +123,7 @@ const FeedbackForm = () => {
                 value={state.message}
                 onChange={inputChangeHandler}
                 disabled={notificationCreating}
+                style={inputStyle}
               />
             </Grid>
             <Grid item xs>
