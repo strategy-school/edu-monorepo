@@ -99,7 +99,7 @@ const VideoReviewForm: React.FC<Props> = ({
             onChange={inputChangeHandler}
             name="youtubeURL"
             required
-            InputProps={{ inputProps: { minlength: 11, maxlength: 11 } }}
+            InputProps={{ inputProps: { minLength: 11, maxLength: 11 } }}
             error={Boolean(getFieldError('youtubeURL'))}
             helperText={getFieldError('youtubeURL')}
           />

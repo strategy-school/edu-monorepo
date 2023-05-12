@@ -48,7 +48,7 @@ const ReviewId = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <Button component={Link} href={'/edit/' + reviewId}>
+              <Button component={Link} href={'edit/' + reviewId}>
                 Редактировать
               </Button>
               <Button
