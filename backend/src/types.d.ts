@@ -45,6 +45,19 @@ export interface ITransaction {
   isPaid: 'pending' | 'paid';
 }
 
+export interface ICourse {
+  title: string;
+  duration: string;
+  price: number;
+  description: string;
+  type: string;
+  theme: string;
+  targetAudience: string;
+  programGoal: string;
+  level: string;
+  image: string;
+}
+
 export interface ICategory {
   title: string;
   description: string;
@@ -69,4 +82,10 @@ export type SearchParam = {
 export interface PageLimit {
   page: string;
   limit: string;
+}
+
+export interface IVideoReview {
+  title: string;
+  previewImage: string;
+  youtubeURL: string;
 }
