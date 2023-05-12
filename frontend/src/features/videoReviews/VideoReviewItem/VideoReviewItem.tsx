@@ -32,18 +32,27 @@ const VideoReviewItem: React.FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(!open);
-  const isXs = useMediaQuery('(max-width:599px)');
+  const isXs = useMediaQuery('(max-width:420px)');
+  const isSm = useMediaQuery('(max-width:599px)');
 
   return (
-    <Grid item xs={6} md={4} lg={3}>
+    <Grid
+      item
+      xs={isXs ? 12 : 6}
+      sm={6}
+      md={4}
+      lg={3}
+      justifyContent="center"
+      alignItems="center"
+    >
       <Card
-        style={{ borderRadius: '7%', width: '200px' }}
+        style={{ borderRadius: '7%', width: isSm ? '180px' : '230px' }}
         onClick={handleClose}
       >
         <CardActionArea>
           <Image
-            width={isXs ? '100' : '200'}
-            height={isXs ? '177' : '355'}
+            width={isSm ? '180' : '230'}
+            height={isSm ? '277' : '355'}
             src={`http://localhost:8000/${previewImage}`}
             alt={title}
             style={{ width: '100%' }}

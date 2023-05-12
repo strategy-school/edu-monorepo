@@ -11,8 +11,31 @@ const videoReviewsRouter = express.Router();
 
 videoReviewsRouter.get('/', async (req, res, next) => {
   try {
-    const videoReviews = await VideoReview.find();
-    return res.send(videoReviews);
+    const limit: number = parseInt(req.query.limit as string) || 10;
+    const page: number = parseInt(req.query.page as string) || 1;
+
+    const skip = (page - 1) * limit;
+
+    const totalCount = await VideoReview.count();
+    const videoReviews = await VideoReview.find().skip(skip).limit(limit);
+    return res.send({
+      message: 'Video Reviews are found',
+      result: { videoReviews, currentPage: page, totalCount },
+    });
+  } catch (e) {
+    return next(e);
+  }
+});
+
+videoReviewsRouter.get('/:id', async (req, res, next) => {
+  try {
+    const videoReview = await VideoReview.findById(req.params.id);
+
+    if (!videoReview) {
+      return res.sendStatus(404);
+    }
+
+    return res.send(videoReview);
   } catch (e) {
     return next(e);
   }
@@ -64,6 +87,9 @@ videoReviewsRouter.put(
       if (req.body.previewImage) {
         videoReview.previewImage = req.body.previewImage;
       }
+
+      await videoReview.save();
+      res.send(videoReview);
     } catch (e) {
       if (req.file) {
         await fs.unlink(req.file.path);
@@ -91,7 +117,7 @@ videoReviewsRouter.delete(
         return res.status(404).send({ error: 'Такого отзыва не существует!' });
       }
 
-      await VideoReview.deleteOne({ _id: req.params._id });
+      await VideoReview.deleteOne({ _id: req.params.id });
 
       return res.send({ message: 'Отзыв был удален!' });
     } catch (e) {
