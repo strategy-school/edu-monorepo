@@ -9,6 +9,8 @@ import React from 'react';
 import { fetchCourses } from '../dispatchers/courses/coursesThunks';
 import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
 import FeedbackForm from '@/src/components/StaticComponents/FeedbackForm/FeedbackForm';
+import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
+import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -42,6 +44,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <TeachersWrapper />
+          </Grid>
+          <Grid item>
+            <TestWrapper />
           </Grid>
         </Grid>
       </Box>
