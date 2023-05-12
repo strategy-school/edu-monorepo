@@ -37,7 +37,7 @@ const NotificationsAdmin = () => {
   const notificationsFetching = useAppSelector(selectNotificationsFetching);
   const currentPage = useAppSelector(selectNotificationsPage);
 
-  const [limit, setLimit] = React.useState(10);
+  const [limit, setLimit] = React.useState(5);
   const [page, setPage] = React.useState(1);
 
   const [open, setOpen] = useState(false);
@@ -150,7 +150,7 @@ const NotificationsAdmin = () => {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
+                rowsPerPageOptions={[5, 10, 20]}
                 count={totalCount}
                 page={currentPage - 1}
                 rowsPerPage={limit}

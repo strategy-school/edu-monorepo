@@ -271,3 +271,10 @@ export interface ApiNotification {
   message: string | null;
   isChecked: boolean;
 }
+
+export interface INotification {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+}
