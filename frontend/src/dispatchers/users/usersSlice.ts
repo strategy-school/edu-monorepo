@@ -1,4 +1,4 @@
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 import {
   changePassword,
   fetchOneBasicUser,

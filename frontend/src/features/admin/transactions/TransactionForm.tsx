@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTransactionSubmitting } from '@/src/dispatchers/transactions/transactionsSlice';
 import { ITransaction, UserRole } from '@/src/types.d';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';

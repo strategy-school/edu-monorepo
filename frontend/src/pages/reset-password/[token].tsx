@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmailerrorred';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectPasswordResetError,
   selectPasswordResetLoading,

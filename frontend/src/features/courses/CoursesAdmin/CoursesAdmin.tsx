@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
 import React from 'react';
 import {

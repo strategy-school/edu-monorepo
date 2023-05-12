@@ -8,7 +8,7 @@ import {
   ValidationError,
 } from '@/src/types';
 import { isAxiosError } from 'axios';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 
 interface SearchParam {
   page?: number;

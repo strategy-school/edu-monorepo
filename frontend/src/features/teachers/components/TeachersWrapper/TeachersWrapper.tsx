@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import { stylesGlobal } from '@/src/styles';
 import Link from 'next/link';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';

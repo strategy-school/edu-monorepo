@@ -16,7 +16,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,

@@ -7,7 +7,7 @@ import {
   removeGroup,
   updateGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 
 interface GroupState {
   items: ApiGroup[];

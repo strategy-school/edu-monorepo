@@ -2,7 +2,7 @@ import React from 'react';
 import TestForm from '@/src/features/tests/components/TestForm/TestForm';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { TestMutation } from '@/src/types';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { useRouter } from 'next/router';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
