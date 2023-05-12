@@ -427,14 +427,14 @@ const run = async () => {
     {
       name: 'Joe Biden',
       email: 'joe@gmail.com',
-      phoneNumber: '0555111222',
+      phoneNumber: '+996555111222',
       message: 'Могут ли здесь учиться иностранцы?',
       isChecked: false,
     },
     {
       name: 'Max Martin',
       email: 'maxmartin@gmail.com',
-      phoneNumber: '0523112233',
+      phoneNumber: '+996523112233',
       message: null,
       isChecked: true,
     },

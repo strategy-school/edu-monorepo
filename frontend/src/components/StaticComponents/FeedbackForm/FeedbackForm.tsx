@@ -55,6 +55,8 @@ const FeedbackForm = () => {
     }
   };
 
+  const phoneNumberPattern = '^+996\\d{9}$';
+
   return (
     <Grid
       container
@@ -63,7 +65,7 @@ const FeedbackForm = () => {
       alignItems="center"
     >
       <Grid item lg>
-        <Typography variant="h4">
+        <Typography variant="h4" style={{ marginRight: '20px', width: '45vw' }}>
           Записаться на курс или получить бесплатную консультацию{' '}
         </Typography>
       </Grid>
@@ -101,9 +103,10 @@ const FeedbackForm = () => {
             </Grid>
             <Grid item xs>
               <TextField
+                type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
-                label="Телефон"
+                label="Телефон +996 ХХХ ХХХ ХХХ"
                 value={state.phoneNumber}
                 onChange={inputChangeHandler}
                 required
@@ -111,6 +114,7 @@ const FeedbackForm = () => {
                 error={Boolean(getFieldError('phoneNumber'))}
                 helperText={getFieldError('phoneNumber')}
                 style={inputStyle}
+                inputProps={{ pattern: phoneNumberPattern }}
               />
             </Grid>
             <Grid item xs>

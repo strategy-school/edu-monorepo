@@ -14,6 +14,17 @@ const NotificationSchema = new Schema({
   phoneNumber: {
     type: String,
     required: true,
+    validate: {
+      validator: function (phoneNumber: string): boolean {
+        if (!phoneNumber) {
+          return true;
+        }
+
+        const regex = /^\+996\d{9}$/;
+        return regex.test(phoneNumber);
+      },
+      message: 'Неверный формат номера телефона!',
+    },
   },
   message: String,
   isChecked: {

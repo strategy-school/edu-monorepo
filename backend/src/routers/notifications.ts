@@ -4,6 +4,7 @@ import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 import nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
 dotenv.config();
 
 const notificationsRouter = express.Router();
@@ -92,6 +93,10 @@ notificationsRouter.post('/', async (req, res, next) => {
 
     return res.send(notification);
   } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+
     return next(e);
   }
 });

@@ -17,6 +17,7 @@ export default function Home() {
   React.useEffect(() => {
     dispatch(fetchCourses());
     dispatch(fetchTeachers());
+    dispatch(fetchTests());
   }, [dispatch]);
 
   return (
