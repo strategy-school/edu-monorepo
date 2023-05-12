@@ -10,6 +10,7 @@ import Comment from './models/Comment';
 import Test from './models/Test';
 import Group from './models/Group';
 import Notification from './models/Notification';
+import VideoReview from './models/VideoReview';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -26,6 +27,7 @@ const run = async () => {
     await db.dropCollection('tests');
     await db.dropCollection('groups');
     await db.dropCollection('notifications');
+    await db.dropCollection('videoreviews');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -437,6 +439,29 @@ const run = async () => {
       phoneNumber: '+996523112233',
       message: null,
       isChecked: true,
+    },
+  );
+
+  await VideoReview.create(
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review1.webp',
+      youtubeURL: 'B20UrosFLjU',
+    },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review2.webp',
+      youtubeURL: 'IMgL-z4GX-c',
+    },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review1.webp',
+      youtubeURL: 'B20UrosFLjU',
+    },
+    {
+      title: 'Какое то имя',
+      previewImage: 'fixtures/video-review2.webp',
+      youtubeURL: 'IMgL-z4GX-c',
     },
   );
 

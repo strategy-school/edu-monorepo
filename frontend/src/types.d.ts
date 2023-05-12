@@ -278,3 +278,16 @@ export interface INotification {
   phoneNumber: string;
   message: string | null;
 }
+
+export interface IVideoReview {
+  title: string;
+  previewImage: File | null;
+  youtubeURL: string;
+}
+
+export interface ApiVideoReview {
+  _id: string;
+  previewImage: string;
+  title: string;
+  youtubeURL: string;
+}

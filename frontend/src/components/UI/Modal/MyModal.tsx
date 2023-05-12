@@ -7,14 +7,26 @@ interface Props {
   handleClose: () => void;
   title?: string;
   children: React.ReactNode;
+  isReview?: boolean;
 }
 
-const MyModal: React.FC<Props> = ({ open, handleClose, title, children }) => {
+const MyModal: React.FC<Props> = ({
+  open,
+  handleClose,
+  title,
+  children,
+  isReview,
+}) => {
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      sx={{ '& .MuiPaper-root': { width: '60%', maxWidth: 'none' } }}
+      sx={{
+        '& .MuiPaper-root': {
+          width: isReview ? '337px' : '60%',
+          maxWidth: 'none',
+        },
+      }}
     >
       <DialogTitle>
         {title}
@@ -26,7 +38,11 @@ const MyModal: React.FC<Props> = ({ open, handleClose, title, children }) => {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent>{children}</DialogContent>
+      {isReview ? (
+        <DialogContent sx={{ p: 0 }}>{children}</DialogContent>
+      ) : (
+        <DialogContent>{children}</DialogContent>
+      )}
     </Dialog>
   );
 };

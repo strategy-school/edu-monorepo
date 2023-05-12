@@ -11,6 +11,7 @@ import commentsRouter from './routers/comments';
 import testsRouter from './routers/tests';
 import groupsRouter from './routers/groups';
 import notificationsRouter from './routers/notifications';
+import videoReviewsRouter from './routers/videoReviews';
 import attachTelegramBot from './telegram-bot';
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/comments', commentsRouter);
 app.use('/tests', testsRouter);
 app.use('/groups', groupsRouter);
 app.use('/notifications', notificationsRouter);
+app.use('/video-reviews', videoReviewsRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
