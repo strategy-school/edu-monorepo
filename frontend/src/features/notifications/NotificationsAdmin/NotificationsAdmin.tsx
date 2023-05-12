@@ -16,6 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CircleIcon from '@mui/icons-material/Circle';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import {
@@ -23,6 +24,7 @@ import {
   selectNotificationsCount,
   selectNotificationsFetching,
   selectNotificationsPage,
+  selectNotificationTogglingChecked,
 } from '@/src/dispatchers/notifications/notificationsSlice';
 import {
   fetchNotifications,
@@ -35,6 +37,7 @@ const NotificationsAdmin = () => {
   const notifications = useAppSelector(selectNotifications);
   const totalCount = useAppSelector(selectNotificationsCount);
   const notificationsFetching = useAppSelector(selectNotificationsFetching);
+  const togglingChecked = useAppSelector(selectNotificationTogglingChecked);
   const currentPage = useAppSelector(selectNotificationsPage);
 
   const [limit, setLimit] = React.useState(5);
@@ -44,8 +47,8 @@ const NotificationsAdmin = () => {
   const [selected, setSelected] = useState<ApiNotification | null>(null);
 
   useEffect(() => {
-    void dispatch(fetchNotifications());
-  }, [dispatch, page, limit]);
+    void dispatch(fetchNotifications({ page, limit }));
+  }, [dispatch, togglingChecked, page, limit]);
 
   const openDialog = async (notification: ApiNotification) => {
     setSelected(notification);
@@ -140,7 +143,11 @@ const NotificationsAdmin = () => {
                         toggleNotificationChecked(notification._id)
                       }
                     >
-                      <CheckCircleOutlineIcon />
+                      {notification.isChecked ? (
+                        <CheckCircleOutlineIcon />
+                      ) : (
+                        <CircleIcon />
+                      )}
                     </IconButton>
                   </TableCell>
                 </TableRow>

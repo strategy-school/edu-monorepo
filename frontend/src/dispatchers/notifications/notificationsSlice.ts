@@ -84,3 +84,5 @@ export const selectNotificationCreating = (state: RootState) =>
   state.notifications.createLoading;
 export const selectCreateNotificationError = (state: RootState) =>
   state.notifications.createNotificationError;
+export const selectNotificationTogglingChecked = (state: RootState) =>
+  state.notifications.togglingIsChecked;
