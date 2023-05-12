@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Grid,
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { borderRadius } from '@/src/styles';
 import { INotification } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
@@ -20,12 +27,28 @@ const FeedbackForm = () => {
   const dispatch = useAppDispatch();
   const notificationCreating = useAppSelector(selectNotificationCreating);
   const error = useAppSelector(selectCreateNotificationError);
+  const [open, setOpen] = useState(false);
   const [state, setState] = useState<INotification>({
     name: '',
     email: '',
     phoneNumber: '',
-    message: null,
+    message: '',
   });
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -38,7 +61,12 @@ const FeedbackForm = () => {
 
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(createNotification(state));
+    const result = await dispatch(createNotification(state));
+
+    if (result.meta.requestStatus === 'fulfilled') {
+      handleClick();
+    }
+
     setState({
       name: '',
       email: '',
@@ -142,6 +170,11 @@ const FeedbackForm = () => {
           </Grid>
         </form>
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Данные успешно отправлены. Оператор свяжется с вами в ближайшее время
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
