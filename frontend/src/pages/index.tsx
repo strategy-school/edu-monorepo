@@ -12,6 +12,7 @@ import FeedbackForm from '@/src/components/StaticComponents/FeedbackForm/Feedbac
 import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
 import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoReviewsWrapper';
+import AfterCourse from '@/src/components/StaticComponents/AfterCourse/AfterCourse';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -48,10 +49,13 @@ export default function Home() {
             <TeachersWrapper />
           </Grid>
           <Grid item>
+            <VideoReviewsWrapper />
+          </Grid>
+          <Grid item>
             <TestWrapper />
           </Grid>
           <Grid item>
-            <VideoReviewsWrapper />
+            <AfterCourse />
           </Grid>
         </Grid>
       </Box>
