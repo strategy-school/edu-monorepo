@@ -8,6 +8,7 @@ import { Box, Grid } from '@mui/material';
 import React from 'react';
 import { fetchCourses } from '../dispatchers/courses/coursesThunks';
 import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
+import FeedbackForm from '@/src/components/StaticComponents/FeedbackForm/FeedbackForm';
 import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
 import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoReviewsWrapper';
@@ -39,6 +40,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <CoursesWrapper />
+          </Grid>
+          <Grid item>
+            <FeedbackForm />
           </Grid>
           <Grid item>
             <TeachersWrapper />
