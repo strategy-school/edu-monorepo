@@ -13,6 +13,7 @@ import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
 import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoReviewsWrapper';
 import AfterCourse from '@/src/components/StaticComponents/AfterCourse/AfterCourse';
+import OneCourseBlock from '@/src/features/courses/components/OneCourseBlock/OneCourseBlock';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -37,10 +38,13 @@ export default function Home() {
             <WelcomeBlock />
           </Grid>
           <Grid item>
-            <AboutUs />
+            <CoursesWrapper />
           </Grid>
           <Grid item>
-            <CoursesWrapper />
+            <AboutUs />
+          </Grid>
+          <Grid>
+            <OneCourseBlock />
           </Grid>
           <Grid item>
             <FeedbackForm />
