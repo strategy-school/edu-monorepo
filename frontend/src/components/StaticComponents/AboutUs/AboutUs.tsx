@@ -38,14 +38,6 @@ const AboutUs = () => {
             практике и получаете обратную связь
           </Typography>
         </Grid>
-        {/*<Grid item style={whyUs.whyUsItem}>*/}
-        {/*  <CheckCircleOutlineIcon fontSize="small" color="secondary" />*/}
-        {/*  <Typography style={whyUs.whyUsText}>*/}
-        {/*    Это первый профессиональный подход на рынке образовательных услуг*/}
-        {/*    Кыргызстана. Все остальное вы можете узнать и так из Интернете*/}
-        {/*    бесплатно!*/}
-        {/*  </Typography>*/}
-        {/*</Grid>*/}
       </Grid>
     </Grid>
   );
