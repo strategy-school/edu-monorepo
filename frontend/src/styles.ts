@@ -70,7 +70,6 @@ export const cardStyle = {
   },
   cardBody: {
     borderRadius,
-    position: 'relative' as const,
     margin: '20px',
   },
   height: {
@@ -84,13 +83,32 @@ export const cardStyle = {
   },
   innerStyle: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   fontSize: {
     xs: '14px',
     sm: '18px',
     md: '26px',
+  },
+};
+
+export const fullCardStyle = {
+  card: {
+    cursor: 'pointer',
+  },
+  cardBody: {
+    borderRadius,
+    margin: '20px',
+  },
+  padding: { sm: '20px', md: '40px' },
+  innerStyle: {
+    display: 'flex',
+  },
+  width: '100%',
+  height: '100%',
+  fontSize: {
+    xs: '20px',
+    sm: '26px',
+    md: '50px',
   },
 };
 
