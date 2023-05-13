@@ -262,3 +262,32 @@ export interface IGroup {
   duration: string;
   telegramLink: string;
 }
+
+export interface ApiNotification {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+  isChecked: boolean;
+}
+
+export interface INotification {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+}
+
+export interface IVideoReview {
+  title: string;
+  previewImage: File | null;
+  youtubeURL: string;
+}
+
+export interface ApiVideoReview {
+  _id: string;
+  previewImage: string;
+  title: string;
+  youtubeURL: string;
+}
