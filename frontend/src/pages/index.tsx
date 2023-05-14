@@ -14,6 +14,7 @@ import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper
 import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoReviewsWrapper';
 import AfterCourse from '@/src/components/StaticComponents/AfterCourse/AfterCourse';
 import OneCourseBlock from '@/src/features/courses/components/OneCourseBlock/OneCourseBlock';
+import ClientWrapper from '@/src/features/clients/ClientWrapper/ClientWrapper';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -57,6 +58,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <TestWrapper />
+          </Grid>
+          <Grid item>
+            <ClientWrapper />
           </Grid>
           <Grid item>
             <AfterCourse />

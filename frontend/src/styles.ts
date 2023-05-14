@@ -122,3 +122,11 @@ export const whyUs = {
     margin: '0 0 0 15px',
   },
 };
+
+export const clientStyle = {
+  fontSize: {
+    xs: '14px',
+    sm: '16px',
+    md: '20px',
+  },
+};
