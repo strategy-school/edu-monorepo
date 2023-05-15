@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { borderRadius } from '@/src/styles';
+import { borderRadius, stylesGlobal } from '@/src/styles';
 import { INotification } from '@/src/types';
 import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
 import { createNotification } from '@/src/dispatchers/notifications/notificationsThunks';
@@ -92,8 +92,12 @@ const FeedbackForm = () => {
       direction="row"
       alignItems="center"
     >
-      <Grid item lg>
-        <Typography variant="h4" style={{ marginRight: '20px', width: '45vw' }}>
+      <Grid item lg style={stylesGlobal.title}>
+        <Typography
+          variant="h4"
+          color="#010502"
+          style={{ marginRight: '20px', width: '45vw', fontWeight: '700' }}
+        >
           Записаться на курс или получить бесплатную консультацию{' '}
         </Typography>
       </Grid>

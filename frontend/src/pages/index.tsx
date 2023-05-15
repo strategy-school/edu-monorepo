@@ -15,6 +15,7 @@ import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoR
 import AfterCourse from '@/src/components/StaticComponents/AfterCourse/AfterCourse';
 import OneCourseBlock from '@/src/features/courses/components/OneCourseBlock/OneCourseBlock';
 import ClientWrapper from '@/src/features/clients/ClientWrapper/ClientWrapper';
+import AdBlock from '@/src/components/StaticComponents/AdBanner/AdBlock';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -49,6 +50,9 @@ export default function Home() {
           </Grid>
           <Grid item>
             <FeedbackForm />
+          </Grid>
+          <Grid item>
+            <AdBlock />
           </Grid>
           <Grid item>
             <TeachersWrapper />
