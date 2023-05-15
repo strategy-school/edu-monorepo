@@ -29,7 +29,11 @@ const AdBlock = () => {
           </Typography>
         </Grid>
         <Grid item xs>
-          <YouTube videoId={'lplDFlNtUeg'} title="Кому подходят наши курсы" />
+          <YouTube
+            videoId={'lplDFlNtUeg'}
+            title="Кому подходят наши курсы"
+            className="video"
+          />
         </Grid>
       </Grid>
       <Grid
