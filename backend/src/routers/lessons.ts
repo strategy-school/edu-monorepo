@@ -35,8 +35,8 @@ lessonsRouter.post(
 lessonsRouter.get('/', auth, async (req, res, next) => {
   try {
     const { page, limit, ...params }: QueryParams = req.query;
-    const l: number = page ? parseInt(page) : 1;
-    const p: number = limit ? parseInt(limit) : 10;
+    const p: number = page ? parseInt(page) : 1;
+    const l: number = limit ? parseInt(limit) : 10;
 
     const totalCount = await Lesson.count(params);
     const skip = (p - 1) * l;
