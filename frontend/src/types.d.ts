@@ -297,7 +297,10 @@ export interface ApiLesson {
   theme: string;
   video_link: string;
   document: string;
-  course: Pick<ICourse, 'id' | 'title' | 'price' | 'type' | 'level' | 'image'>;
+  course: Pick<
+    ApiCourse,
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+  >;
 }
 
 export interface ILesson {

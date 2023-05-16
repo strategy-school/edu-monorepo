@@ -57,6 +57,11 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
+            <ListItemButton onClick={() => openClickPage('lessons')}>
+              <ListItemText primary="Уроки" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton onClick={() => openClickPage('notifications')}>
               <ListItemText primary="Уведомления" />
             </ListItemButton>
