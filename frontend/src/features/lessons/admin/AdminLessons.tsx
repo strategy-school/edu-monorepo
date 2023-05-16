@@ -1,6 +1,7 @@
 import {
   selectLessons,
   selectLessonsCount,
+  selectLessonsDeleting,
   selectLessonsPage,
 } from '@/src/dispatchers/lessons/lessonsSlice';
 import { fetchLessons } from '@/src/dispatchers/lessons/lessonsThunk';
@@ -22,6 +23,7 @@ import LessonTableItem from './LessonTableItem';
 const AdminLessons = () => {
   const dispatch = useAppDispatch();
   const lessons = useAppSelector(selectLessons);
+  const deleting = useAppSelector(selectLessonsDeleting);
   const currentPage = useAppSelector(selectLessonsPage);
   const totalCount = useAppSelector(selectLessonsCount);
   const [limit, setLimit] = React.useState(10);
@@ -29,7 +31,7 @@ const AdminLessons = () => {
 
   React.useEffect(() => {
     dispatch(fetchLessons({ page, limit }));
-  }, [dispatch, page, limit]);
+  }, [dispatch, deleting, page, limit]);
 
   return (
     <>
@@ -41,11 +43,16 @@ const AdminLessons = () => {
               <TableCell>Тема</TableCell>
               <TableCell>Видео</TableCell>
               <TableCell>Материал</TableCell>
+              <TableCell>Модерировать</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {lessons.map((lesson) => (
-              <LessonTableItem key={lesson._id} lesson={lesson} />
+              <LessonTableItem
+                key={lesson._id}
+                lesson={lesson}
+                deleting={lesson._id === deleting}
+              />
             ))}
           </TableBody>
           <TableFooter>
