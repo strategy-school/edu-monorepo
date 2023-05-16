@@ -48,7 +48,7 @@ const TeacherCard: React.FC<Props> = ({ photo, firstName, lastName, _id }) => {
         title={photo}
       />
       <CardContent style={styles.content}>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" fontWeight={500} component="div">
           {firstName} {lastName}
         </Typography>
       </CardContent>
