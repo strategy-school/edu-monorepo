@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectVideoReviews,
   selectVideoReviewsFetching,

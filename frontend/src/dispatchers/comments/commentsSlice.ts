@@ -1,6 +1,6 @@
 import { ApiCommentsResponse, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 import {
   createComment,
   deleteComment,

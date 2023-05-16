@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { selectSingleTransaction } from '@/src/dispatchers/transactions/transactionsSlice';
 import {

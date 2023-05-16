@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import icon from '@/src/assets/images/user-icon.jpg';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';

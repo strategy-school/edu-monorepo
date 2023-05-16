@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';

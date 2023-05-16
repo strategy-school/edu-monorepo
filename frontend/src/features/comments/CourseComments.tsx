@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ShortCommentMutation } from '@/src/types';
 import {
   selectCommentCreating,

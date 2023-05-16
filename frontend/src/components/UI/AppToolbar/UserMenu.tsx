@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User } from '@/src/types';
 import { Avatar, Button, Menu, MenuItem } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '@/src/app/hooks';
+import { useAppDispatch } from '@/src/store/hooks';
 import { apiURL } from '@/src/constants';
 import { logout } from '@/src/dispatchers/users/usersThunks';
 import Link from 'next/link';

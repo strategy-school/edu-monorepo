@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import {
   selectCategories,

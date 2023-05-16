@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/src/app/hooks';
+import { useAppDispatch } from '@/src/store/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { createTransaction } from '@/src/dispatchers/transactions/transactionsThunk';
 import TransactionForm from '@/src/features/admin/transactions/TransactionForm';

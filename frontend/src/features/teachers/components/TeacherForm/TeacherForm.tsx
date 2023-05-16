@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ITeacher, UserRole, ValidationError } from '@/src/types.d';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
 import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';

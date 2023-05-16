@@ -5,7 +5,7 @@ import {
   fetchNotifications,
   notificationToggleChecked,
 } from '@/src/dispatchers/notifications/notificationsThunks';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 
 interface NotificationsState {
   items: ApiNotification[];

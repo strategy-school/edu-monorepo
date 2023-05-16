@@ -10,7 +10,7 @@ import { Button, Grid, Typography } from '@mui/material';
 import theme from '@/src/theme';
 import { Property } from 'csstype';
 import Link from 'next/link';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import { selectTests } from '@/src/dispatchers/tests/testsSlice';
 import TestCardForSlide from '@/src/features/tests/components/TestCardForSlide/TestCardForSlide';
 import TextAlign = Property.TextAlign;

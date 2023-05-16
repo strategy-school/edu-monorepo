@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { googleLogin, register } from '@/src/dispatchers/users/usersThunks';

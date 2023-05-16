@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import { IVideoReview } from '@/src/types';
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UpdateUserMutation } from '@/src/types';
 import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
 import { Grid } from '@mui/material';

@@ -1,6 +1,6 @@
 import React from 'react';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { Grid } from '@mui/material';
 import Sidebar from '@/src/components/UI/Sidebar/Sidebar';
