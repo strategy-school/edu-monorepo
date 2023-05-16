@@ -31,25 +31,19 @@ const TransactionSingle = () => {
   const dispatch = useAppDispatch();
   const transaction = useAppSelector(selectSingleTransaction);
 
-  const onMarkingAsPaid = React.useCallback(
-    async (id: string) => {
-      await dispatch(markTransactionAsPaid(id));
-      dispatch(fetchSingleTransaction(id));
-    },
-    [dispatch],
-  );
-
-  const onDeleteTransaction = React.useCallback(
-    async (id: string) => {
-      await dispatch(deleteTransaction(id));
-      void router.push('/admin/transactions');
-    },
-    [dispatch, router],
-  );
-
   React.useEffect(() => {
     dispatch(fetchSingleTransaction(transactionId));
   }, [dispatch, transactionId]);
+
+  const onMarkingAsPaid = async (id: string) => {
+    await dispatch(markTransactionAsPaid(id));
+    dispatch(fetchSingleTransaction(id));
+  };
+
+  const onDeleteTransaction = async (id: string) => {
+    await dispatch(deleteTransaction(id));
+    void router.push('/admin/transactions');
+  };
 
   return (
     <AdminLayout>

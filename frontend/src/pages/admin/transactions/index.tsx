@@ -1,10 +1,10 @@
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
+import AdminTransaction from '@/src/features/transactions/admin/AdminTransaction';
 import { Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import AdminTransaction from '@/src/features/admin/transactions/AdminTransaction/AdminTransaction';
 
-const Transactions = () => {
+const Transactions: React.FC = () => {
   return (
     <AdminLayout>
       <Grid container direction="column" gap={2}>
