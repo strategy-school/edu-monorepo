@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTests } from '@/src/dispatchers/tests/testsSlice';
 import { fetchTestByCategory } from '@/src/dispatchers/tests/testsThunks';
 import TestCard from '@/src/features/tests/components/TestCard/TestCard';

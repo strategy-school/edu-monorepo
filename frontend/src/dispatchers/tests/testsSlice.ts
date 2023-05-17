@@ -8,7 +8,7 @@ import {
   fetchTestByCategory,
   fetchTests,
 } from '@/src/dispatchers/tests/testsThunks';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 
 interface TestsState {
   tests: TestMini[];

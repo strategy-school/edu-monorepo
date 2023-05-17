@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import { Grid, Typography, useMediaQuery } from '@mui/material';

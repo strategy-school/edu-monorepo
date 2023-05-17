@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';

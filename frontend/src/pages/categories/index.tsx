@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
 import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { borderRadius, stylesGlobal } from '@/src/styles';
 import { INotification } from '@/src/types';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { createNotification } from '@/src/dispatchers/notifications/notificationsThunks';
 import {
   selectCreateNotificationError,

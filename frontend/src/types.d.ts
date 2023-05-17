@@ -291,3 +291,36 @@ export interface ApiVideoReview {
   title: string;
   youtubeURL: string;
 }
+
+export interface ApiLesson {
+  _id: string;
+  theme: string;
+  video_link: string;
+  document: string;
+  course: Pick<
+    ApiCourse,
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+  >;
+}
+
+export interface ILesson {
+  theme: string;
+  video_link: string;
+  document: string;
+  course: string;
+}
+
+export interface RegexSearch {
+  $regex: string;
+  $options?: string;
+}
+
+export interface RangeSearch {
+  $gte?: number;
+  $lte?: number;
+}
+
+export interface SearchLesson extends PageLimit {
+  theme?: RegexSearch;
+  course?: string;
+}

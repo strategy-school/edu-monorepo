@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

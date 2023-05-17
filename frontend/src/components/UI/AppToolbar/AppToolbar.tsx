@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import logo from '@/src/assets/images/strategia-logo.png';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import {
