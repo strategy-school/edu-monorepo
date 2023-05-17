@@ -141,6 +141,7 @@ const AppToolbar: React.FC<Props> = (props) => {
             {user?.role === 'admin' ? (
               <Button component={Link} href="/categories" color="inherit">
                 Категории курсов
+                О школе
               </Button>
               <Button component={Link} href="/tests" color="inherit">
                 Пройти тестирование
