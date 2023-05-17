@@ -29,6 +29,7 @@ const run = async () => {
     await db.dropCollection('groups');
     await db.dropCollection('notifications');
     await db.dropCollection('videoreviews');
+    await db.dropCollection('lessons');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
