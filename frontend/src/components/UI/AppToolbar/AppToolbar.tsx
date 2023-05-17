@@ -58,7 +58,7 @@ const AppToolbar = () => {
             md={9}
           >
             <Button component={Link} href="/about" color="inherit">
-              О компании
+              О школе
             </Button>
             {user?.role === 'admin' ? (
               <Button component={Link} href="/categories" color="inherit">
