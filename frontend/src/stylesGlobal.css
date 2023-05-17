@@ -17,3 +17,9 @@ a {
   transform: scale(1.01, 1.01);
   transition: transform 500ms ease-out;
 }
+
+.video iframe {
+  border-radius: 20px;
+  width: 600px;
+  height: 400px;
+}
