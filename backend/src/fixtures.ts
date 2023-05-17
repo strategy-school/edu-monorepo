@@ -11,6 +11,7 @@ import Test from './models/Test';
 import Group from './models/Group';
 import Notification from './models/Notification';
 import VideoReview from './models/VideoReview';
+import Lesson from './models/Lesson';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -465,6 +466,17 @@ const run = async () => {
       title: 'Какое то имя',
       previewImage: 'fixtures/video-review2.webp',
       youtubeURL: 'IMgL-z4GX-c',
+    },
+  );
+
+  await Lesson.create(
+    {
+      theme: 'Сложные логорифмы и их использование в программировании',
+      course: marketing1._id,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графов',
+      course: marketing2._id,
     },
   );
 
