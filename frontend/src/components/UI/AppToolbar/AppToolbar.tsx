@@ -86,7 +86,7 @@ const AppToolbar: React.FC<Props> = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'secondary.light' }}>
+    <AppBar position="sticky" sx={{ bgolor: 'secondary.light' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={6} sm={12} md={3}>
@@ -134,7 +134,7 @@ const AppToolbar: React.FC<Props> = (props) => {
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Button component={Link} href="/about" color="inherit">
-                О компании
+                О школе
               </Button>
               <Button component={Link} href="/tests" color="inherit">
                 Пройти тестирование
