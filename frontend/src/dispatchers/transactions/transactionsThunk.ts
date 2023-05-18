@@ -65,7 +65,7 @@ export const fetchTransactionsByUser = createAsyncThunk<
   string
 >('transactions/fetchTransactionsByUser', async (userId) => {
   const response = await axiosApi.get<ApiTransaction[]>(
-    `/transactions/${userId}`,
+    `/transactions/by-user/${userId}`,
   );
   return response.data;
 });

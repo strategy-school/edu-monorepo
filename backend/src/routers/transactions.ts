@@ -54,7 +54,7 @@ transactionsRouter.get(
     try {
       const transactionId = req.params.id;
       const transaction = await Transaction.findById(transactionId)
-        .populate('course', 'title price type level image')
+        .populate('course', 'title price type level image exam')
         .populate('user', 'email firstName lastName phoneNumber');
 
       if (!transaction) {
@@ -77,11 +77,9 @@ transactionsRouter.get('/by-user/:id', auth, async (req, res, next) => {
       return res.status(404).send({ error: 'User not found!' });
     }
 
-    const transactions = await Transaction.find({ user: userId }).populate(
-      'course',
-      'title price type level image exam',
-    );
-
+    const transactions = await Transaction.find({ user: userId })
+      .populate('course', 'title price type level image exam')
+      .populate('user', 'email firstName lastName phoneNumber');
     if (!transactions) {
       return res.status(404).send({ error: 'Transaction not found' });
     }
