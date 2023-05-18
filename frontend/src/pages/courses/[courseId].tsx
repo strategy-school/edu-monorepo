@@ -65,9 +65,9 @@ const CourseId = () => {
         <CircularProgress />
       ) : (
         course && (
-          <Grid container direction="column" style={blockStyle}>
-            <Grid container spacing={4}>
-              <Grid item xs container direction="column">
+          <Grid container style={blockStyle}>
+            <Grid container sx={{ padding: '20px' }}>
+              <Grid item xs container direction="column" padding="20px">
                 <Grid
                   container
                   item
@@ -81,35 +81,36 @@ const CourseId = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-
-                <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Grid item xs>
                   <Typography variant="h6">Категория:</Typography>
                   <Typography component="p">{course.category.title}</Typography>
                 </Grid>
-
-                <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Grid item xs>
                   <Typography variant="h6">Описание курса:</Typography>
                   <Typography component="p">{course.description}</Typography>
                 </Grid>
-
-                <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Grid item xs>
                   <Typography variant="h6">
                     Чему вы научитесь на курсе:
                   </Typography>
                   <Typography component="p">{course.theme}</Typography>
                 </Grid>
-
-                <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Grid item xs>
                   <Typography variant="h6">Целевая аудитория: </Typography>
                   <Typography component="p">{course.targetAudience}</Typography>
                 </Grid>
-
-                <Grid item xs sx={{ p: 1, pl: 3 }}>
+                <Grid item xs>
                   <Typography variant="h6">Задача программы:</Typography>
                   <Typography component="p">{course.programGoal}</Typography>
                 </Grid>
               </Grid>
-              <Grid item xs marginTop={marginTop}>
+              <Grid
+                item
+                container
+                justifyContent="center"
+                xs
+                marginTop={marginTop}
+              >
                 <Image
                   style={{ margin: '0 auto', borderRadius: '10%' }}
                   src={apiURL + '/' + course.image}
@@ -140,41 +141,72 @@ const CourseId = () => {
               </Grid>
             </Grid>
 
-            <Grid item sx={{ mt: 2, mb: 2, pl: 3 }}>
-              <Typography component="div" style={{ position: 'relative' }}>
-                <AccessTimeIcon
-                  fontSize="small"
-                  style={{ position: 'absolute', top: '1px', left: '5px' }}
-                />
+            <Grid item sx={{ mt: 2, mb: 2, padding: '20px' }}>
+              <Typography
+                component="div"
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <AccessTimeIcon fontSize="small" />
 
                 <Typography
                   component="span"
-                  style={{ marginLeft: '30px', fontWeight: '700' }}
+                  style={{ marginLeft: '20px', fontWeight: '700' }}
                 >
                   Продолжительность: {course.duration}
                 </Typography>
               </Typography>
 
-              <Typography component="div" style={{ position: 'relative' }}>
-                <MoneyIcon
-                  fontSize="small"
-                  style={{ position: 'absolute', top: '1px', left: '5px' }}
-                />
+              <Typography
+                component="div"
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <MoneyIcon fontSize="small" />
                 <Typography
                   component="span"
-                  style={{ marginLeft: '30px', fontWeight: '700' }}
+                  style={{ marginLeft: '20px', fontWeight: '700' }}
                 >
                   Цена: {course.price} сом
                 </Typography>
               </Typography>
             </Grid>
             {course && (
-              <Grid item container sx={{ mb: 3 }}>
-                <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary">
-                    Запишись сейчас!
-                  </Button>
-                </Grid>
+              <Grid item container sx={{ mb: 3, padding: '20px' }}>
+                {course.zoom && (
+                  <Grid
+                    item
+                    container
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    xs={12}
+                    md={6}
+                  >
+                    <Typography mb={1}>
+                      Курс с онлайн видео уроками в Zoom
+                    </Typography>
+                    <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
+                      Записаться
+                    </Button>
+                  </Grid>
+                )}
+                {course.youtube && (
+                  <Grid
+                    item
+                    container
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    xs={12}
+                    md={6}
+                  >
+                    <Typography mb={1}>
+                      Курс с предзаписанными видео-уроками
+                    </Typography>
+                    <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
+                      Записаться
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
             )}
           </Grid>
