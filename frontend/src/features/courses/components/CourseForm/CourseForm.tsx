@@ -8,13 +8,16 @@ import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
 import { ICourse, ValidationError } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
+  Alert,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
   Grid,
   MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 interface Props {
   onSubmit: (courseMutation: ICourse) => void;
@@ -37,6 +40,9 @@ const initialState: ICourse = {
   programGoal: '',
   level: '',
   image: null,
+  exam: '',
+  youtube: false,
+  zoom: false,
 };
 
 const CourseForm: React.FC<Props> = ({
@@ -53,7 +59,7 @@ const CourseForm: React.FC<Props> = ({
   );
   const categories = useAppSelector(selectCategories);
   const categoriesLoading = useAppSelector(selectCategoriesFetching);
-
+  const [formatError, setFormatError] = useState(false);
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -79,6 +85,15 @@ const CourseForm: React.FC<Props> = ({
     });
   };
 
+  const handleCheckBoxChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, checked } = event.target;
+
+    setState((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
+
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
     setState((prevState) => ({
@@ -89,6 +104,11 @@ const CourseForm: React.FC<Props> = ({
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+    await setFormatError(false);
+
+    if (!state.youtube && !state.zoom) {
+      return setFormatError(true);
+    }
     await onSubmit(state);
     setState(initialState);
   };
@@ -267,6 +287,53 @@ const CourseForm: React.FC<Props> = ({
             InputProps={{ inputProps: { min: 0 } }}
             error={Boolean(getFieldError('price'))}
             helperText={getFieldError('price')}
+          />
+        </Grid>
+        <Grid item xs>
+          <TextField
+            id="exam"
+            label="Ccылка на финальный экзамен"
+            value={state.exam}
+            onChange={inputChangeHandler}
+            name="exam"
+            type="string"
+            InputProps={{ inputProps: { min: 0 } }}
+            error={Boolean(getFieldError('exam'))}
+            helperText={getFieldError('exam')}
+          />
+        </Grid>
+        {formatError && (
+          <Grid item xs>
+            <Alert severity="error">
+              Выберите хотя бы один формат обучения!
+            </Alert>
+          </Grid>
+        )}
+        <Grid item xs>
+          <Typography>Выберите формат обучения</Typography>
+        </Grid>
+        <Grid item xs>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={state.youtube}
+                onChange={handleCheckBoxChange}
+                name="youtube"
+                color="primary"
+              />
+            }
+            label="Предзаписанные занятия в YouTube"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={state.zoom}
+                onChange={handleCheckBoxChange}
+                name="zoom"
+                color="primary"
+              />
+            }
+            label="Онлайн занятия в Zoom"
           />
         </Grid>
 

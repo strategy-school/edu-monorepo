@@ -50,6 +50,9 @@ const Id = () => {
     programGoal: course.programGoal,
     price: course.price.toString(),
     image: null,
+    exam: course.exam,
+    youtube: course.youtube,
+    zoom: course.zoom,
   };
 
   return (

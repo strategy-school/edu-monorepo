@@ -145,10 +145,10 @@ const Profile = () => {
               </IconButton>
               <Menu open={isMenuOpen} anchorEl={anchorEl} onClose={closeMenu}>
                 <MenuItem>
-                  <Link href="profile/edit-user">Изменить профиль</Link>
+                  <Link href="/profile/edit-user">Изменить профиль</Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="profile/change-password">Сменить пароль</Link>
+                  <Link href="/profile/change-password">Сменить пароль</Link>
                 </MenuItem>
               </Menu>
             </Box>

@@ -76,6 +76,9 @@ export interface ICourse {
   targetAudience: string;
   programGoal: string;
   level: string;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
 }
 
 export type CourseShort = Pick<
@@ -97,9 +100,9 @@ export interface ApiCourse {
   programGoal: string;
   level: string;
   isDeleted: boolean;
-  exam?: string;
-  youtube?: boolean;
-  zoom?: boolean;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
   createdAt: string;
   updatedAt: string;
 }
