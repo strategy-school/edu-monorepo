@@ -21,6 +21,17 @@ import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transact
 import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
 import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
 
+const styles = {
+  userInfo: {
+    mb: 2,
+    fontSize: 20,
+    textAlign: 'left',
+  },
+  userInfoText: {
+    color: 'primary.main',
+  },
+};
+
 const Profile = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -69,47 +80,58 @@ const Profile = () => {
                   src={icon}
                   alt="User icon"
                   width={200}
-                  height={230}
                   style={{ margin: '0 auto', borderRadius: '2px' }}
                 />
               )}
             </Grid>
             <Grid item>
               <Grid>
-                <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                  ФИО: {user.firstName} {user.lastName}
+                <Typography variant="body1" sx={styles.userInfo}>
+                  ФИО:
+                  <Typography component="span" sx={styles.userInfoText}>
+                    {' '}
+                    {user.firstName} {user.lastName}
+                  </Typography>
                 </Typography>
 
-                <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                  Email: {user.email}
+                <Typography variant="body1" sx={styles.userInfo}>
+                  Email:{' '}
+                  <Typography component="span" sx={styles.userInfoText}>
+                    {user.email}
+                  </Typography>
                 </Typography>
 
                 {user.phoneNumber ? (
-                  <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                    Телефон: {user.phoneNumber}
+                  <Typography variant="body1" sx={styles.userInfo}>
+                    Телефон:{' '}
+                    <Typography component="span" sx={styles.userInfoText}>
+                      {user.phoneNumber}
+                    </Typography>
                   </Typography>
                 ) : null}
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h5" mb={3}>
-                Мои курсы:
-              </Typography>
-              <Grid
-                item
-                container
-                alignItems="center"
-                justifyContent="space-between"
-                flexWrap="wrap"
-                spacing={2}
-              >
-                {transactions.map((transaction) => (
-                  <Grid item key={transaction._id} xs={12} md={6} xl={4}>
-                    <ProfileCourseCard transactionCourse={transaction} />
-                  </Grid>
-                ))}
+            {transactions.length > 0 && (
+              <Grid item xs={12}>
+                <Typography variant="h5" mb={3}>
+                  Мои курсы:
+                </Typography>
+                <Grid
+                  item
+                  container
+                  alignItems="center"
+                  justifyContent="space-between"
+                  flexWrap="wrap"
+                  spacing={2}
+                >
+                  {transactions.map((transaction) => (
+                    <Grid item key={transaction._id} xs={12} md={6} xl={4}>
+                      <ProfileCourseCard transactionCourse={transaction} />
+                    </Grid>
+                  ))}
+                </Grid>
               </Grid>
-            </Grid>
+            )}
             <Box style={{ position: 'absolute', right: 0, top: 0 }}>
               <IconButton
                 aria-label="more"
