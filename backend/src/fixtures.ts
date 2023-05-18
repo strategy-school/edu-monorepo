@@ -178,6 +178,9 @@ const run = async () => {
       type: 'seminar',
       duration: 'до 2 часов',
       isDeleted: false,
+      exam: null,
+      youtube: false,
+      zoom: true,
     },
     {
       title: 'Специалист по маркетингу',
@@ -192,6 +195,9 @@ const run = async () => {
       type: 'training',
       duration: '1 месяц',
       isDeleted: false,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
     {
       title: 'Менеджер по маркетингу',
@@ -206,6 +212,9 @@ const run = async () => {
       type: 'course',
       duration: '2 месяца',
       isDeleted: true,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
     {
       title: 'Директор по маркетингу',
@@ -220,6 +229,9 @@ const run = async () => {
       type: 'miniMBA',
       duration: '3 месяца',
       isDeleted: true,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
   );
 

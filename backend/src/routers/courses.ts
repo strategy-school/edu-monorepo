@@ -106,6 +106,9 @@ coursesRouter.post(
         type: req.body.type,
         duration: req.body.duration,
         image: req.file ? req.file.filename : null,
+        exam: req.body.exam ? req.body.exam : null,
+        youtube: req.body.youtube,
+        zoom: req.body.zoom,
       });
       return res.send(course);
     } catch (e) {
@@ -146,6 +149,10 @@ coursesRouter.put(
       course.price = parseFloat(req.body.price);
       course.type = req.body.type;
       course.duration = req.body.duration;
+      course.exam = req.body.exam;
+      course.youtube = req.body.youtube;
+      course.zoom = req.body.zoom;
+
       if (req.file) {
         course.image = req.file.filename;
       }

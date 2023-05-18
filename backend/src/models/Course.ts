@@ -68,6 +68,17 @@ const CourseSchema = new Schema<ICourse>(
       required: true,
       default: false,
     },
+    exam: {
+      type: String,
+    },
+    youtube: {
+      type: Boolean,
+      required: true,
+    },
+    zoom: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true },
 );
