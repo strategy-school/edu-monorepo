@@ -141,7 +141,7 @@ const CourseId = () => {
               </Grid>
             </Grid>
 
-            <Grid item sx={{ mt: 2, mb: 2, padding: '20px' }}>
+            <Grid item sx={{ my: 2, padding: '20px' }}>
               <Typography
                 component="div"
                 style={{ display: 'flex', alignItems: 'center' }}
@@ -170,7 +170,7 @@ const CourseId = () => {
               </Typography>
             </Grid>
             {course && (
-              <Grid item container sx={{ mb: 3, padding: '20px' }}>
+              <Grid item container sx={{ padding: '20px' }}>
                 {course.zoom && (
                   <Grid
                     item
@@ -182,7 +182,7 @@ const CourseId = () => {
                     md={6}
                   >
                     <Typography mb={1}>
-                      Курс с онлайн видео уроками в Zoom
+                      Курс с онлайн видео-уроками в Zoom
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
                       Записаться
