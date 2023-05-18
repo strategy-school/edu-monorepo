@@ -59,3 +59,13 @@ export const editTransaction = createAsyncThunk<
 >('transactions/edit', async ({ transaction, id }) => {
   await axiosApi.put(`/transactions/${id}`, transaction);
 });
+
+export const fetchTransactionsByUser = createAsyncThunk<
+  ApiTransaction[],
+  string
+>('transactions/fetchTransactionsByUser', async (userId) => {
+  const response = await axiosApi.get<ApiTransaction[]>(
+    `/transactions/${userId}`,
+  );
+  return response.data;
+});

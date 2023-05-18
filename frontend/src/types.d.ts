@@ -97,6 +97,9 @@ export interface ApiCourse {
   programGoal: string;
   level: string;
   isDeleted: boolean;
+  exam?: string;
+  youtube?: boolean;
+  zoom?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -177,7 +180,7 @@ export interface ApiTransaction {
   user: Pick<User, '_id' | 'email' | 'firstName' | 'lastName' | 'phoneNumber'>;
   course: Pick<
     ApiCourse,
-    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image' | 'exam'
   >;
   isPaid: 'pending' | 'paid';
   createdAt: string;

@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose, { HydratedDocument } from 'mongoose';
-import auth, { RequestWithUser } from '../middleware/auth';
-import getUser from '../middleware/getUser';
+import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 import Course from '../models/Course';
 import Transaction from '../models/Transactions';

@@ -16,7 +16,7 @@ import { commentsReducer } from '../dispatchers/comments/commentsSlice';
 import { coursesReducer } from '../dispatchers/courses/coursesSlice';
 import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
 import { testsReducer } from '../dispatchers/tests/testsSlice';
-import { transacionsReducer } from '../dispatchers/transactions/transactionsSlice';
+import { transactionsReducer } from '../dispatchers/transactions/transactionsSlice';
 import { groupReducer } from '@/src/dispatchers/groups/groupsSlice';
 import { notificationsReducer } from '@/src/dispatchers/notifications/notificationsSlice';
 import { videoReviewsReducer } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
   teachers: teacherReducer,
   categories: categoriesReducer,
   comments: commentsReducer,
-  transactions: transacionsReducer,
+  transactions: transactionsReducer,
   tests: testsReducer,
   groups: groupReducer,
   notifications: notificationsReducer,
