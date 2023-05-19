@@ -11,7 +11,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import StarIcon from '@mui/icons-material/Star';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';

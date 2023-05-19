@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/src/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import icon from '@/src/assets/images/user-icon.jpg';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
@@ -16,12 +16,34 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
+import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
+import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
+
+const styles = {
+  userInfo: {
+    mb: 2,
+    fontSize: 20,
+    textAlign: 'left',
+  },
+  userInfoText: {
+    color: 'primary.main',
+  },
+};
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const transactions = useAppSelector(selectTransactions);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchTransactionsByUser(user._id));
+    }
+  }, [dispatch, user]);
 
   const openMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setAnchorEl(e.currentTarget);
@@ -49,7 +71,7 @@ const Profile = () => {
                 <Image
                   style={{ margin: '0 auto', borderRadius: '2px' }}
                   src={apiURL + '/' + user.avatar}
-                  alt={user?.firstName}
+                  alt={user.firstName}
                   width={200}
                   height={230}
                 />
@@ -58,28 +80,58 @@ const Profile = () => {
                   src={icon}
                   alt="User icon"
                   width={200}
-                  height={230}
                   style={{ margin: '0 auto', borderRadius: '2px' }}
                 />
               )}
             </Grid>
             <Grid item>
               <Grid>
-                <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                  ФИО: {user?.firstName} {user?.lastName}
+                <Typography variant="body1" sx={styles.userInfo}>
+                  ФИО:
+                  <Typography component="span" sx={styles.userInfoText}>
+                    {' '}
+                    {user.firstName} {user.lastName}
+                  </Typography>
                 </Typography>
 
-                <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                  Email: {user?.email}
+                <Typography variant="body1" sx={styles.userInfo}>
+                  Email:{' '}
+                  <Typography component="span" sx={styles.userInfoText}>
+                    {user.email}
+                  </Typography>
                 </Typography>
 
-                {user?.phoneNumber ? (
-                  <Typography component="p" sx={{ mb: 2, fontSize: 20 }}>
-                    Телефон: {user.phoneNumber}
+                {user.phoneNumber ? (
+                  <Typography variant="body1" sx={styles.userInfo}>
+                    Телефон:{' '}
+                    <Typography component="span" sx={styles.userInfoText}>
+                      {user.phoneNumber}
+                    </Typography>
                   </Typography>
                 ) : null}
               </Grid>
             </Grid>
+            {transactions.length > 0 && (
+              <Grid item xs={12}>
+                <Typography variant="h5" mb={3}>
+                  Мои курсы:
+                </Typography>
+                <Grid
+                  item
+                  container
+                  alignItems="center"
+                  justifyContent="space-between"
+                  flexWrap="wrap"
+                  spacing={2}
+                >
+                  {transactions.map((transaction) => (
+                    <Grid item key={transaction._id} xs={12} md={6} xl={4}>
+                      <ProfileCourseCard transactionCourse={transaction} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            )}
             <Box style={{ position: 'absolute', right: 0, top: 0 }}>
               <IconButton
                 aria-label="more"
@@ -93,10 +145,10 @@ const Profile = () => {
               </IconButton>
               <Menu open={isMenuOpen} anchorEl={anchorEl} onClose={closeMenu}>
                 <MenuItem>
-                  <Link href="profile/edit-user">Изменить профиль</Link>
+                  <Link href="/profile/edit-user">Изменить профиль</Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="profile/change-password">Сменить пароль</Link>
+                  <Link href="/profile/change-password">Сменить пароль</Link>
                 </MenuItem>
               </Menu>
             </Box>
