@@ -55,7 +55,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>Начинающим маркетологам</Typography>{' '}
               Научитесь работать с бренд-аналитикой, планировать рекламные
               кампании и выпускать продукты на рынок. Сможете начать карьеру
@@ -74,7 +74,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>
                 Маркетологам и менеджерам по рекламе или PR
               </Typography>{' '}
@@ -94,7 +94,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>Офлайн-маркетологам</Typography>{' '}
               Изучите новые инструменты продвижения, «подружитесь» с контекстом,
               таргетингом и SMM. Сможете сменить специализацию на более
@@ -113,7 +113,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>
                 Руководителям и владельцам бизнеса
               </Typography>{' '}
