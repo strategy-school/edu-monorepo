@@ -5,8 +5,10 @@ import {
   ILesson,
   IPagination,
   SearchLesson,
+  ValidationError,
 } from '@/src/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { isAxiosError } from 'axios';
 
 export const fetchLessons = createAsyncThunk<
   IPagination<ApiLesson>,
@@ -18,12 +20,30 @@ export const fetchLessons = createAsyncThunk<
   return data.result as IPagination<ApiLesson>;
 });
 
-export const createLesson = createAsyncThunk(
-  'lessons/create',
-  async (lesson: ILesson) => {
-    await axiosApi.post('/lessons', lesson);
-  },
-);
+export const createLesson = createAsyncThunk<
+  void,
+  ILesson,
+  { rejectValue: ValidationError }
+>('lessons/create', async (lesson, { rejectWithValue }) => {
+  try {
+    const formData = new FormData();
+    const keys = Object.keys(lesson) as (keyof ILesson)[];
+    keys.forEach((key) => {
+      const value = lesson[key];
+
+      if (value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    await axiosApi.post('/lessons', formData);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
+});
 
 export const deleteLesson = createAsyncThunk(
   'lessons/delete',
@@ -44,7 +64,25 @@ export const fetchOneLesson = createAsyncThunk<ApiLesson, string>(
 
 export const editLesson = createAsyncThunk<
   void,
-  { lesson: ILesson; id: string }
->('lessons/edit', async ({ lesson, id }) => {
-  await axiosApi.put(`lessons/${id}`, lesson);
+  { lesson: ILesson; id: string },
+  { rejectValue: ValidationError }
+>('lessons/edit', async (data, { rejectWithValue }) => {
+  try {
+    const formData = new FormData();
+    const keys = Object.keys(data.lesson) as (keyof ILesson)[];
+    keys.forEach((key) => {
+      const value = data.lesson[key];
+
+      if (value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    await axiosApi.put(`lessons/${data.id}`, formData);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
 });

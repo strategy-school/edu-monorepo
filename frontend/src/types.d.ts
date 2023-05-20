@@ -302,7 +302,7 @@ export interface ApiLesson {
   _id: string;
   theme: string;
   video_link: string;
-  document: string;
+  document: string | null;
   course: Pick<
     ApiCourse,
     '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
@@ -312,8 +312,8 @@ export interface ApiLesson {
 export interface ILesson {
   theme: string;
   video_link: string;
-  document: string;
   course: string;
+  document: File | null;
 }
 
 export interface RegexSearch {
