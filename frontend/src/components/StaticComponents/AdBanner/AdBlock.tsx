@@ -7,6 +7,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import ShareIcon from '@mui/icons-material/Share';
 import WorkIcon from '@mui/icons-material/Work';
 import theme from '@/src/theme';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const AdBlock = () => {
   const [open, setOpen] = useState(false);
@@ -34,13 +35,23 @@ const AdBlock = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography
-            component="img"
-            src="https://i.ytimg.com/vi/lplDFlNtUeg/maxresdefault.jpg"
-            style={{ width: '100%', height: 'auto' }}
-            borderRadius="20px"
-            onClick={() => setOpen(true)}
-          />
+          <Typography component="div" position="relative" fontSize="60px">
+            <PlayCircleOutlineIcon
+              fontSize="inherit"
+              style={{
+                position: 'absolute',
+                top: '35%',
+                left: '45%',
+              }}
+            />
+            <Typography
+              component="img"
+              src="https://i.ytimg.com/vi/lplDFlNtUeg/maxresdefault.jpg"
+              style={{ width: '100%', height: 'auto' }}
+              borderRadius="20px"
+              onClick={() => setOpen(true)}
+            />
+          </Typography>
         </Grid>
       </Grid>
       <Grid
@@ -131,7 +142,16 @@ const AdBlock = () => {
           </Typography>
         </Grid>
       </Grid>
-      <Dialog open={open} onClose={handleClose} style={{ width: '75vw' }}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        sx={{
+          '& .MuiPaper-root': {
+            width: '80%',
+            maxWidth: 'none',
+          },
+        }}
+      >
         <DialogContent>
           <YouTube
             videoId={'lplDFlNtUeg'}
