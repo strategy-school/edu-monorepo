@@ -4,8 +4,6 @@ import { Container } from '@mui/material';
 import Footer from '@/src/components/UI/Footer/Footer';
 import AppToolbar from '@/src/components/UI/AppToolbar/AppToolbar';
 
-import ChangeLanguage from '@/src/components/UI/ChangeLanguage/ChangeLanguage';
-
 interface Props {
   children: React.ReactNode;
   title: string;
@@ -28,7 +26,6 @@ const Layout: React.FC<Props> = ({ children, title }) => {
         }}
       >
         {children}
-        <ChangeLanguage />
       </Container>
       <Footer />
     </>
