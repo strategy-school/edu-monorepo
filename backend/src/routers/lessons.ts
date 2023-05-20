@@ -4,6 +4,7 @@ import permit from '../middleware/permit';
 import { Error } from 'mongoose';
 import Lesson from '../models/Lesson';
 import { ILesson, PageLimit, Search } from '../types';
+import { pdfUpload } from '../multer';
 
 type QueryParams = Search<Pick<ILesson, 'theme' | 'course'>> & PageLimit;
 
@@ -12,13 +13,14 @@ const lessonsRouter = Router();
 lessonsRouter.post(
   '/',
   auth,
+  pdfUpload.single('document'),
   permit('admin', 'teacher'),
   async (req, res, next) => {
     try {
       const lesson = await Lesson.create({
         theme: req.body.theme,
         video_link: req.body.video_link,
-        document: req.body.document,
+        document: req.file ? req.file.filename : null,
         course: req.body.course,
       });
 
