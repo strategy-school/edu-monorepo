@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/src/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import logo from '@/src/assets/images/strategia-logo.png';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import {
@@ -21,6 +21,7 @@ import UserMenu from './UserMenu';
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { logout } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   window?: () => Window;
@@ -34,12 +35,17 @@ const navItems = [
 ];
 
 const AppToolbar: React.FC<Props> = (props) => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const { window } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setOpen((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   const drawer = (
@@ -70,6 +76,16 @@ const AppToolbar: React.FC<Props> = (props) => {
             </Button>
           </ListItem>
         </Box>
+        <ListItem>
+          <Button component={Link} href="/about" color="inherit">
+            О школе
+          </Button>
+        </ListItem>
+        <ListItem>
+          <Button component={Link} href="/tests" color="inherit">
+            Пройти тестирование
+          </Button>
+        </ListItem>
         <ListItem sx={{ textAlign: 'center' }}>
           {user?.role === 'admin' ? (
             <Button component={Link} href="/categories" color="inherit">
@@ -78,6 +94,28 @@ const AppToolbar: React.FC<Props> = (props) => {
           ) : null}
         </ListItem>
         <ListItem>{user ? null : <AnonymousMenu />}</ListItem>
+        <Divider />
+        {user && user.role === 'admin' ? (
+          <ListItem>
+            <Button component={Link} href="/admin/categories" color="inherit">
+              Админ панель
+            </Button>
+          </ListItem>
+        ) : null}
+        {user ? (
+          <Box>
+            <ListItem>
+              <Button component={Link} href="/profile" color="inherit">
+                Мой профиль
+              </Button>
+            </ListItem>
+            <ListItem>
+              <Button onClick={handleLogout} color="inherit">
+                Выйти
+              </Button>
+            </ListItem>
+          </Box>
+        ) : null}
       </List>
     </Box>
   );
@@ -133,11 +171,8 @@ const AppToolbar: React.FC<Props> = (props) => {
             md={9}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Button component={Link} href="/about" color="inherit">
-                О школе
-              </Button>
-              <Button component={Link} href="/tests" color="inherit">
-                Пройти тестирование
+              <Button component={Link} href="/courses" color="inherit">
+                Список курсов
               </Button>
             </Box>
             <Box
