@@ -44,14 +44,15 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
             width={currentCardStyle.width}
             height={currentCardStyle.height}
             style={currentCardStyle.innerStyle}
-            sx={{ pl: 2 }}
+            paddingLeft={isXs ? 0 : '10px'}
           >
-            <Grid item xs={6} md={8} lg={8}>
+            <Grid item xs={12} sm={8}>
               <Typography
                 component="div"
                 color={theme.palette.info.dark}
                 fontSize={currentCardStyle.fontSize}
                 fontWeight={700}
+                maxWidth="600px"
               >
                 {course.title}
               </Typography>
@@ -61,16 +62,16 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
                 fontWeight={600}
                 mt={1}
               >
-                Продолжительность: {course.duration.toLowerCase()}
+                {course.duration.toLowerCase()}
               </Typography>
             </Grid>
-            <Grid item xs={6} md={4} lg={4}>
+            <Grid item sm={4} display={{ xs: 'none', sm: 'inline-block' }}>
               <Image
                 style={{ margin: '0 auto', borderRadius: '10%' }}
                 src={apiURL + '/' + course.image}
                 alt={course.title}
-                width={isFull ? (isXs ? 100 : isSm ? 150 : 200) : 100}
-                height={isFull ? (isXs ? 100 : isSm ? 150 : 200) : 100}
+                width={isFull ? (isSm ? 150 : 200) : 100}
+                height={isFull ? (isSm ? 150 : 200) : 100}
               />
             </Grid>
           </Grid>

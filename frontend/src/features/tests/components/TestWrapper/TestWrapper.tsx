@@ -1,11 +1,6 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
-import {
-  blockPadding,
-  borderRadius,
-  boxShadow,
-  stylesGlobal,
-} from '@/src/styles';
+import { borderRadius, boxShadow, stylesGlobal } from '@/src/styles';
 import { Button, Grid, Typography } from '@mui/material';
 import theme from '@/src/theme';
 import { Property } from 'csstype';
@@ -19,7 +14,6 @@ const styles = {
   tests: {
     borderRadius,
     boxShadow,
-    padding: blockPadding,
   },
   coursesTitleWrapper: {
     display: 'flex',
@@ -42,7 +36,11 @@ const TestWrapper = () => {
   const tests = useAppSelector(selectTests);
 
   return (
-    <Grid style={styles.tests} bgcolor={theme.palette.warning.main}>
+    <Grid
+      style={styles.tests}
+      padding={{ xs: '5px', sm: '30px' }}
+      bgcolor={theme.palette.warning.main}
+    >
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}

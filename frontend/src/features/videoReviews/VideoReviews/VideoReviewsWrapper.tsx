@@ -30,12 +30,22 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
           Видео отзывы о школе Strategia School
         </Typography>
       </Grid>
-      <Grid item>
-        <Grid container spacing={3}>
-          {loading ? (
-            <CircularProgress />
-          ) : isAll ? (
-            reviews.map((review) => (
+      <Grid item container spacing={3} justifyContent="center">
+        {loading ? (
+          <CircularProgress />
+        ) : isAll ? (
+          reviews.map((review) => (
+            <VideoReviewItem
+              key={review._id}
+              title={review.title}
+              previewImage={review.previewImage}
+              youtubeURL={review.youtubeURL}
+            />
+          ))
+        ) : (
+          reviews
+            .slice(0, 4)
+            .map((review) => (
               <VideoReviewItem
                 key={review._id}
                 title={review.title}
@@ -43,19 +53,7 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
                 youtubeURL={review.youtubeURL}
               />
             ))
-          ) : (
-            reviews
-              .slice(0, 4)
-              .map((review) => (
-                <VideoReviewItem
-                  key={review._id}
-                  title={review.title}
-                  previewImage={review.previewImage}
-                  youtubeURL={review.youtubeURL}
-                />
-              ))
-          )}
-        </Grid>
+        )}
       </Grid>
       {!isAll && (
         <Grid item container justifyContent="flex-end">
