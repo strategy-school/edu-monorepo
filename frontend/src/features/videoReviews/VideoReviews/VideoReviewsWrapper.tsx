@@ -58,7 +58,7 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
         </Grid>
       </Grid>
       {!isAll && (
-        <Grid item container justifyContent="flex-end" mr={6}>
+        <Grid item container justifyContent="flex-end">
           <Grid item>
             <Typography component={Link} variant="h6" href={'/video-reviews'}>
               Смотреть все
