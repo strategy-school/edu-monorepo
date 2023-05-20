@@ -30,6 +30,7 @@ const AdBlock = () => {
             color="info.dark"
             fontSize={stylesGlobal.fontSize}
             textAlign="center"
+            paddingBottom={{ xs: '30px', sm: 0 }}
           >
             Для кого подходят наши курсы:
           </Typography>

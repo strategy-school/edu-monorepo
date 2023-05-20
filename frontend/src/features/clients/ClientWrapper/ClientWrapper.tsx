@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { clientStyle, stylesGlobal, whyUs } from '@/src/styles';
+import { clientStyle, stylesGlobal } from '@/src/styles';
 import shirin from '@/src/assets/images/shirin.png';
 import logoO from '@/src/assets/images/logo-o.png';
 import gazprom from '@/src/assets/images/gazprom.png';
@@ -14,12 +14,12 @@ import Image from 'next/image';
 
 const ClientWrapper = () => {
   return (
-    <Grid textAlign="center">
-      <Grid item>
+    <Grid container justifyContent="center">
+      <Grid item textAlign="center">
         <Typography
           variant="h1"
           style={stylesGlobal.title}
-          color="secondary.main"
+          color="info.dark"
           fontSize={stylesGlobal.fontSize}
         >
           Сотрудничаем с ведущими компаниями Кыргызстана
@@ -28,102 +28,85 @@ const ClientWrapper = () => {
         <Typography
           component="p"
           fontSize={clientStyle.fontSize}
-          color="secondary.main"
+          color="info.dark"
           sx={{ marginTop: 2 }}
         >
           Собираем лучшие вакансии в отрасли, готовим к интервью и рекомендуем
           вас компаниям-партнерам.
         </Typography>
       </Grid>
-      <Grid item sx={{ flexGrow: 1, marginTop: 4 }}>
-        <Grid container spacing={1}>
-          <Grid container item spacing={3}>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={shirin}
-                alt="Ширин"
-                width={80}
-                height={80}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={toyboss}
-                alt="Тойбосс"
-                width={100}
-                height={73}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={imarat}
-                alt="Имарат строй"
-                width={110}
-                height={110}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={3}>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={idlo}
-                alt="IDLO"
-                width={100}
-                height={100}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={krjs}
-                alt="KRJS"
-                width={90}
-                height={90}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={giz}
-                alt="Giz"
-                width={105}
-                height={95}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={3}>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={gazprom}
-                alt="Газпром"
-                width={110}
-                height={95}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={ebpp}
-                alt="EBPP"
-                width={110}
-                height={90}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <Image
-                src={logoO}
-                alt="0"
-                width={100}
-                height={100}
-                style={{ margin: '3px 0 0 2px' }}
-              />
-            </Grid>
-          </Grid>
+      <Grid item container spacing={1} sx={{ mt: 4 }} alignItems="center">
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={shirin}
+            alt="Ширин"
+            width={80}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={toyboss}
+            alt="Тойбосс"
+            width={100}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={imarat}
+            alt="Имарат строй"
+            width={110}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={idlo}
+            alt="IDLO"
+            width={100}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={krjs}
+            alt="KRJS"
+            width={90}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={giz}
+            alt="Giz"
+            width={105}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={gazprom}
+            alt="Газпром"
+            width={110}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={ebpp}
+            alt="EBPP"
+            width={110}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={logoO}
+            alt="0"
+            width={100}
+            style={{ margin: '3px 0 0 2px' }}
+          />
         </Grid>
       </Grid>
     </Grid>

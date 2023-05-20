@@ -98,6 +98,7 @@ const FeedbackForm = () => {
           color="#010502"
           style={{ marginRight: '20px', fontWeight: '700' }}
           width={{ sm: '80vw', md: '45vw' }}
+          paddingBottom={{ xs: '35px', md: 0 }}
           fontSize={{ xs: '20px', sm: '35px', lg: '50px' }}
         >
           Записаться на курс или получить бесплатную консультацию{' '}
