@@ -23,3 +23,7 @@ a {
   width: 600px;
   height: 400px;
 }
+
+#conveythis-wrapper {
+  display: none !important;
+}
