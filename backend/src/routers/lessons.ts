@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
-import { Error } from 'mongoose';
+import { Error, HydratedDocument } from 'mongoose';
 import Lesson from '../models/Lesson';
 import { ILesson, PageLimit, Search } from '../types';
+import { pdfUpload } from '../multer';
 
 type QueryParams = Search<Pick<ILesson, 'theme' | 'course'>> & PageLimit;
 
@@ -12,13 +13,14 @@ const lessonsRouter = Router();
 lessonsRouter.post(
   '/',
   auth,
+  pdfUpload.single('document'),
   permit('admin', 'teacher'),
   async (req, res, next) => {
     try {
       const lesson = await Lesson.create({
         theme: req.body.theme,
         video_link: req.body.video_link,
-        document: req.body.document,
+        document: req.file ? req.file.filename : null,
         course: req.body.course,
       });
 
@@ -78,31 +80,34 @@ lessonsRouter.put(
   '/:id',
   auth,
   permit('admin', 'teacher'),
+  pdfUpload.single('document'),
   async (req, res, next) => {
     try {
       const lessonId = req.params.id;
-      const { theme, video_link, document, course } = req.body;
+      const { theme, video_link, course } = req.body;
 
       if (!lessonId) {
         return res.status(400).send({ error: 'Lesson id is required' });
       }
 
-      const lesson = await Lesson.findByIdAndUpdate(
-        lessonId,
-        {
-          theme,
-          video_link,
-          document,
-          course,
-        },
-        { new: true, runValidators: true },
-      ).populate('course', 'title price type level image');
+      const editedLesson: HydratedDocument<ILesson> | null =
+        await Lesson.findById(lessonId);
 
-      if (!lesson) {
+      if (!editedLesson) {
         return res.status(404).send('Lesson is not found');
       }
 
-      return res.send({ message: 'Lesson is found', result: lesson });
+      editedLesson.theme = theme || editedLesson.theme;
+      editedLesson.video_link = video_link || editedLesson.video_link;
+      editedLesson.course = course || editedLesson.course;
+
+      if (req.file) {
+        editedLesson.document = req.file.filename;
+      }
+
+      await editedLesson.save();
+
+      return res.send({ message: 'Lesson is updated!', editedLesson });
     } catch (e) {
       if (e instanceof Error.ValidationError) {
         return res.send(400).send(e);

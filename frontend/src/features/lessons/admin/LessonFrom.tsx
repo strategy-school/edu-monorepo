@@ -2,25 +2,30 @@ import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
 import { selectLessonsSubmitting } from '@/src/dispatchers/lessons/lessonsSlice';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { ILesson } from '@/src/types';
+import { ILesson, ValidationError } from '@/src/types';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
+import FileInput from '@/src/components/UI/FileInput/FileInput';
 
 interface Props {
   existingLesson?: ILesson;
   onSubmit: (lesson: ILesson) => void;
+  error: ValidationError | null;
+  isEditing?: boolean;
 }
 
 const initialState: ILesson = {
   theme: '',
   video_link: '',
-  document: '',
+  document: null,
   course: '',
 };
 
 const LessonFrom: React.FC<Props> = ({
   existingLesson = initialState,
   onSubmit,
+  error,
+  isEditing,
 }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
@@ -34,6 +39,22 @@ const LessonFrom: React.FC<Props> = ({
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
+  };
+
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
   };
 
   const onFormSubmit = (e: React.FormEvent) => {
@@ -83,11 +104,16 @@ const LessonFrom: React.FC<Props> = ({
           />
         </Grid>
         <Grid item xs>
-          <TextField
-            label="Материал"
+          <FileInput
+            label={
+              isEditing
+                ? 'Изменить имеющиеся документ для раздатки'
+                : 'Выберите документ для раздатки'
+            }
+            onChange={fileInputChangeHandler}
             name="document"
-            value={state.document}
-            onChange={onChange}
+            type="application/pdf"
+            errorCheck={getFieldError}
           />
         </Grid>
         <Grid item xs>

@@ -1,5 +1,8 @@
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import { selectOneLesson } from '@/src/dispatchers/lessons/lessonsSlice';
+import {
+  selectLessonEditingError,
+  selectOneLesson,
+} from '@/src/dispatchers/lessons/lessonsSlice';
 import {
   editLesson,
   fetchOneLesson,
@@ -14,6 +17,7 @@ import React from 'react';
 const Edit = () => {
   const dispatch = useAppDispatch();
   const lesson = useAppSelector(selectOneLesson);
+  const error = useAppSelector(selectLessonEditingError);
   const router = useRouter();
   const { lessonId } = router.query as { lessonId: string };
 
@@ -23,7 +27,7 @@ const Edit = () => {
 
   const onSubmit = async (lesson: ILesson) => {
     await dispatch(editLesson({ lesson, id: lessonId }));
-    void router.back();
+    void router.push('/admin/lessons');
   };
 
   return (
@@ -38,10 +42,12 @@ const Edit = () => {
               existingLesson={{
                 theme: lesson.theme,
                 video_link: lesson.video_link,
-                document: lesson.document,
+                document: null,
                 course: lesson.course._id,
               }}
+              error={error}
               onSubmit={onSubmit}
+              isEditing
             />
           </Grid>
         </Grid>

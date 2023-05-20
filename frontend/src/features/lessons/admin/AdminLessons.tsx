@@ -41,9 +41,9 @@ const AdminLessons = () => {
             <TableRow>
               <TableCell>Курс</TableCell>
               <TableCell>Тема</TableCell>
-              <TableCell>Видео</TableCell>
-              <TableCell>Материал</TableCell>
-              <TableCell>Модерировать</TableCell>
+              <TableCell align="center">Видео</TableCell>
+              <TableCell align="center">Материал</TableCell>
+              <TableCell align="center">Модерировать</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
