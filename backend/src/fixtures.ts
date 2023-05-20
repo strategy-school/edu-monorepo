@@ -486,10 +486,14 @@ const run = async () => {
     {
       theme: 'Сложные логорифмы и их использование в программировании',
       course: marketing1._id,
+      video_link: 'https://www.youtube.com/watch?v=GoNNW0iXc5s&t=2s',
+      document: 'fixtures/example.pdf',
     },
     {
       theme: 'Алгоритм Дейкстры в алгоритме графов',
       course: marketing2._id,
+      video_link: 'https://www.youtube.com/watch?v=6PLrFRzu6Xo',
+      document: 'fixtures/exampl2.pdf',
     },
   );
 

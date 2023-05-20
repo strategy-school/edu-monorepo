@@ -21,15 +21,6 @@ const LessonTableItem: React.FC<Props> = ({ lesson, deleting }) => {
     dispatch(deleteLesson(lesson._id));
   };
 
-  const downloadPdf = (pdfUrl: string) => {
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = 'document.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <TableRow hover style={{ cursor: 'pointer' }}>
       <TableCell>{lesson.course.title}</TableCell>
