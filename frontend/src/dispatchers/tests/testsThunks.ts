@@ -6,7 +6,7 @@ import {
   TestMutation,
   ValidationError,
 } from '@/src/types';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 

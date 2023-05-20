@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { selectSingleTransaction } from '@/src/dispatchers/transactions/transactionsSlice';
 import {
@@ -31,25 +31,19 @@ const TransactionSingle = () => {
   const dispatch = useAppDispatch();
   const transaction = useAppSelector(selectSingleTransaction);
 
-  const onMarkingAsPaid = React.useCallback(
-    async (id: string) => {
-      await dispatch(markTransactionAsPaid(id));
-      dispatch(fetchSingleTransaction(id));
-    },
-    [dispatch],
-  );
-
-  const onDeleteTransaction = React.useCallback(
-    async (id: string) => {
-      await dispatch(deleteTransaction(id));
-      void router.push('/admin/transactions');
-    },
-    [dispatch, router],
-  );
-
   React.useEffect(() => {
     dispatch(fetchSingleTransaction(transactionId));
   }, [dispatch, transactionId]);
+
+  const onMarkingAsPaid = async (id: string) => {
+    await dispatch(markTransactionAsPaid(id));
+    dispatch(fetchSingleTransaction(id));
+  };
+
+  const onDeleteTransaction = async (id: string) => {
+    await dispatch(deleteTransaction(id));
+    void router.push('/admin/transactions');
+  };
 
   return (
     <AdminLayout>

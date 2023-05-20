@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import Layout from '@/src/components/UI/Layout/Layout';
 import {
@@ -50,6 +50,9 @@ const Id = () => {
     programGoal: course.programGoal,
     price: course.price.toString(),
     image: null,
+    exam: course.exam,
+    youtube: course.youtube,
+    zoom: course.zoom,
   };
 
   return (

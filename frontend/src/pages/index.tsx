@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/src/app/hooks';
+import { useAppDispatch } from '@/src/store/hooks';
 import AboutUs from '@/src/components/StaticComponents/AboutUs/AboutUs';
 import WelcomeBlock from '@/src/components/StaticComponents/WelcomeBlock/WelcomeBlock';
 import Layout from '@/src/components/UI/Layout/Layout';

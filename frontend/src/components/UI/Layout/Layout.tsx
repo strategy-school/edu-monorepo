@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import AppToolbar from '@/src/components/UI/AppToolbar/AppToolbar';
 import { Container } from '@mui/material';
 import Footer from '@/src/components/UI/Footer/Footer';
+import AppToolbar from '@/src/components/UI/AppToolbar/AppToolbar';
 
 import ChangeLanguage from '@/src/components/UI/ChangeLanguage/ChangeLanguage';
 

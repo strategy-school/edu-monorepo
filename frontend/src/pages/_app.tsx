@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
-import { persistor, store } from '../app/store';
+import { persistor, store } from '../store/store';
 import { ThemeProvider } from '@mui/material';
 import theme from '../theme';
 import { PersistGate } from 'redux-persist/integration/react';

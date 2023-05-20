@@ -12,7 +12,7 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmailerrorred';
 import MyModal from '@/src/components/UI/Modal/MyModal';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectPasswordForgetError,
   selectPasswordForgetLoading,

@@ -6,7 +6,7 @@ import {
   boxShadow,
   stylesGlobal,
 } from '@/src/styles';
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import Carousel from 'react-material-ui-carousel';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import { Property } from 'csstype';

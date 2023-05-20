@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
 import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';

@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/src/app/hooks';
+import { useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { UpdateUserMutation } from '@/src/types';
 import {

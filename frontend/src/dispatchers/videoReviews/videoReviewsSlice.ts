@@ -7,7 +7,7 @@ import {
   fetchVideoReviews,
   updateVideoReview,
 } from '@/src/dispatchers/videoReviews/videoReviewsThunks';
-import { RootState } from '@/src/app/store';
+import { RootState } from '@/src/store/store';
 
 interface CommentsState {
   items: ApiVideoReview[];

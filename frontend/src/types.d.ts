@@ -76,6 +76,9 @@ export interface ICourse {
   targetAudience: string;
   programGoal: string;
   level: string;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
 }
 
 export type CourseShort = Pick<
@@ -97,6 +100,9 @@ export interface ApiCourse {
   programGoal: string;
   level: string;
   isDeleted: boolean;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -177,7 +183,7 @@ export interface ApiTransaction {
   user: Pick<User, '_id' | 'email' | 'firstName' | 'lastName' | 'phoneNumber'>;
   course: Pick<
     ApiCourse,
-    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image' | 'exam'
   >;
   isPaid: 'pending' | 'paid';
   createdAt: string;
@@ -290,4 +296,37 @@ export interface ApiVideoReview {
   previewImage: string;
   title: string;
   youtubeURL: string;
+}
+
+export interface ApiLesson {
+  _id: string;
+  theme: string;
+  video_link: string;
+  document: string | null;
+  course: Pick<
+    ApiCourse,
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+  >;
+}
+
+export interface ILesson {
+  theme: string;
+  video_link: string;
+  course: string;
+  document: File | null;
+}
+
+export interface RegexSearch {
+  $regex: string;
+  $options?: string;
+}
+
+export interface RangeSearch {
+  $gte?: number;
+  $lte?: number;
+}
+
+export interface SearchLesson extends PageLimit {
+  theme?: RegexSearch;
+  course?: string;
 }

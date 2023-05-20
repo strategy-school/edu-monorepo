@@ -18,7 +18,7 @@ import {
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectNotifications,
   selectNotificationsCount,

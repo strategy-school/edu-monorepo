@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectOneVideoReview } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
 import {
   deleteVideoReview,

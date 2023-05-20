@@ -39,14 +39,17 @@ export const createCourse = createAsyncThunk<
 >('courses/create', async (courseMutation, { rejectWithValue }) => {
   try {
     const formData = new FormData();
-
     const keys = Object.keys(courseMutation) as (keyof ICourse)[];
 
     keys.forEach((key) => {
       const value = courseMutation[key];
 
       if (value !== null) {
-        formData.append(key, value);
+        if (typeof value === 'boolean') {
+          formData.append(key, String(value)); // Convert boolean to string
+        } else {
+          formData.append(key, value);
+        }
       }
     });
 
@@ -78,7 +81,11 @@ export const updateCourse = createAsyncThunk<
       const value = course[key];
 
       if (value !== null) {
-        formData.append(key, value);
+        if (typeof value === 'boolean') {
+          formData.append(key, String(value)); // Convert boolean to string
+        } else {
+          formData.append(key, value);
+        }
       }
     });
 
