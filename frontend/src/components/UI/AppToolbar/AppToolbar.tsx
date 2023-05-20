@@ -66,11 +66,6 @@ const AppToolbar: React.FC<Props> = (props) => {
         ))}
         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
           <ListItem>
-            <Button component={Link} href="/about" color="inherit">
-              О компании
-            </Button>
-          </ListItem>
-          <ListItem>
             <Button component={Link} href="/tests" color="inherit">
               Пройти тестирование
             </Button>
@@ -79,11 +74,6 @@ const AppToolbar: React.FC<Props> = (props) => {
         <ListItem>
           <Button component={Link} href="/about" color="inherit">
             О школе
-          </Button>
-        </ListItem>
-        <ListItem>
-          <Button component={Link} href="/tests" color="inherit">
-            Пройти тестирование
           </Button>
         </ListItem>
         <ListItem sx={{ textAlign: 'center' }}>
@@ -127,18 +117,26 @@ const AppToolbar: React.FC<Props> = (props) => {
     <AppBar position="sticky" sx={{ bgolor: 'secondary.light' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={6} sm={12} md={3}>
-            <Typography variant="h6" component="div">
+          <Grid item xs={6} sm={5} md={3}>
+            <Typography component="div">
               <Link
                 href="/"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  textTransform: 'uppercase',
-                  color: '#fff',
                 }}
               >
-                Strategia School
+                <Typography
+                  component="span"
+                  style={{
+                    textTransform: 'uppercase',
+                    color: '#fff',
+                    fontWeight: 600,
+                  }}
+                  display={{ xs: 'none', sm: 'inline' }}
+                >
+                  Strategia School
+                </Typography>
                 <Box
                   style={{
                     width: '32px',
@@ -167,7 +165,7 @@ const AppToolbar: React.FC<Props> = (props) => {
             alignItems="center"
             justifyContent="flex-end"
             xs={6}
-            sm={12}
+            sm={7}
             md={9}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
