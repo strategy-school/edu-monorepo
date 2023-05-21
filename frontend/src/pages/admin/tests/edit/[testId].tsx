@@ -1,29 +1,19 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
-import {
-  selectOneTest,
-  selectTestUpdating,
-  selectTestUpdatingError,
-} from '@/src/dispatchers/tests/testsSlice';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
+import { cleanError, selectOneTest } from '@/src/dispatchers/tests/testsSlice';
 import { editTest, fetchOneTest } from '@/src/dispatchers/tests/testsThunks';
-import { TestMutation } from '@/src/types';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
-import { Button, Grid } from '@mui/material';
 import TestForm from '@/src/features/tests/components/TestForm/TestForm';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { TestMutation } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const EditTest = () => {
   const router = useRouter();
   const { testId } = router.query as { testId: string };
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
   const test = useAppSelector(selectOneTest);
-  const error = useAppSelector(selectTestUpdatingError);
-  const updateLoading = useAppSelector(selectTestUpdating);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchOneTest(testId));
   }, [dispatch, testId]);
 
@@ -31,42 +21,27 @@ const EditTest = () => {
     category: test.category._id,
     title: test.title,
     description: test.description,
-    questions: test.questions.map((question) => {
+    questions: test.questions.map((q) => {
       return {
-        question: question.question,
-        answers: question.answers,
-        correctAnswer: question.correctAnswer,
+        question: q.question,
+        answers: q.answers,
+        correctAnswer: q.correctAnswer,
       };
     }),
   };
 
   const onSubmit = async (test: TestMutation) => {
     await dispatch(editTest({ id: testId, test })).unwrap();
+    dispatch(cleanError());
     void router.push(`/admin/tests/`);
-  };
-  const handleGoBack = () => {
-    router.back();
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia: admin panel | edit teacher">
-        <Grid>
-          <Button onClick={handleGoBack} sx={{ mb: 3 }}>
-            Назад
-          </Button>
-          {existingTest && (
-            <TestForm
-              onSubmit={onSubmit}
-              loading={updateLoading}
-              error={error}
-              existingTest={existingTest}
-              isEdit
-            />
-          )}
-        </Grid>
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Редактировать тест">
+      {existingTest && (
+        <TestForm onSubmit={onSubmit} existingTest={existingTest} />
+      )}
+    </AdminLayout>
   );
 };
 

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import React from 'react';
 
 interface Props extends React.PropsWithChildren {
-  pageTitle: string;
+  pageTitle?: string;
   createLink?: string;
 }
 
@@ -25,9 +25,11 @@ const AdminLayout: React.FC<Props> = ({ pageTitle, createLink, children }) => {
           <Grid item xs>
             <Grid container spacing={2} direction="column">
               <Grid item xs container justifyContent="space-between">
-                <Grid item>
-                  <Typography variant="h4">{pageTitle}</Typography>
-                </Grid>
+                {pageTitle && (
+                  <Grid item>
+                    <Typography variant="h4">{pageTitle}</Typography>
+                  </Grid>
+                )}
                 {createLink && (
                   <Grid item>
                     <Button

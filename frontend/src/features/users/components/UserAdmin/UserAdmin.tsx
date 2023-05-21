@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
 import {
   selectUpdateUserLoading,
@@ -10,11 +9,11 @@ import {
   fetchUsers,
   updateIsBannedStatus,
 } from '@/src/dispatchers/users/usersThunks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UserRole } from '@/src/types.d';
 import EditIcon from '@mui/icons-material/Edit';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -64,81 +63,63 @@ const UserAdmin = () => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} direction="column">
-        <Grid item xs>
-          <Typography variant="h4">Студенты</Typography>
-        </Grid>
-
-        <Grid item xs>
-          <TableContainer component={Paper}>
-            <SearchBar name="firstName" onChange={onNameChange} />
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow sx={{ width: '100%' }}>
-                  <TableCell>Фамилия и имя студента</TableCell>
-                  <TableCell align="right">Бан статус</TableCell>
-                  <TableCell align="right">Изменить бан статус</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {basicUsers.map((student) => (
-                  <TableRow key={student._id} hover>
-                    <TableCell
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => openOneUser(student._id)}
-                    >
-                      {student.firstName} {student.lastName}
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: student.isBanned ? 'red' : 'green' }}
-                    >
-                      {student.isBanned ? 'Бан' : 'Нет бана'}
-                    </TableCell>
-                    <TableCell align="right">
-                      <LoadingButton
-                        loading={
-                          banLoading ? banLoading === student._id : false
-                        }
-                        onClick={() =>
-                          editBanStatus(student._id, student.isBanned)
-                        }
-                      >
-                        <Typography
-                          variant="body1"
-                          textTransform="none"
-                          fontSize={14}
-                        >
-                          {student.isBanned
-                            ? 'Отменить бан'
-                            : 'Активировать бан'}
-                        </Typography>
-                        <EditIcon fontSize="small" sx={{ ml: 1 }} />
-                      </LoadingButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
-                    count={totalCount}
-                    rowsPerPage={limit}
-                    page={currentPage - 1}
-                    onPageChange={(_, newPage) => setPage(newPage + 1)}
-                    onRowsPerPageChange={(e) =>
-                      setLimit(parseInt(e.target.value))
-                    }
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-        </Grid>
-      </Grid>
-    </>
+    <TableContainer component={Paper}>
+      <SearchBar name="firstName" onChange={onNameChange} />
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow sx={{ width: '100%' }}>
+            <TableCell>Фамилия и имя студента</TableCell>
+            <TableCell align="right">Бан статус</TableCell>
+            <TableCell align="right">Изменить бан статус</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {basicUsers.map((student) => (
+            <TableRow key={student._id} hover>
+              <TableCell
+                sx={{ cursor: 'pointer' }}
+                onClick={() => openOneUser(student._id)}
+              >
+                {student.firstName} {student.lastName}
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{ color: student.isBanned ? 'red' : 'green' }}
+              >
+                {student.isBanned ? 'Бан' : 'Нет бана'}
+              </TableCell>
+              <TableCell align="right">
+                <LoadingButton
+                  loading={banLoading ? banLoading === student._id : false}
+                  onClick={() => editBanStatus(student._id, student.isBanned)}
+                >
+                  <Typography
+                    variant="body1"
+                    textTransform="none"
+                    fontSize={14}
+                  >
+                    {student.isBanned ? 'Отменить бан' : 'Активировать бан'}
+                  </Typography>
+                  <EditIcon fontSize="small" sx={{ ml: 1 }} />
+                </LoadingButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50]}
+              count={totalCount}
+              rowsPerPage={limit}
+              page={currentPage - 1}
+              onPageChange={(_, newPage) => setPage(newPage + 1)}
+              onRowsPerPageChange={(e) => setLimit(parseInt(e.target.value))}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 };
 

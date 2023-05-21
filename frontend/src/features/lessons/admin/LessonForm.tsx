@@ -1,17 +1,18 @@
+import FileInput from '@/src/components/UI/FileInput/FileInput';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
-import { selectLessonsSubmitting } from '@/src/dispatchers/lessons/lessonsSlice';
+import {
+  selectLessonError,
+  selectLessonsSubmitting,
+} from '@/src/dispatchers/lessons/lessonsSlice';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { ILesson, ValidationError } from '@/src/types';
+import { ILesson } from '@/src/types';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
-import FileInput from '@/src/components/UI/FileInput/FileInput';
 
 interface Props {
   existingLesson?: ILesson;
   onSubmit: (lesson: ILesson) => void;
-  error: ValidationError | null;
-  isEditing?: boolean;
 }
 
 const initialState: ILesson = {
@@ -22,14 +23,13 @@ const initialState: ILesson = {
 };
 
 const LessonFrom: React.FC<Props> = ({
-  existingLesson = initialState,
   onSubmit,
-  error,
-  isEditing,
+  existingLesson = initialState,
 }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const submitting = useAppSelector(selectLessonsSubmitting);
+  const error = useAppSelector(selectLessonError);
   const [state, setState] = React.useState<ILesson>(existingLesson);
 
   React.useEffect(() => {
@@ -41,10 +41,10 @@ const LessonFrom: React.FC<Props> = ({
     setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setState((prev) => ({
+      ...prev,
       [name]: files && files[0] ? files[0] : null,
     }));
   };
@@ -78,6 +78,8 @@ const LessonFrom: React.FC<Props> = ({
             name="course"
             value={state.course}
             onChange={onChange}
+            error={Boolean(getFieldError('course'))}
+            helperText={getFieldError('course')}
             required
           >
             <MenuItem value="" disabled>
@@ -92,6 +94,8 @@ const LessonFrom: React.FC<Props> = ({
             name="theme"
             value={state.theme}
             onChange={onChange}
+            error={Boolean(getFieldError('theme'))}
+            helperText={getFieldError('theme')}
             required
           />
         </Grid>
@@ -105,12 +109,8 @@ const LessonFrom: React.FC<Props> = ({
         </Grid>
         <Grid item xs>
           <FileInput
-            label={
-              isEditing
-                ? 'Изменить имеющиеся документ для раздатки'
-                : 'Выберите документ для раздатки'
-            }
-            onChange={fileInputChangeHandler}
+            label="Выберите документ для раздатки"
+            onChange={onFileChange}
             name="document"
             type="application/pdf"
             errorCheck={getFieldError}

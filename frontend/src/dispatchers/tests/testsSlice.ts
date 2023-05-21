@@ -14,10 +14,8 @@ interface TestsState {
   tests: TestMini[];
   test: Test | null;
   fetchLoading: boolean;
-  createLoading: boolean;
-  createTestError: ValidationError | null;
-  updateLoading: boolean;
-  updateTestError: ValidationError | null;
+  submitting: boolean;
+  error: ValidationError | null;
   deleteLoading: string | false;
   currentPage: number;
   totalCount: number;
@@ -27,10 +25,8 @@ const initialState: TestsState = {
   tests: [],
   test: null,
   fetchLoading: false,
-  createLoading: false,
-  createTestError: null,
-  updateLoading: false,
-  updateTestError: null,
+  submitting: false,
+  error: null,
   deleteLoading: false,
   currentPage: 1,
   totalCount: 1,
@@ -39,18 +35,22 @@ const initialState: TestsState = {
 const testsSlice = createSlice({
   name: 'tests',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createTest.pending, (state) => {
-      state.createTestError = null;
-      state.createLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(createTest.fulfilled, (state) => {
-      state.createLoading = false;
+      state.submitting = false;
     });
     builder.addCase(createTest.rejected, (state, { payload: error }) => {
-      state.createTestError = error || null;
-      state.createLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
 
     builder.addCase(fetchTests.pending, (state) => {
@@ -96,15 +96,15 @@ const testsSlice = createSlice({
     });
 
     builder.addCase(editTest.pending, (state) => {
-      state.updateTestError = null;
-      state.updateLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(editTest.fulfilled, (state) => {
-      state.updateLoading = false;
+      state.submitting = false;
     });
     builder.addCase(editTest.rejected, (state, { payload: error }) => {
-      state.updateTestError = error || null;
-      state.updateLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
 
     builder.addCase(deleteTest.pending, (state, { meta: { arg: id } }) => {
@@ -118,20 +118,17 @@ const testsSlice = createSlice({
     });
   },
 });
+
 export const testsReducer = testsSlice.reducer;
+export const { cleanError } = testsSlice.actions;
 export const selectTests = (state: RootState) => state.tests.tests;
 export const selectOneTest = (state: RootState) => state.tests.test;
 export const selectTestsFetching = (state: RootState) =>
   state.tests.fetchLoading;
-export const selectTestCreating = (state: RootState) =>
-  state.tests.createLoading;
-export const selectTestUpdating = (state: RootState) =>
-  state.tests.updateLoading;
+export const selectTestSubmitting = (state: RootState) =>
+  state.tests.submitting;
 export const selectTestDeleting = (state: RootState) =>
   state.tests.deleteLoading;
-export const selectTestCreatingError = (state: RootState) =>
-  state.tests.createTestError;
-export const selectTestUpdatingError = (state: RootState) =>
-  state.tests.updateTestError;
+export const selectTestError = (state: RootState) => state.tests.error;
 export const selectTestCount = (state: RootState) => state.tests.totalCount;
 export const selectTestPage = (state: RootState) => state.tests.currentPage;

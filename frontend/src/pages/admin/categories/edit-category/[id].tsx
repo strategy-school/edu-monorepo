@@ -1,18 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
-  selectCategoryUpdating,
+  cleanError,
   selectOneCategory,
-  selectOneCategoryFetching,
-  selectUpdateCategoryError,
 } from '@/src/dispatchers/categories/categoriesSlice';
 import {
   fetchOneCategory,
   updateCategory,
 } from '@/src/dispatchers/categories/categoriesThunks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CategoryForm from '@/src/features/categories/components/CategoryForm/CategoryForm';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ICategory } from '@/src/types';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -22,10 +18,6 @@ const Id = () => {
   const { id } = router.query as { id: string };
   const dispatch = useAppDispatch();
   const category = useAppSelector(selectOneCategory);
-  const fetchOneLoading = useAppSelector(selectOneCategoryFetching);
-  const updateLoading = useAppSelector(selectCategoryUpdating);
-  const error = useAppSelector(selectUpdateCategoryError);
-  const user = useAppSelector(selectUser);
 
   React.useEffect(() => {
     if (id) {
@@ -35,6 +27,7 @@ const Id = () => {
 
   const onSubmit = async (categoryMutation: ICategory) => {
     await dispatch(updateCategory({ id, categoryMutation })).unwrap();
+    dispatch(cleanError());
     void router.push('/admin/categories');
   };
 
@@ -45,20 +38,11 @@ const Id = () => {
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title={'Strategia school: edit category'}>
-        {existingCategory && (
-          <CategoryForm
-            onSubmit={onSubmit}
-            loading={updateLoading}
-            error={error}
-            existingCategory={existingCategory}
-            isEdit
-            fetchCategoryLoading={fetchOneLoading}
-          />
-        )}
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Редактировать категорию">
+      {existingCategory && (
+        <CategoryForm onSubmit={onSubmit} existingCategory={existingCategory} />
+      )}
+    </AdminLayout>
   );
 };
 

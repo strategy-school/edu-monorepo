@@ -1,31 +1,23 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
-  selectGroupUpdating,
+  cleanError,
   selectOneGroup,
-  selectOneGroupFetching,
-  selectUpdateGroupError,
 } from '@/src/dispatchers/groups/groupsSlice';
 import {
   fetchOneGroup,
   updateGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
-import { IGroup } from '@/src/types';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
-import Layout from '@/src/components/UI/Layout/Layout';
 import GroupForm from '@/src/features/groups/components/GroupForm/GroupForm';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { IGroup } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const Id = () => {
   const router = useRouter();
   const { id } = router.query as { id: string };
   const dispatch = useAppDispatch();
   const group = useAppSelector(selectOneGroup);
-  const fetchOneLoading = useAppSelector(selectOneGroupFetching);
-  const updateLoading = useAppSelector(selectGroupUpdating);
-  const error = useAppSelector(selectUpdateGroupError);
-  const user = useAppSelector(selectUser);
 
   React.useEffect(() => {
     if (id) {
@@ -33,9 +25,10 @@ const Id = () => {
     }
   }, [dispatch, id]);
 
-  const onSubmit = async (groupMutation: IGroup) => {
-    await dispatch(updateGroup({ id, group: groupMutation })).unwrap();
-    void router.back();
+  const onSubmit = async (group: IGroup) => {
+    await dispatch(updateGroup({ id, group })).unwrap();
+    dispatch(cleanError());
+    void router.push('/admin/groups');
   };
 
   const existingGroup = group && {
@@ -50,20 +43,11 @@ const Id = () => {
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia edit group">
-        {existingGroup && (
-          <GroupForm
-            onSubmit={onSubmit}
-            loading={updateLoading}
-            error={error}
-            isEdit
-            existingGroup={existingGroup}
-            fetchGroupLoading={fetchOneLoading}
-          />
-        )}
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Редактировать группу">
+      {existingGroup && (
+        <GroupForm onSubmit={onSubmit} existingGroup={existingGroup} />
+      )}
+    </AdminLayout>
   );
 };
 
