@@ -13,8 +13,9 @@ const AboutUs = () => {
           style={stylesGlobal.title}
           color="info.dark"
           fontSize={stylesGlobal.fontSize}
+          paddingBottom={{ xs: '20px', lg: 0 }}
         >
-          Почему выбирают Школу Маркетинга Strategia
+          Почему выбирают Школу Маркетинга Strategia?
         </Typography>
       </Grid>
       <Grid item container lg={8}>

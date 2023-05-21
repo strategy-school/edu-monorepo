@@ -76,7 +76,10 @@ const CourseId = () => {
                   textAlign="center"
                 >
                   <Grid item xs>
-                    <Typography variant="h3">
+                    <Typography
+                      variant="h3"
+                      fontSize={{ xs: '2rem', sm: '2.5rem', lg: '3rem' }}
+                    >
                       {course.title} ({typeName})
                     </Typography>
                   </Grid>

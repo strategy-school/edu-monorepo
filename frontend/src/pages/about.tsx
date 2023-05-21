@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
+import theme from '@/src/theme';
 
 const height = { xs: '200px', sm: '300px', md: '400px', lg: '450px' };
 
@@ -109,7 +110,10 @@ const About = () => {
             </Typography>
             <Grid item container>
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Клиентоориентированность – Клиент - наше все! Мы всегда
                   стараемся вовремя определить нужды и потребности клиентов,
@@ -119,7 +123,10 @@ const About = () => {
               </Grid>
 
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Профессионализм - Ключевые бизнес-консультанты и тренеры
                   Центра имеют степень MBA, зарубежное образование и успешный,
@@ -128,7 +135,10 @@ const About = () => {
               </Grid>
 
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Инновации – трансформация достижений научно-технического
                   прогресса в пользу действующего бизнеса клиента с целью

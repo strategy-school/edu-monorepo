@@ -27,7 +27,7 @@ export const blockStyle = {
 };
 
 export const blockTopStyle = {
-  color: theme.palette.secondary.main,
+  color: theme.palette.info.dark,
   paddingTop: '10px',
   paddingBottom: '10px',
   borderTopLeftRadius: '35px',
