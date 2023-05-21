@@ -40,7 +40,6 @@ const AppToolbar: React.FC<Props> = (props) => {
   const user = useAppSelector(selectUser);
   const { window } = props;
   const [open, setOpen] = React.useState(false);
-
   const handleDrawerToggle = () => {
     setOpen((prevState) => !prevState);
   };
@@ -118,13 +117,7 @@ const AppToolbar: React.FC<Props> = (props) => {
     <AppBar position="sticky" sx={{ bgolor: 'secondary.light' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={6} sm={12} md={3}>
-            <Typography
-              variant="h6"
-              component="div"
-              className="conveythis-no-translate"
-            >
-          <Grid item xs={6} sm={5} md={3}>
+          <Grid item xs={3} sm={5} md={3}>
             <Typography component="div">
               <Link
                 href="/"
@@ -141,6 +134,7 @@ const AppToolbar: React.FC<Props> = (props) => {
                     fontWeight: 600,
                   }}
                   display={{ xs: 'none', sm: 'inline' }}
+                  className="conveythis-no-translate"
                 >
                   Strategia School
                 </Typography>
@@ -171,11 +165,11 @@ const AppToolbar: React.FC<Props> = (props) => {
             container
             alignItems="center"
             justifyContent="flex-end"
-            xs={6}
+            xs={9}
             sm={7}
             md={9}
           >
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <Button component={Link} href="/courses" color="inherit">
                 Список курсов
               </Button>
