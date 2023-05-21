@@ -18,7 +18,12 @@ const Layout: React.FC<Props> = ({ children, title }) => {
       <AppToolbar />
       <Container
         sx={{ padding: '50px 25px' }}
-        style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}
+        style={{
+          display: 'flex',
+          minHeight: '100vh',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
       >
         {children}
       </Container>

@@ -22,6 +22,7 @@ import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { logout } from '@/src/dispatchers/users/usersThunks';
+import ChangeLanguage from '@/src/components/UI/ChangeLanguage/ChangeLanguage';
 
 interface Props {
   window?: () => Window;
@@ -128,7 +129,11 @@ const AppToolbar: React.FC<Props> = (props) => {
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={6} sm={12} md={3}>
-            <Typography variant="h6" component="div">
+            <Typography
+              variant="h6"
+              component="div"
+              className="conveythis-no-translate"
+            >
               <Link
                 href="/"
                 style={{
@@ -194,6 +199,9 @@ const AppToolbar: React.FC<Props> = (props) => {
             >
               <MenuIcon />
             </IconButton>
+            <Box>
+              <ChangeLanguage />
+            </Box>
           </Grid>
         </Grid>
         <Box component="nav">
