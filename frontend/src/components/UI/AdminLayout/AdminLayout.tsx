@@ -1,16 +1,18 @@
-import React from 'react';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import { useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
-import { Grid } from '@mui/material';
 import Sidebar from '@/src/components/UI/Sidebar/Sidebar';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { useAppSelector } from '@/src/store/hooks';
+import { Button, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
+import React from 'react';
 
-interface Props {
-  children: React.ReactNode;
+interface Props extends React.PropsWithChildren {
+  pageTitle: string;
+  createLink?: string;
 }
 
-const AdminLayout: React.FC<Props> = ({ children }) => {
+const AdminLayout: React.FC<Props> = ({ pageTitle, createLink, children }) => {
   const user = useAppSelector(selectUser);
 
   return (
@@ -21,7 +23,26 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             <Sidebar />
           </Grid>
           <Grid item xs>
-            {children}
+            <Grid container spacing={2} direction="column">
+              <Grid item xs container justifyContent="space-between">
+                <Grid item>
+                  <Typography variant="h4">{pageTitle}</Typography>
+                </Grid>
+                {createLink && (
+                  <Grid item>
+                    <Button
+                      component={Link}
+                      href={createLink}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Создать
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+              <Grid item>{children}</Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Layout>
