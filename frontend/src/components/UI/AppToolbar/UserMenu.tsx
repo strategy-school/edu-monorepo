@@ -18,7 +18,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     <>
       <Button color="inherit">
         {user.firstName}
-        <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 2 }} />
+        <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
       </Button>
     </>
   );

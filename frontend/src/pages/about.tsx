@@ -49,6 +49,7 @@ const About = () => {
                 textAlign: 'justify' as TextAlign,
                 marginTop: '14px',
                 marginBottom: '14px',
+                marginRight: '10px',
               }}
             >
               Школа Маркетинга Strategia – это новое учебное подразделение
@@ -69,7 +70,7 @@ const About = () => {
             </Typography>
             <Typography
               component="p"
-              style={{ textAlign: 'justify' as TextAlign }}
+              style={{ textAlign: 'justify' as TextAlign, marginRight: '10px' }}
             >
               Главным отличием Strategia Marketing School является - анализ
               запроса заказчика. На основе полученных данных, мы разрабатываем
@@ -91,7 +92,7 @@ const About = () => {
             </Typography>
             <Typography
               component="p"
-              style={{ textAlign: 'justify' as TextAlign }}
+              style={{ textAlign: 'justify' as TextAlign, marginRight: '10px' }}
             >
               Мы способствуем развитию экономики Кыргызстана предоставляя
               глобальные практики и знания по маркетингу для решения задач
@@ -157,7 +158,7 @@ const About = () => {
             >
               Наши бизнес-тренеры
             </Typography>
-            <Grid item container marginTop="14px">
+            <Grid item container marginTop="14px" spacing={2}>
               {teachers.length > 0 &&
                 teachers.map((teacher) => (
                   <Grid

@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   FormControlLabel,
+  Grid,
   Radio,
   RadioGroup,
   Typography,
@@ -122,14 +123,25 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
 
       <MyModal open={open} handleClose={onModalClose}>
         <DialogContent>
-          <Typography variant="h6" align="center" mb={2}>
-            {score > oneTest.questions.length / 2
-              ? 'Поздравляем!'
-              : 'Есть что улучшить'}
-          </Typography>
-          <Typography variant="h6" align="center">
-            Ваш результат: {resultMessage}
-          </Typography>
+          <Grid container spacing={2}>
+            <Typography
+              variant="h6"
+              align="center"
+              mb={2}
+              fontSize={{ xs: '0.95rem', sm: '1.125rem' }}
+            >
+              {score > oneTest.questions.length / 2
+                ? 'Поздравляем!'
+                : 'Есть, что улучшить'}
+            </Typography>
+            <Typography
+              variant="h6"
+              align="center"
+              fontSize={{ xs: '0.95rem', sm: '1.125rem' }}
+            >
+              Ваш результат: {resultMessage}
+            </Typography>
+          </Grid>
         </DialogContent>
         <DialogActions
           sx={{
@@ -139,10 +151,12 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
             justifyContent: 'center',
           }}
         >
-          <Typography>Поделитесь результатом теста с друзьями</Typography>
-          <Box
+          <Typography textAlign={{ xs: 'center', sm: 'left' }}>
+            Поделитесь результатом теста с друзьями
+          </Typography>
+          <Grid
+            container
             sx={{
-              display: 'flex',
               alignItems: 'center',
               gap: '10px',
               marginY: '15px',
@@ -169,9 +183,14 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
             <LinkedinShareButton url={url} title={title}>
               <LinkedinIcon size={32} round={true} />
             </LinkedinShareButton>
-          </Box>
+          </Grid>
           <Button variant="outlined" onClick={openCourses} fullWidth>
-            Выбрать подходящий курс
+            <Typography
+              fontWeight={700}
+              fontSize={{ xs: '0.55rem', sm: '0.875rem' }}
+            >
+              Выбрать подходящий курс
+            </Typography>
           </Button>
         </DialogActions>
       </MyModal>

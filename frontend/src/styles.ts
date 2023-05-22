@@ -2,6 +2,7 @@ import { Property } from 'csstype';
 import TextTransform = Property.TextTransform;
 import theme from '@/src/theme';
 import marketingBg from '@/src/assets/images/marketing-bg.jpg';
+import TextAlign = Property.TextAlign;
 
 export const stylesGlobal = {
   title: {
@@ -119,7 +120,8 @@ export const whyUs = {
     margin: '0 0 25px 0 ',
   },
   whyUsText: {
-    margin: '0 0 0 15px',
+    margin: '0 10px 0 15px',
+    textAlign: 'justify' as TextAlign,
   },
 };
 
