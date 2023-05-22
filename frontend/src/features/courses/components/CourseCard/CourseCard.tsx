@@ -60,6 +60,7 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
                 variant={isFull ? (isSm ? 'body2' : 'h6') : 'body2'}
                 color={theme.palette.info.dark}
                 fontWeight={600}
+                fontSize={currentCardStyle.fontSize}
                 mt={1}
               >
                 {course.duration.toLowerCase()}

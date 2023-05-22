@@ -189,7 +189,7 @@ const AppToolbar: React.FC<Props> = (props) => {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ ml: 2 }}
+              sx={{ ml: 1 }}
             >
               <MenuIcon />
             </IconButton>

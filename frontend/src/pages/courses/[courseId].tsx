@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const imgStyle = {
-  xs: 300,
+  xs: 250,
   md: 400,
   lg: 500,
   xl: 500,

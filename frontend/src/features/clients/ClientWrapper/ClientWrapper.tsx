@@ -35,7 +35,7 @@ const ClientWrapper = () => {
           вас компаниям-партнерам.
         </Typography>
       </Grid>
-      <Grid item container spacing={1} sx={{ mt: 4 }} alignItems="center">
+      <Grid item container spacing={1} sx={{ mt: 4 }} justifyContent="center">
         <Grid item xs={5} sm={4} textAlign="center">
           <Image
             src={shirin}
@@ -44,7 +44,16 @@ const ClientWrapper = () => {
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
-        <Grid item xs={5} sm={4} textAlign="center">
+        <Grid
+          item
+          xs={5}
+          sm={4}
+          style={{
+            marginTop: 'auto',
+            marginBottom: 'auto',
+            textAlign: 'center',
+          }}
+        >
           <Image
             src={toyboss}
             alt="Тойбосс"

@@ -86,7 +86,7 @@ export const cardStyle = {
     display: 'flex',
   },
   fontSize: {
-    xs: '14px',
+    xs: '12px',
     sm: '18px',
     md: '26px',
   },
