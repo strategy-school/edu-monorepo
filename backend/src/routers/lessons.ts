@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import auth from '../middleware/auth';
+import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 import { Error, HydratedDocument } from 'mongoose';
 import Lesson from '../models/Lesson';
 import { ILesson, PageLimit, Search } from '../types';
 import { pdfUpload } from '../multer';
+import Transaction from '../models/Transactions';
 
 type QueryParams = Search<Pick<ILesson, 'theme' | 'course'>> & PageLimit;
 
@@ -22,6 +23,7 @@ lessonsRouter.post(
         video_link: req.body.video_link,
         document: req.file ? req.file.filename : null,
         course: req.body.course,
+        number: parseInt(req.body.number),
       });
 
       return res.send({ message: 'Lesson is created', result: lesson });
@@ -36,9 +38,24 @@ lessonsRouter.post(
 
 lessonsRouter.get('/', auth, async (req, res, next) => {
   try {
+    const user = (req as RequestWithUser).user;
     const { page, limit, ...params }: QueryParams = req.query;
+    const transaction = await Transaction.findOne({
+      user: user._id,
+      course: params.course,
+      course_type: 'youtube',
+      isPaid: 'paid',
+    });
     const p: number = page ? parseInt(page) : 1;
     const l: number = limit ? parseInt(limit) : 10;
+
+    if (!transaction && user.role !== 'admin') {
+      console.log(transaction, user._id, params.course);
+      return res.status(403).send({
+        error:
+          'Вы не покупали данный курс или ваша оплата еще не подтверждена!',
+      });
+    }
 
     const totalCount = await Lesson.count(params);
     const skip = (p - 1) * l;
@@ -46,7 +63,8 @@ lessonsRouter.get('/', auth, async (req, res, next) => {
     const lessons = await Lesson.find(params)
       .populate('course', 'title price type level image')
       .skip(skip)
-      .limit(l);
+      .limit(l)
+      .sort({ number: 1 });
 
     return res.send({
       message: 'Lessons are found',
@@ -84,7 +102,7 @@ lessonsRouter.put(
   async (req, res, next) => {
     try {
       const lessonId = req.params.id;
-      const { theme, video_link, course } = req.body;
+      const { theme, video_link, course, number } = req.body;
 
       if (!lessonId) {
         return res.status(400).send({ error: 'Lesson id is required' });
@@ -97,9 +115,10 @@ lessonsRouter.put(
         return res.status(404).send('Lesson is not found');
       }
 
-      editedLesson.theme = theme || editedLesson.theme;
-      editedLesson.video_link = video_link || editedLesson.video_link;
-      editedLesson.course = course || editedLesson.course;
+      editedLesson.theme = theme;
+      editedLesson.video_link = video_link;
+      editedLesson.course = course;
+      editedLesson.number = parseInt(number);
 
       if (req.file) {
         editedLesson.document = req.file.filename;

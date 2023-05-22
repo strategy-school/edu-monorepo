@@ -176,6 +176,7 @@ export interface ApiCommentsResponse {
 export interface ITransaction {
   user: string;
   course: string;
+  course_type: string;
 }
 
 export interface ApiTransaction {
@@ -186,6 +187,7 @@ export interface ApiTransaction {
     '_id' | 'title' | 'price' | 'type' | 'level' | 'image' | 'exam'
   >;
   isPaid: 'pending' | 'paid';
+  course_type: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -307,6 +309,7 @@ export interface ApiLesson {
     ApiCourse,
     '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
   >;
+  number: number;
 }
 
 export interface ILesson {
@@ -314,6 +317,7 @@ export interface ILesson {
   video_link: string;
   course: string;
   document: File | null;
+  number: string;
 }
 
 export interface RegexSearch {
