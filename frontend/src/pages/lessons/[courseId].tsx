@@ -6,7 +6,7 @@ import { selectOneCourse } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchLessons } from '@/src/dispatchers/lessons/lessonsThunk';
 import { fetchOneCourse } from '@/src/dispatchers/courses/coursesThunks';
 import { Grid, Typography } from '@mui/material';
-import LessonCardItem from '@/src/features/lessons/admin/LessonCardItem';
+import LessonCardItem from '@/src/features/lessons/LessonCardItem';
 import Layout from '@/src/components/UI/Layout/Layout';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
@@ -40,7 +40,6 @@ const CourseId = () => {
               </Grid>
             ))}
           </Grid>
-          <Grid item></Grid>
         </Grid>
       </Layout>
     </ProtectedRoute>

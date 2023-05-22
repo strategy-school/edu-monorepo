@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import LessonTableItem from './LessonTableItem';
+import LessonFilterForm from '@/src/features/lessons/admin/LessonFilterForm';
 
 const AdminLessons = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,6 @@ const AdminLessons = () => {
   const totalCount = useAppSelector(selectLessonsCount);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
-  console.log(lessons);
 
   React.useEffect(() => {
     dispatch(fetchLessons({ page, limit }));
@@ -37,6 +37,7 @@ const AdminLessons = () => {
   return (
     <>
       <TableContainer component={Paper}>
+        <LessonFilterForm />
         <Table stickyHeader>
           <TableHead>
             <TableRow>
