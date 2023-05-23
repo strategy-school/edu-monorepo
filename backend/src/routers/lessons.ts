@@ -50,7 +50,6 @@ lessonsRouter.get('/', auth, async (req, res, next) => {
     const l: number = limit ? parseInt(limit) : 10;
 
     if (!transaction && user.role !== 'admin') {
-      console.log(transaction, user._id, params.course);
       return res.status(403).send({
         error:
           'Вы не покупали данный курс или ваша оплата еще не подтверждена!',

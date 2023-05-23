@@ -36,7 +36,13 @@ const LessonCardItem: React.FC<Props> = ({ lesson }) => {
           </Button>
         ) : (
           <Tooltip title="По этому уроку пока не загружено видео">
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                margin: '0 16px',
+              }}
+            >
               <VideocamOffIcon color="primary" />
             </div>
           </Tooltip>
@@ -52,7 +58,13 @@ const LessonCardItem: React.FC<Props> = ({ lesson }) => {
           </Button>
         ) : (
           <Tooltip title="По этому уроку пока не загружен материал">
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                margin: '0 16px',
+              }}
+            >
               <FolderOffIcon color="primary" />
             </div>
           </Tooltip>
