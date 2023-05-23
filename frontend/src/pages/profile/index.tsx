@@ -54,8 +54,8 @@ const Profile = () => {
   };
 
   return (
-    user && (
-      <ProtectedRoute isAllowed={Boolean(user)}>
+    <ProtectedRoute isAllowed={Boolean(user)}>
+      {user && (
         <Layout title="Strategy school: Profile">
           <BlocksTitle titleText="Мой профиль" />
           <Grid
@@ -125,7 +125,7 @@ const Profile = () => {
                   spacing={2}
                 >
                   {transactions.map((transaction) => (
-                    <Grid item key={transaction._id} xs={12} md={6} xl={4}>
+                    <Grid item key={transaction._id} xs={12} md={6}>
                       <ProfileCourseCard transactionCourse={transaction} />
                     </Grid>
                   ))}
@@ -154,8 +154,8 @@ const Profile = () => {
             </Box>
           </Grid>
         </Layout>
-      </ProtectedRoute>
-    )
+      )}
+    </ProtectedRoute>
   );
 };
 

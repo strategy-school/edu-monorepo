@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Grid,
   Typography,
 } from '@mui/material';
 import { ApiTransaction } from '@/src/types';
@@ -13,6 +14,7 @@ import Link from 'next/link';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 interface Props {
   transactionCourse: ApiTransaction;
 }
@@ -53,24 +55,50 @@ const ProfileCourseCard: React.FC<Props> = ({ transactionCourse }) => {
           >
             {transactionCourse.isPaid === 'paid' ? 'Оплачено' : 'В обработке'}
           </Typography>
-          {transactionCourse.course.exam &&
-            transactionCourse.isPaid === 'paid' && (
-              <Button
-                variant="text"
-                component={Link}
-                href={transactionCourse.course.exam}
-                sx={{
-                  textTransform: 'none',
-                  color: 'info.dark',
-                  textDecoration: 'underline',
-                  padding: 0,
-                  mt: 2,
-                }}
-                target="_blank"
-              >
-                Финальный экзамен
-              </Button>
-            )}
+          {transactionCourse.isPaid === 'paid' && (
+            <Grid container spacing={2}>
+              {transactionCourse.course.exam && (
+                <Grid item>
+                  <Button
+                    variant="text"
+                    component={Link}
+                    href={transactionCourse.course.exam}
+                    sx={{
+                      textTransform: 'none',
+                      color: 'info.dark',
+                      textDecoration: 'underline',
+                      padding: 0,
+                      mt: 2,
+                    }}
+                    target="_blank"
+                  >
+                    Финальный экзамен
+                  </Button>
+                </Grid>
+              )}
+              <Grid item>
+                <Button
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    color: 'info.dark',
+                    textDecoration: 'underline',
+                    padding: 0,
+                    mt: 2,
+                  }}
+                  href={
+                    transactionCourse.course_type === 'youtube'
+                      ? `/lessons/${transactionCourse.course._id}`
+                      : '/groups'
+                  }
+                >
+                  {transactionCourse.course_type === 'youtube'
+                    ? 'Перейти к урокам'
+                    : 'Перейти к расписанию'}
+                </Button>
+              </Grid>
+            </Grid>
+          )}
         </CardContent>
       </Box>
       <CardMedia
