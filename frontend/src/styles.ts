@@ -14,6 +14,10 @@ export const stylesGlobal = {
     xs: '20px',
     lg: '30px',
   },
+  maxWidth: {
+    xs: '100%',
+    lg: '75%',
+  },
 };
 
 export const borderRadius = '35px';

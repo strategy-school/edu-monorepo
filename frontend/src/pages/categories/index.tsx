@@ -16,7 +16,7 @@ const Index = () => {
   }, [dispatch]);
 
   return (
-    <Layout title="Strategia School: Course categories">
+    <Layout title="Школа Маркетинга Strategia: Категории курсов">
       <BlocksTitle titleText="Список всех категорий" />
       <Grid container direction="column" spacing={2}>
         <Grid item container spacing={2}>

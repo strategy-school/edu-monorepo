@@ -25,7 +25,7 @@ const TeacherId = () => {
   };
 
   return (
-    <Layout title="Strategia school: страница учителя">
+    <Layout title="Школа Маркетинга Strategia: Страница преподователя">
       <OneTeacher teacher={teacher} loading={loading} goBack={handleGoBack} />
     </Layout>
   );

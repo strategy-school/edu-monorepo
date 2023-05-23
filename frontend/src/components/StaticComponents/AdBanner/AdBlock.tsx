@@ -29,6 +29,7 @@ const AdBlock = () => {
             style={stylesGlobal.title}
             color="info.dark"
             fontSize={stylesGlobal.fontSize}
+            maxWidth={stylesGlobal.maxWidth}
             textAlign="center"
             paddingBottom={{ xs: '30px', sm: 0 }}
           >
@@ -45,11 +46,12 @@ const AdBlock = () => {
                 position: 'absolute',
                 top: '35%',
                 left: '45%',
+                color: 'white',
               }}
             />
             <Typography
               component="img"
-              src="https://i.ytimg.com/vi/lplDFlNtUeg/maxresdefault.jpg"
+              src="https://i.ytimg.com/vi/JUuG1P9OtRw/maxresdefault.jpg"
               style={{ width: '100%', height: 'auto' }}
               borderRadius="20px"
               onClick={() => setOpen(true)}
@@ -157,7 +159,7 @@ const AdBlock = () => {
       >
         <DialogContent>
           <YouTube
-            videoId={'lplDFlNtUeg'}
+            videoId={'JUuG1P9OtRw'}
             title="Кому подходят наши курсы"
             className="video"
           />

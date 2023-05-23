@@ -25,7 +25,7 @@ const GroupId = () => {
   console.log(group);
 
   return (
-    <Layout title={`${group?.title} page`}>
+    <Layout title={`Школа Маркетинга Strategia: ${group?.title}`}>
       {groupLoading ? (
         <CircularProgress />
       ) : (

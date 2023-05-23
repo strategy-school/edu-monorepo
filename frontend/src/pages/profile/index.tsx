@@ -56,7 +56,7 @@ const Profile = () => {
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
       {user && (
-        <Layout title="Strategy school: Profile">
+        <Layout title="Школа Маркетинга Strategia: Профиль">
           <BlocksTitle titleText="Мой профиль" />
           <Grid
             container

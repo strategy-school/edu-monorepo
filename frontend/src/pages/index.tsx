@@ -26,7 +26,7 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <Layout title="Strategy school">
+    <Layout title="Школа Маркетинга Strategia">
       <Box
         style={{
           display: 'flex',

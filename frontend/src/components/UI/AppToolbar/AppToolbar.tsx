@@ -136,7 +136,7 @@ const AppToolbar: React.FC<Props> = (props) => {
                   display={{ xs: 'none', sm: 'inline' }}
                   className="conveythis-no-translate"
                 >
-                  Strategia School
+                  Школа Маркетинга Strategia
                 </Typography>
                 <Box
                   style={{

@@ -21,7 +21,7 @@ const Index = () => {
 
   console.log(groups);
   return (
-    <Layout title="Strategia School: Groups">
+    <Layout title="Школа Маркетинга Strategia: Группы">
       <BlocksTitle titleText={'Список учебных групп'} />
       <Grid container spacing={4} sx={{ mt: 3 }}>
         <Grid item xs container direction="row" justifyContent="center">

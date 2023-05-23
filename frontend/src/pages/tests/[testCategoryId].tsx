@@ -19,7 +19,7 @@ const TestsByCategory = () => {
   }, [dispatch, testCategoryId]);
 
   return (
-    <Layout title="Stratiga school | Tests">
+    <Layout title="Школа Маркетинга Strategia: Тест">
       <BlocksTitle titleText={`Тесты по категориям`} />
       <Grid container>
         {tests.length > 0 &&

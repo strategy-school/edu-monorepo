@@ -35,7 +35,7 @@ const WelcomeBlock = () => {
           maxWidth={welcomeBlockStyle.maxWidth}
           color="#fff"
         >
-          Strategia School: Стань крутым маркетологом с нуля!
+          Школа Маркетинга Strategia: Стань крутым маркетологом с нуля!
         </Typography>
         <Button
           component={Link}

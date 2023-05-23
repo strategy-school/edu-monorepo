@@ -4,7 +4,7 @@ import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoR
 
 const VideoReviews = () => {
   return (
-    <Layout title="Strategia School: Video Reviews">
+    <Layout title="Школа Маркетинга Strategia: Видео-отзывы">
       <VideoReviewsWrapper isAll />
     </Layout>
   );

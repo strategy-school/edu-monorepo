@@ -74,7 +74,7 @@ const Registration = () => {
   const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
-    <Layout title="Strategia registration">
+    <Layout title="Школа Маркетинга Strategia: Регистрация">
       <Container component="main" maxWidth="xs">
         <Box
           style={{
@@ -192,7 +192,7 @@ const Registration = () => {
                 fullWidth
                 loading={loading}
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, ml: 2 }}
               >
                 Завершить регистрацию
               </LoadingButton>

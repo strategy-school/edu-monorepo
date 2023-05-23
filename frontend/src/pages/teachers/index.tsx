@@ -16,7 +16,7 @@ const Index = () => {
   }, [dispatch]);
 
   return (
-    <Layout title="Strategy school: Teachers list">
+    <Layout title="Школа Маркетинга Strategia: Список преподователей">
       <BlocksTitle titleText="Список всех преподавателей" />
       <Grid container justifyContent="center" spacing={2}>
         {teachers.length > 0 &&

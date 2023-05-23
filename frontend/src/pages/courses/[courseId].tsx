@@ -60,7 +60,7 @@ const CourseId = () => {
   const isXl = useMediaQuery('(min-width:1280px)');
 
   return (
-    <Layout title={`${course?.title} page`}>
+    <Layout title={`Школа Маркетинга Strategia: ${course?.title}`}>
       {courseLoading ? (
         <CircularProgress />
       ) : (
@@ -68,13 +68,7 @@ const CourseId = () => {
           <Grid container style={blockStyle}>
             <Grid container sx={{ padding: '20px' }}>
               <Grid item xs container direction="column" padding="20px">
-                <Grid
-                  container
-                  item
-                  xs
-                  style={blockTopStyle}
-                  textAlign="center"
-                >
+                <Grid container item xs style={blockTopStyle}>
                   <Grid item xs>
                     <Typography
                       variant="h3"
