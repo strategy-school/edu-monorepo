@@ -120,6 +120,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     googleId: String,
     facebookId: String,
     linkedinId: String,
+    telegramId: String,
     verifyEmailToken: {
       type: String,
       default: null,

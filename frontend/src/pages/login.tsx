@@ -22,6 +22,7 @@ import {
   selectLoginLoading,
 } from '../dispatchers/users/usersSlice';
 import { LoginMutation } from '../types';
+import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +50,11 @@ const Login = () => {
     void router.push('/');
   };
 
+  const handleTelegramAuth = (user: any) => {
+    // Handle the authenticated user data from Telegram
+    console.log(user);
+  };
+
   return (
     <Layout title="Strategia login">
       <Container component="main" maxWidth="xs">
@@ -72,6 +78,14 @@ const Login = () => {
                 void onGoogleLogin(credentialResponse.credential as string);
               }}
               onError={() => console.log('Login failed')}
+            />
+          </Box>
+          <Box sx={{ pt: 2 }}>
+            <TelegramAuth
+              botName="strategia_authorization_bot"
+              dataOnAuth={handleTelegramAuth}
+              buttonSize="large"
+              requestAccess={true}
             />
           </Box>
           {error && (

@@ -12,6 +12,7 @@ export interface IUser {
   googleId: string | null;
   facebookId: string | null;
   linkedinId: string | null;
+  telegramId: string | null;
   isBanned: boolean;
   resetPasswordToken: string | null;
   verifyEmailToken: string | null;

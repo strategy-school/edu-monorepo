@@ -218,6 +218,32 @@ usersRouter.post('/google', async (req, res, next) => {
   }
 });
 
+usersRouter.post('/telegram', async (req, res, next) => {
+  try {
+    let user = await User.findOne({ telegramId: req.body.telegramId });
+
+    if (!user) {
+      const avatar =
+        'images/' + (await downloadFile(req.body.avatar as string, 'images'));
+
+      user = new User({
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: crypto.randomUUID(),
+        avatar,
+        telegramId: req.body.telegramId,
+        verified: true,
+      });
+    }
+    user.generateToken();
+    await user.save();
+    return res.send({ message: 'Login with Telegram successful', user });
+  } catch (e) {
+    return next(e);
+  }
+});
+
 usersRouter.patch(
   '/',
   auth,
