@@ -24,7 +24,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         href={'/profile'}
       >
         {user.firstName}
-        <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 2 }} />
+        <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
       </Button>
     </>
   );

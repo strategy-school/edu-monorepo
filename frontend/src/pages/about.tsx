@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
+import theme from '@/src/theme';
 
 const height = { xs: '200px', sm: '300px', md: '400px', lg: '450px' };
 
@@ -48,6 +49,7 @@ const About = () => {
                 textAlign: 'justify' as TextAlign,
                 marginTop: '14px',
                 marginBottom: '14px',
+                marginRight: '10px',
               }}
             >
               Школа Маркетинга Strategia – это новое учебное подразделение
@@ -68,7 +70,7 @@ const About = () => {
             </Typography>
             <Typography
               component="p"
-              style={{ textAlign: 'justify' as TextAlign }}
+              style={{ textAlign: 'justify' as TextAlign, marginRight: '10px' }}
             >
               Главным отличием Strategia Marketing School является - анализ
               запроса заказчика. На основе полученных данных, мы разрабатываем
@@ -90,7 +92,7 @@ const About = () => {
             </Typography>
             <Typography
               component="p"
-              style={{ textAlign: 'justify' as TextAlign }}
+              style={{ textAlign: 'justify' as TextAlign, marginRight: '10px' }}
             >
               Мы способствуем развитию экономики Кыргызстана предоставляя
               глобальные практики и знания по маркетингу для решения задач
@@ -109,7 +111,10 @@ const About = () => {
             </Typography>
             <Grid item container>
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Клиентоориентированность – Клиент - наше все! Мы всегда
                   стараемся вовремя определить нужды и потребности клиентов,
@@ -119,7 +124,10 @@ const About = () => {
               </Grid>
 
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Профессионализм - Ключевые бизнес-консультанты и тренеры
                   Центра имеют степень MBA, зарубежное образование и успешный,
@@ -128,7 +136,10 @@ const About = () => {
               </Grid>
 
               <Grid item paddingTop={'14px'} style={whyUs.whyUsItem}>
-                <CheckCircleOutlineIcon fontSize="small" color="secondary" />
+                <CheckCircleOutlineIcon
+                  style={{ color: theme.palette.info.dark }}
+                  fontSize="small"
+                />
                 <Typography style={whyUs.whyUsText}>
                   Инновации – трансформация достижений научно-технического
                   прогресса в пользу действующего бизнеса клиента с целью
@@ -147,7 +158,7 @@ const About = () => {
             >
               Наши бизнес-тренеры
             </Typography>
-            <Grid item container marginTop="14px">
+            <Grid item container marginTop="14px" spacing={2}>
               {teachers.length > 0 &&
                 teachers.map((teacher) => (
                   <Grid

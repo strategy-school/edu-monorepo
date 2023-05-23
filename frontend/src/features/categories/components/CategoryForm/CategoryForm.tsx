@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { ICategory } from '@/src/types';
-import { CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
-import { ValidationError } from '@/src/types';
+import {
+  selectCategoryError,
+  selectCategorySubmitting,
+} from '@/src/dispatchers/categories/categoriesSlice';
+import { useAppSelector } from '@/src/store/hooks';
+import { ICategory } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Grid, TextField } from '@mui/material';
+import React, { useState } from 'react';
 
 interface Props {
   onSubmit: (categoryMutation: ICategory) => void;
   existingCategory?: ICategory;
-  isEdit?: boolean;
-  loading?: boolean;
-  fetchCategoryLoading?: boolean;
-  error: ValidationError | null;
 }
 
 const initialState: ICategory = {
@@ -22,33 +22,27 @@ const initialState: ICategory = {
 
 const CategoryForm: React.FC<Props> = ({
   onSubmit,
-  existingCategory,
-  isEdit = false,
-  loading = false,
-  fetchCategoryLoading = false,
-  error,
+  existingCategory = initialState,
 }) => {
-  const [state, setState] = useState<ICategory>(
-    existingCategory || initialState,
-  );
+  const submitting = useAppSelector(selectCategorySubmitting);
+  const error = useAppSelector(selectCategoryError);
+  const [state, setState] = useState<ICategory>(existingCategory);
 
-  const submitFormHandler = async (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit(state);
     setState(initialState);
   };
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setState((prev) => ({
+      ...prev,
       [name]: files && files[0] ? files[0] : null,
     }));
   };
@@ -62,25 +56,17 @@ const CategoryForm: React.FC<Props> = ({
   };
 
   return (
-    <form onSubmit={submitFormHandler}>
+    <form onSubmit={onFormSubmit}>
       <Grid container direction="column" spacing={2}>
-        <Grid item xs>
-          <Typography variant="h5">
-            {isEdit ? 'Редактировать' : 'Создать'} категорию{' '}
-            {fetchCategoryLoading && (
-              <CircularProgress size={20} sx={{ ml: 1 }} />
-            )}
-          </Typography>
-        </Grid>
         <Grid item xs>
           <TextField
             id="title"
             name="title"
             label="Название"
             value={state.title}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
-            disabled={loading}
+            disabled={submitting}
             error={Boolean(getFieldError('title'))}
             helperText={getFieldError('title')}
           />
@@ -93,16 +79,16 @@ const CategoryForm: React.FC<Props> = ({
             name="description"
             label="Описание"
             value={state.description}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
-            disabled={loading}
+            disabled={submitting}
             error={Boolean(getFieldError('description'))}
             helperText={getFieldError('description')}
           />
         </Grid>
         <Grid item xs>
           <FileInput
-            onChange={fileInputChangeHandler}
+            onChange={onFileChange}
             errorCheck={getFieldError}
             name="image"
             label="Загрузите картинку"
@@ -111,12 +97,13 @@ const CategoryForm: React.FC<Props> = ({
         <Grid item xs>
           <LoadingButton
             loadingIndicator="Loading…"
-            loading={loading}
+            loading={submitting}
+            disabled={submitting}
             type="submit"
             color="primary"
             variant="contained"
           >
-            {isEdit ? 'Сохранить' : 'Создать'}
+            Отправить
           </LoadingButton>
         </Grid>
       </Grid>

@@ -1,16 +1,11 @@
-import React from 'react';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import { Grid } from '@mui/material';
 import TestAdmin from '@/src/features/tests/components/TestAdmin/TestAdmin';
+import React from 'react';
 
-const Index = () => {
+const Index: React.FC = () => {
   return (
-    <AdminLayout>
-      <Grid container>
-        <Grid item xs>
-          <TestAdmin />
-        </Grid>
-      </Grid>
+    <AdminLayout pageTitle="Тесты" createLink="tests/new-test">
+      <TestAdmin />
     </AdminLayout>
   );
 };

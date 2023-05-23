@@ -25,17 +25,30 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
 
   return (
     <Grid container spacing={4} direction="column">
-      <Grid item>
-        <Typography variant={isAll ? 'h3' : 'h4'}>
+      <Grid item textAlign="center">
+        <Typography
+          variant={isAll ? 'h3' : 'h4'}
+          fontSize={{ xs: '2rem', sm: '3rem' }}
+        >
           Видео отзывы о школе Strategia School
         </Typography>
       </Grid>
-      <Grid item>
-        <Grid container spacing={3}>
-          {loading ? (
-            <CircularProgress />
-          ) : isAll ? (
-            reviews.map((review) => (
+      <Grid item container spacing={3} alignItems="center">
+        {loading ? (
+          <CircularProgress />
+        ) : isAll ? (
+          reviews.map((review) => (
+            <VideoReviewItem
+              key={review._id}
+              title={review.title}
+              previewImage={review.previewImage}
+              youtubeURL={review.youtubeURL}
+            />
+          ))
+        ) : (
+          reviews
+            .slice(0, 4)
+            .map((review) => (
               <VideoReviewItem
                 key={review._id}
                 title={review.title}
@@ -43,22 +56,10 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
                 youtubeURL={review.youtubeURL}
               />
             ))
-          ) : (
-            reviews
-              .slice(0, 4)
-              .map((review) => (
-                <VideoReviewItem
-                  key={review._id}
-                  title={review.title}
-                  previewImage={review.previewImage}
-                  youtubeURL={review.youtubeURL}
-                />
-              ))
-          )}
-        </Grid>
+        )}
       </Grid>
       {!isAll && (
-        <Grid item container justifyContent="flex-end" mr={6}>
+        <Grid item container justifyContent="flex-end">
           <Grid item>
             <Typography component={Link} variant="h6" href={'/video-reviews'}>
               Смотреть все

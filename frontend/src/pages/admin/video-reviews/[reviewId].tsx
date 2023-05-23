@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectOneVideoReview } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
 import {
   deleteVideoReview,
   fetchOneVideoReview,
 } from '@/src/dispatchers/videoReviews/videoReviewsThunks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 
 const ReviewId = () => {
@@ -25,7 +25,7 @@ const ReviewId = () => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchOneVideoReview(reviewId));
   }, [dispatch, reviewId]);
 

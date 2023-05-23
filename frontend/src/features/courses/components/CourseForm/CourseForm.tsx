@@ -1,11 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import {
   selectCategories,
   selectCategoriesFetching,
 } from '@/src/dispatchers/categories/categoriesSlice';
 import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
-import { ICourse, ValidationError } from '@/src/types';
+import {
+  selectCourseError,
+  selectCourseSubmitting,
+} from '@/src/dispatchers/courses/coursesSlice';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { ICourse } from '@/src/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Alert,
@@ -22,10 +26,6 @@ import React, { ChangeEvent, useState } from 'react';
 interface Props {
   onSubmit: (courseMutation: ICourse) => void;
   existingCourse?: ICourse;
-  isEdit?: boolean;
-  loading: boolean;
-  error: ValidationError | null;
-  fetchCourseLoading?: boolean;
 }
 
 const initialState: ICourse = {
@@ -47,19 +47,20 @@ const initialState: ICourse = {
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,
-  existingCourse,
-  isEdit = false,
-  loading = false,
-  error,
-  fetchCourseLoading = false,
+  existingCourse = initialState,
 }) => {
   const dispatch = useAppDispatch();
-  const [state, setState] = React.useState<ICourse>(
-    existingCourse || initialState,
-  );
   const categories = useAppSelector(selectCategories);
   const categoriesLoading = useAppSelector(selectCategoriesFetching);
+  const error = useAppSelector(selectCourseError);
+  const submitting = useAppSelector(selectCourseSubmitting);
+  const [state, setState] = React.useState<ICourse>(existingCourse);
   const [formatError, setFormatError] = useState(false);
+
+  React.useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -68,41 +69,30 @@ const CourseForm: React.FC<Props> = ({
     }
   };
 
-  React.useEffect(() => {
-    setState(existingCourse || initialState);
-  }, [existingCourse]);
-
-  React.useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  const inputChangeHandler = (
+  const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckBoxChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const onCheckboxChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
-
-    setState((prevState) => ({
-      ...prevState,
+    setState((prev) => ({
+      ...prev,
       [name]: checked,
     }));
   };
 
-  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setState((prev) => ({
+      ...prev,
       [name]: files && files[0] ? files[0] : null,
     }));
   };
 
-  const submitFormHandler = async (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await setFormatError(false);
 
@@ -114,23 +104,14 @@ const CourseForm: React.FC<Props> = ({
   };
 
   return (
-    <form onSubmit={submitFormHandler}>
+    <form onSubmit={onFormSubmit}>
       <Grid container direction="column" spacing={2}>
-        <Grid item xs>
-          <Typography variant="h4">
-            {isEdit ? 'Редактировать' : 'Новый'} курс{' '}
-            {fetchCourseLoading && (
-              <CircularProgress size={20} sx={{ ml: 1 }} />
-            )}
-          </Typography>
-        </Grid>
-
         <Grid item xs>
           <TextField
             id="title"
             label="Заголовок"
             value={state.title}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="title"
             required
             error={Boolean(getFieldError('title'))}
@@ -144,7 +125,7 @@ const CourseForm: React.FC<Props> = ({
             select
             name="category"
             value={state.category}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('category'))}
             helperText={getFieldError('category')}
@@ -169,7 +150,7 @@ const CourseForm: React.FC<Props> = ({
             select
             name="level"
             value={state.level}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('level'))}
             helperText={getFieldError('level')}
@@ -190,7 +171,7 @@ const CourseForm: React.FC<Props> = ({
             select
             name="type"
             value={state.type}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('type'))}
             helperText={getFieldError('type')}
@@ -212,7 +193,7 @@ const CourseForm: React.FC<Props> = ({
             id="description"
             label="Описание"
             value={state.description}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="description"
             required
             error={Boolean(getFieldError('description'))}
@@ -227,7 +208,7 @@ const CourseForm: React.FC<Props> = ({
             id="theme"
             label="Что будет изучаться на курсе (тема)"
             value={state.theme}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="theme"
             error={Boolean(getFieldError('theme'))}
             helperText={getFieldError('theme')}
@@ -241,7 +222,7 @@ const CourseForm: React.FC<Props> = ({
             id="targetAudience"
             label="Целевая аудитория"
             value={state.targetAudience}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="targetAudience"
             error={Boolean(getFieldError('targetAudience'))}
             helperText={getFieldError('targetAudience')}
@@ -255,7 +236,7 @@ const CourseForm: React.FC<Props> = ({
             id="programGoal"
             label="Задача программы"
             value={state.programGoal}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="programGoal"
             error={Boolean(getFieldError('programGoal'))}
             helperText={getFieldError('programGoal')}
@@ -267,7 +248,7 @@ const CourseForm: React.FC<Props> = ({
             id="duration"
             label="Продолжительность"
             value={state.duration}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="duration"
             required
             error={Boolean(getFieldError('duration'))}
@@ -280,7 +261,7 @@ const CourseForm: React.FC<Props> = ({
             id="price"
             label="Цена"
             value={state.price}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="price"
             required
             type="number"
@@ -294,7 +275,7 @@ const CourseForm: React.FC<Props> = ({
             id="exam"
             label="Ccылка на финальный экзамен"
             value={state.exam}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="exam"
             type="string"
             InputProps={{ inputProps: { min: 0 } }}
@@ -317,7 +298,7 @@ const CourseForm: React.FC<Props> = ({
             control={
               <Checkbox
                 checked={state.youtube}
-                onChange={handleCheckBoxChange}
+                onChange={onCheckboxChange}
                 name="youtube"
                 color="primary"
               />
@@ -328,7 +309,7 @@ const CourseForm: React.FC<Props> = ({
             control={
               <Checkbox
                 checked={state.zoom}
-                onChange={handleCheckBoxChange}
+                onChange={onCheckboxChange}
                 name="zoom"
                 color="primary"
               />
@@ -340,7 +321,7 @@ const CourseForm: React.FC<Props> = ({
         <Grid item xs>
           <FileInput
             label="Выберите картинку для курса"
-            onChange={fileInputChangeHandler}
+            onChange={onFileChange}
             name="image"
             type="image/*"
             errorCheck={getFieldError}
@@ -350,12 +331,13 @@ const CourseForm: React.FC<Props> = ({
         <Grid item xs>
           <LoadingButton
             loadingIndicator="Loading…"
-            loading={loading}
+            loading={submitting}
+            disabled={submitting}
             type="submit"
             color="primary"
             variant="contained"
           >
-            {isEdit ? 'Сохранить' : 'Создать'}
+            Отправить
           </LoadingButton>
         </Grid>
       </Grid>

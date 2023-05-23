@@ -20,10 +20,10 @@ a {
 
 .video iframe {
   border-radius: 20px;
-  width: 600px;
-  height: 400px;
+  width: 100%;
 }
 
 #conveythis-wrapper {
   display: none !important;
 }
+

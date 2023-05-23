@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Dialog, DialogContent, Grid, Typography } from '@mui/material';
 import YouTube from 'react-youtube';
 import { stylesGlobal } from '@/src/styles';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -7,14 +7,20 @@ import SellIcon from '@mui/icons-material/Sell';
 import ShareIcon from '@mui/icons-material/Share';
 import WorkIcon from '@mui/icons-material/Work';
 import theme from '@/src/theme';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const AdBlock = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+
   return (
-    <Grid container direction="column">
+    <Grid container spacing={2} direction="column">
       <Grid item container direction="row" paddingBottom="20px">
         <Grid
           item
-          xs
+          xs={12}
+          sm={6}
           alignItems="center"
           style={{ marginTop: 'auto', marginBottom: 'auto' }}
         >
@@ -24,16 +30,31 @@ const AdBlock = () => {
             color="info.dark"
             fontSize={stylesGlobal.fontSize}
             textAlign="center"
+            paddingBottom={{ xs: '30px', sm: 0 }}
           >
             Для кого подходят наши курсы:
           </Typography>
         </Grid>
-        <Grid item xs>
-          <YouTube
-            videoId={'lplDFlNtUeg'}
-            title="Кому подходят наши курсы"
-            className="video"
-          />
+        <Grid item xs={12} sm={6}>
+          <Typography component="div" position="relative" fontSize="60px">
+            <PlayCircleOutlineIcon
+              fontSize="inherit"
+              cursor="pointer"
+              onClick={() => setOpen(true)}
+              style={{
+                position: 'absolute',
+                top: '35%',
+                left: '45%',
+              }}
+            />
+            <Typography
+              component="img"
+              src="https://i.ytimg.com/vi/lplDFlNtUeg/maxresdefault.jpg"
+              style={{ width: '100%', height: 'auto' }}
+              borderRadius="20px"
+              onClick={() => setOpen(true)}
+            />
+          </Typography>
         </Grid>
       </Grid>
       <Grid
@@ -44,7 +65,7 @@ const AdBlock = () => {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         paddingTop="20px"
       >
-        <Grid item xs={6} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <TrendingUpIcon
               fontSize="large"
@@ -55,7 +76,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>Начинающим маркетологам</Typography>{' '}
               Научитесь работать с бренд-аналитикой, планировать рекламные
               кампании и выпускать продукты на рынок. Сможете начать карьеру
@@ -63,7 +84,7 @@ const AdBlock = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={6} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <SellIcon
               fontSize="large"
@@ -74,7 +95,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>
                 Маркетологам и менеджерам по рекламе или PR
               </Typography>{' '}
@@ -83,7 +104,7 @@ const AdBlock = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={3}>
           <Typography component="div" position="relative">
             <ShareIcon
               fontSize="large"
@@ -94,7 +115,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>Офлайн-маркетологам</Typography>{' '}
               Изучите новые инструменты продвижения, «подружитесь» с контекстом,
               таргетингом и SMM. Сможете сменить специализацию на более
@@ -102,7 +123,7 @@ const AdBlock = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={3}>
           <Typography component="div" position="relative">
             <WorkIcon
               fontSize="large"
@@ -113,7 +134,7 @@ const AdBlock = () => {
                 color: theme.palette.info.main,
               }}
             />
-            <Typography component="p" marginLeft="50px">
+            <Typography component="div" marginLeft="50px">
               <Typography fontWeight={700}>
                 Руководителям и владельцам бизнеса
               </Typography>{' '}
@@ -124,6 +145,24 @@ const AdBlock = () => {
           </Typography>
         </Grid>
       </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        sx={{
+          '& .MuiPaper-root': {
+            width: '80%',
+            maxWidth: 'none',
+          },
+        }}
+      >
+        <DialogContent>
+          <YouTube
+            videoId={'lplDFlNtUeg'}
+            title="Кому подходят наши курсы"
+            className="video"
+          />
+        </DialogContent>
+      </Dialog>
     </Grid>
   );
 };

@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const imgStyle = {
-  xs: 300,
+  xs: 250,
   md: 400,
   lg: 500,
   xl: 500,
@@ -76,7 +76,10 @@ const CourseId = () => {
                   textAlign="center"
                 >
                   <Grid item xs>
-                    <Typography variant="h3">
+                    <Typography
+                      variant="h3"
+                      fontSize={{ xs: '2rem', sm: '2.5rem', lg: '3rem' }}
+                    >
                       {course.title} ({typeName})
                     </Typography>
                   </Grid>

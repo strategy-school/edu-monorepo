@@ -20,7 +20,7 @@ const AfterCourse = () => {
       <Grid item xs={12} mb={5}>
         <Typography
           style={stylesGlobal.title}
-          color="secondary.main"
+          color="info.dark"
           variant="h4"
           fontSize={stylesGlobal.fontSize}
           textAlign="center"

@@ -9,6 +9,7 @@ import { deleteLesson } from '@/src/dispatchers/lessons/lessonsThunk';
 import { apiURL } from '@/src/constants';
 import FolderOffIcon from '@mui/icons-material/FolderOff';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+
 interface Props {
   lesson: ApiLesson;
   deleting: boolean;

@@ -20,13 +20,11 @@ interface CategoryState {
   oneItem: ApiCategory | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
-  createLoading: boolean;
+  submitting: boolean;
   togglingIsDeleted: boolean;
-  createCategoryError: ValidationError | null;
-  updateCategoryError: ValidationError | null;
+  error: ValidationError | null;
   removeError: GlobalError | null;
   deleteLoading: false | string;
-  updateLoading: boolean;
   currentPage: number;
   totalCount: number;
 }
@@ -36,13 +34,11 @@ const initialState: CategoryState = {
   oneItem: null,
   fetchLoading: false,
   fetchOneLoading: false,
-  createLoading: false,
+  submitting: false,
   togglingIsDeleted: false,
-  createCategoryError: null,
-  updateCategoryError: null,
+  error: null,
   removeError: null,
   deleteLoading: false,
-  updateLoading: false,
   currentPage: 1,
   totalCount: 1,
 };
@@ -50,7 +46,11 @@ const initialState: CategoryState = {
 export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
       state.fetchLoading = true;
@@ -76,14 +76,14 @@ export const categoriesSlice = createSlice({
       state.fetchOneLoading = false;
     });
     builder.addCase(createCategory.pending, (state) => {
-      state.createLoading = true;
+      state.submitting = true;
     });
     builder.addCase(createCategory.fulfilled, (state) => {
-      state.createLoading = false;
+      state.submitting = false;
     });
     builder.addCase(createCategory.rejected, (state, { payload: error }) => {
-      state.createLoading = false;
-      state.createCategoryError = error || null;
+      state.submitting = false;
+      state.error = error || null;
     });
     builder.addCase(removeCategory.pending, (state) => {
       state.deleteLoading = false;
@@ -102,15 +102,15 @@ export const categoriesSlice = createSlice({
       state.removeError = error || null;
     });
     builder.addCase(updateCategory.pending, (state) => {
-      state.updateCategoryError = null;
-      state.updateLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(updateCategory.fulfilled, (state) => {
-      state.updateLoading = false;
+      state.submitting = false;
     });
     builder.addCase(updateCategory.rejected, (state, { payload: error }) => {
-      state.updateCategoryError = error || null;
-      state.updateLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
     builder.addCase(categoryToggleDeleted.pending, (state) => {
       state.togglingIsDeleted = true;
@@ -125,23 +125,18 @@ export const categoriesSlice = createSlice({
 });
 
 export const categoriesReducer = categoriesSlice.reducer;
-
+export const { cleanError } = categoriesSlice.actions;
 export const selectCategories = (state: RootState) => state.categories.items;
 export const selectCategoriesFetching = (state: RootState) =>
   state.categories.fetchLoading;
 export const selectOneCategory = (state: RootState) => state.categories.oneItem;
 export const selectOneCategoryFetching = (state: RootState) =>
   state.categories.fetchOneLoading;
-export const selectCategoryCreating = (state: RootState) =>
-  state.categories.createLoading;
-export const selectCreateCategoryError = (state: RootState) =>
-  state.categories.createCategoryError;
+export const selectCategorySubmitting = (state: RootState) =>
+  state.categories.submitting;
+export const selectCategoryError = (state: RootState) => state.categories.error;
 export const selectCategoryDeleting = (state: RootState) =>
   state.categories.deleteLoading;
-export const selectCategoryUpdating = (state: RootState) =>
-  state.categories.updateLoading;
-export const selectUpdateCategoryError = (state: RootState) =>
-  state.categories.updateCategoryError;
 export const selectCategoriesCount = (state: RootState) =>
   state.categories.totalCount;
 export const selectCategoriesPage = (state: RootState) =>

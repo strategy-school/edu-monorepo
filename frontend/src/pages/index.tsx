@@ -45,7 +45,7 @@ export default function Home() {
           <Grid item>
             <AboutUs />
           </Grid>
-          <Grid>
+          <Grid item>
             <OneCourseBlock />
           </Grid>
           <Grid item>

@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { cardStyle } from '@/src/styles';
 import theme from '@/src/theme';
 import { TestMini } from '@/src/types';
@@ -11,6 +18,7 @@ interface Props {
 
 const TestCardForSlide: React.FC<Props> = ({ test }) => {
   const router = useRouter();
+  const isXs = useMediaQuery('(max-width:420px)');
 
   const openCard = () => {
     void router.push(`/tests/one-test/${test._id}`);
@@ -26,15 +34,15 @@ const TestCardForSlide: React.FC<Props> = ({ test }) => {
             width={cardStyle.width}
             height={cardStyle.height}
             style={cardStyle.innerStyle}
-            sx={{ pl: 2 }}
+            paddingLeft={isXs ? 0 : '10px'}
           >
-            <Grid item xs>
+            <Grid item xs={10} sm={12}>
               <Typography
                 component="div"
                 color={theme.palette.info.dark}
                 fontSize={cardStyle.fontSize}
                 fontWeight={700}
-                textAlign="center"
+                textAlign={{ xs: 'left', sm: 'center' }}
               >
                 {test.title}
               </Typography>
@@ -43,7 +51,7 @@ const TestCardForSlide: React.FC<Props> = ({ test }) => {
                 color={theme.palette.info.dark}
                 fontWeight={600}
                 mt={1}
-                textAlign="center"
+                textAlign={{ xs: 'left', sm: 'center' }}
               >
                 Категория: {test.category.title}
               </Typography>

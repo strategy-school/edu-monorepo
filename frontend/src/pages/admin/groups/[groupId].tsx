@@ -1,6 +1,4 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
   selectOneGroup,
   selectOneGroupFetching,
@@ -9,11 +7,13 @@ import {
   fetchOneGroup,
   removeGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
-import { Button, CircularProgress, Grid, Typography } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { blockStyle, blockTopStyle } from '@/src/styles';
+import { Button, CircularProgress, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const GroupId = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const GroupId = () => {
   };
 
   return (
-    <Layout title={`${group?.title} page`}>
+    <AdminLayout>
       {groupLoading ? (
         <CircularProgress />
       ) : (
@@ -86,7 +86,7 @@ const GroupId = () => {
           )}
         </Grid>
       )}
-    </Layout>
+    </AdminLayout>
   );
 };
 

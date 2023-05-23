@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Card,
+  CardContent,
   CardHeader,
   CardMedia,
   Grid,
@@ -24,13 +25,15 @@ const CategoryItem: React.FC<Props> = ({ category }) => {
   const cardImage = apiURL + '/' + category.image;
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card style={{ boxShadow }}>
+    <Grid container item xs={12} sm={6} md={4} lg={3}>
+      <Card style={{ boxShadow, height: '100%' }}>
         <CardHeader title={category.title} />
         <ImageCardMedia image={cardImage} title={category.title} />
-        <Typography component="p" style={{ padding: '5px' }}>
-          {category.description}
-        </Typography>
+        <CardContent>
+          <Typography component="p" style={{ padding: '5px' }}>
+            {category.description}
+          </Typography>
+        </CardContent>
       </Card>
     </Grid>
   );

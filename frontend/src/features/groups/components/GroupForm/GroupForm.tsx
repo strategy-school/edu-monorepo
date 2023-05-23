@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { IGroup, ValidationError } from '@/src/types';
-import {
-  Button,
-  CircularProgress,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
+import {
+  selectGroupError,
+  selectGroupSubmitting,
+} from '@/src/dispatchers/groups/groupsSlice';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { IGroup } from '@/src/types';
+import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
+import React from 'react';
 
 interface Props {
   onSubmit: (groupMutation: IGroup) => void;
-  loading: boolean;
-  error: ValidationError | null;
-  isEdit?: boolean;
-  fetchGroupLoading?: boolean;
   existingGroup?: IGroup;
 }
 
@@ -38,31 +31,27 @@ const initialState: IGroup = {
 
 const GroupForm: React.FC<Props> = ({
   onSubmit,
-  existingGroup,
-  loading,
-  error,
-  isEdit = false,
-  fetchGroupLoading = false,
+  existingGroup = initialState,
 }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
+  const submitting = useAppSelector(selectGroupSubmitting);
+  const error = useAppSelector(selectGroupError);
+  const [state, setState] = React.useState<IGroup>(existingGroup);
 
-  const [state, setState] = useState<IGroup>(existingGroup || initialState);
-
-  const submitFormHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(state);
-  };
-
-  useEffect(() => {
+  React.useEffect(() => {
     void dispatch(fetchCourses());
   }, [dispatch]);
 
-  const inputChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await onSubmit(state);
+    setState(initialState);
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
   const getFieldError = (fieldName: string) => {
@@ -74,19 +63,15 @@ const GroupForm: React.FC<Props> = ({
   };
 
   return (
-    <form onSubmit={submitFormHandler}>
-      <Typography variant="h4">
-        {isEdit ? 'Редактировать' : 'Добавить'} группу{' '}
-        {fetchGroupLoading && <CircularProgress size={20} sx={{ ml: 1 }} />}
-      </Typography>
-      <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
+    <form onSubmit={onFormSubmit}>
+      <Grid container direction="column" spacing={2}>
         <Grid item xs>
           <TextField
             label="Название группы"
             name="title"
             id="title"
             value={state.title}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('title'))}
             helperText={getFieldError('title')}
@@ -100,7 +85,7 @@ const GroupForm: React.FC<Props> = ({
             name="description"
             id="description"
             value={state.description}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('description'))}
             helperText={getFieldError('description')}
@@ -113,7 +98,7 @@ const GroupForm: React.FC<Props> = ({
             id="course"
             name="course"
             value={state.course}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('course'))}
             helperText={getFieldError('course')}
@@ -134,11 +119,11 @@ const GroupForm: React.FC<Props> = ({
           </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Choose date"
+              label="Выберите дату"
               value={dayjs(state.startDate)}
               onChange={(newValue) =>
-                setState((prevState) => ({
-                  ...prevState,
+                setState((prev) => ({
+                  ...prev,
                   startDate: newValue ? newValue.format('YYYY-MM-DD') : '',
                 }))
               }
@@ -151,11 +136,11 @@ const GroupForm: React.FC<Props> = ({
           </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="ChooseDate"
+              label="Выберите дату"
               value={dayjs(state.endDate)}
               onChange={(newValue) =>
-                setState((prevState) => ({
-                  ...prevState,
+                setState((prev) => ({
+                  ...prev,
                   endDate: newValue ? newValue.format('YYYY-MM-DD') : '',
                 }))
               }
@@ -171,7 +156,7 @@ const GroupForm: React.FC<Props> = ({
             id="startsAt"
             name="startsAt"
             value={state.startsAt}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('startsAt'))}
             helperText={getFieldError('startsAt')}
@@ -183,7 +168,7 @@ const GroupForm: React.FC<Props> = ({
             id="duration"
             name="duration"
             value={state.duration}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('duration'))}
             helperText={getFieldError('duration')}
@@ -196,7 +181,7 @@ const GroupForm: React.FC<Props> = ({
             id="telegramLink"
             name="telegramLink"
             value={state.telegramLink}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('telegramLink'))}
             helperText={getFieldError('telegramLink')}
@@ -207,9 +192,9 @@ const GroupForm: React.FC<Props> = ({
             type="submit"
             color="primary"
             variant="contained"
-            disabled={loading}
+            disabled={submitting}
           >
-            {isEdit ? 'Обновить' : 'Создать'} группу
+            Отправить
           </Button>
         </Grid>
       </Grid>

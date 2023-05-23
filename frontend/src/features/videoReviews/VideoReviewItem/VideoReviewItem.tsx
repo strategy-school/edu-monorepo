@@ -36,17 +36,14 @@ const VideoReviewItem: React.FC<Props> = ({
   const isSm = useMediaQuery('(max-width:599px)');
 
   return (
-    <Grid
-      item
-      xs={isXs ? 12 : 6}
-      sm={6}
-      md={4}
-      lg={3}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Grid item xs={isXs ? 12 : 6} sm={6} md={4} lg={3}>
       <Card
-        style={{ borderRadius: '7%', width: isSm ? '180px' : '230px' }}
+        style={{
+          borderRadius: '7%',
+          width: isSm ? '180px' : '230px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
         onClick={handleClose}
       >
         <CardActionArea>
