@@ -8,16 +8,24 @@ import {
   login,
   register,
   resetPassword,
+  telegramLogin,
   updateIsBannedStatus,
   updateUser,
   verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
-import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  GlobalError,
+  IPagination,
+  TelegramUser,
+  User,
+  ValidationError,
+} from '@/src/types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
   users: User[];
+  telegramUser: TelegramUser | null;
   oneBasicUser: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
@@ -41,6 +49,7 @@ interface UsersState {
 const initialState: UsersState = {
   user: null,
   users: [],
+  telegramUser: null,
   oneBasicUser: null,
   registerLoading: false,
   registerError: null,
@@ -67,6 +76,15 @@ export const usersSlice = createSlice({
   reducers: {
     unsetUser: (state) => {
       state.user = null;
+    },
+    setTelegramUser: (
+      state,
+      { payload: user }: PayloadAction<TelegramUser>,
+    ) => {
+      state.telegramUser = user;
+    },
+    unsetTelegramUser: (state) => {
+      state.telegramUser = null;
     },
   },
   extraReducers: (builder) => {
@@ -126,6 +144,21 @@ export const usersSlice = createSlice({
       state.user = user;
     });
     builder.addCase(googleLogin.rejected, (state, { payload: error }) => {
+      state.loginLoading = false;
+      state.registerLoading = false;
+      state.loginError = error || null;
+    });
+
+    builder.addCase(telegramLogin.pending, (state) => {
+      state.loginLoading = true;
+      state.registerLoading = true;
+    });
+    builder.addCase(telegramLogin.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.registerLoading = false;
+      state.user = user;
+    });
+    builder.addCase(telegramLogin.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
       state.registerLoading = false;
       state.loginError = error || null;
@@ -213,9 +246,12 @@ export const usersSlice = createSlice({
 });
 
 export const usersReducer = usersSlice.reducer;
-export const { unsetUser } = usersSlice.actions;
+export const { unsetUser, setTelegramUser, unsetTelegramUser } =
+  usersSlice.actions;
 export const selectUser = (state: RootState) => state.users.user;
 export const selectUsers = (state: RootState) => state.users.users;
+export const selectTelegramUser = (state: RootState) =>
+  state.users.telegramUser;
 export const selectOneBasicUser = (state: RootState) =>
   state.users.oneBasicUser;
 export const selectRegisterLoading = (state: RootState) =>

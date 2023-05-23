@@ -334,3 +334,20 @@ export interface SearchLesson extends PageLimit {
   theme?: RegexSearch;
   course?: string;
 }
+
+export interface TelegramUser {
+  auth_date: number;
+  id: number;
+  first_name: string;
+  last_name: string;
+  photo_url: string | null;
+  hash: string;
+}
+
+export interface TelegramLogin {
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  telegramId: string;
+}

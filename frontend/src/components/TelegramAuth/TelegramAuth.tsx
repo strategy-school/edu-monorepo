@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { TelegramUser } from '@/src/types';
 
 export interface TelegramLoginButtonProps {
   botName: string;
@@ -9,14 +10,6 @@ export interface TelegramLoginButtonProps {
   requestAccess?: boolean;
   usePic?: boolean;
   lang?: string;
-}
-
-export interface TelegramUser {
-  auth_date: number;
-  id: number;
-  first_name: string;
-  last_name: string;
-  hash: string;
 }
 
 function TelegramAuth(props: TelegramLoginButtonProps) {
@@ -31,7 +24,7 @@ function TelegramAuth(props: TelegramLoginButtonProps) {
       usePic = true,
       dataOnAuth,
       dataAuthUrl,
-      lang = 'en',
+      lang = 'ru',
     } = props;
 
     if (!!dataAuthUrl === !!dataOnAuth) {
@@ -63,17 +56,18 @@ function TelegramAuth(props: TelegramLoginButtonProps) {
       v !== undefined && script.setAttribute(k, `${v}`);
     }
 
-    containerRef.current!.appendChild(script);
+    containerRef.current?.appendChild(script);
 
     return () => {
       if (containerRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         containerRef.current.innerHTML = '';
       }
       if ((window as any).telegramLoginWidgetCb) {
         delete (window as any).telegramLoginWidgetCb;
       }
     };
-  }, []);
+  }, [props]);
 
   return <div ref={containerRef}></div>;
 }

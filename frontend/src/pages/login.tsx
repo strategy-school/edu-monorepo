@@ -20,8 +20,9 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,
+  setTelegramUser,
 } from '../dispatchers/users/usersSlice';
-import { LoginMutation } from '../types';
+import { LoginMutation, TelegramUser } from '../types';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 
 const Login = () => {
@@ -50,9 +51,9 @@ const Login = () => {
     void router.push('/');
   };
 
-  const handleTelegramAuth = (user: any) => {
-    // Handle the authenticated user data from Telegram
-    console.log(user);
+  const handleTelegramAuth = async (user: TelegramUser) => {
+    await dispatch(setTelegramUser(user));
+    void router.push('/telegram-login');
   };
 
   return (

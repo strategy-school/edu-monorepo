@@ -7,6 +7,7 @@ import {
   PageLimit,
   RegisterMutation,
   RegisterResponse,
+  TelegramLogin,
   UpdateUserMutation,
   User,
   ValidationError,
@@ -236,3 +237,22 @@ export const verifyEmail = createAsyncThunk<User, string>(
     return response.data.user;
   },
 );
+
+export const telegramLogin = createAsyncThunk<
+  User,
+  TelegramLogin,
+  { rejectValue: GlobalError }
+>('users/telegramLogin', async (userData, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.post<RegisterResponse>(
+      '/users/telegram',
+      userData,
+    );
+    return data.user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
