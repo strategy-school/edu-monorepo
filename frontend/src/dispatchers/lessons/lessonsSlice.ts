@@ -13,32 +13,30 @@ interface LessonsState {
   items: ApiLesson[];
   item: ApiLesson | null;
   loading: boolean;
-  error: ValidationError | null;
   submitting: boolean;
   deleting: string | false;
   currentPage: number;
   totalCount: number;
+  creatingError: ValidationError | null;
+  editingError: ValidationError | null;
 }
 
 const initialState: LessonsState = {
   items: [],
   item: null,
   loading: false,
-  error: null,
   submitting: false,
   deleting: false,
   currentPage: 1,
   totalCount: 1,
+  creatingError: null,
+  editingError: null,
 };
 
 const lessonsSlice = createSlice({
   name: 'lessons',
   initialState,
-  reducers: {
-    cleanError: (state) => {
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchLessons.pending, (state) => {
@@ -55,14 +53,14 @@ const lessonsSlice = createSlice({
       })
       .addCase(createLesson.pending, (state) => {
         state.submitting = true;
-        state.error = null;
+        state.creatingError = null;
       })
       .addCase(createLesson.fulfilled, (state) => {
         state.submitting = false;
       })
       .addCase(createLesson.rejected, (state, { payload: error }) => {
         state.submitting = false;
-        state.error = error || null;
+        state.creatingError = error || null;
       })
       .addCase(deleteLesson.pending, (state, { meta }) => {
         state.deleting = meta.arg;
@@ -85,20 +83,19 @@ const lessonsSlice = createSlice({
       })
       .addCase(editLesson.pending, (state) => {
         state.submitting = true;
-        state.error = null;
+        state.editingError = null;
       })
       .addCase(editLesson.fulfilled, (state) => {
         state.submitting = false;
       })
       .addCase(editLesson.rejected, (state, { payload: error }) => {
         state.submitting = false;
-        state.error = error || null;
+        state.editingError = error || null;
       });
   },
 });
 
 export const lessonsReducer = lessonsSlice.reducer;
-export const { cleanError } = lessonsSlice.actions;
 export const selectLessons = (state: RootState) => state.lessons.items;
 export const selectOneLesson = (state: RootState) => state.lessons.item;
 export const selectLessonsLoading = (state: RootState) => state.lessons.loading;
@@ -110,4 +107,7 @@ export const selectLessonsPage = (state: RootState) =>
   state.lessons.currentPage;
 export const selectLessonsCount = (state: RootState) =>
   state.lessons.totalCount;
-export const selectLessonError = (state: RootState) => state.lessons.error;
+export const selectLessonCreatingError = (state: RootState) =>
+  state.lessons.creatingError;
+export const selectLessonEditingError = (state: RootState) =>
+  state.lessons.editingError;
