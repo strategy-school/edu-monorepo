@@ -6,6 +6,7 @@ import {
   ValidationError,
 } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   categoryToggleDeleted,
   createCategory,
@@ -52,6 +53,10 @@ export const categoriesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.categories;
+    });
     builder.addCase(fetchCategories.pending, (state) => {
       state.fetchLoading = true;
     });

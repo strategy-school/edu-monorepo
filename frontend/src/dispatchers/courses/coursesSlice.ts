@@ -7,6 +7,7 @@ import {
   ValidationError,
 } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   courseToggleDeleted,
   createCourse,
@@ -53,6 +54,10 @@ const coursesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.courses;
+    });
     builder.addCase(fetchCourses.pending, (state) => {
       state.fetchLoading = true;
     });

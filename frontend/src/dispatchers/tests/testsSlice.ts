@@ -9,6 +9,7 @@ import {
   fetchTests,
 } from '@/src/dispatchers/tests/testsThunks';
 import { RootState } from '@/src/store/store';
+import { HYDRATE } from 'next-redux-wrapper';
 
 interface TestsState {
   tests: TestMini[];
@@ -41,6 +42,10 @@ const testsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.tests;
+    });
     builder.addCase(createTest.pending, (state) => {
       state.error = null;
       state.submitting = true;

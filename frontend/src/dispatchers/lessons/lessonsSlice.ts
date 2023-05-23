@@ -1,6 +1,7 @@
 import { RootState } from '@/src/store/store';
 import { ApiLesson, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   createLesson,
   deleteLesson,
@@ -39,6 +40,10 @@ const lessonsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(HYDRATE, (_, action) => {
+        //@ts-expect-error hydrate action's payload is not typed
+        return action.payload.lessons;
+      })
       .addCase(fetchLessons.pending, (state) => {
         state.loading = true;
       })

@@ -8,6 +8,7 @@ import {
 import { RootState } from '@/src/store/store';
 import { ApiGroup, IPagination, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 interface GroupState {
   items: ApiGroup[];
@@ -42,6 +43,10 @@ export const groupSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.groups;
+    });
     builder.addCase(fetchGroups.pending, (state) => {
       state.fetchLoading = true;
       state.items = [];
