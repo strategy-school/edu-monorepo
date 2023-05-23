@@ -43,6 +43,7 @@ export interface ITransaction {
   user: Types.ObjectId;
   course: Types.ObjectId;
   isPaid: 'pending' | 'paid';
+  course_type: 'zoom' | 'youtube';
 }
 
 export interface ICourse {
@@ -100,6 +101,7 @@ export interface ILesson {
   video_link: string;
   document: string;
   course: Types.ObjectId;
+  number: number;
 }
 
 export type Search<T> = {

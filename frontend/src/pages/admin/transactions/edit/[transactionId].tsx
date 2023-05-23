@@ -39,6 +39,7 @@ const Edit = () => {
               existingTransaction={{
                 user: transaction.user._id,
                 course: transaction.course._id,
+                course_type: transaction.course_type,
               }}
             />
           </Grid>

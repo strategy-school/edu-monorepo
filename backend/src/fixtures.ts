@@ -239,24 +239,41 @@ const run = async () => {
     {
       user: admin._id,
       course: marketing1._id,
+      course_type: 'zoom',
+    },
+    {
+      user: teacher._id,
+      course: marketing1._id,
+      isPaid: 'paid',
+      course_type: 'zoom',
     },
     {
       user: teacher._id,
       course: marketing2._id,
+      isPaid: 'paid',
+      course_type: 'youtube',
+    },
+    {
+      user: teacher._id,
+      course: marketing3._id,
+      course_type: 'youtube',
     },
     {
       user: teacher2._id,
       course: marketing3._id,
       isPaid: 'paid',
+      course_type: 'youtube',
     },
     {
       user: teacher3._id,
       course: marketing4._id,
+      course_type: 'youtube',
     },
     {
       user: user._id,
       course: marketing1._id,
       isPaid: 'paid',
+      course_type: 'zoom',
     },
   );
 
@@ -488,12 +505,26 @@ const run = async () => {
       course: marketing1._id,
       video_link: 'https://www.youtube.com/watch?v=GoNNW0iXc5s&t=2s',
       document: 'fixtures/example.pdf',
+      number: 1,
     },
     {
       theme: 'Алгоритм Дейкстры в алгоритме графов',
       course: marketing2._id,
       video_link: 'https://www.youtube.com/watch?v=6PLrFRzu6Xo',
       document: 'fixtures/exampl2.pdf',
+      number: 1,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графоввв',
+      course: marketing2._id,
+      document: 'fixtures/exampl2.pdf',
+      number: 2,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графоввввввв',
+      course: marketing2._id,
+      video_link: 'https://www.youtube.com/watch?v=6PLrFRzu6Xo',
+      number: 3,
     },
   );
 

@@ -19,9 +19,10 @@ const initialState: ILesson = {
   video_link: '',
   document: null,
   course: '',
+  number: '',
 };
 
-const LessonFrom: React.FC<Props> = ({
+const LessonForm: React.FC<Props> = ({
   existingLesson = initialState,
   onSubmit,
   error,
@@ -101,6 +102,17 @@ const LessonFrom: React.FC<Props> = ({
             name="video_link"
             value={state.video_link}
             onChange={onChange}
+            type="url"
+          />
+        </Grid>
+        <Grid item xs>
+          <TextField
+            label="Номер урока"
+            name="number"
+            value={state.number}
+            onChange={onChange}
+            type="number"
+            InputProps={{ inputProps: { min: 1, step: 1 } }}
           />
         </Grid>
         <Grid item xs>
@@ -131,4 +143,4 @@ const LessonFrom: React.FC<Props> = ({
   );
 };
 
-export default LessonFrom;
+export default LessonForm;

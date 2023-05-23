@@ -3,10 +3,10 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ITransaction, UserRole } from '@/src/types.d';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
-import { selectCourses } from '../../../dispatchers/courses/coursesSlice';
-import { fetchCourses } from '../../../dispatchers/courses/coursesThunks';
-import { selectUsers } from '../../../dispatchers/users/usersSlice';
-import { fetchUsers } from '../../../dispatchers/users/usersThunks';
+import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
+import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
+import { selectUsers } from '@/src/dispatchers/users/usersSlice';
+import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   onSubmit: (transaction: ITransaction) => void;
@@ -16,6 +16,7 @@ interface Props {
 const initialState = {
   user: '',
   course: '',
+  course_type: '',
 };
 
 const TransactionForm: React.FC<Props> = ({
@@ -86,6 +87,22 @@ const TransactionForm: React.FC<Props> = ({
               Пожалуйста, выберите курс
             </MenuItem>
             {coursesList}
+          </TextField>
+        </Grid>
+        <Grid item xs>
+          <TextField
+            select
+            label="Тип курса"
+            name="course_type"
+            value={state.course_type}
+            onChange={onChange}
+            required
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите тип
+            </MenuItem>
+            <MenuItem value="zoom">По Zoom</MenuItem>
+            <MenuItem value="youtube">По предзаписанным урокам</MenuItem>
           </TextField>
         </Grid>
         <Grid item xs>

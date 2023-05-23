@@ -99,6 +99,7 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
     const transaction = await Transaction.create({
       user: userId,
       course: courseId,
+      course_type: req.body.course_type,
     });
 
     await transaction.populate('course', 'title price type level image');

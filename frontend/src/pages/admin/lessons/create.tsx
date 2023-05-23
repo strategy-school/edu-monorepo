@@ -1,6 +1,6 @@
 import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { createLesson } from '@/src/dispatchers/lessons/lessonsThunk';
-import LessonFrom from '@/src/features/lessons/admin/LessonFrom';
+import LessonForm from '@/src/features/lessons/admin/LessonForm';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ILesson } from '@/src/types';
 import { Grid, Typography } from '@mui/material';
@@ -25,7 +25,7 @@ const Create: React.FC = () => {
           <Typography variant="h4">Создать урок</Typography>
         </Grid>
         <Grid>
-          <LessonFrom onSubmit={onSubmit} error={error} />
+          <LessonForm onSubmit={onSubmit} error={error} />
         </Grid>
       </Grid>
     </AdminLayout>

@@ -18,6 +18,10 @@ const LessonSchema = new Schema<ILesson>({
       message: 'Course does not exist',
     },
   },
+  number: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Lesson = model<ILesson>('Lesson', LessonSchema);

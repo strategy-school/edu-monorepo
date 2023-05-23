@@ -7,7 +7,7 @@ import {
   editLesson,
   fetchOneLesson,
 } from '@/src/dispatchers/lessons/lessonsThunk';
-import LessonFrom from '@/src/features/lessons/admin/LessonFrom';
+import LessonForm from '@/src/features/lessons/admin/LessonForm';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ILesson } from '@/src/types';
 import { Grid, Typography } from '@mui/material';
@@ -38,12 +38,13 @@ const Edit = () => {
             <Typography variant="h4">Редактировать урок</Typography>
           </Grid>
           <Grid>
-            <LessonFrom
+            <LessonForm
               existingLesson={{
                 theme: lesson.theme,
                 video_link: lesson.video_link,
                 document: null,
                 course: lesson.course._id,
+                number: lesson.number.toString(),
               }}
               error={error}
               onSubmit={onSubmit}
