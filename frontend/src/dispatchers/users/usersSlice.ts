@@ -4,6 +4,7 @@ import {
   fetchOneBasicUser,
   fetchUsers,
   forgotPassword,
+  getMe,
   googleLogin,
   login,
   register,
@@ -14,6 +15,7 @@ import {
 } from '@/src/dispatchers/users/usersThunks';
 import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 interface UsersState {
   user: User | null;
@@ -70,6 +72,10 @@ export const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.users;
+    });
     builder.addCase(register.pending, (state) => {
       state.registerError = null;
       state.registerLoading = true;
@@ -208,6 +214,16 @@ export const usersSlice = createSlice({
     builder.addCase(resetPassword.rejected, (state, { payload: error }) => {
       state.passwordResetError = error || null;
       state.passwordResetLoading = false;
+    });
+    builder.addCase(getMe.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(getMe.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(getMe.rejected, (state) => {
+      state.loginLoading = false;
     });
   },
 });
