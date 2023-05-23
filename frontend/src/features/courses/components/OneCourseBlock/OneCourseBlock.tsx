@@ -21,6 +21,7 @@ const OneCourseBlock = () => {
               variant={isXs ? 'h4' : 'h3'}
               color="info.dark"
               style={stylesGlobal.title}
+              fontSize={stylesGlobal.fontSize}
               pl={2}
             >
               Можете попробовать этот курс:

@@ -39,6 +39,8 @@ const AdBlock = () => {
           <Typography component="div" position="relative" fontSize="60px">
             <PlayCircleOutlineIcon
               fontSize="inherit"
+              cursor="pointer"
+              onClick={() => setOpen(true)}
               style={{
                 position: 'absolute',
                 top: '35%',

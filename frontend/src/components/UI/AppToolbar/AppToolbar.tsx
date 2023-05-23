@@ -87,7 +87,7 @@ const AppToolbar: React.FC<Props> = (props) => {
         <Divider />
         {user && user.role === 'admin' ? (
           <ListItem>
-            <Button component={Link} href="/admin/categories" color="inherit">
+            <Button component={Link} href="/admin/courses" color="inherit">
               Админ панель
             </Button>
           </ListItem>
