@@ -1,12 +1,12 @@
+import { RootState } from '@/src/store/store';
 import {
-  CourseShort,
   ApiCourse,
+  CourseShort,
+  GlobalError,
   IPagination,
   ValidationError,
-  GlobalError,
 } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '@/src/store/store';
 import {
   courseToggleDeleted,
   createCourse,
@@ -21,10 +21,8 @@ interface CourseState {
   fetchLoading: boolean;
   oneCourse: ApiCourse | null;
   fetchOneLoading: boolean;
-  createLoading: boolean;
-  createCourseError: ValidationError | null;
-  updateLoading: boolean;
-  updateCourseError: ValidationError | null;
+  submitting: boolean;
+  error: ValidationError | null;
   deleteLoading: string | false;
   removeError: GlobalError | null;
   togglingIsDeleted: boolean;
@@ -37,10 +35,8 @@ const initialState: CourseState = {
   fetchLoading: false,
   oneCourse: null,
   fetchOneLoading: false,
-  createLoading: false,
-  createCourseError: null,
-  updateLoading: false,
-  updateCourseError: null,
+  submitting: false,
+  error: null,
   deleteLoading: false,
   removeError: null,
   togglingIsDeleted: false,
@@ -51,7 +47,11 @@ const initialState: CourseState = {
 const coursesSlice = createSlice({
   name: 'courses',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCourses.pending, (state) => {
       state.fetchLoading = true;
@@ -79,27 +79,27 @@ const coursesSlice = createSlice({
     });
 
     builder.addCase(createCourse.pending, (state) => {
-      state.createCourseError = null;
-      state.createLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(createCourse.fulfilled, (state) => {
-      state.createLoading = false;
+      state.submitting = false;
     });
     builder.addCase(createCourse.rejected, (state, { payload: error }) => {
-      state.createCourseError = error || null;
-      state.createLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
 
     builder.addCase(updateCourse.pending, (state) => {
-      state.updateCourseError = null;
-      state.updateLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(updateCourse.fulfilled, (state) => {
-      state.updateLoading = false;
+      state.submitting = false;
     });
     builder.addCase(updateCourse.rejected, (state, { payload: error }) => {
-      state.updateCourseError = error || null;
-      state.updateLoading = false;
+      state.submitting = false;
+      state.error = error || null;
     });
 
     builder.addCase(deleteCourse.pending, (state, { meta: { arg: id } }) => {
@@ -128,21 +128,16 @@ const coursesSlice = createSlice({
 });
 
 export const coursesReducer = coursesSlice.reducer;
-
+export const { cleanError } = coursesSlice.actions;
 export const selectCourses = (state: RootState) => state.courses.items;
 export const selectCoursesFetching = (state: RootState) =>
   state.courses.fetchLoading;
 export const selectOneCourse = (state: RootState) => state.courses.oneCourse;
 export const selectOneCourseFetching = (state: RootState) =>
   state.courses.fetchOneLoading;
-export const selectCourseCreating = (state: RootState) =>
-  state.courses.createLoading;
-export const selectCreateCourseError = (state: RootState) =>
-  state.courses.createCourseError;
-export const selectCourseUpdating = (state: RootState) =>
-  state.courses.updateLoading;
-export const selectUpdateCourseError = (state: RootState) =>
-  state.courses.updateCourseError;
+export const selectCourseSubmitting = (state: RootState) =>
+  state.courses.submitting;
+export const selectCourseError = (state: RootState) => state.courses.error;
 export const selectCourseDeleting = (state: RootState) =>
   state.courses.deleteLoading;
 export const selectCoursePage = (state: RootState) => state.courses.currentPage;

@@ -1,35 +1,26 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import {
-  selectCreateGroupError,
-  selectGroupCreating,
-} from '@/src/dispatchers/groups/groupsSlice';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
-import GroupForm from '@/src/features/groups/components/GroupForm/GroupForm';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
+import { cleanError } from '@/src/dispatchers/categories/categoriesSlice';
 import { createGroup } from '@/src/dispatchers/groups/groupsThunks';
+import GroupForm from '@/src/features/groups/components/GroupForm/GroupForm';
+import { useAppDispatch } from '@/src/store/hooks';
 import { IGroup } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-const NewGroup = () => {
+const NewGroup: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const createLoading = useAppSelector(selectGroupCreating);
-  const error = useAppSelector(selectCreateGroupError);
-  const user = useAppSelector(selectUser);
 
   const onSubmit = async (groupMutation: IGroup) => {
     await dispatch(createGroup(groupMutation));
-    void router.back();
+    dispatch(cleanError());
+    void router.push('/admin/groups');
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia: new group">
-        <GroupForm onSubmit={onSubmit} loading={createLoading} error={error} />
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Добавить группу">
+      <GroupForm onSubmit={onSubmit} />
+    </AdminLayout>
   );
 };
 

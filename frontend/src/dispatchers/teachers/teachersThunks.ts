@@ -69,14 +69,14 @@ export const createTeacher = createAsyncThunk<
 
 export const editTeacher = createAsyncThunk<
   void,
-  { id: string; teacherData: ITeacher },
+  { id: string; teacher: ITeacher },
   { rejectValue: ValidationError; state: RootState }
->('teachers/edit', async ({ id, teacherData }, { rejectWithValue }) => {
+>('teachers/edit', async ({ id, teacher }, { rejectWithValue }) => {
   const formData = new FormData();
-  const keys = Object.keys(teacherData) as (keyof ITeacher)[];
+  const keys = Object.keys(teacher) as (keyof ITeacher)[];
 
   keys.forEach((key) => {
-    const value: File | null | string | string[] = teacherData[key] as
+    const value: File | null | string | string[] = teacher[key] as
       | File
       | string
       | null

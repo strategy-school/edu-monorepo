@@ -9,7 +9,9 @@ import Transaction from './models/Transactions';
 import Comment from './models/Comment';
 import Test from './models/Test';
 import Group from './models/Group';
+import Notification from './models/Notification';
 import VideoReview from './models/VideoReview';
+import Lesson from './models/Lesson';
 
 const run = async () => {
   mongoose.set('strictQuery', false);
@@ -25,7 +27,9 @@ const run = async () => {
     await db.dropCollection('comments');
     await db.dropCollection('tests');
     await db.dropCollection('groups');
+    await db.dropCollection('notifications');
     await db.dropCollection('videoreviews');
+    await db.dropCollection('lessons');
   } catch (e) {
     console.log('Collections were not present, skipping drop...');
   }
@@ -44,8 +48,8 @@ const run = async () => {
     },
     {
       email: 'teacher@gmail.com',
-      firstName: 'Teacher',
-      lastName: 'Teacher',
+      firstName: 'Улан',
+      lastName: 'Мухамед',
       password: 'teacher',
       token: crypto.randomUUID(),
       phoneNumber: '+996701888789',
@@ -55,8 +59,8 @@ const run = async () => {
     },
     {
       email: 'teacher2@gmail.com',
-      firstName: 'Teacher2',
-      lastName: 'Teacher2',
+      firstName: 'Султан-Мурат',
+      lastName: 'Хашимов',
       password: 'teacher2',
       token: crypto.randomUUID(),
       phoneNumber: '+996702702702',
@@ -66,8 +70,8 @@ const run = async () => {
     },
     {
       email: 'teacher3@gmail.com',
-      firstName: 'Teacher3',
-      lastName: 'Teacher3',
+      firstName: 'Васлидин',
+      lastName: 'Атаханов',
       password: 'teacher3',
       token: crypto.randomUUID(),
       phoneNumber: '+996703703703',
@@ -127,33 +131,36 @@ const run = async () => {
   await Teacher.create(
     {
       user: teacher._id,
-      info: 'Teacher1 - настоящий эксперт в своей области. Он обладает богатым опытом работы в маркетинговом сообществе и имеет профессиональное образование в области маркетинга, что позволяет ему быть в курсе последних тенденций и инноваций в маркетинге. Teacher1 предлагает практический подход к обучению, предлагая реальные кейсы и примеры из реального бизнеса. Он поможет вам разработать план маркетинговых действий, определить вашу целевую аудиторию, провести исследование рынка, разработать маркетинговые кампании и многое другое.',
+      info:
+        'Улан Мухамед – Тренер по маркетингу. Основатель Школы Маркетинга Strategia,\n' +
+        'сертифицированный консультант по маркетингу, тренер. Опыт работы более 15 лет. Возглавлял Управление маркетинга в Бакай Банке, МФК Компаньон, SapatCom.\n' +
+        'Разработал и внедрил стратегии маркетинга такие “Буфет”, “Sierra coffee”, “Исламский Финансовый Центр”, “Academia Business Center”. Дополнительное образование получал в Германии и Японии.\n',
       portfolio: [
         'Разработка и реализация маркетинговой стратегии для стартапа в области технологий: включала исследование рынка, определение целевой аудитории, разработку бренд-концепции, создание цифровой маркетинговой кампании и анализ ее эффективности.',
         'Проведение ребрендинга для крупной компании в сфере FMCG: включала анализ текущей маркетинговой стратегии, исследование рынка и аудит бренда, разработку нового бренд-идентитета, создание маркетингового плана и внедрение ребрендинговых мероприятий.',
         'Организация и проведение масштабной промо-акции для розничной сети магазинов: включала разработку маркетингового плана, выбор оптимальных промо-механик, организацию рекламной кампании, координацию работы с поставщиками и анализ результатов.',
       ],
-      photo: 'fixtures/teacherProfile.jpg',
+      photo: 'fixtures/UlanMukhamed.jpg',
     },
     {
       user: teacher2._id,
-      info: 'Teacher2 - опытный маркетолог с глубокими знаниями в области цифрового маркетинга. Он прошел множество проектов, охватывающих различные отрасли и географии, и успешно реализовал маркетинговые стратегии, которые привели к значительному росту продаж и увеличению бренд-усознаваемости. Teacher2 всегда находит инновационные подходы и стратегии, чтобы достичь целей своих клиентов.',
+      info: 'Султан-Мурат Хашимов - Тренер по маркетингу.  Заместитель генерального директора/Финансовый директор компании Текстиль-транс (Бренд Меники). Бизнес-консультант, тренер Бизнес-школы Альфа. Опыт работы более 15 лет. Возглавлял финансовые подразделения в таких компаниях как Red petroleum, Кыргызтелеком. Награждаем многочисленными наградами и дипломами. Имеет степень магистра МВА с отличием от АУПКР.',
       portfolio: [
         'Проведение успешной кампании по локализации международного бренда на рынке Восточной Европы: включала разработку локальной маркетинговой стратегии, адаптацию контента под местные особенности, организацию рекламных кампаний в социальных сетях и поисковых системах, а также анализ результатов и оптимизацию кампании.',
         'Успешное внедрение контент-маркетинговой стратегии для стартапа в сфере фитнес-технологий: включала разработку контент-плана, создание качественного контента, его распространение на различных онлайн-платформах, анализ эффективности контент-маркетинговых мероприятий и внесение корректировок для оптимизации результатов.',
         'Проведение успешной ребрендинговой кампании для ритейл-бренда: включала проведение аудита бренда, разработку нового бренд-идентитета, создание маркетинговых материалов, организацию рекламных кампаний и мероприятий по укреплению позиции бренда на рынке.',
       ],
-      photo: 'fixtures/teacherProfile2.jpg',
+      photo: 'fixtures/SultanMuratKhashimov.jpeg',
     },
     {
       user: teacher3._id,
-      info: 'Teacher3 - преподаватель с уникальным подходом к обучению. Он обладает богатым опытом работы в сфере цифрового маркетинга и имеет профессиональное образование в области маркетинга и аналитики. Teacher3 предлагает структурированный подход к разработке маркетинговых стратегий, с фокусом на анализе данных и определении ключевых показателей эффективности. Он поможет вам создать целостный маркетинговый план, оптимизировать рекламные кампании, провести A/B-тестирование и многое другое.',
+      info: 'Васлидин Атаханов - Тренер по маркетингу.  Директор по развитию МКК Pocket.kg. Эксперт развитию удалённых и цифровых сервисов. Опыт работы более 15 лет. Возглавлял колл-центр Бакай Банка, награжден грамотой “лучший бэк-офисов 2018 г.”, а также работал в таких копаниях как: Нуртелеком (Бренд О!), Альфа-Телеком (Бренд МегаКом), Tezcom ltd (Китай). Образование получал в Китае, владеет китайским языком, изучает языки программирования.\n',
       portfolio: [
         'Разработка и внедрение интегрированной цифровой стратегии для международного бренда: включала исследование конкурентов, анализ целевой аудитории, разработку креативных решений, настройку рекламных кампаний в социальных сетях и поисковых системах, а также мониторинг и оптимизацию результатов.',
         'Проведение аудита маркетинговой деятельности для малого бизнеса: включал анализ маркетинговых каналов, определение слабых мест и разработку рекомендаций по их улучшению, а также создание маркетингового плана на основе бюджетных ограничений и ресурсов компании.',
         'Организация и проведение онлайн-мероприятий для привлечения новых клиентов: включала выбор платформы, разработку контента и креативных решений, настройку рекламных кампаний, а также анализ эффективности и оптимизацию стратегии в реальном времени.',
       ],
-      photo: 'fixtures/teacherProfile3.jpg',
+      photo: 'fixtures/silhouette.jpg',
     },
   );
 
@@ -171,6 +178,9 @@ const run = async () => {
       type: 'seminar',
       duration: 'до 2 часов',
       isDeleted: false,
+      exam: null,
+      youtube: false,
+      zoom: true,
     },
     {
       title: 'Специалист по маркетингу',
@@ -185,6 +195,9 @@ const run = async () => {
       type: 'training',
       duration: '1 месяц',
       isDeleted: false,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
     {
       title: 'Менеджер по маркетингу',
@@ -198,7 +211,10 @@ const run = async () => {
       image: 'fixtures/marketing3.png',
       type: 'course',
       duration: '2 месяца',
-      isDeleted: true,
+      isDeleted: false,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
     {
       title: 'Директор по маркетингу',
@@ -212,7 +228,10 @@ const run = async () => {
       image: 'fixtures/marketing4.jpg',
       type: 'miniMBA',
       duration: '3 месяца',
-      isDeleted: true,
+      isDeleted: false,
+      exam: 'https://docs.google.com/forms/d/e/1FAIpQLSftAUjjZSGH7CZfCd9mh9Vo1XP8zPXVngY4d9fJDDXmVUvA2A/viewform?usp=sharing',
+      youtube: true,
+      zoom: true,
     },
   );
 
@@ -220,24 +239,41 @@ const run = async () => {
     {
       user: admin._id,
       course: marketing1._id,
+      course_type: 'zoom',
+    },
+    {
+      user: teacher._id,
+      course: marketing1._id,
+      isPaid: 'paid',
+      course_type: 'zoom',
     },
     {
       user: teacher._id,
       course: marketing2._id,
+      isPaid: 'paid',
+      course_type: 'youtube',
+    },
+    {
+      user: teacher._id,
+      course: marketing3._id,
+      course_type: 'youtube',
     },
     {
       user: teacher2._id,
       course: marketing3._id,
       isPaid: 'paid',
+      course_type: 'youtube',
     },
     {
       user: teacher3._id,
       course: marketing4._id,
+      course_type: 'youtube',
     },
     {
       user: user._id,
       course: marketing1._id,
       isPaid: 'paid',
+      course_type: 'zoom',
     },
   );
 
@@ -423,6 +459,23 @@ const run = async () => {
     },
   );
 
+  await Notification.create(
+    {
+      name: 'Joe Biden',
+      email: 'joe@gmail.com',
+      phoneNumber: '+996555111222',
+      message: 'Могут ли здесь учиться иностранцы?',
+      isChecked: false,
+    },
+    {
+      name: 'Max Martin',
+      email: 'maxmartin@gmail.com',
+      phoneNumber: '+996523112233',
+      message: null,
+      isChecked: true,
+    },
+  );
+
   await VideoReview.create(
     {
       title: 'Какое то имя',
@@ -443,6 +496,35 @@ const run = async () => {
       title: 'Какое то имя',
       previewImage: 'fixtures/video-review2.webp',
       youtubeURL: 'IMgL-z4GX-c',
+    },
+  );
+
+  await Lesson.create(
+    {
+      theme: 'Сложные логорифмы и их использование в программировании',
+      course: marketing1._id,
+      video_link: 'https://www.youtube.com/watch?v=GoNNW0iXc5s&t=2s',
+      document: 'fixtures/example.pdf',
+      number: 1,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графов',
+      course: marketing2._id,
+      video_link: 'https://www.youtube.com/watch?v=6PLrFRzu6Xo',
+      document: 'fixtures/exampl2.pdf',
+      number: 1,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графоввв',
+      course: marketing2._id,
+      document: 'fixtures/exampl2.pdf',
+      number: 2,
+    },
+    {
+      theme: 'Алгоритм Дейкстры в алгоритме графоввввввв',
+      course: marketing2._id,
+      video_link: 'https://www.youtube.com/watch?v=6PLrFRzu6Xo',
+      number: 3,
     },
   );
 

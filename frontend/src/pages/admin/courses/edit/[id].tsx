@@ -1,18 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
-  selectCourseUpdating,
+  cleanError,
   selectOneCourse,
-  selectOneCourseFetching,
-  selectUpdateCourseError,
 } from '@/src/dispatchers/courses/coursesSlice';
 import {
   fetchOneCourse,
   updateCourse,
 } from '@/src/dispatchers/courses/coursesThunks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import CourseForm from '@/src/features/courses/components/CourseForm/CourseForm';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ICourse } from '@/src/types';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -22,10 +18,6 @@ const Id = () => {
   const { id } = router.query as { id: string };
   const dispatch = useAppDispatch();
   const course = useAppSelector(selectOneCourse);
-  const fetchOneLoading = useAppSelector(selectOneCourseFetching);
-  const updateLoading = useAppSelector(selectCourseUpdating);
-  const error = useAppSelector(selectUpdateCourseError);
-  const user = useAppSelector(selectUser);
 
   React.useEffect(() => {
     if (id) {
@@ -35,7 +27,8 @@ const Id = () => {
 
   const onSubmit = async (courseMutation: ICourse) => {
     await dispatch(updateCourse({ id, course: courseMutation })).unwrap();
-    void router.back();
+    dispatch(cleanError());
+    void router.push('/admin/courses');
   };
 
   const existingCourse = course && {
@@ -50,23 +43,17 @@ const Id = () => {
     programGoal: course.programGoal,
     price: course.price.toString(),
     image: null,
+    exam: course.exam,
+    youtube: course.youtube,
+    zoom: course.zoom,
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia edit course">
-        {existingCourse && (
-          <CourseForm
-            onSubmit={onSubmit}
-            loading={updateLoading}
-            error={error}
-            existingCourse={existingCourse}
-            isEdit
-            fetchCourseLoading={fetchOneLoading}
-          />
-        )}
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Редактировать категорию">
+      {existingCourse && (
+        <CourseForm onSubmit={onSubmit} existingCourse={existingCourse} />
+      )}
+    </AdminLayout>
   );
 };
 

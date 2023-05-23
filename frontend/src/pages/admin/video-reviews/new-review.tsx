@@ -1,39 +1,24 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
-import Layout from '@/src/components/UI/Layout/Layout';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import {
-  selectCreateVideoReviewError,
-  selectVideoReviewCreating,
-} from '@/src/dispatchers/videoReviews/videoReviewsSlice';
-import { IVideoReview } from '@/src/types';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import { createVideoReview } from '@/src/dispatchers/videoReviews/videoReviewsThunks';
 import VideoReviewForm from '@/src/features/videoReviews/VideoReviewForm/VideoReviewForm';
+import { useAppDispatch } from '@/src/store/hooks';
+import { IVideoReview } from '@/src/types';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-const NewReview = () => {
+const NewReview: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const createLoading = useAppSelector(selectVideoReviewCreating);
-  const error = useAppSelector(selectCreateVideoReviewError);
-  const user = useAppSelector(selectUser);
 
   const onSubmit = async (reviewMutation: IVideoReview) => {
     await dispatch(createVideoReview(reviewMutation)).unwrap();
-    void router.back();
+    void router.push('/admin/video-reviews');
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia new video review">
-        <VideoReviewForm
-          onSubmit={onSubmit}
-          loading={createLoading}
-          error={error}
-        />
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout pageTitle="Добавить видео отзыв">
+      <VideoReviewForm onSubmit={onSubmit} />
+    </AdminLayout>
   );
 };
 

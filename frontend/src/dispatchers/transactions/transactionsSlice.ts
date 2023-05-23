@@ -7,6 +7,7 @@ import {
   editTransaction,
   fetchSingleTransaction,
   fetchTransactions,
+  fetchTransactionsByUser,
   markTransactionAsPaid,
 } from './transactionsThunk';
 
@@ -35,7 +36,7 @@ const initialState: TransitionsState = {
 };
 
 const transactionsSlice = createSlice({
-  name: 'transacions',
+  name: 'transactions',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -99,11 +100,25 @@ const transactionsSlice = createSlice({
       })
       .addCase(createTransaction.rejected, (state) => {
         state.submitting = false;
+      })
+      .addCase(fetchTransactionsByUser.pending, (state) => {
+        state.loadingAll = true;
+        state.items = [];
+      })
+      .addCase(
+        fetchTransactionsByUser.fulfilled,
+        (state, { payload: transactions }) => {
+          state.loadingAll;
+          state.items = transactions;
+        },
+      )
+      .addCase(fetchTransactionsByUser.rejected, (state) => {
+        state.loadingAll = false;
       });
   },
 });
 
-export const transacionsReducer = transactionsSlice.reducer;
+export const transactionsReducer = transactionsSlice.reducer;
 export const selectTransactions = (state: RootState) =>
   state.transactions.items;
 export const selectSingleTransaction = (state: RootState) =>

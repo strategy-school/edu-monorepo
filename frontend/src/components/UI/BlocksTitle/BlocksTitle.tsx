@@ -1,14 +1,15 @@
 import React from 'react';
 import { Divider, Typography } from '@mui/material';
+import theme from '@/src/theme';
 
 const styles = {
   blockTitle: {
-    color: '#D9272DFF',
+    color: theme.palette.info.dark,
     paddingBottom: '10px',
     fontWeight: 700,
   },
   divider: {
-    background: '#D9272DFF',
+    background: theme.palette.info.dark,
     height: '2px',
     marginBottom: '30px',
     borderRadius: '10px',

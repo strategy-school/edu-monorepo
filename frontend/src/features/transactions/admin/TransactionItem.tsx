@@ -13,12 +13,9 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
   const router = useRouter();
   const date = dayjs(transaction.createdAt).format(dateFormat);
 
-  const onClick = React.useCallback(
-    (id: string) => {
-      void router.push(`transactions/${id}`);
-    },
-    [router],
-  );
+  const onClick = (id: string) => {
+    void router.push(`transactions/${id}`);
+  };
 
   return (
     <TableRow

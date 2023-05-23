@@ -14,10 +14,8 @@ interface CommentsState {
   fetchLoading: boolean;
   oneVideoReview: ApiVideoReview | null;
   fetchOneLoading: boolean;
-  createLoading: boolean;
-  createVideoReviewError: ValidationError | null;
-  updateLoading: boolean;
-  updateVideoReviewError: ValidationError | null;
+  submitting: boolean;
+  error: ValidationError | null;
   deleteLoading: string | false;
   currentPage: number;
   totalCount: number;
@@ -28,10 +26,8 @@ const initialState: CommentsState = {
   fetchLoading: false,
   oneVideoReview: null,
   fetchOneLoading: false,
-  createLoading: false,
-  createVideoReviewError: null,
-  updateLoading: false,
-  updateVideoReviewError: null,
+  submitting: false,
+  error: null,
   deleteLoading: false,
   currentPage: 1,
   totalCount: 1,
@@ -71,27 +67,27 @@ const videoReviewsSlice = createSlice({
     });
 
     builder.addCase(createVideoReview.pending, (state) => {
-      state.createVideoReviewError = null;
-      state.createLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(createVideoReview.fulfilled, (state) => {
-      state.createLoading = false;
+      state.submitting = false;
     });
     builder.addCase(createVideoReview.rejected, (state, { payload: error }) => {
-      state.createVideoReviewError = error || null;
-      state.createLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
 
     builder.addCase(updateVideoReview.pending, (state) => {
-      state.updateVideoReviewError = null;
-      state.updateLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(updateVideoReview.fulfilled, (state) => {
-      state.updateLoading = false;
+      state.submitting = false;
     });
     builder.addCase(updateVideoReview.rejected, (state, { payload: error }) => {
-      state.updateVideoReviewError = error || null;
-      state.updateLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
 
     builder.addCase(
@@ -119,14 +115,10 @@ export const selectOneVideoReview = (state: RootState) =>
   state.videoReviews.oneVideoReview;
 export const selectOneVideoReviewFetching = (state: RootState) =>
   state.videoReviews.fetchOneLoading;
-export const selectVideoReviewCreating = (state: RootState) =>
-  state.videoReviews.createLoading;
-export const selectCreateVideoReviewError = (state: RootState) =>
-  state.videoReviews.createVideoReviewError;
-export const selectVideoReviewUpdating = (state: RootState) =>
-  state.videoReviews.updateLoading;
-export const selectUpdateVideoReviewError = (state: RootState) =>
-  state.videoReviews.updateVideoReviewError;
+export const selectVideoReviewSubmitting = (state: RootState) =>
+  state.videoReviews.submitting;
+export const selectVideoReviewError = (state: RootState) =>
+  state.videoReviews.error;
 export const selectVideoReviewsCount = (state: RootState) =>
   state.videoReviews.totalCount;
 export const selectVideoReviewsPage = (state: RootState) =>

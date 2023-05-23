@@ -1,19 +1,20 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { ITeacher, UserRole, ValidationError } from '@/src/types.d';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {
+  selectTeacherError,
+  selectTeacherSubmitting,
+} from '@/src/dispatchers/teachers/teachersSlice';
 import { selectUsers } from '@/src/dispatchers/users/usersSlice';
+import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { ITeacher, UserRole } from '@/src/types.d';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Button, Grid, MenuItem, TextField } from '@mui/material';
+import React from 'react';
 
 interface Props {
   onSubmit: (teacher: ITeacher) => void;
   existingTeacher?: ITeacher;
-  isEdit?: boolean;
-  loading: boolean;
-  error: ValidationError | null;
 }
 
 const initialState: ITeacher = {
@@ -25,67 +26,57 @@ const initialState: ITeacher = {
 
 const TeacherForm: React.FC<Props> = ({
   onSubmit,
-  existingTeacher,
-  isEdit,
-  loading,
-  error,
+  existingTeacher = initialState,
 }) => {
   const dispatch = useAppDispatch();
-  const basicUsers = useAppSelector(selectUsers);
+  const teachers = useAppSelector(selectUsers);
+  const submitting = useAppSelector(selectTeacherSubmitting);
+  const error = useAppSelector(selectTeacherError);
+  const [state, setState] = React.useState<ITeacher>(existingTeacher);
 
-  const [state, setState] = useState<ITeacher>(existingTeacher || initialState);
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchUsers({ role: UserRole.Teacher }));
   }, [dispatch]);
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit(state);
-    // setState(initialState);
+    setState(initialState);
   };
 
-  const inputChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setState((prev) => ({
+      ...prev,
       [name]: files && files[0] ? files[0] : null,
     }));
   };
 
-  const portfolioInputChangeHandler = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
+  const onPortfolioChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    portfolioItem: string,
   ) => {
     const { value } = e.target;
-    setState((prevState) => {
-      const updatedPortfolio = [...prevState.portfolio];
-      updatedPortfolio[index] = value;
-      return { ...prevState, portfolio: updatedPortfolio };
-    });
+    setState((prev) => ({
+      ...prev,
+      portfolio: prev.portfolio.map((p) => (p === portfolioItem ? value : p)),
+    }));
   };
 
-  const addPortfolioHandler = () => {
-    setState((prevState) => {
-      const updatedPortfolio = [...prevState.portfolio, ''];
-      return { ...prevState, portfolio: updatedPortfolio };
-    });
+  const onAddPortfolio = () => {
+    setState((prev) => ({ ...prev, portfolio: [...prev.portfolio, ''] }));
   };
 
-  const removePortfolioHandler = (index: number) => {
-    setState((prevState) => {
-      const updatedPortfolio = [...prevState.portfolio];
-      updatedPortfolio.splice(index, 1);
-      return { ...prevState, portfolio: updatedPortfolio };
-    });
+  const onRemovePortfolio = (portfolioItem: string) => {
+    setState((prev) => ({
+      ...prev,
+      portfolio: prev.portfolio.filter((item) => item !== portfolioItem),
+    }));
   };
 
   const getFieldError = (fieldName: string) => {
@@ -99,34 +90,28 @@ const TeacherForm: React.FC<Props> = ({
   return (
     <form onSubmit={submitFormHandler}>
       <Grid container direction="column" spacing={2}>
-        <Grid item xs>
-          <Typography variant="h4" fontSize={{ xs: '18px', md: '22px' }}>
-            {isEdit ? 'Редактировать' : 'Добавить'} преподавателя
-          </Typography>
-        </Grid>
-        {!isEdit && (
-          <Grid item xs={12}>
-            <TextField
-              label="Выберите пользователя"
-              select
-              name="user"
-              value={state.user}
-              onChange={inputChangeHandler}
-              required
-              error={Boolean(getFieldError('user'))}
-              helperText={getFieldError('user')}
-            >
-              <MenuItem value="" disabled>
-                Пожалуйста, выберите пользователя{' '}
+        <Grid item xs={12}>
+          <TextField
+            label="Выберите пользователя"
+            select
+            name="user"
+            value={state.user}
+            onChange={onChange}
+            required
+            error={Boolean(getFieldError('user'))}
+            helperText={getFieldError('user')}
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите пользователя
+            </MenuItem>
+            {teachers.map((user) => (
+              <MenuItem key={user._id} value={user._id}>
+                {user.firstName} {user.lastName}
               </MenuItem>
-              {basicUsers.map((user) => (
-                <MenuItem key={user._id} value={user._id}>
-                  {user.firstName} {user.lastName}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        )}
+            ))}
+          </TextField>
+        </Grid>
+
         <Grid item xs={12}>
           <TextField
             multiline
@@ -134,7 +119,7 @@ const TeacherForm: React.FC<Props> = ({
             id="info"
             label="Информация о преподавателе"
             value={state.info}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="info"
             required
             error={Boolean(getFieldError('info'))}
@@ -143,12 +128,8 @@ const TeacherForm: React.FC<Props> = ({
         </Grid>
         <Grid item xs={12}>
           <FileInput
-            label={
-              isEdit
-                ? 'Изменить имеющиеся фотографию'
-                : 'Выберите фотографию преподавателю'
-            }
-            onChange={fileInputChangeHandler}
+            label="Выберите фотографию тренера"
+            onChange={onFileChange}
             name="photo"
             type="image/*"
             errorCheck={getFieldError}
@@ -175,14 +156,16 @@ const TeacherForm: React.FC<Props> = ({
                 error={Boolean(getFieldError('portfolio'))}
                 helperText={getFieldError('portfolio')}
                 required
-                onChange={(e) => portfolioInputChangeHandler(e, index)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onPortfolioChange(e, portfolioItem)
+                }
               />
             </Grid>
             <Grid item>
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => removePortfolioHandler(index)}
+                onClick={() => onRemovePortfolio(portfolioItem)}
                 sx={{ minWidth: '35px' }}
               >
                 <HighlightOffIcon fontSize="small" />
@@ -191,21 +174,21 @@ const TeacherForm: React.FC<Props> = ({
           </Grid>
         ))}
         <Grid item>
-          <Button variant="outlined" onClick={addPortfolioHandler}>
+          <Button variant="outlined" onClick={onAddPortfolio}>
             Добавить еще поле
           </Button>
         </Grid>
         <Grid item xs={12}>
           <LoadingButton
             loadingIndicator="Loading…"
-            loading={loading}
+            loading={submitting}
             type="submit"
             color="primary"
             variant="contained"
             fullWidth
             sx={{ padding: '10px 0' }}
           >
-            {isEdit ? 'Изменить' : 'Создать'}
+            Отправить
           </LoadingButton>
         </Grid>
       </Grid>

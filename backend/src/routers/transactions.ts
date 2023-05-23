@@ -4,6 +4,7 @@ import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 import Transaction from '../models/Transactions';
 import { PageLimit, ITransaction, SearchParam, SwitchToString } from '../types';
+import User from '../models/User';
 
 type QueryParams = SwitchToString<ITransaction> & PageLimit;
 
@@ -53,7 +54,7 @@ transactionsRouter.get(
     try {
       const transactionId = req.params.id;
       const transaction = await Transaction.findById(transactionId)
-        .populate('course', 'title price type level image')
+        .populate('course', 'title price type level image exam')
         .populate('user', 'email firstName lastName phoneNumber');
 
       if (!transaction) {
@@ -67,6 +68,28 @@ transactionsRouter.get(
   },
 );
 
+transactionsRouter.get('/by-user/:id', auth, async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+      return res.status(404).send({ error: 'User not found!' });
+    }
+
+    const transactions = await Transaction.find({ user: userId })
+      .populate('course', 'title price type level image exam')
+      .populate('user', 'email firstName lastName phoneNumber');
+    if (!transactions) {
+      return res.status(404).send({ error: 'Transaction not found' });
+    }
+
+    return res.send(transactions);
+  } catch (e) {
+    return next(e);
+  }
+});
+
 transactionsRouter.post('/', auth, async (req, res, next) => {
   try {
     const { user } = req as RequestWithUser;
@@ -76,6 +99,7 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
     const transaction = await Transaction.create({
       user: userId,
       course: courseId,
+      course_type: req.body.course_type,
     });
 
     await transaction.populate('course', 'title price type level image');

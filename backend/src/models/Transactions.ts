@@ -30,6 +30,11 @@ const TransactionSchema = new Schema<ITransaction>(
       default: 'pending',
       required: true,
     },
+    course_type: {
+      type: String,
+      enum: ['zoom', 'youtube'],
+      required: true,
+    },
   },
   { timestamps: true },
 );

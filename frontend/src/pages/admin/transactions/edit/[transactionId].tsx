@@ -5,11 +5,11 @@ import {
   editTransaction,
   fetchSingleTransaction,
 } from '@/src/dispatchers/transactions/transactionsThunk';
-import TransactionForm from '@/src/features/admin/transactions/TransactionForm';
 import { ITransaction } from '@/src/types';
 import { Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
+import TransactionForm from '@/src/features/transactions/admin/TransactionForm';
 
 const Edit = () => {
   const dispatch = useAppDispatch();
@@ -21,13 +21,10 @@ const Edit = () => {
     void dispatch(fetchSingleTransaction(transactionId));
   }, [transactionId, dispatch]);
 
-  const onSubmit = React.useCallback(
-    async (transaction: ITransaction) => {
-      await dispatch(editTransaction({ transaction, id: transactionId }));
-      void router.back();
-    },
-    [dispatch, router, transactionId],
-  );
+  const onSubmit = async (transaction: ITransaction) => {
+    await dispatch(editTransaction({ transaction, id: transactionId }));
+    void router.back();
+  };
 
   return (
     <AdminLayout>
@@ -42,6 +39,7 @@ const Edit = () => {
               existingTransaction={{
                 user: transaction.user._id,
                 course: transaction.course._id,
+                course_type: transaction.course_type,
               }}
             />
           </Grid>

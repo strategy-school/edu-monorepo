@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectTransactionSubmitting } from '@/src/dispatchers/transactions/transactionsSlice';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { ITransaction, UserRole } from '@/src/types.d';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import React from 'react';
-import { selectCourses } from '../../../dispatchers/courses/coursesSlice';
-import { fetchCourses } from '../../../dispatchers/courses/coursesThunks';
-import { selectUsers } from '../../../dispatchers/users/usersSlice';
-import { fetchUsers } from '../../../dispatchers/users/usersThunks';
+import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
+import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
+import { selectUsers } from '@/src/dispatchers/users/usersSlice';
+import { fetchUsers } from '@/src/dispatchers/users/usersThunks';
 
 interface Props {
   onSubmit: (transaction: ITransaction) => void;
@@ -16,6 +16,7 @@ interface Props {
 const initialState = {
   user: '',
   course: '',
+  course_type: '',
 };
 
 const TransactionForm: React.FC<Props> = ({
@@ -28,42 +29,32 @@ const TransactionForm: React.FC<Props> = ({
   const submittingTransaction = useAppSelector(selectTransactionSubmitting);
   const [state, setState] = React.useState<ITransaction>(existingTransaction);
 
-  const onChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setState((prev) => ({ ...prev, [name]: value }));
-    },
-    [setState],
-  );
-
-  const onFormSubmit = React.useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      onSubmit(state);
-    },
-    [state, onSubmit],
-  );
-
   React.useEffect(() => {
     void dispatch(fetchUsers({ role: UserRole.User }));
     void dispatch(fetchCourses());
   }, [dispatch]);
 
-  const usersList = users.length
-    ? users.map((user) => (
-        <MenuItem key={user._id} value={user._id}>
-          {user.firstName} {user.lastName}
-        </MenuItem>
-      ))
-    : null;
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const coursesList = users.length
-    ? courses.map((course) => (
-        <MenuItem key={course._id} value={course._id}>
-          {course.title}
-        </MenuItem>
-      ))
-    : null;
+  const onFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(state);
+  };
+
+  const usersList = users.map((user) => (
+    <MenuItem key={user._id} value={user._id}>
+      {user.firstName} {user.lastName}
+    </MenuItem>
+  ));
+
+  const coursesList = courses.map((course) => (
+    <MenuItem key={course._id} value={course._id}>
+      {course.title}
+    </MenuItem>
+  ));
 
   return (
     <form autoComplete="off" onSubmit={onFormSubmit}>
@@ -96,6 +87,22 @@ const TransactionForm: React.FC<Props> = ({
               Пожалуйста, выберите курс
             </MenuItem>
             {coursesList}
+          </TextField>
+        </Grid>
+        <Grid item xs>
+          <TextField
+            select
+            label="Тип курса"
+            name="course_type"
+            value={state.course_type}
+            onChange={onChange}
+            required
+          >
+            <MenuItem value="" disabled>
+              Пожалуйста, выберите тип
+            </MenuItem>
+            <MenuItem value="zoom">По Zoom</MenuItem>
+            <MenuItem value="youtube">По предзаписанным урокам</MenuItem>
           </TextField>
         </Grid>
         <Grid item xs>

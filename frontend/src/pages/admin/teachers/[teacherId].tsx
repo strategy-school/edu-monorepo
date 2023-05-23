@@ -1,6 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
-import Layout from '@/src/components/UI/Layout/Layout';
+import AdminLayout from '@/src/components/UI/AdminLayout/AdminLayout';
 import {
   selectOneTeacher,
   selectOneTeacherFetching,
@@ -11,8 +9,8 @@ import {
   fetchOneTeacher,
   fetchTeachers,
 } from '@/src/dispatchers/teachers/teachersThunks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import OneTeacher from '@/src/features/teachers/components/OneTeacher/OneTeacher';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -23,7 +21,6 @@ const TeacherId = () => {
   const teacher = useAppSelector(selectOneTeacher);
   const loading = useAppSelector(selectOneTeacherFetching);
   const deleteLoading = useAppSelector(selectTeacherDeleting);
-  const user = useAppSelector(selectUser);
 
   React.useEffect(() => {
     void dispatch(fetchOneTeacher(teacherId));
@@ -46,18 +43,16 @@ const TeacherId = () => {
   };
 
   return (
-    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategia: admin panel | teacher page">
-        <OneTeacher
-          teacher={teacher}
-          deleteLoading={deleteLoading}
-          loading={loading}
-          onEdit={handleEditClick}
-          onDelete={handleDelete}
-          goBack={handleGoBack}
-        />
-      </Layout>
-    </ProtectedRoute>
+    <AdminLayout>
+      <OneTeacher
+        teacher={teacher}
+        deleteLoading={deleteLoading}
+        loading={loading}
+        onEdit={handleEditClick}
+        onDelete={handleDelete}
+        goBack={handleGoBack}
+      />
+    </AdminLayout>
   );
 };
 

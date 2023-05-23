@@ -56,9 +56,9 @@ const CategoryAdmin = () => {
   };
 
   const toggleCategoryDeleted = async (id: string) => {
-    await dispatch(categoryToggleDeleted(id));
-    await dispatch(fetchCategories());
+    dispatch(categoryToggleDeleted(id));
   };
+
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch(fetchCategories({ [name]: value }));

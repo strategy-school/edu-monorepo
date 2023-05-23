@@ -30,8 +30,14 @@ const GroupId = () => {
         <CircularProgress />
       ) : (
         <Grid container direction="column" style={blockStyle}>
-          <Grid item xs style={blockTopStyle} sx={{ p: 2 }}>
-            <Typography variant="h3">{group?.title}</Typography>
+          <Grid item xs style={blockTopStyle} sx={{ p: 3 }}>
+            <Typography
+              variant="h3"
+              fontSize={{ xs: '2rem', sm: '3rem' }}
+              fontWeight={600}
+            >
+              {group?.title}
+            </Typography>
           </Grid>
           <Grid item xs sx={{ p: 2 }}>
             <Typography component="p">{group?.description}</Typography>

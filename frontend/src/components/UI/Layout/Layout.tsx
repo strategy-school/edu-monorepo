@@ -10,19 +10,38 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children, title }) => {
+  const header = React.useRef<HTMLDivElement>(null);
+  const footer = React.useRef<HTMLDivElement>(null);
+  const [extraHeight, setExtraHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    const headerHeight = header.current ? header.current.offsetHeight : 0;
+    const footerHeight = footer.current ? footer.current.offsetHeight : 0;
+
+    setExtraHeight(headerHeight + footerHeight);
+  }, []);
+
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <AppToolbar />
+      <div ref={header}>
+        <AppToolbar />
+      </div>
       <Container
-        sx={{ padding: '50px 25px' }}
-        style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}
+        style={{
+          display: 'flex',
+          minHeight: `calc(100vh - ${extraHeight}px)`,
+          padding: '50px 25px',
+          flexDirection: 'column',
+        }}
       >
         {children}
       </Container>
-      <Footer />
+      <div ref={footer}>
+        <Footer />
+      </div>
     </>
   );
 };

@@ -76,6 +76,9 @@ export interface ICourse {
   targetAudience: string;
   programGoal: string;
   level: string;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
 }
 
 export type CourseShort = Pick<
@@ -97,6 +100,9 @@ export interface ApiCourse {
   programGoal: string;
   level: string;
   isDeleted: boolean;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -170,6 +176,7 @@ export interface ApiCommentsResponse {
 export interface ITransaction {
   user: string;
   course: string;
+  course_type: string;
 }
 
 export interface ApiTransaction {
@@ -177,9 +184,10 @@ export interface ApiTransaction {
   user: Pick<User, '_id' | 'email' | 'firstName' | 'lastName' | 'phoneNumber'>;
   course: Pick<
     ApiCourse,
-    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image' | 'exam'
   >;
   isPaid: 'pending' | 'paid';
+  course_type: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -263,6 +271,22 @@ export interface IGroup {
   telegramLink: string;
 }
 
+export interface ApiNotification {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+  isChecked: boolean;
+}
+
+export interface INotification {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string | null;
+}
+
 export interface IVideoReview {
   title: string;
   previewImage: File | null;
@@ -274,4 +298,39 @@ export interface ApiVideoReview {
   previewImage: string;
   title: string;
   youtubeURL: string;
+}
+
+export interface ApiLesson {
+  _id: string;
+  theme: string;
+  video_link: string;
+  document: string | null;
+  course: Pick<
+    ApiCourse,
+    '_id' | 'title' | 'price' | 'type' | 'level' | 'image'
+  >;
+  number: number;
+}
+
+export interface ILesson {
+  theme: string;
+  video_link: string;
+  course: string;
+  document: File | null;
+  number: string;
+}
+
+export interface RegexSearch {
+  $regex: string;
+  $options?: string;
+}
+
+export interface RangeSearch {
+  $gte?: number;
+  $lte?: number;
+}
+
+export interface SearchLesson extends PageLimit {
+  theme?: RegexSearch;
+  course?: string;
 }

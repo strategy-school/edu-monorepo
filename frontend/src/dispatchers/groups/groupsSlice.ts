@@ -1,5 +1,3 @@
-import { ApiGroup, IPagination, ValidationError } from '@/src/types';
-import { createSlice } from '@reduxjs/toolkit';
 import {
   createGroup,
   fetchGroups,
@@ -8,16 +6,16 @@ import {
   updateGroup,
 } from '@/src/dispatchers/groups/groupsThunks';
 import { RootState } from '@/src/store/store';
+import { ApiGroup, IPagination, ValidationError } from '@/src/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface GroupState {
   items: ApiGroup[];
   oneItem: ApiGroup | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
-  createLoading: boolean;
-  createGroupError: ValidationError | null;
-  updateLoading: boolean;
-  updateGroupError: ValidationError | null;
+  submitting: boolean;
+  error: ValidationError | null;
   deleteLoading: string | false;
   currentPage: number;
   totalCount: number;
@@ -28,10 +26,8 @@ const initialState: GroupState = {
   oneItem: null,
   fetchLoading: false,
   fetchOneLoading: false,
-  createLoading: false,
-  createGroupError: null,
-  updateLoading: false,
-  updateGroupError: null,
+  submitting: false,
+  error: null,
   deleteLoading: false,
   currentPage: 1,
   totalCount: 1,
@@ -40,7 +36,11 @@ const initialState: GroupState = {
 export const groupSlice = createSlice({
   name: 'groups',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchGroups.pending, (state) => {
       state.fetchLoading = true;
@@ -67,26 +67,26 @@ export const groupSlice = createSlice({
       state.fetchOneLoading = false;
     });
     builder.addCase(createGroup.pending, (state) => {
-      state.createGroupError = null;
-      state.createLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(createGroup.fulfilled, (state) => {
-      state.createLoading = false;
+      state.submitting = false;
     });
     builder.addCase(createGroup.rejected, (state, { payload: error }) => {
-      state.createGroupError = error || null;
-      state.createLoading = false;
+      state.error = error || null;
+      state.submitting = false;
     });
     builder.addCase(updateGroup.pending, (state) => {
-      state.updateGroupError = null;
-      state.updateLoading = true;
+      state.error = null;
+      state.submitting = true;
     });
     builder.addCase(updateGroup.fulfilled, (state) => {
-      state.updateLoading = false;
+      state.submitting = false;
     });
     builder.addCase(updateGroup.rejected, (state, { payload: error }) => {
-      state.updateLoading = false;
-      state.updateGroupError = error || null;
+      state.submitting = false;
+      state.error = error || null;
     });
     builder.addCase(removeGroup.pending, (state, { meta: { arg: id } }) => {
       state.deleteLoading = id;
@@ -101,7 +101,7 @@ export const groupSlice = createSlice({
 });
 
 export const groupReducer = groupSlice.reducer;
-
+export const { cleanError } = groupSlice.actions;
 export const selectGroups = (state: RootState) => state.groups.items;
 export const selectGroupsFetching = (state: RootState) =>
   state.groups.fetchLoading;
@@ -110,13 +110,8 @@ export const selectGroupPage = (state: RootState) => state.groups.currentPage;
 export const selectOneGroup = (state: RootState) => state.groups.oneItem;
 export const selectOneGroupFetching = (state: RootState) =>
   state.groups.fetchOneLoading;
-export const selectGroupCreating = (state: RootState) =>
-  state.groups.createLoading;
-export const selectCreateGroupError = (state: RootState) =>
-  state.groups.createGroupError;
-export const selectGroupUpdating = (state: RootState) =>
-  state.groups.updateLoading;
-export const selectUpdateGroupError = (state: RootState) =>
-  state.groups.updateGroupError;
+export const selectGroupSubmitting = (state: RootState) =>
+  state.groups.submitting;
+export const selectGroupError = (state: RootState) => state.groups.error;
 export const selectGroupRemoving = (state: RootState) =>
   state.groups.deleteLoading;

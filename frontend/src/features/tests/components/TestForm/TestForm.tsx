@@ -1,4 +1,15 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
+import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
+import {
+  selectTestSubmitting,
+  selectTestError,
+} from '@/src/dispatchers/tests/testsSlice';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import { TestMutation } from '@/src/types';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Button,
   FormControlLabel,
@@ -10,65 +21,48 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { TestMutation, ValidationError } from '@/src/types';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
-import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
+import React, { ChangeEvent } from 'react';
 
 interface Props {
   onSubmit: (test: TestMutation) => void;
   existingTest?: TestMutation;
-  isEdit?: boolean;
-  loading: boolean;
-  error: ValidationError | null;
 }
 
 const initialState: TestMutation = {
   category: '',
   title: '',
   description: '',
-  questions: [{ question: '', answers: ['', ''], correctAnswer: '' }],
+  questions: [{ question: '', answers: [''], correctAnswer: '' }],
 };
 
 const TestForm: React.FC<Props> = ({
   onSubmit,
-  existingTest,
-  loading,
-  error,
-  isEdit,
+  existingTest = initialState,
 }) => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
-  const [state, setState] = useState<TestMutation>(
-    existingTest || initialState,
-  );
+  const loading = useAppSelector(selectTestSubmitting);
+  const error = useAppSelector(selectTestError);
+  const [state, setState] = React.useState<TestMutation>(existingTest);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const submitFormHandler = async (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(state);
     await onSubmit(state);
     setState(initialState);
   };
 
-  const inputChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const questionsInputChangeHandler = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  const onQuestionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
     const { value, name } = e.target;
@@ -89,7 +83,7 @@ const TestForm: React.FC<Props> = ({
         ...prevState,
         questions: [
           ...prevState.questions,
-          { question: '', answers: ['', ''], correctAnswer: '' },
+          { question: '', answers: [''], correctAnswer: '' },
         ],
       };
     });
@@ -102,7 +96,8 @@ const TestForm: React.FC<Props> = ({
       return { ...prevState, questions };
     });
   };
-  const answerInputChangeHandler = (
+
+  const onAnswerChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     questionIndex: number,
     answerIndex: number,
@@ -166,21 +161,15 @@ const TestForm: React.FC<Props> = ({
   };
 
   return (
-    <form onSubmit={submitFormHandler}>
+    <form onSubmit={onFormSubmit}>
       <Grid container direction="column" spacing={2}>
-        <Grid item xs>
-          <Typography variant="h4" fontSize={{ xs: '18px', md: '22px' }}>
-            {isEdit ? 'Редактировать' : 'Добавить'} тест
-          </Typography>
-        </Grid>
-
         <Grid item xs={12}>
           <TextField
             label="Выберите категорию"
             select
             name="category"
             value={state.category}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             required
             error={Boolean(getFieldError('category'))}
             helperText={getFieldError('category')}
@@ -201,7 +190,7 @@ const TestForm: React.FC<Props> = ({
             id="title"
             label="Название теста"
             value={state.title}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="title"
             required
             error={Boolean(getFieldError('title'))}
@@ -215,7 +204,7 @@ const TestForm: React.FC<Props> = ({
             id="description"
             label="Описание и условия теста"
             value={state.description}
-            onChange={inputChangeHandler}
+            onChange={onChange}
             name="description"
             required
             error={Boolean(getFieldError('description'))}
@@ -242,7 +231,9 @@ const TestForm: React.FC<Props> = ({
                 label="Вопрос"
                 name="question"
                 value={question.question}
-                onChange={(event) => questionsInputChangeHandler(event, index)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onQuestionChange(e, index)
+                }
                 sx={{ mb: 1 }}
                 error={Boolean(getFieldError(`questions.${index}.question`))}
                 helperText={getFieldError(`questions.${index}.question`)}
@@ -275,7 +266,7 @@ const TestForm: React.FC<Props> = ({
                           name={`answers[${answerIndex}]`}
                           value={answer}
                           onChange={(event) =>
-                            answerInputChangeHandler(event, index, answerIndex)
+                            onAnswerChange(event, index, answerIndex)
                           }
                           error={Boolean(
                             getFieldError(
@@ -355,7 +346,7 @@ const TestForm: React.FC<Props> = ({
             fullWidth
             sx={{ padding: '10px 0' }}
           >
-            {isEdit ? 'Изменить' : 'Создать'}
+            Отправить
           </LoadingButton>
         </Grid>
       </Grid>

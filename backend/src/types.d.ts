@@ -43,19 +43,25 @@ export interface ITransaction {
   user: Types.ObjectId;
   course: Types.ObjectId;
   isPaid: 'pending' | 'paid';
+  course_type: 'zoom' | 'youtube';
 }
 
 export interface ICourse {
   title: string;
-  duration: string;
   price: number;
   description: string;
-  type: string;
+  category: string;
   theme: string;
   targetAudience: string;
   programGoal: string;
   level: string;
+  type: string;
+  duration: string;
   image: string;
+  isDeleted: boolean;
+  exam: string;
+  youtube: boolean;
+  zoom: boolean;
 }
 
 export interface ICategory {
@@ -80,8 +86,8 @@ export type SearchParam = {
 };
 
 export interface PageLimit {
-  page: string;
-  limit: string;
+  page?: string;
+  limit?: string;
 }
 
 export interface IVideoReview {
@@ -89,3 +95,20 @@ export interface IVideoReview {
   previewImage: string;
   youtubeURL: string;
 }
+
+export interface ILesson {
+  theme: string;
+  video_link: string;
+  document: string;
+  course: Types.ObjectId;
+  number: number;
+}
+
+export type Search<T> = {
+  [P in keyof T]?:
+    | string
+    | ({ $regex: string; $options?: string } & {
+        $gte?: number;
+        $lte?: number;
+      });
+};

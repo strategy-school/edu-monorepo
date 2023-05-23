@@ -8,9 +8,14 @@ import { Box, Grid } from '@mui/material';
 import React from 'react';
 import { fetchCourses } from '../dispatchers/courses/coursesThunks';
 import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
+import FeedbackForm from '@/src/components/StaticComponents/FeedbackForm/FeedbackForm';
 import { fetchTests } from '@/src/dispatchers/tests/testsThunks';
 import TestWrapper from '@/src/features/tests/components/TestWrapper/TestWrapper';
 import VideoReviewsWrapper from '@/src/features/videoReviews/VideoReviews/VideoReviewsWrapper';
+import AfterCourse from '@/src/components/StaticComponents/AfterCourse/AfterCourse';
+import OneCourseBlock from '@/src/features/courses/components/OneCourseBlock/OneCourseBlock';
+import ClientWrapper from '@/src/features/clients/ClientWrapper/ClientWrapper';
+import AdBlock from '@/src/components/StaticComponents/AdBanner/AdBlock';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -35,19 +40,34 @@ export default function Home() {
             <WelcomeBlock />
           </Grid>
           <Grid item>
+            <CoursesWrapper />
+          </Grid>
+          <Grid item>
             <AboutUs />
           </Grid>
           <Grid item>
-            <CoursesWrapper />
+            <OneCourseBlock />
+          </Grid>
+          <Grid item>
+            <FeedbackForm />
+          </Grid>
+          <Grid item>
+            <AdBlock />
           </Grid>
           <Grid item>
             <TeachersWrapper />
           </Grid>
           <Grid item>
+            <VideoReviewsWrapper />
+          </Grid>
+          <Grid item>
             <TestWrapper />
           </Grid>
           <Grid item>
-            <VideoReviewsWrapper />
+            <ClientWrapper />
+          </Grid>
+          <Grid item>
+            <AfterCourse />
           </Grid>
         </Grid>
       </Box>

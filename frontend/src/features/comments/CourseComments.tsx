@@ -93,7 +93,12 @@ const CourseComments: React.FC<Props> = ({ courseId }) => {
           ) : (
             <Alert severity="warning">Здесь пока нет отзывов!</Alert>
           )}
-          <Grid container spacing={2} justifyContent="space-between">
+          <Grid
+            container
+            spacing={2}
+            justifyContent="space-between"
+            direction={{ xs: 'column', sm: 'row' }}
+          >
             <Grid item xs>
               {(comments.payingUser || user?.role === 'admin') &&
                 !user?.isBanned && (

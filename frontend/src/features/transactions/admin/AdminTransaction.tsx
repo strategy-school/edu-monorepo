@@ -1,11 +1,10 @@
-import React from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectTransactions,
   selectTransactionsPage,
   selectTransactionsTotalCount,
 } from '@/src/dispatchers/transactions/transactionsSlice';
 import { fetchTransactions } from '@/src/dispatchers/transactions/transactionsThunk';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   Paper,
   Table,
@@ -17,7 +16,8 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import TransactionItem from '@/src/features/admin/transactions/TransactionItem';
+import React from 'react';
+import TransactionItem from './TransactionItem';
 
 const AdminTransaction = () => {
   const dispatch = useAppDispatch();

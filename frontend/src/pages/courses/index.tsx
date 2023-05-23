@@ -23,7 +23,7 @@ const Index = () => {
         <Grid item xs={12} md={3}>
           <CourseFilterForm />
         </Grid>
-        <Grid item xs container spacing={3}>
+        <Grid item xs={12} md={9} container spacing={3}>
           {fullCourses.length > 0 ? (
             fullCourses.map((course) => (
               <Grid item xs={12} key={course._id}>

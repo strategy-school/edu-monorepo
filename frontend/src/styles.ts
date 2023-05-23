@@ -2,6 +2,7 @@ import { Property } from 'csstype';
 import TextTransform = Property.TextTransform;
 import theme from '@/src/theme';
 import marketingBg from '@/src/assets/images/marketing-bg.jpg';
+import TextAlign = Property.TextAlign;
 
 export const stylesGlobal = {
   title: {
@@ -27,7 +28,7 @@ export const blockStyle = {
 };
 
 export const blockTopStyle = {
-  color: theme.palette.secondary.main,
+  color: theme.palette.info.dark,
   paddingTop: '10px',
   paddingBottom: '10px',
   borderTopLeftRadius: '35px',
@@ -70,7 +71,6 @@ export const cardStyle = {
   },
   cardBody: {
     borderRadius,
-    position: 'relative' as const,
     margin: '20px',
   },
   height: {
@@ -84,13 +84,32 @@ export const cardStyle = {
   },
   innerStyle: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   fontSize: {
-    xs: '14px',
+    xs: '12px',
     sm: '18px',
     md: '26px',
+  },
+};
+
+export const fullCardStyle = {
+  card: {
+    cursor: 'pointer',
+  },
+  cardBody: {
+    borderRadius,
+    margin: '20px',
+  },
+  padding: { sm: '20px', md: '40px' },
+  innerStyle: {
+    display: 'flex',
+  },
+  width: '100%',
+  height: '100%',
+  fontSize: {
+    xs: '20px',
+    sm: '26px',
+    md: '50px',
   },
 };
 
@@ -101,6 +120,15 @@ export const whyUs = {
     margin: '0 0 25px 0 ',
   },
   whyUsText: {
-    margin: '0 0 0 15px',
+    margin: '0 10px 0 15px',
+    textAlign: 'justify' as TextAlign,
+  },
+};
+
+export const clientStyle = {
+  fontSize: {
+    xs: '14px',
+    sm: '16px',
+    md: '20px',
   },
 };

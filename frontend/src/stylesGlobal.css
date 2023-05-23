@@ -17,3 +17,13 @@ a {
   transform: scale(1.01, 1.01);
   transition: transform 500ms ease-out;
 }
+
+.video iframe {
+  border-radius: 20px;
+  width: 100%;
+}
+
+#conveythis-wrapper {
+  display: none !important;
+}
+
