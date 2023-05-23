@@ -1,10 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import icon from '@/src/assets/images/user-icon.jpg';
 import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { apiURL } from '@/src/constants';
+import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
+import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Box,
@@ -16,10 +20,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
-import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
-import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
-import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
+import React from 'react';
 
 const styles = {
   userInfo: {
@@ -32,18 +33,11 @@ const styles = {
   },
 };
 
-const Profile = () => {
-  const dispatch = useAppDispatch();
+const Profile: React.FC = () => {
   const user = useAppSelector(selectUser);
   const transactions = useAppSelector(selectTransactions);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchTransactionsByUser(user._id));
-    }
-  }, [dispatch, user]);
 
   const openMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setAnchorEl(e.currentTarget);
@@ -158,5 +152,17 @@ const Profile = () => {
     </ProtectedRoute>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    const { user } = store.getState().users;
+
+    if (user) {
+      await store.dispatch(fetchTransactionsByUser(user._id));
+    }
+
+    return { props: {} };
+  },
+);
 
 export default Profile;

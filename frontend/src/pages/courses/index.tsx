@@ -1,20 +1,17 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
+import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
 import CourseCard from '@/src/features/courses/components/CourseCard/CourseCard';
 import CourseFilterForm from '@/src/features/courses/components/CourseFilterForm/CourseFilterForm';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { Alert, Box, Grid } from '@mui/material';
 import React from 'react';
 
-const Index = () => {
-  const dispatch = useAppDispatch();
+const Index: React.FC = () => {
   const fullCourses = useAppSelector(selectCourses);
-
-  React.useEffect(() => {
-    void dispatch(fetchCourses());
-  }, [dispatch]);
 
   return (
     <Layout title="Strategy school: Courses list">
@@ -42,5 +39,14 @@ const Index = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchCourses());
+    await store.dispatch(fetchCategories());
+
+    return { props: {} };
+  },
+);
 
 export default Index;

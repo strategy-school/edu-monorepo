@@ -6,6 +6,7 @@ import {
   ValidationError,
 } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   createTeacher,
   deleteTeacher,
@@ -47,6 +48,10 @@ const teacherSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.teachers;
+    });
     builder.addCase(fetchTeachers.pending, (state) => {
       state.teachersList = [];
       state.fetchLoading = true;

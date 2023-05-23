@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectOneTest,
   selectTestsFetching,
 } from '@/src/dispatchers/tests/testsSlice';
 import { fetchOneTest } from '@/src/dispatchers/tests/testsThunks';
 import TestForUser from '@/src/features/tests/components/TesForUser/TestForUser';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { CircularProgress, Grid } from '@mui/material';
-import Layout from '@/src/components/UI/Layout/Layout';
+import React from 'react';
 
-const TestId = () => {
-  const router = useRouter();
-  const { testId } = router.query as { testId: string };
-  const dispatch = useAppDispatch();
+const TestId: React.FC = () => {
   const oneTest = useAppSelector(selectOneTest);
   const loading = useAppSelector(selectTestsFetching);
-
-  useEffect(() => {
-    dispatch(fetchOneTest(testId));
-  }, [dispatch, testId]);
 
   return (
     <Layout title="Strategia School | Тест">
@@ -30,5 +23,15 @@ const TestId = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      const { testId } = params as { testId: string };
+      await store.dispatch(fetchOneTest(testId));
+
+      return { props: {} };
+    },
+);
 
 export default TestId;
