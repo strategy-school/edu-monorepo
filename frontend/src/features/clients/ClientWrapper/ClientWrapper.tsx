@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { clientStyle, stylesGlobal } from '@/src/styles';
+import { stylesGlobal } from '@/src/styles';
 import shirin from '@/src/assets/images/shirin.png';
 import logoO from '@/src/assets/images/logo-o.png';
 import gazprom from '@/src/assets/images/gazprom.png';
@@ -22,17 +22,7 @@ const ClientWrapper = () => {
           color="info.dark"
           fontSize={stylesGlobal.fontSize}
         >
-          Сотрудничаем с ведущими компаниями Кыргызстана
-        </Typography>
-
-        <Typography
-          component="p"
-          fontSize={clientStyle.fontSize}
-          color="info.dark"
-          sx={{ marginTop: 2 }}
-        >
-          Собираем лучшие вакансии в отрасли, готовим к интервью и рекомендуем
-          вас компаниям-партнерам.
+          Маркетологи ведущих компаний страны учились у нас
         </Typography>
       </Grid>
       <Grid item container spacing={1} sx={{ mt: 4 }} justifyContent="center">
@@ -57,7 +47,7 @@ const ClientWrapper = () => {
           <Image
             src={toyboss}
             alt="Тойбосс"
-            width={100}
+            width={110}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
@@ -73,7 +63,7 @@ const ClientWrapper = () => {
           <Image
             src={idlo}
             alt="IDLO"
-            width={100}
+            width={110}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
@@ -81,7 +71,7 @@ const ClientWrapper = () => {
           <Image
             src={krjs}
             alt="KRJS"
-            width={90}
+            width={110}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
@@ -89,7 +79,7 @@ const ClientWrapper = () => {
           <Image
             src={giz}
             alt="Giz"
-            width={105}
+            width={110}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
@@ -105,7 +95,7 @@ const ClientWrapper = () => {
           <Image
             src={ebpp}
             alt="EBPP"
-            width={110}
+            width={120}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>
@@ -113,7 +103,7 @@ const ClientWrapper = () => {
           <Image
             src={logoO}
             alt="0"
-            width={100}
+            width={110}
             style={{ margin: '3px 0 0 2px' }}
           />
         </Grid>

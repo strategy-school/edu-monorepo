@@ -132,14 +132,15 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
             >
               {score > oneTest.questions.length / 2
                 ? 'Поздравляем!'
-                : 'Есть, что улучшить'}
+                : 'Есть, что улучшить!'}
             </Typography>
             <Typography
               variant="h6"
               align="center"
               fontSize={{ xs: '0.95rem', sm: '1.125rem' }}
             >
-              Ваш результат: {resultMessage}
+              Ваш результат:{' '}
+              <span style={{ color: 'red' }}>{resultMessage}</span>
             </Typography>
           </Grid>
         </DialogContent>

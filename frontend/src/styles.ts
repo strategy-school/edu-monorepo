@@ -62,8 +62,8 @@ export const welcomeBlockStyle = {
     fontWeight: 700,
     lineHeight: '1.5',
   },
-  fontSize: { xs: '18px', sm: '25px', md: '35px', lg: '38px' },
-  maxWidth: { xs: '170px', sm: '250px', md: '450px', lg: '495px', xl: '635px' },
+  fontSize: { xs: '15px', sm: '25px', md: '35px', lg: '38px' },
+  maxWidth: { xs: '250px', sm: '500px', md: '600px', lg: '700px', xl: '850px' },
 };
 
 export const cardStyle = {

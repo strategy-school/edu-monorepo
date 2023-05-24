@@ -55,7 +55,7 @@ const Profile: React.FC = () => {
           <Grid
             container
             spacing={2}
-            textAlign="center"
+            textAlign="left"
             alignItems="center"
             color="rgb(217, 39, 45)"
             sx={{ position: 'relative' }}

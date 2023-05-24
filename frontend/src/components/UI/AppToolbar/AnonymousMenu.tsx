@@ -9,7 +9,7 @@ const AnonymousMenu = () => {
         Регистрация
       </Button>
       <Button component={Link} href="/login" color="inherit">
-        Войти
+        Вход
       </Button>
     </>
   );

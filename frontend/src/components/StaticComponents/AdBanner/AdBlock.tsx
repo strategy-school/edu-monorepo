@@ -32,8 +32,9 @@ const AdBlock = () => {
             maxWidth={stylesGlobal.maxWidth}
             textAlign="center"
             paddingBottom={{ xs: '30px', sm: 0 }}
+            paddingRight={{ xs: '10px', lg: 0 }}
           >
-            Для кого подходят наши курсы:
+            Для кого подходят наши курсы и чем должен заниматься маркетолог:
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>

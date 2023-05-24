@@ -53,7 +53,7 @@ const TestWrapper = () => {
             ...styles.courseTitle,
           }}
         >
-          Пройдите тест и узнайте свой уровень
+          Пройди тест и узнай свой уровень знаний маркетинга
         </span>
       </Typography>
       <Typography component="div" mt={1} mb={2}>

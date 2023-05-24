@@ -74,7 +74,7 @@ const VideoReviewForm: React.FC<Props> = ({
         <Grid item xs>
           <TextField
             id="youtubeURL"
-            label="Ютуб код (вам нужно ввести код, который в конце ссылки. Пример: 'oc6rUF61L64'"
+            label="Youtube код (вам нужно ввести код, который в конце ссылки. Пример: 'oc6rUF61L64'"
             value={state.youtubeURL}
             onChange={onChange}
             name="youtubeURL"
@@ -87,7 +87,7 @@ const VideoReviewForm: React.FC<Props> = ({
 
         <Grid item xs>
           <FileInput
-            label="Выберите картинку для отзыва"
+            label="Выберите обложку для отзыва"
             onChange={onFileChange}
             name="previewImage"
             type="image/*"
