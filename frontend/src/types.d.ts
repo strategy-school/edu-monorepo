@@ -18,6 +18,7 @@ export interface User {
   telegramId?: string;
   verified: boolean;
   isTelegramUpdated: boolean;
+  telegramUsername?: string;
 }
 
 export interface RegisterMutation {
@@ -344,6 +345,7 @@ export interface TelegramUser {
   last_name: string;
   photo_url: string | null;
   hash: string;
+  username: string;
 }
 
 export interface TelegramLogin {
@@ -351,4 +353,5 @@ export interface TelegramLogin {
   lastName: string | null;
   avatar: string | null;
   telegramId: string;
+  telegramUsername: string;
 }

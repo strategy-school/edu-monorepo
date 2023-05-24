@@ -201,6 +201,7 @@ usersRouter.post('/telegram', async (req, res, next) => {
         password: crypto.randomUUID(),
         avatar,
         telegramId: req.body.telegramId,
+        telegramUsername: req.body.telegramUsername,
         isTelegramUpdated: false,
       });
       user.generateToken();

@@ -109,6 +109,19 @@ const Profile = () => {
                     </Typography>
                   </Typography>
                 ) : null}
+                {user.telegramUsername ? (
+                  <Typography variant="body1" sx={styles.userInfo}>
+                    Телеграм:{' '}
+                    <Typography component="span" sx={styles.userInfoText}>
+                      <Link
+                        href={`https://t.me/${user.telegramUsername}`}
+                        target="_blank"
+                      >
+                        @{user.telegramUsername}
+                      </Link>
+                    </Typography>
+                  </Typography>
+                ) : null}
               </Grid>
             </Grid>
             {transactions.length > 0 && (

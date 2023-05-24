@@ -60,6 +60,7 @@ const Login = () => {
       lastName: user.last_name ? user.last_name : null,
       avatar: user.photo_url ? user.photo_url : null,
       telegramId: user.id.toString(),
+      telegramUsername: user.username,
     };
     await dispatch(telegramLogin(data)).unwrap();
     void router.push('/telegram-login');
