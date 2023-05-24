@@ -14,6 +14,7 @@ import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmail
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
+  selectLoginError,
   selectTelegramUser,
   selectUser,
 } from '@/src/dispatchers/users/usersSlice';
@@ -24,6 +25,7 @@ const TelegramLogin = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const router = useRouter();
+  const error = useAppSelector(selectLoginError);
   const telegramUser = useAppSelector(selectTelegramUser);
   const [email, setEmail] = useState('');
   const [lastName, setLastName] = useState('');
@@ -43,9 +45,11 @@ const TelegramLogin = () => {
     setSuccess(true);
   };
 
-  if (user && !telegramUser) {
-    void router.replace('/');
-  }
+  useEffect(() => {
+    if (user && !telegramUser) {
+      void router.push('/');
+    }
+  }, [user, telegramUser, router]);
 
   return (
     <>
@@ -62,6 +66,7 @@ const TelegramLogin = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <NoEncryptionGmailerrorredIcon />
             </Avatar>
+
             <Typography variant="h5" textAlign="center">
               Завершите регистрацию и предоставьте недостающие данные
             </Typography>
@@ -71,9 +76,13 @@ const TelegramLogin = () => {
               sx={{ mt: 3, width: '100%' }}
             >
               <Grid container sx={{ width: '100%' }}>
+                {error && (
+                  <Grid item sx={{ width: '100%' }} mb={1}>
+                    <Alert severity="error">{error.error}</Alert>
+                  </Grid>
+                )}
                 <Grid item xs={12}>
                   <TextField
-                    required
                     label="Email"
                     name="email"
                     type="email"
@@ -97,13 +106,16 @@ const TelegramLogin = () => {
                     />
                   </Grid>
                 )}
+                {success && (
+                  <Grid item xs={12} sx={{ width: '100%' }}>
+                    <Alert severity="success" sx={{ mt: 1 }}>
+                      На вашу почту было отправлено письмо для потверждения!
+                      Пожалуйста, подтвердите его!
+                    </Alert>
+                  </Grid>
+                )}
               </Grid>
-              {success && (
-                <Alert severity="success" sx={{ mt: 1, width: '100%' }}>
-                  На вашу почту было отправлено письмо для потверждения!
-                  Пожалуйста, подтвердите его!
-                </Alert>
-              )}
+
               <Button
                 variant="contained"
                 type="submit"

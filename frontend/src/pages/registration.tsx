@@ -25,11 +25,13 @@ import React, { useState } from 'react';
 import {
   selectRegisterError,
   selectRegisterLoading,
+  selectUser,
 } from '../dispatchers/users/usersSlice';
 import { LoadingButton } from '@mui/lab';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 
 const Registration = () => {
+  const existingUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const error = useAppSelector(selectRegisterError);
@@ -85,7 +87,11 @@ const Registration = () => {
       telegramUsername: user.username,
     };
     await dispatch(telegramLogin(data)).unwrap();
-    void router.push('/telegram-login');
+    if (existingUser) {
+      void router.push('/');
+    } else {
+      void router.push('/telegram-login');
+    }
   };
 
   const phoneNumberPattern = '^+996\\d{9}$';

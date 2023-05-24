@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,
+  selectUser,
 } from '../dispatchers/users/usersSlice';
 import { LoginMutation, TelegramUser } from '../types';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
@@ -32,6 +33,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectLoginError);
   const loading = useAppSelector(selectLoginLoading);
+  const existingUser = useAppSelector(selectUser);
   const router = useRouter();
   const [state, setState] = React.useState<LoginMutation>({
     email: '',
@@ -63,7 +65,11 @@ const Login = () => {
       telegramUsername: user.username,
     };
     await dispatch(telegramLogin(data)).unwrap();
-    void router.push('/telegram-login');
+    if (existingUser) {
+      void router.push('/');
+    } else {
+      void router.push('/telegram-login');
+    }
   };
 
   return (

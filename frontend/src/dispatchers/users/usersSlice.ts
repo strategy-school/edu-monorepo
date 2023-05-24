@@ -14,14 +14,8 @@ import {
   updateUser,
   verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
-import {
-  GlobalError,
-  IPagination,
-  TelegramUser,
-  User,
-  ValidationError,
-} from '@/src/types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
@@ -150,6 +144,7 @@ export const usersSlice = createSlice({
       state.registerLoading = false;
       if (user.user.verified && user.user.isTelegramUpdated) {
         state.user = user.user;
+        state.telegramUser = null;
       } else {
         state.telegramUser = user.user;
       }
