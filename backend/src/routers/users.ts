@@ -225,8 +225,6 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
       return res.status(400).send({ error: 'Пользователь не найден!' });
     }
 
-    console.log('this is user = ', user);
-
     if (!req.body.email) {
       return res
         .status(400)
