@@ -144,9 +144,9 @@ const NotificationsAdmin = () => {
                       }
                     >
                       {notification.isChecked ? (
-                        <CheckCircleOutlineIcon />
+                        <CheckCircleOutlineIcon fontSize="small" />
                       ) : (
-                        <CircleIcon />
+                        <CircleIcon fontSize="small" />
                       )}
                     </IconButton>
                   </TableCell>

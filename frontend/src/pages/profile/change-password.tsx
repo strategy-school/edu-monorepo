@@ -73,7 +73,7 @@ const ChangePassowrd = () => {
                   required
                   label="Текущий пароль"
                   name="currentPassword"
-                  type="currentPassword"
+                  type="password"
                   autoComplete="current-currentPassword"
                   value={state.currentPassword}
                   onChange={inputChangeHandler}
@@ -85,7 +85,7 @@ const ChangePassowrd = () => {
                   required
                   label="Новый пароль"
                   name="newPassword"
-                  type="newPassword"
+                  type="password"
                   autoComplete="current-newPassword"
                   value={state.newPassword}
                   onChange={inputChangeHandler}
