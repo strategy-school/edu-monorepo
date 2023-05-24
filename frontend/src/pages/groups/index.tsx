@@ -1,25 +1,20 @@
-import React from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectGroups,
   selectGroupsFetching,
 } from '@/src/dispatchers/groups/groupsSlice';
 import { fetchGroups } from '@/src/dispatchers/groups/groupsThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
-import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
-import { CircularProgress, Grid } from '@mui/material';
 import GroupItem from '@/src/features/groups/components/GroupItem/GroupItem';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
+import { CircularProgress, Grid } from '@mui/material';
+import React from 'react';
 
-const Index = () => {
-  const dispatch = useAppDispatch();
+const Index: React.FC = () => {
   const groups = useAppSelector(selectGroups);
   const groupsFetching = useAppSelector(selectGroupsFetching);
 
-  React.useEffect(() => {
-    void dispatch(fetchGroups());
-  }, [dispatch]);
-
-  console.log(groups);
   return (
     <Layout title="Школа Маркетинга Strategia: Группы">
       <BlocksTitle titleText={'Список учебных групп'} />
@@ -35,5 +30,13 @@ const Index = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchGroups());
+
+    return { props: {} };
+  },
+);
 
 export default Index;

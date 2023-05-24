@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { apiURL } from '@/src/constants';
 import {
@@ -6,6 +5,9 @@ import {
   selectOneCourseFetching,
 } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchOneCourse } from '@/src/dispatchers/courses/coursesThunks';
+import CourseComments from '@/src/features/comments/CourseComments';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { blockStyle, blockTopStyle } from '@/src/styles';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MoneyIcon from '@mui/icons-material/Money';
@@ -17,8 +19,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import Image from 'next/image';
-import CourseComments from '@/src/features/comments/CourseComments';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 const imgStyle = {
@@ -34,16 +34,9 @@ const marginTop = {
   lg: '80px',
 };
 
-const CourseId = () => {
-  const router = useRouter();
-  const { courseId } = router.query as { courseId: string };
-  const dispatch = useAppDispatch();
+const CourseId: React.FC = () => {
   const course = useAppSelector(selectOneCourse);
   const courseLoading = useAppSelector(selectOneCourseFetching);
-
-  React.useEffect(() => {
-    void dispatch(fetchOneCourse(courseId));
-  }, [dispatch, courseId]);
 
   const typeName =
     course?.type === 'seminar'
@@ -121,7 +114,7 @@ const CourseId = () => {
                       ? imgStyle.lg
                       : isXl
                       ? imgStyle.xl
-                      : undefined
+                      : 100
                   }
                   height={
                     isXs
@@ -132,7 +125,7 @@ const CourseId = () => {
                       ? imgStyle.lg
                       : isXl
                       ? imgStyle.xl
-                      : undefined
+                      : 10
                   }
                 />
               </Grid>
@@ -209,9 +202,19 @@ const CourseId = () => {
           </Grid>
         )
       )}
-      <CourseComments courseId={courseId} />
+      <CourseComments />
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      const { courseId } = params as { courseId: string };
+      await store.dispatch(fetchOneCourse(courseId));
+
+      return { props: {} };
+    },
+);
 
 export default CourseId;

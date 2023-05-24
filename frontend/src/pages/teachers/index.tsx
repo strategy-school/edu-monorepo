@@ -1,19 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { Grid } from '@mui/material';
 import React from 'react';
 
-const Index = () => {
-  const dispatch = useAppDispatch();
+const Index: React.FC = () => {
   const teachers = useAppSelector(selectTeachers);
-
-  React.useEffect(() => {
-    dispatch(fetchTeachers());
-  }, [dispatch]);
 
   return (
     <Layout title="Школа Маркетинга Strategia: Список преподователей">
@@ -43,5 +39,13 @@ const Index = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchTeachers());
+
+    return { props: {} };
+  },
+);
 
 export default Index;

@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
+import Layout from '@/src/components/UI/Layout/Layout';
 import { selectTests } from '@/src/dispatchers/tests/testsSlice';
 import { fetchTestByCategory } from '@/src/dispatchers/tests/testsThunks';
 import TestCard from '@/src/features/tests/components/TestCard/TestCard';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { Grid } from '@mui/material';
-import Layout from '@/src/components/UI/Layout/Layout';
-import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
+import React from 'react';
 
-const TestsByCategory = () => {
-  const router = useRouter();
-  const { testCategoryId } = router.query as { testCategoryId: string };
-  const dispatch = useAppDispatch();
+const TestsByCategory: React.FC = () => {
   const tests = useAppSelector(selectTests);
-
-  useEffect(() => {
-    dispatch(fetchTestByCategory(testCategoryId));
-  }, [dispatch, testCategoryId]);
 
   return (
     <Layout title="Школа Маркетинга Strategia: Тест">
@@ -32,5 +25,15 @@ const TestsByCategory = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      const { testCategoryId } = params as { testCategoryId: string };
+      await store.dispatch(fetchTestByCategory(testCategoryId));
+
+      return { props: {} };
+    },
+);
 
 export default TestsByCategory;

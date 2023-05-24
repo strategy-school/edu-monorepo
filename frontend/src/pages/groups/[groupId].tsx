@@ -1,28 +1,19 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import Layout from '@/src/components/UI/Layout/Layout';
 import {
   selectOneGroup,
   selectOneGroupFetching,
 } from '@/src/dispatchers/groups/groupsSlice';
 import { fetchOneGroup } from '@/src/dispatchers/groups/groupsThunks';
-import Layout from '@/src/components/UI/Layout/Layout';
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { useAppSelector } from '@/src/store/hooks';
+import { wrapper } from '@/src/store/store';
 import { blockStyle, blockTopStyle } from '@/src/styles';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import React from 'react';
 
-const GroupId = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { groupId } = router.query as { groupId: string };
+const GroupId: React.FC = () => {
   const group = useAppSelector(selectOneGroup);
   const groupLoading = useAppSelector(selectOneGroupFetching);
-
-  React.useEffect(() => {
-    void dispatch(fetchOneGroup(groupId));
-  }, [dispatch, groupId]);
-
-  console.log(group);
 
   return (
     <Layout title={`Школа Маркетинга Strategia: ${group?.title}`}>
@@ -66,5 +57,15 @@ const GroupId = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      const { groupId } = params as { groupId: string };
+      await store.dispatch(fetchOneGroup(groupId));
+
+      return { props: {} };
+    },
+);
 
 export default GroupId;

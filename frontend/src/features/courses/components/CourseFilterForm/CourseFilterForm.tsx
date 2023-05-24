@@ -1,7 +1,6 @@
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectCategories } from '@/src/dispatchers/categories/categoriesSlice';
-import { fetchCategories } from '@/src/dispatchers/categories/categoriesThunks';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { CoursePrice, SearchCourse } from '@/src/types';
 import {
   Button,
@@ -33,11 +32,9 @@ const CourseFilterForm = () => {
   const categories = useAppSelector(selectCategories);
 
   React.useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  React.useEffect(() => {
-    dispatch(fetchCourses(state));
+    if (Object.keys(state).length) {
+      dispatch(fetchCourses(state));
+    }
   }, [state, dispatch]);
 
   const onChange = React.useCallback(

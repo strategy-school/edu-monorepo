@@ -24,12 +24,11 @@ import CommentItem from '@/src/features/comments/components/CommentItem/CommentI
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import CommentForm from '@/src/features/comments/components/CommentForm/CommentForm';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { useRouter } from 'next/router';
 
-interface Props {
-  courseId: string;
-}
-
-const CourseComments: React.FC<Props> = ({ courseId }) => {
+const CourseComments: React.FC = () => {
+  const router = useRouter();
+  const { courseId } = router.query as { courseId: string };
   const dispatch = useAppDispatch();
   const comments = useAppSelector(selectComments);
   const commentsLoading = useAppSelector(selectCommentsFetching);

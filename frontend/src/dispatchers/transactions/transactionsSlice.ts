@@ -1,6 +1,7 @@
 import { RootState } from '@/src/store/store';
 import { ApiTransaction, IPagination } from '@/src/types';
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   createTransaction,
   deleteTransaction,
@@ -41,6 +42,10 @@ const transactionsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(HYDRATE, (_, action) => {
+        //@ts-expect-error hydrate action's payload is not typed
+        return action.payload.transactions;
+      })
       .addCase(fetchSingleTransaction.pending, (state) => {
         state.loadingOne = true;
       })
