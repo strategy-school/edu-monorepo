@@ -328,6 +328,19 @@ usersRouter.get('/', auth, permit('admin'), async (req, res, next) => {
   }
 });
 
+usersRouter.get('/me', auth, async (req, res, next) => {
+  try {
+    const { user } = <RequestWithUser>req;
+
+    return res.send({
+      message: 'User found',
+      result: user,
+    });
+  } catch (error) {
+    return next();
+  }
+});
+
 usersRouter.get('/basic/:id', auth, permit('admin'), async (req, res, next) => {
   try {
     const user = await User.findOne({ role: 'user', _id: req.params.id });
@@ -398,6 +411,7 @@ usersRouter.post('/change-password', auth, async (req, res, next) => {
     return next(e);
   }
 });
+
 usersRouter.post('/forgot-password', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });

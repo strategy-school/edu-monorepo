@@ -15,6 +15,8 @@ import {
 import axiosApi from '@/src/axiosApi';
 import { isAxiosError } from 'axios';
 import { unsetUser } from './usersSlice';
+import { destroyCookie, setCookie } from 'nookies';
+import { strategiaToken } from '@/src/constants';
 
 export const register = createAsyncThunk<
   void,
@@ -34,7 +36,7 @@ export const register = createAsyncThunk<
       }
     });
 
-    await axiosApi.post<RegisterResponse>('/users', formData);
+    await axiosApi.post('/users', formData);
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as ValidationError);
@@ -49,11 +51,18 @@ export const login = createAsyncThunk<
   { rejectValue: GlobalError }
 >('users/login', async (loginMutation, { rejectWithValue }) => {
   try {
-    const response = await axiosApi.post<RegisterResponse>(
+    const { data } = await axiosApi.post<RegisterResponse>(
       '/users/sessions',
       loginMutation,
     );
-    return response.data.user;
+    const { user } = data;
+
+    setCookie(null, strategiaToken, user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    return user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as GlobalError);
@@ -66,6 +75,7 @@ export const logout = createAsyncThunk(
   'users/logout',
   async (_, { dispatch }) => {
     await axiosApi.delete('/users/sessions');
+    destroyCookie(null, strategiaToken);
     dispatch(unsetUser());
   },
 );
@@ -79,7 +89,14 @@ export const googleLogin = createAsyncThunk<
     const { data } = await axiosApi.post<RegisterResponse>('/users/google', {
       credential,
     });
-    return data.user;
+    const { user } = data;
+
+    setCookie(null, strategiaToken, user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    return user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data as GlobalError);
@@ -184,8 +201,7 @@ export const forgotPassword = createAsyncThunk<
   { rejectValue: GlobalError }
 >('users/forgotPassword', async (email, { rejectWithValue }) => {
   try {
-    const response = await axiosApi.post('/users/forgot-password', email);
-    return response.data;
+    await axiosApi.post('/users/forgot-password', email);
   } catch (error) {
     if (
       isAxiosError(error) &&
@@ -233,8 +249,35 @@ export const resetPassword = createAsyncThunk<
 export const verifyEmail = createAsyncThunk<User, string>(
   'users/verifyEmail',
   async (token) => {
-    const response = await axiosApi.post(`/users/verify-email/${token}`);
-    return response.data.user;
+    const { data } = await axiosApi.post<RegisterResponse>(
+      `/users/verify-email/${token}`,
+    );
+    const { user } = data;
+
+    setCookie(null, strategiaToken, user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    return user;
+  },
+);
+
+export const getMe = createAsyncThunk(
+  'users/getSelf',
+  async (token: string) => {
+    const { data } = await axiosApi.get<ApiResponse<User>>('/users/me', {
+      headers: { Authorization: token },
+    });
+
+    const user = <User>data.result;
+
+    setCookie(null, 'token', user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    return user;
   },
 );
 

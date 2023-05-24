@@ -1,31 +1,27 @@
-import React, { useEffect } from 'react';
-import { Container, Grid, Typography } from '@mui/material';
 import about from '@/src/assets/images/about.jpg';
-import Layout from '@/src/components/UI/Layout/Layout';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
-import { Property } from 'csstype';
-import TextAlign = Property.TextAlign;
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { whyUs } from '@/src/styles';
-import HelpIcon from '@mui/icons-material/Help';
-import StarIcon from '@mui/icons-material/Star';
-import NearMeIcon from '@mui/icons-material/NearMe';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
+import Layout from '@/src/components/UI/Layout/Layout';
 import { selectTeachers } from '@/src/dispatchers/teachers/teachersSlice';
 import { fetchTeachers } from '@/src/dispatchers/teachers/teachersThunks';
 import TeacherCard from '@/src/features/teachers/components/TeacherCard/TeacherCard';
+import { useAppSelector } from '@/src/store/hooks';
+import { whyUs } from '@/src/styles';
 import theme from '@/src/theme';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import HelpIcon from '@mui/icons-material/Help';
+import NearMeIcon from '@mui/icons-material/NearMe';
+import StarIcon from '@mui/icons-material/Star';
+import { Container, Grid, Typography } from '@mui/material';
+import { Property } from 'csstype';
+import React from 'react';
+import { wrapper } from '../store/store';
+import TextAlign = Property.TextAlign;
 
 const height = { xs: '200px', sm: '300px', md: '400px', lg: '450px' };
 
-const About = () => {
-  const dispatch = useAppDispatch();
+const About: React.FC = () => {
   const teachers = useAppSelector(selectTeachers);
-
-  useEffect(() => {
-    void dispatch(fetchTeachers());
-  }, [dispatch]);
 
   return (
     <Layout title="Strategia school: about">
@@ -186,5 +182,13 @@ const About = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchTeachers());
+
+    return { props: {} };
+  },
+);
 
 export default About;

@@ -7,6 +7,7 @@ import {
   fetchComments,
   updateComment,
 } from '@/src/dispatchers/comments/commentsThunks';
+import { HYDRATE } from 'next-redux-wrapper';
 
 interface CommentsState {
   items: ApiCommentsResponse | null;
@@ -33,6 +34,10 @@ const commentsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (_, action) => {
+      //@ts-expect-error hydrate action's payload is not typed
+      return action.payload.comments;
+    });
     builder.addCase(fetchComments.pending, (state) => {
       state.fetchLoading = true;
     });

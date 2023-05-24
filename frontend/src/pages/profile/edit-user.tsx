@@ -1,17 +1,16 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { updateUser } from '@/src/dispatchers/users/usersThunks';
+import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UpdateUserMutation } from '@/src/types';
-import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
 import { Grid } from '@mui/material';
-import { updateUser } from '@/src/dispatchers/users/usersThunks';
-import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-const EditUser = () => {
+const EditUser: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  console.log(user);
 
   const onSubmit = async (userMutation: UpdateUserMutation) => {
     await dispatch(updateUser({ user: userMutation })).unwrap();

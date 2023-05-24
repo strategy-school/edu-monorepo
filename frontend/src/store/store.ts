@@ -1,58 +1,42 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from 'redux-persist';
-import { usersReducer } from '../dispatchers/users/usersSlice';
-
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
-import { commentsReducer } from '../dispatchers/comments/commentsSlice';
-import { coursesReducer } from '../dispatchers/courses/coursesSlice';
-import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
-import { testsReducer } from '../dispatchers/tests/testsSlice';
-import { transactionsReducer } from '../dispatchers/transactions/transactionsSlice';
 import { groupReducer } from '@/src/dispatchers/groups/groupsSlice';
 import { notificationsReducer } from '@/src/dispatchers/notifications/notificationsSlice';
 import { videoReviewsReducer } from '@/src/dispatchers/videoReviews/videoReviewsSlice';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
+import { categoriesReducer } from '../dispatchers/categories/categoriesSlice';
+import { commentsReducer } from '../dispatchers/comments/commentsSlice';
+import { coursesReducer } from '../dispatchers/courses/coursesSlice';
 import { lessonsReducer } from '../dispatchers/lessons/lessonsSlice';
+import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
+import { testsReducer } from '../dispatchers/tests/testsSlice';
+import { transactionsReducer } from '../dispatchers/transactions/transactionsSlice';
+import { usersReducer } from '../dispatchers/users/usersSlice';
 
-const usersPersistConfig = {
-  key: 'strategia:users',
-  storage,
-  whitelist: ['user'],
-};
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      users: usersReducer,
+      courses: coursesReducer,
+      teachers: teacherReducer,
+      categories: categoriesReducer,
+      comments: commentsReducer,
+      transactions: transactionsReducer,
+      tests: testsReducer,
+      groups: groupReducer,
+      notifications: notificationsReducer,
+      videoReviews: videoReviewsReducer,
+      lessons: lessonsReducer,
+    },
+  });
 
-const rootReducer = combineReducers({
-  users: persistReducer(usersPersistConfig, usersReducer),
-  courses: coursesReducer,
-  teachers: teacherReducer,
-  categories: categoriesReducer,
-  comments: commentsReducer,
-  transactions: transactionsReducer,
-  tests: testsReducer,
-  groups: groupReducer,
-  notifications: notificationsReducer,
-  videoReviews: videoReviewsReducer,
-  lessons: lessonsReducer,
-});
+export type RootStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<RootStore['getState']>;
+export type AppDispatch = RootStore['dispatch'];
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-});
-
-export const persistor = persistStore(store);
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const wrapper = createWrapper<RootStore>(makeStore);
