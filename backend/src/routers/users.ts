@@ -186,7 +186,6 @@ usersRouter.post('/google', async (req, res, next) => {
 usersRouter.post('/telegram', async (req, res, next) => {
   try {
     let user = await User.findOne({ telegramId: req.body.telegramId });
-    const token = crypto.randomBytes(4).toString('hex');
 
     if (!user) {
       let avatar = null;
@@ -195,36 +194,63 @@ usersRouter.post('/telegram', async (req, res, next) => {
           'images/' + (await downloadFile(req.body.avatar as string, 'images'));
       }
 
-      if (!req.body.email) {
-        return res
-          .status(400)
-          .send({ error: 'Поле email является обязательным!' });
-      }
-
-      if (!req.body.lastName) {
-        return res
-          .status(400)
-          .send({ error: 'Поле email является обязательным!' });
-      }
-
       user = new User({
-        email: req.body.email,
+        email: crypto.randomUUID() + '@test.com',
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: crypto.randomUUID(),
         avatar,
         telegramId: req.body.telegramId,
-        verified: true,
+        isTelegramUpdated: false,
       });
-      await sendEmail(
-        req.body.email,
-        'Подтверджение почты',
-        EMAIL(token, req.body.firstName),
-      );
+      user.generateToken();
+      await user.save();
+      return res.send({ message: 'Telegram! Update profile!', user });
     }
     user.generateToken();
     await user.save();
     return res.send({ message: 'Login with Telegram successful', user });
+  } catch (e) {
+    return next(e);
+  }
+});
+
+usersRouter.patch('/telegram/:id', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ telegramId: req.params.id });
+    const token = crypto.randomBytes(4).toString('hex');
+
+    if (!user) {
+      return res.status(400).send({ error: 'Пользователь не найден!' });
+    }
+
+    console.log('this is user = ', user);
+
+    if (!req.body.email) {
+      return res
+        .status(400)
+        .send({ error: 'Поле email является обязательным!' });
+    }
+
+    if (!user.lastName && !req.body.lastName) {
+      return res
+        .status(400)
+        .send({ error: 'Поле фамилию является обязательным!' });
+    }
+
+    user.email = req.body.email;
+    user.lastName = req.body.lastName;
+    user.isTelegramUpdated = true;
+    user.verifyEmailToken = token;
+
+    await sendEmail(
+      req.body.email,
+      'Подтверджение почты',
+      EMAIL(token, req.body.firstName),
+    );
+
+    await user.save();
+    return res.send({ message: 'Telegram login updated successful', user });
   } catch (e) {
     return next(e);
   }
@@ -467,10 +493,11 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
     if (!user) {
       return res
         .status(404)
-        .send({ error: 'Неверный токен, вам было вышлено новое ' });
+        .send({ error: 'Неверный токен, вам было выслан новое' });
     }
 
     user.verified = true;
+    user.verifyEmailToken = null;
     user.generateToken();
     await user.save();
     return res

@@ -1,5 +1,9 @@
 import Layout from '@/src/components/UI/Layout/Layout';
-import { googleLogin, login } from '@/src/dispatchers/users/usersThunks';
+import {
+  googleLogin,
+  login,
+  telegramLogin,
+} from '@/src/dispatchers/users/usersThunks';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -20,7 +24,6 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,
-  setTelegramUser,
 } from '../dispatchers/users/usersSlice';
 import { LoginMutation, TelegramUser } from '../types';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
@@ -51,8 +54,14 @@ const Login = () => {
     void router.push('/');
   };
 
-  const handleTelegramAuth = async (user: TelegramUser) => {
-    await dispatch(setTelegramUser(user));
+  const onTelegramLogin = async (user: TelegramUser) => {
+    const data = {
+      firstName: user.first_name,
+      lastName: user.last_name ? user.last_name : null,
+      avatar: user.photo_url ? user.photo_url : null,
+      telegramId: user.id.toString(),
+    };
+    await dispatch(telegramLogin(data)).unwrap();
     void router.push('/telegram-login');
   };
 
@@ -84,7 +93,7 @@ const Login = () => {
           <Box sx={{ pt: 2 }}>
             <TelegramAuth
               botName="strategia_authorization_bot"
-              dataOnAuth={handleTelegramAuth}
+              dataOnAuth={onTelegramLogin}
               buttonSize="large"
               requestAccess={true}
             />

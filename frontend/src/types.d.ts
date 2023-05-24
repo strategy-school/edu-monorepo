@@ -15,7 +15,9 @@ export interface User {
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
+  telegramId?: string;
   verified: boolean;
+  isTelegramUpdated: boolean;
 }
 
 export interface RegisterMutation {
@@ -345,9 +347,8 @@ export interface TelegramUser {
 }
 
 export interface TelegramLogin {
-  email: string;
   firstName: string;
-  lastName: string;
+  lastName: string | null;
   avatar: string | null;
   telegramId: string;
 }

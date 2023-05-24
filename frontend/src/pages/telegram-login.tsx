@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/src/components/UI/Layout/Layout';
 import {
   Alert,
@@ -11,35 +11,41 @@ import {
   Typography,
 } from '@mui/material';
 import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmailerrorred';
-import LoadingButton from '@mui/lab/LoadingButton';
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
-import { selectTelegramUser } from '@/src/dispatchers/users/usersSlice';
-import { RegisterMutation } from '@/src/types';
-import { telegramLogin } from '@/src/dispatchers/users/usersThunks';
+import {
+  selectTelegramUser,
+  selectUser,
+} from '@/src/dispatchers/users/usersSlice';
+import { updateTelegramUser } from '@/src/dispatchers/users/usersThunks';
 import { useRouter } from 'next/router';
 
 const TelegramLogin = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
   const router = useRouter();
   const telegramUser = useAppSelector(selectTelegramUser);
   const [email, setEmail] = useState('');
   const [lastName, setLastName] = useState('');
   const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!telegramUser) return;
+    if (!telegramUser || !telegramUser.telegramId) return;
     const data = {
+      id: telegramUser.telegramId,
       email,
-      firstName: telegramUser.first_name,
-      lastName: telegramUser.last_name ? telegramUser.last_name : lastName,
-      avatar: telegramUser.photo_url ? telegramUser.photo_url : null,
-      telegramId: telegramUser.id.toString(),
+      lastName: telegramUser.lastName ? telegramUser.lastName : lastName,
     };
-    await dispatch(telegramLogin(data)).unwrap();
-    void router.push('/');
+
+    await dispatch(updateTelegramUser(data)).unwrap();
+    setSuccess(true);
   };
+
+  if (user && !telegramUser) {
+    void router.replace('/');
+  }
 
   return (
     <>
@@ -56,7 +62,7 @@ const TelegramLogin = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <NoEncryptionGmailerrorredIcon />
             </Avatar>
-            <Typography variant="h5">
+            <Typography variant="h5" textAlign="center">
               Завершите регистрацию и предоставьте недостающие данные
             </Typography>
             <Box
@@ -77,7 +83,7 @@ const TelegramLogin = () => {
                     sx={{ width: '100%' }}
                   />
                 </Grid>
-                {telegramUser && !telegramUser.last_name && (
+                {telegramUser && !telegramUser.lastName && (
                   <Grid item xs={12}>
                     <TextField
                       required
@@ -92,11 +98,18 @@ const TelegramLogin = () => {
                   </Grid>
                 )}
               </Grid>
+              {success && (
+                <Alert severity="success" sx={{ mt: 1, width: '100%' }}>
+                  На вашу почту было отправлено письмо для потверждения!
+                  Пожалуйста, подтвердите его!
+                </Alert>
+              )}
               <Button
                 variant="contained"
                 type="submit"
                 sx={{ mt: 3, mb: 2 }}
                 fullWidth
+                disabled={success}
               >
                 <span>Завершить регистрацию</span>
               </Button>

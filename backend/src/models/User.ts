@@ -58,7 +58,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
     },
     password: {
       type: String,
@@ -121,6 +121,11 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     facebookId: String,
     linkedinId: String,
     telegramId: String,
+    telegramUsername: String,
+    isTelegramUpdated: {
+      type: Boolean,
+      default: null,
+    },
     verifyEmailToken: {
       type: String,
       default: null,

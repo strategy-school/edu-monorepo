@@ -239,15 +239,44 @@ export const verifyEmail = createAsyncThunk<User, string>(
 );
 
 export const telegramLogin = createAsyncThunk<
-  User,
+  RegisterResponse,
   TelegramLogin,
-  { rejectValue: GlobalError }
+  { rejectValue: ValidationError }
 >('users/telegramLogin', async (userData, { rejectWithValue }) => {
   try {
     const { data } = await axiosApi.post<RegisterResponse>(
       '/users/telegram',
       userData,
     );
+    return data;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
+});
+
+interface PatchUserData {
+  id: string;
+  email: string;
+  lastName: string;
+}
+
+export const updateTelegramUser = createAsyncThunk<
+  User,
+  PatchUserData,
+  { rejectValue: GlobalError }
+>('users/updateTelegramUser', async (userData, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.patch<RegisterResponse>(
+      `/users/telegram/${userData.id}`,
+      {
+        email: userData.email,
+        lastName: userData.lastName,
+      },
+    );
+
     return data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
