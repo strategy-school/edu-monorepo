@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import LessonTableItem from './LessonTableItem';
-import LessonFilterForm from '@/src/features/lessons/admin/LessonFilterForm';
+import FilterFormByCourse from '@/src/features/lessons/admin/FilterFormByCourse';
 
 const AdminLessons = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +37,7 @@ const AdminLessons = () => {
   return (
     <>
       <TableContainer component={Paper}>
-        <LessonFilterForm />
+        <FilterFormByCourse isLesson />
         <Table stickyHeader>
           <TableHead>
             <TableRow>
