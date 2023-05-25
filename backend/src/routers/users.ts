@@ -204,9 +204,6 @@ usersRouter.post('/telegram', async (req, res, next) => {
         telegramUsername: req.body.telegramUsername,
         isTelegramUpdated: false,
       });
-      user.generateToken();
-      await user.save();
-      return res.send({ message: 'Telegram! Update profile!', user });
     }
     user.generateToken();
     await user.save();

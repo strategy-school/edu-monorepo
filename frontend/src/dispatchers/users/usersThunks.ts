@@ -291,6 +291,14 @@ export const telegramLogin = createAsyncThunk<
       '/users/telegram',
       userData,
     );
+
+    const { user } = data;
+
+    setCookie(null, strategiaToken, user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
     return data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
@@ -319,7 +327,7 @@ export const updateTelegramUser = createAsyncThunk<
         lastName: userData.lastName,
       },
     );
-
+    console.log('worked updateTelegram');
     return data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

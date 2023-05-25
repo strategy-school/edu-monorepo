@@ -145,14 +145,13 @@ export const usersSlice = createSlice({
       state.loginLoading = true;
       state.registerLoading = true;
     });
-    builder.addCase(telegramLogin.fulfilled, (state, { payload: user }) => {
+    builder.addCase(telegramLogin.fulfilled, (state, { payload: response }) => {
       state.loginLoading = false;
       state.registerLoading = false;
-      if (user.user.verified && user.user.isTelegramUpdated) {
-        state.user = user.user;
-        state.telegramUser = null;
+      if (response.user.verified && response.user.isTelegramUpdated) {
+        state.user = response.user;
       } else {
-        state.telegramUser = user.user;
+        state.telegramUser = response.user;
       }
     });
     builder.addCase(telegramLogin.rejected, (state, { payload: error }) => {

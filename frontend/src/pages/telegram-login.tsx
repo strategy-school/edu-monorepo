@@ -45,11 +45,9 @@ const TelegramLogin = () => {
     setSuccess(true);
   };
 
-  useEffect(() => {
-    if (user && !telegramUser) {
-      void router.push('/');
-    }
-  }, [user, telegramUser, router]);
+  if (user) {
+    void router.replace('/');
+  }
 
   return (
     <>
@@ -75,9 +73,9 @@ const TelegramLogin = () => {
               onSubmit={onSubmit}
               sx={{ mt: 3, width: '100%' }}
             >
-              <Grid container sx={{ width: '100%' }}>
+              <Grid container sx={{ width: '100%' }} spacing={2}>
                 {error && (
-                  <Grid item sx={{ width: '100%' }} mb={1}>
+                  <Grid item sx={{ width: '100%' }}>
                     <Alert severity="error">{error.error}</Alert>
                   </Grid>
                 )}
@@ -108,23 +106,24 @@ const TelegramLogin = () => {
                 )}
                 {success && (
                   <Grid item xs={12} sx={{ width: '100%' }}>
-                    <Alert severity="success" sx={{ mt: 1 }}>
+                    <Alert severity="success">
                       На вашу почту было отправлено письмо для потверждения!
                       Пожалуйста, подтвердите его!
                     </Alert>
                   </Grid>
                 )}
+                <Grid item xs={12} sx={{ width: '100%' }}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ mb: 2 }}
+                    fullWidth
+                    disabled={success}
+                  >
+                    <span>Завершить регистрацию</span>
+                  </Button>
+                </Grid>
               </Grid>
-
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ mt: 3, mb: 2 }}
-                fullWidth
-                disabled={success}
-              >
-                <span>Завершить регистрацию</span>
-              </Button>
             </Box>
           </Box>
         </Container>

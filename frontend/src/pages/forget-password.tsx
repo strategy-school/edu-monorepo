@@ -30,7 +30,6 @@ const ForgetPassword = () => {
     event.preventDefault();
     await dispatch(forgotPassword({ email })).unwrap();
     setOpen(true);
-    console.log(email);
   };
   const closeModal = () => {
     setOpen(false);
