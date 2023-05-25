@@ -47,7 +47,7 @@ const CoursesWrapper = () => {
     void router.push(`/courses`);
   };
   return (
-    <Grid style={styles.courses} bgcolor={theme.palette.warning.main}>
+    <Grid style={styles.courses} bgcolor={theme.palette.info.dark}>
       <Typography
         variant="h4"
         style={styles.coursesTitleWrapper}

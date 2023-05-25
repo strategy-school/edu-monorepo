@@ -80,11 +80,13 @@ export const cardStyle = {
   height: {
     xs: '100px',
     md: '200px',
+    lg: '300px',
   },
   width: {
     xs: '300px',
     sm: '400px',
     md: '600px',
+    lg: '800px',
   },
   innerStyle: {
     display: 'flex',
