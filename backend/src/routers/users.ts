@@ -10,7 +10,7 @@ import nodemailer from 'nodemailer';
 import User from '../models/User';
 import { imageUpload } from '../multer';
 import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
-import EMAIL from '../constants';
+import EMAIL_VERIFICATION from '../constants';
 
 type QueryParams = SwitchToString<
   Pick<
@@ -64,7 +64,7 @@ usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL(token, req.body.firstName),
+      EMAIL_VERIFICATION(token, req.body.firstName),
     );
 
     return res.send({ message: 'Registered successfully!' });
@@ -97,7 +97,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL(token, user.firstName),
+      EMAIL_VERIFICATION(token, user.firstName),
     );
     return res.status(400).send({
       error: 'Email не подтвержден, на вашу почту было выслано письмо!',
@@ -242,7 +242,7 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL(token, req.body.firstName),
+      EMAIL_VERIFICATION(token, req.body.firstName),
     );
 
     await user.save();

@@ -1,4 +1,4 @@
-const EMAIL = (token: string, name: string) => {
+const EMAIL_VERIFICATION = (token: string, name: string) => {
   return `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
       <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
         <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
@@ -20,4 +20,4 @@ const EMAIL = (token: string, name: string) => {
     </div>`;
 };
 
-export default EMAIL;
+export default EMAIL_VERIFICATION;
