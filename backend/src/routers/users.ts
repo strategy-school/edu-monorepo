@@ -235,6 +235,13 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
         .send({ error: 'Поле фамилию является обязательным!' });
     }
 
+    const emailValid = await validate(req.body.email);
+    if (!emailValid.valid) {
+      return res
+        .status(400)
+        .send({ error: 'Некорректный адрес электронной почты' });
+    }
+
     user.email = req.body.email;
     user.lastName = req.body.lastName;
     user.isTelegramUpdated = true;

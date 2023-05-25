@@ -162,6 +162,7 @@ export const usersSlice = createSlice({
 
     builder.addCase(updateTelegramUser.pending, (state) => {
       state.loginLoading = true;
+      state.loginError = null;
     });
     builder.addCase(
       updateTelegramUser.fulfilled,

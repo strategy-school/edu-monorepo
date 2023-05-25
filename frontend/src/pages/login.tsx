@@ -65,7 +65,11 @@ const Login = () => {
       telegramUsername: user.username,
     };
     await dispatch(telegramLogin(data)).unwrap();
-    if (existingUser) {
+    if (
+      existingUser &&
+      existingUser.verified &&
+      existingUser.isTelegramUpdated
+    ) {
       void router.push('/');
     } else {
       void router.push('/telegram-login');

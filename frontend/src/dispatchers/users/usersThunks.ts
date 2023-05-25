@@ -327,7 +327,6 @@ export const updateTelegramUser = createAsyncThunk<
         lastName: userData.lastName,
       },
     );
-    console.log('worked updateTelegram');
     return data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

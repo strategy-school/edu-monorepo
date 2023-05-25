@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/src/components/UI/Layout/Layout';
 import {
   Alert,
@@ -43,9 +43,11 @@ const TelegramLogin = () => {
     setSuccess(true);
   };
 
-  if (user) {
-    void router.replace('/');
-  }
+  useEffect(() => {
+    if (user && user.verified && user.isTelegramUpdated) {
+      void router.push('/');
+    }
+  });
 
   return (
     <>

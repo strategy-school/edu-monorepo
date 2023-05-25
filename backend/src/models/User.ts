@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { HydratedDocument, model, Model, Schema } from 'mongoose';
 import { IUser } from '../types';
+import validate from 'deep-email-validator';
 
 const SALT_WORK_FACTOR = 10;
 
