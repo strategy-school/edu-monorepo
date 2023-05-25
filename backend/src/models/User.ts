@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { HydratedDocument, model, Model, Schema } from 'mongoose';
 import { IUser } from '../types';
-import validate from 'deep-email-validator';
 
 const SALT_WORK_FACTOR = 10;
 
 export interface IUserMethods {
   checkPassword(password: string): Promise<boolean>;
+
   generateToken(): void;
 }
 
@@ -40,8 +40,14 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
           message: 'Пользователь под таким email-ом уже зарегистрирован!',
         },
         // {
-        //   validator: async function (email: string): Promise<boolean> {
+        //   validator: async function (
+        //     this: HydratedDocument<IUser>,
+        //     email: string,
+        //   ): Promise<boolean> {
         //     try {
+        //       if (this.telegramId && email.slice(-8) === 'test.com') {
+        //         return true;
+        //       }
         //       const { valid } = await validate(email);
         //       return valid;
         //     } catch {
@@ -49,7 +55,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
         //     }
         //   },
         //   message: 'Некорректный адрес электронной почты',
-        // }
+        // },
       ],
     },
     firstName: {
@@ -58,7 +64,6 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
     },
     lastName: {
       type: String,
-      // required: true,
     },
     password: {
       type: String,

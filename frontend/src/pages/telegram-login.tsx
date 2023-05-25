@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import NoEncryptionGmailerrorredIcon from '@mui/icons-material/NoEncryptionGmailerrorred';
-import MyModal from '@/src/components/UI/Modal/MyModal';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectLoginError,
@@ -29,7 +28,6 @@ const TelegramLogin = () => {
   const telegramUser = useAppSelector(selectTelegramUser);
   const [email, setEmail] = useState('');
   const [lastName, setLastName] = useState('');
-  const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const onSubmit = async (event: React.FormEvent) => {
@@ -52,90 +50,84 @@ const TelegramLogin = () => {
   return (
     <>
       <Layout title="Strategia login">
-        <Container component="main" maxWidth="sm">
-          <Box
-            style={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <NoEncryptionGmailerrorredIcon />
-            </Avatar>
-
-            <Typography variant="h5" textAlign="center">
-              Завершите регистрацию и предоставьте недостающие данные
-            </Typography>
+        {telegramUser && (
+          <Container component="main" maxWidth="sm">
             <Box
-              component="form"
-              onSubmit={onSubmit}
-              sx={{ mt: 3, width: '100%' }}
+              style={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
             >
-              <Grid container sx={{ width: '100%' }} spacing={2}>
-                {error && (
-                  <Grid item sx={{ width: '100%' }}>
-                    <Alert severity="error">{error.error}</Alert>
-                  </Grid>
-                )}
-                <Grid item xs={12}>
-                  <TextField
-                    label="Email"
-                    name="email"
-                    type="email"
-                    autoComplete="current-email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    sx={{ width: '100%' }}
-                  />
-                </Grid>
-                {telegramUser && !telegramUser.lastName && (
+              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <NoEncryptionGmailerrorredIcon />
+              </Avatar>
+
+              <Typography variant="h5" textAlign="center">
+                Завершите регистрацию и предоставьте недостающие данные
+              </Typography>
+              <Box
+                component="form"
+                onSubmit={onSubmit}
+                sx={{ mt: 3, width: '100%' }}
+              >
+                <Grid container sx={{ width: '100%' }} spacing={2}>
+                  {error && (
+                    <Grid item sx={{ width: '100%' }}>
+                      <Alert severity="error">{error.error}</Alert>
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     <TextField
-                      required
-                      label="Фамилия"
-                      name="lastName"
-                      type="text"
-                      autoComplete="current-lastName"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
+                      label="Email"
+                      name="email"
+                      type="email"
+                      autoComplete="current-email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       sx={{ width: '100%' }}
                     />
                   </Grid>
-                )}
-                {success && (
+                  {telegramUser && !telegramUser.lastName && (
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        label="Фамилия"
+                        name="lastName"
+                        type="text"
+                        autoComplete="current-lastName"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        sx={{ width: '100%' }}
+                      />
+                    </Grid>
+                  )}
+                  {success && (
+                    <Grid item xs={12} sx={{ width: '100%' }}>
+                      <Alert severity="success">
+                        На вашу почту было отправлено письмо для потверждения!
+                        Пожалуйста, подтвердите его!
+                      </Alert>
+                    </Grid>
+                  )}
                   <Grid item xs={12} sx={{ width: '100%' }}>
-                    <Alert severity="success">
-                      На вашу почту было отправлено письмо для потверждения!
-                      Пожалуйста, подтвердите его!
-                    </Alert>
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      sx={{ mb: 2 }}
+                      fullWidth
+                      disabled={success}
+                    >
+                      <span>Завершить регистрацию</span>
+                    </Button>
                   </Grid>
-                )}
-                <Grid item xs={12} sx={{ width: '100%' }}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{ mb: 2 }}
-                    fullWidth
-                    disabled={success}
-                  >
-                    <span>Завершить регистрацию</span>
-                  </Button>
                 </Grid>
-              </Grid>
+              </Box>
             </Box>
-          </Box>
-        </Container>
+          </Container>
+        )}
       </Layout>
-      <MyModal open={open} handleClose={() => setOpen(false)}>
-        <Box>
-          <Typography variant="body1" align="center" mb={2}>
-            На указанный вами email: {email} было отправлено письмо для
-            подтверждения электронной почты
-          </Typography>
-        </Box>
-      </MyModal>
     </>
   );
 };
