@@ -80,6 +80,7 @@ const TelegramLogin = () => {
                   )}
                   <Grid item xs={12}>
                     <TextField
+                      required
                       label="Email"
                       name="email"
                       type="email"
