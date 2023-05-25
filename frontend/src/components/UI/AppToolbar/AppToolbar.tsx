@@ -112,7 +112,7 @@ const AppToolbar: React.FC<Props> = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="sticky" sx={{ bgolor: 'secondary.light' }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'info.dark' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={3} sm={5} md={3}>

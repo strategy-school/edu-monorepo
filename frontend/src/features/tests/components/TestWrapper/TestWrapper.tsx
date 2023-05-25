@@ -39,7 +39,7 @@ const TestWrapper = () => {
     <Grid
       style={styles.tests}
       padding={{ xs: '5px', sm: '30px' }}
-      bgcolor={theme.palette.warning.main}
+      bgcolor={theme.palette.info.dark}
     >
       <Typography
         variant="h4"
