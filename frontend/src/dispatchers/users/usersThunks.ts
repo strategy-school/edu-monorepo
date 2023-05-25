@@ -7,6 +7,7 @@ import {
   PageLimit,
   RegisterMutation,
   RegisterResponse,
+  TelegramLogin,
   UpdateUserMutation,
   User,
   ValidationError,
@@ -279,3 +280,58 @@ export const getMe = createAsyncThunk(
     return user;
   },
 );
+
+export const telegramLogin = createAsyncThunk<
+  RegisterResponse,
+  TelegramLogin,
+  { rejectValue: ValidationError }
+>('users/telegramLogin', async (userData, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.post<RegisterResponse>(
+      '/users/telegram',
+      userData,
+    );
+
+    const { user } = data;
+
+    setCookie(null, strategiaToken, user.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    return data;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
+    }
+    throw e;
+  }
+});
+
+interface PatchUserData {
+  id: string;
+  email: string;
+  lastName: string;
+}
+
+export const updateTelegramUser = createAsyncThunk<
+  User,
+  PatchUserData,
+  { rejectValue: GlobalError }
+>('users/updateTelegramUser', async (userData, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.patch<RegisterResponse>(
+      `/users/telegram/${userData.id}`,
+      {
+        email: userData.email,
+        lastName: userData.lastName,
+      },
+    );
+    return data.user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
