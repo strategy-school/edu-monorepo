@@ -4,18 +4,28 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { selectCourses } from '@/src/dispatchers/courses/coursesSlice';
 import { fetchCourses } from '@/src/dispatchers/courses/coursesThunks';
 import { fetchLessons } from '@/src/dispatchers/lessons/lessonsThunk';
+import { fetchGroups } from '@/src/dispatchers/groups/groupsThunks';
 
-const LessonFilterForm = () => {
+interface Props {
+  isLesson?: boolean;
+  existingCourse?: string;
+}
+
+const FilterFormByCourse: React.FC<Props> = ({ isLesson, existingCourse }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
-  const [state, setState] = useState('');
+  const [state, setState] = useState(existingCourse || '');
 
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchLessons({ course: state || undefined }));
+    if (isLesson) {
+      dispatch(fetchLessons({ course: state || undefined }));
+    } else {
+      dispatch(fetchGroups({ course: state || undefined }));
+    }
   }, [state, dispatch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,10 +35,12 @@ const LessonFilterForm = () => {
 
   return (
     <Grid container spacing={2} p={2}>
-      <Grid item xs={4}>
-        <Typography variant="h6">Сортировка по курсу:</Typography>
+      <Grid item xs={12} sm={4}>
+        <Typography variant={isLesson ? 'h6' : 'h5'}>
+          Сортировка по курсу:
+        </Typography>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} sm={8}>
         <TextField
           label="Курс"
           select
@@ -39,7 +51,7 @@ const LessonFilterForm = () => {
           <MenuItem value="" disabled>
             Пожалуйста, выберите курс
           </MenuItem>
-          <MenuItem value="">Все уроки</MenuItem>
+          <MenuItem value="">Все {isLesson ? 'уроки' : 'группы'}</MenuItem>
           {courses.map((course) => (
             <MenuItem value={course._id} key={course._id}>
               {course.title}
@@ -51,4 +63,4 @@ const LessonFilterForm = () => {
   );
 };
 
-export default LessonFilterForm;
+export default FilterFormByCourse;
