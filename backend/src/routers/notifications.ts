@@ -22,7 +22,10 @@ notificationsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
     const totalCount = await Notification.count();
     const skip = (page - 1) * limit;
 
-    const notifications = await Notification.find().skip(skip).limit(limit);
+    const notifications = await Notification.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ isChecked: 1 });
 
     return res.send({
       message: 'Notifications are found',

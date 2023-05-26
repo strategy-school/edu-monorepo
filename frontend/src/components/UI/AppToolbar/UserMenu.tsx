@@ -46,7 +46,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         color="inherit"
         className="conveythis-no-translate"
         component={Link}
-        href={'/profile'}
+        href={user.role === 'user' ? '/profile' : '/admin/notifications'}
       >
         {user.firstName}
         <Badge badgeContent={uncheckedCount} color="secondary">

@@ -49,9 +49,14 @@ const CategoryAdmin = () => {
     void router.push(`/admin/categories/edit-category/${id}`);
   };
 
-  const deleteCategory = (id: string) => {
+  const deleteCategory = async (id: string) => {
     if (window.confirm('Вы уверены что хотите удалить категорию?')) {
-      dispatch(removeCategory(id));
+      const result = await dispatch(removeCategory(id));
+      if (result.meta.requestStatus === 'rejected') {
+        window.alert(
+          'Категория не может быть удалена, так как у нее есть связанные курсы',
+        );
+      }
     }
   };
 

@@ -97,7 +97,7 @@ const ChangePassowrd = () => {
                   required
                   label="Введите новый пароль еще для подтверждения"
                   name="confirmPassword"
-                  type="confirmPassword"
+                  type="password"
                   autoComplete="current-confirmPassword"
                   value={state.confirmPassword}
                   onChange={inputChangeHandler}
