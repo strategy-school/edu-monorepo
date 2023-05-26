@@ -10,6 +10,8 @@ import nodemailer from 'nodemailer';
 import User from '../models/User';
 import { imageUpload } from '../multer';
 import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
+import EMAIL_VERIFICATION from '../constants';
+import validate from 'deep-email-validator';
 
 type QueryParams = SwitchToString<
   Pick<
@@ -63,25 +65,7 @@ usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
-      <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
-        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-        <td style="margin-top:0;margin-bottom:0;width:470px;padding:0;border-width:0"><table style="width:100%;border-collapse:initial;border-spacing:0;max-width:470px;text-align:left;border-radius:8px;overflow:hidden;margin:32px auto 0;padding:0;border:1px solid #c9cccf"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><table class="m_67968070139110097mail-sections" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:20px;border-width:0">
-          <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0 0 20px;border-width:0"><table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><h1 style="margin-top:0;margin-bottom:0;font-size:16px;font-weight:600;line-height:24px;text-transform:initial;letter-spacing:initial;padding:0">
-            Здравствуйте, ${req.body.firstName}
-          </h1></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
-            Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
-          </h2></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
-          </tbody></table></td></tr></tbody></table>
-        </td></tr></tbody></table></td></tr></tbody></table></td>
-        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-      </tr>
-        </tbody>
-      </table>
-    </div>`,
+      EMAIL_VERIFICATION(token, req.body.firstName),
     );
 
     return res.send({ message: 'Registered successfully!' });
@@ -114,25 +98,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      `<div style="height:100%;width:100%;font-size:14px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;color:#202223;font-family:-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif;margin:0;padding:0">
-      <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
-        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-        <td style="margin-top:0;margin-bottom:0;width:470px;padding:0;border-width:0"><table style="width:100%;border-collapse:initial;border-spacing:0;max-width:470px;text-align:left;border-radius:8px;overflow:hidden;margin:32px auto 0;padding:0;border:1px solid #c9cccf"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><table class="m_67968070139110097mail-sections" style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:20px;border-width:0">
-          <table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody><tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0 0 20px;border-width:0"><table style="width:100%;border-collapse:collapse;border-spacing:0;margin-top:0;margin-bottom:0;padding:0"><tbody>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"><h1 style="margin-top:0;margin-bottom:0;font-size:16px;font-weight:600;line-height:24px;text-transform:initial;letter-spacing:initial;padding:0">
-            Здравствуйте, ${user.firstName}
-          </h1></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
-            Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
-          </h2></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
-          </tbody></table></td></tr></tbody></table>
-        </td></tr></tbody></table></td></tr></tbody></table></td>
-        <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
-      </tr>
-        </tbody>
-      </table>
-    </div>`,
+      EMAIL_VERIFICATION(token, user.firstName),
     );
     return res.status(400).send({
       error: 'Email не подтвержден, на вашу почту было выслано письмо!',
@@ -213,6 +179,82 @@ usersRouter.post('/google', async (req, res, next) => {
     user.generateToken();
     await user.save();
     return res.send({ message: 'Login with Google successful', user });
+  } catch (e) {
+    return next(e);
+  }
+});
+
+usersRouter.post('/telegram', async (req, res, next) => {
+  try {
+    let user = await User.findOne({ telegramId: req.body.telegramId });
+
+    if (!user) {
+      let avatar = null;
+      if (req.body.avatar) {
+        avatar =
+          'images/' + (await downloadFile(req.body.avatar as string, 'images'));
+      }
+
+      user = new User({
+        email: crypto.randomUUID() + '@test.com',
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: crypto.randomUUID(),
+        avatar,
+        telegramId: req.body.telegramId,
+        telegramUsername: req.body.telegramUsername,
+        isTelegramUpdated: false,
+      });
+    }
+    user.generateToken();
+    await user.save();
+    return res.send({ message: 'Login with Telegram successful', user });
+  } catch (e) {
+    return next(e);
+  }
+});
+
+usersRouter.patch('/telegram/:id', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ telegramId: req.params.id });
+    const token = crypto.randomBytes(4).toString('hex');
+
+    if (!user) {
+      return res.status(400).send({ error: 'Пользователь не найден!' });
+    }
+
+    if (!req.body.email) {
+      return res
+        .status(400)
+        .send({ error: 'Поле email является обязательным!' });
+    }
+
+    if (!user.lastName && !req.body.lastName) {
+      return res
+        .status(400)
+        .send({ error: 'Поле фамилию является обязательным!' });
+    }
+
+    const emailValid = await validate(req.body.email);
+    if (!emailValid.valid) {
+      return res
+        .status(400)
+        .send({ error: 'Некорректный адрес электронной почты' });
+    }
+
+    user.email = req.body.email;
+    user.lastName = req.body.lastName;
+    user.isTelegramUpdated = true;
+    user.verifyEmailToken = token;
+
+    await sendEmail(
+      req.body.email,
+      'Подтверджение почты',
+      EMAIL_VERIFICATION(token, req.body.firstName),
+    );
+
+    await user.save();
+    return res.send({ message: 'Telegram login updated successful', user });
   } catch (e) {
     return next(e);
   }
@@ -469,10 +511,11 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
     if (!user) {
       return res
         .status(404)
-        .send({ error: 'Неверный токен, вам было вышлено новое ' });
+        .send({ error: 'Неверный токен, вам было выслан новое' });
     }
 
     user.verified = true;
+    user.verifyEmailToken = null;
     user.generateToken();
     await user.save();
     return res

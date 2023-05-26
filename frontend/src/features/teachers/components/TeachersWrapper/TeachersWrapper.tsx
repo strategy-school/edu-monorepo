@@ -37,12 +37,14 @@ const TeachersWrapper = () => {
               lg={4}
               key={teacher._id}
             >
-              <TeacherCard
-                _id={teacher._id}
-                firstName={teacher.user.firstName}
-                lastName={teacher.user.lastName}
-                photo={teacher.photo}
-              />
+              {teacher.user && (
+                <TeacherCard
+                  _id={teacher._id}
+                  firstName={teacher.user.firstName}
+                  lastName={teacher.user.lastName}
+                  photo={teacher.photo}
+                />
+              )}
             </Grid>
           ))}
         <Grid item container justifyContent="center" mt={5}>
