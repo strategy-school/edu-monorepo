@@ -182,7 +182,7 @@ const CourseId: React.FC = () => {
                       Курс с онлайн видео-уроками в Zoom
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
-                      Записаться
+                      Купить курс
                     </Button>
                   </Grid>
                 )}
@@ -200,7 +200,7 @@ const CourseId: React.FC = () => {
                       Курс с предзаписанными видео-уроками
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
-                      Записаться
+                      Купить курс
                     </Button>
                   </Grid>
                 )}

@@ -38,6 +38,7 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
             url(${apiURL}/${course.image})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
+            borderRadius: '35px',
           }
         }
         className="card"

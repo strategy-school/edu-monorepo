@@ -68,38 +68,40 @@ const AdBlock = () => {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         paddingTop="20px"
       >
-        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={6} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <TrendingUpIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>Начинающим маркетологам</Typography>{' '}
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
+                Начинающим маркетологам
+              </Typography>{' '}
               Научитесь работать с бренд-аналитикой, планировать рекламные
               кампании и выпускать продукты на рынок. Сможете начать карьеру
               маркетолога с нуля
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={6} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <SellIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
                 Маркетологам и менеджерам по рекламе или PR
               </Typography>{' '}
               Углубите знания в маркетинге и научитесь создавать стратегию
@@ -107,38 +109,40 @@ const AdBlock = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography component="div" position="relative">
             <ShareIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>Офлайн-маркетологам</Typography>{' '}
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
+                Офлайн-маркетологам
+              </Typography>{' '}
               Изучите новые инструменты продвижения, «подружитесь» с контекстом,
               таргетингом и SMM. Сможете сменить специализацию на более
               востребованную
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography component="div" position="relative">
             <WorkIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
                 Руководителям и владельцам бизнеса
               </Typography>{' '}
               Узнаете, как планировать маркетинговые кампании, продвигать

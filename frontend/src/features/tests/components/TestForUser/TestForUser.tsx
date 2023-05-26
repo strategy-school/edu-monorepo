@@ -123,12 +123,13 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
 
       <MyModal open={open} handleClose={onModalClose}>
         <DialogContent>
-          <Grid container spacing={2}>
+          <Grid container justifyContent="center" spacing={2}>
             <Typography
               variant="h6"
               align="center"
               mb={2}
               fontSize={{ xs: '0.95rem', sm: '1.125rem' }}
+              marginRight="3px"
             >
               {score > oneTest.questions.length / 2
                 ? 'Поздравляем!'
@@ -157,6 +158,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
           </Typography>
           <Grid
             container
+            justifyContent="center"
             sx={{
               alignItems: 'center',
               gap: '10px',

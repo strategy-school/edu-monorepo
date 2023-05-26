@@ -74,7 +74,6 @@ export const cardStyle = {
     cursor: 'pointer',
   },
   cardBody: {
-    borderRadius,
     margin: '20px',
   },
   height: {
