@@ -101,14 +101,14 @@ const Login = () => {
               onError={() => console.log('Login failed')}
             />
           </Box>
-          <Box sx={{ pt: 2 }}>
-            <TelegramAuth
-              botName="strategia_authorization_bot"
-              dataOnAuth={onTelegramLogin}
-              buttonSize="large"
-              requestAccess={true}
-            />
-          </Box>
+          {/*<Box sx={{ pt: 2 }}>*/}
+          {/*  <TelegramAuth*/}
+          {/*    botName="strategia_authorization_bot"*/}
+          {/*    dataOnAuth={onTelegramLogin}*/}
+          {/*    buttonSize="large"*/}
+          {/*    requestAccess={true}*/}
+          {/*  />*/}
+          {/*</Box>*/}
           {error && (
             <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
               {error.error}

@@ -89,7 +89,7 @@ const ProfileCourseCard: React.FC<Props> = ({ transactionCourse }) => {
                   href={
                     transactionCourse.course_type === 'youtube'
                       ? `/lessons/${transactionCourse.course._id}`
-                      : '/groups'
+                      : `/groups?course=${transactionCourse.course._id}`
                   }
                 >
                   {transactionCourse.course_type === 'youtube'

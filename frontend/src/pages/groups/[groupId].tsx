@@ -4,16 +4,35 @@ import {
   selectOneGroupFetching,
 } from '@/src/dispatchers/groups/groupsSlice';
 import { fetchOneGroup } from '@/src/dispatchers/groups/groupsThunks';
-import { useAppSelector } from '@/src/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { wrapper } from '@/src/store/store';
 import { blockStyle, blockTopStyle } from '@/src/styles';
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid, Link, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
+import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
 
 const GroupId: React.FC = () => {
+  const dispatch = useAppDispatch();
   const group = useAppSelector(selectOneGroup);
   const groupLoading = useAppSelector(selectOneGroupFetching);
+  const transactions = useAppSelector(selectTransactions);
+  const user = useAppSelector(selectUser);
+  const transaction = transactions.find(
+    (transaction) =>
+      transaction.course._id === group?.course._id &&
+      transaction.isPaid === 'paid' &&
+      transaction.course_type === 'zoom',
+  );
+  console.log(group?.telegramLink, transaction);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchTransactionsByUser(user._id));
+    }
+  }, [dispatch, user]);
 
   return (
     <Layout title={`${group?.title} page`}>
@@ -52,6 +71,16 @@ const GroupId: React.FC = () => {
               Продолжительность одного занятия: {group?.duration}
             </Typography>
           </Grid>
+          {group?.telegramLink && transaction && (
+            <Grid item xs sx={{ p: 2 }}>
+              <Typography component="p">
+                Ссылка на телеграмм:{' '}
+                <Link href={group.telegramLink} target="_blank">
+                  {group.telegramLink}
+                </Link>
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       )}
     </Layout>
