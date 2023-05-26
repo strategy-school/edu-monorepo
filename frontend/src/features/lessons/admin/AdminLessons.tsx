@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import LessonTableItem from './LessonTableItem';
-import FilterFormByCourse from '@/src/features/lessons/admin/FilterFormByCourse';
+import FilterFormByCourse from '@/src/components/UI/FilterFormByCourse/FilterFormByCourse';
 
 const AdminLessons = () => {
   const dispatch = useAppDispatch();

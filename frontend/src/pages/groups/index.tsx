@@ -8,9 +8,9 @@ import { fetchGroups } from '@/src/dispatchers/groups/groupsThunks';
 import GroupItem from '@/src/features/groups/components/GroupItem/GroupItem';
 import { useAppSelector } from '@/src/store/hooks';
 import { wrapper } from '@/src/store/store';
-import { Box, CircularProgress, Grid } from '@mui/material';
+import { Alert, Box, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
-import FilterFormByCourse from '@/src/features/lessons/admin/FilterFormByCourse';
+import FilterFormByCourse from '@/src/components/UI/FilterFormByCourse/FilterFormByCourse';
 import { useRouter } from 'next/router';
 
 const Index: React.FC = () => {
@@ -29,8 +29,12 @@ const Index: React.FC = () => {
         <Grid item xs container direction="row" justifyContent="center">
           {groupsFetching ? (
             <CircularProgress />
-          ) : (
+          ) : groups.length > 0 ? (
             groups.map((group) => <GroupItem key={group._id} group={group} />)
+          ) : (
+            <Alert severity="warning" style={{ width: '100%' }}>
+              Для данного курса пока нету групп!
+            </Alert>
           )}
         </Grid>
       </Grid>

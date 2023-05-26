@@ -26,6 +26,7 @@ const GroupId: React.FC = () => {
       transaction.isPaid === 'paid' &&
       transaction.course_type === 'zoom',
   );
+  console.log(group?.telegramLink, transaction);
 
   useEffect(() => {
     if (user) {
@@ -70,10 +71,13 @@ const GroupId: React.FC = () => {
               Продолжительность одного занятия: {group?.duration}
             </Typography>
           </Grid>
-          {transaction && (
+          {group?.telegramLink && transaction && (
             <Grid item xs sx={{ p: 2 }}>
               <Typography component="p">
-                Ссылка на телеграмм: <Link>{group?.telegramLink}</Link>
+                Ссылка на телеграмм:{' '}
+                <Link href={group.telegramLink} target="_blank">
+                  {group.telegramLink}
+                </Link>
               </Typography>
             </Grid>
           )}
