@@ -77,7 +77,7 @@ const CourseFilterForm = () => {
               defaultValue=""
               name="level"
             >
-              <FormControlLabel value="" control={<Radio />} label="Любой" />
+              <FormControlLabel value="" control={<Radio />} label="Все" />
               <FormControlLabel
                 value="without level"
                 control={<Radio />}
@@ -96,7 +96,7 @@ const CourseFilterForm = () => {
               <FormControlLabel
                 value="managerial"
                 control={<Radio />}
-                label="Управленченский уровень"
+                label="Управленческий уровень"
               />
             </RadioGroup>
           </FormControl>
@@ -123,7 +123,7 @@ const CourseFilterForm = () => {
 
         <Grid item xs>
           <Typography variant="h6" mb={2}>
-            Цена
+            Цена в сомах
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs>

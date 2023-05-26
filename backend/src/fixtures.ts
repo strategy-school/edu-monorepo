@@ -183,7 +183,7 @@ const run = async () => {
       zoom: true,
     },
     {
-      title: 'Специалист по маркетингу',
+      title: 'Специалист по Интернет-маркетингу',
       price: 15000,
       description: `Текст текст текст текст текст текст текст текст`,
       category: marketing._id,

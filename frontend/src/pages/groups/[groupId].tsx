@@ -35,7 +35,7 @@ const GroupId: React.FC = () => {
   }, [dispatch, user]);
 
   return (
-    <Layout title={`${group?.title} page`}>
+    <Layout title={`Школа Маркетинга Strategia: ${group?.title}`}>
       {groupLoading ? (
         <CircularProgress />
       ) : (

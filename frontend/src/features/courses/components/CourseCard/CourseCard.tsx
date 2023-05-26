@@ -10,7 +10,6 @@ import {
 import { CourseShort } from '@/src/types';
 import { cardStyle, fullCardStyle } from '@/src/styles';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { apiURL } from '@/src/constants';
 import theme from '@/src/theme';
 
@@ -32,7 +31,16 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
   return (
     <Box style={currentCardStyle.card}>
       <Card
-        style={currentCardStyle.cardBody}
+        style={
+          currentCardStyle.cardBody && {
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), 
+            rgba(0, 0, 0, 0.3)), 
+            url(${apiURL}/${course.image})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            borderRadius: '35px',
+          }
+        }
         className="card"
         sx={{ padding: isFull ? (isSm ? 0 : '25px') : 0 }}
       >
@@ -49,7 +57,7 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
             <Grid item xs={12} sm={8}>
               <Typography
                 component="div"
-                color={theme.palette.info.dark}
+                color={theme.palette.primary.light}
                 fontSize={currentCardStyle.fontSize}
                 fontWeight={700}
                 maxWidth="600px"
@@ -58,22 +66,13 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
               </Typography>
               <Typography
                 variant={isFull ? (isSm ? 'body2' : 'h6') : 'body2'}
-                color={theme.palette.info.dark}
+                color={theme.palette.primary.light}
                 fontWeight={600}
                 fontSize={currentCardStyle.fontSize}
                 mt={1}
               >
                 {course.duration.toLowerCase()}
               </Typography>
-            </Grid>
-            <Grid item sm={4} display={{ xs: 'none', sm: 'inline-block' }}>
-              <Image
-                style={{ margin: '0 auto', borderRadius: '10%' }}
-                src={apiURL + '/' + course.image}
-                alt={course.title}
-                width={isFull ? (isSm ? 150 : 200) : 100}
-                height={isFull ? (isSm ? 150 : 200) : 100}
-              />
             </Grid>
           </Grid>
         </CardContent>

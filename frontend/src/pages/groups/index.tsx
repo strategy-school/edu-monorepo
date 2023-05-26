@@ -20,7 +20,7 @@ const Index: React.FC = () => {
   const groupsFetching = useAppSelector(selectGroupsFetching);
 
   return (
-    <Layout title="Strategia School: Groups">
+    <Layout title="Школа Маркетинга Strategia: Группы">
       <BlocksTitle titleText={'Список учебных групп'} />
       <Box>
         <FilterFormByCourse existingCourse={course} />

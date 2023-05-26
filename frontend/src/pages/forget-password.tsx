@@ -38,7 +38,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <Layout title="Strategia login">
+      <Layout title="Школа Маркетинга Strategia: Забыл пароль">
         <Container component="main" maxWidth="sm">
           <Box
             style={{

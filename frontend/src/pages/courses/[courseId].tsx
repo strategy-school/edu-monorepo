@@ -28,6 +28,13 @@ const imgStyle = {
   xl: 500,
 };
 
+const imgStyleHeight = {
+  xs: 120,
+  md: 200,
+  lg: 270,
+  xl: 270,
+};
+
 const marginTop = {
   xs: '10px',
   md: '20px',
@@ -53,7 +60,7 @@ const CourseId: React.FC = () => {
   const isXl = useMediaQuery('(min-width:1280px)');
 
   return (
-    <Layout title={`${course?.title} page`}>
+    <Layout title={`Школа Маркетинга Strategia: ${course?.title}`}>
       {courseLoading ? (
         <CircularProgress />
       ) : (
@@ -61,13 +68,7 @@ const CourseId: React.FC = () => {
           <Grid container style={blockStyle}>
             <Grid container sx={{ padding: '20px' }}>
               <Grid item xs container direction="column" padding="20px">
-                <Grid
-                  container
-                  item
-                  xs
-                  style={blockTopStyle}
-                  textAlign="center"
-                >
+                <Grid container item xs style={blockTopStyle}>
                   <Grid item xs>
                     <Typography
                       variant="h3"
@@ -124,13 +125,13 @@ const CourseId: React.FC = () => {
                   }
                   height={
                     isXs
-                      ? imgStyle.xs
+                      ? imgStyleHeight.xs
                       : isMd
-                      ? imgStyle.md
+                      ? imgStyleHeight.md
                       : isLg
-                      ? imgStyle.lg
+                      ? imgStyleHeight.lg
                       : isXl
-                      ? imgStyle.xl
+                      ? imgStyleHeight.xl
                       : 10
                   }
                 />
@@ -181,7 +182,7 @@ const CourseId: React.FC = () => {
                       Курс с онлайн видео-уроками в Zoom
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
-                      Записаться
+                      Купить курс
                     </Button>
                   </Grid>
                 )}
@@ -199,7 +200,7 @@ const CourseId: React.FC = () => {
                       Курс с предзаписанными видео-уроками
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
-                      Записаться
+                      Купить курс
                     </Button>
                   </Grid>
                 )}

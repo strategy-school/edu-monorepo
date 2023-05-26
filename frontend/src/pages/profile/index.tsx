@@ -56,12 +56,12 @@ const Profile: React.FC = () => {
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
       {user && (
-        <Layout title="Strategy school: Profile">
+        <Layout title="Школа Маркетинга Strategia: Профиль">
           <BlocksTitle titleText="Мой профиль" />
           <Grid
             container
             spacing={2}
-            textAlign="center"
+            textAlign="left"
             alignItems="center"
             color="rgb(217, 39, 45)"
             sx={{ position: 'relative' }}

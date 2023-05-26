@@ -21,30 +21,30 @@ const AboutUs = () => {
       <Grid item container lg={8}>
         <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon
-            fontSize="small"
+            fontSize="medium"
             style={{ color: theme.palette.info.dark }}
           />
-          <Typography style={whyUs.whyUsText}>
+          <Typography style={whyUs.whyUsText} fontSize="18px">
             Тренеры — признанные профессионалы. Делятся опытом в решении
             бизнес‑задач и необходимыми инструментами
           </Typography>
         </Grid>
         <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon
-            fontSize="small"
+            fontSize="medium"
             style={{ color: theme.palette.info.dark }}
           />
-          <Typography style={whyUs.whyUsText}>
+          <Typography style={whyUs.whyUsText} fontSize="18px">
             Курсы обновляются регулярно. Получаете знания, которые отвечают
             требованиям рынка труда
           </Typography>
         </Grid>
         <Grid item style={whyUs.whyUsItem}>
           <CheckCircleOutlineIcon
-            fontSize="small"
+            fontSize="medium"
             style={{ color: theme.palette.info.dark }}
           />
-          <Typography style={whyUs.whyUsText}>
+          <Typography style={whyUs.whyUsText} fontSize="18px">
             Практические задания и проверочные тесты. Закрепляете теорию на
             практике и получаете обратную связь
           </Typography>

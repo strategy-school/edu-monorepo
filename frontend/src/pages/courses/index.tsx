@@ -14,7 +14,7 @@ const Index: React.FC = () => {
   const fullCourses = useAppSelector(selectCourses);
 
   return (
-    <Layout title="Strategy school: Courses list">
+    <Layout title="Школа Маркетинга Strategia: Список курсов">
       <BlocksTitle titleText="Список всех курсов" />
       <Grid container spacing={4}>
         <Grid item xs={12} md={3}>

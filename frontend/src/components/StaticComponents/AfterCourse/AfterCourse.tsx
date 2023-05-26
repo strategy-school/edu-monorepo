@@ -41,7 +41,7 @@ const AfterCourse = () => {
             <PsychologyIcon fontSize="large" color="info" />
           </Grid>
           <Grid item style={styles.item} xs={8}>
-            <Typography textAlign="center">
+            <Typography textAlign="center" fontSize="18px">
               Актуальные знания от практикующих экспертов
             </Typography>
           </Grid>
@@ -58,7 +58,9 @@ const AfterCourse = () => {
             <WorkspacePremiumIcon fontSize="large" color="warning" />
           </Grid>
           <Grid item style={styles.item} xs={8}>
-            <Typography textAlign="center">Сертификат</Typography>
+            <Typography textAlign="center" fontSize="18px">
+              Сертификат
+            </Typography>
           </Grid>
         </Grid>
         <Grid
@@ -73,7 +75,9 @@ const AfterCourse = () => {
             <MenuBookIcon fontSize="large" color="info" />
           </Grid>
           <Grid item style={styles.item} xs={8}>
-            <Typography textAlign="center">Тренинговый материал</Typography>
+            <Typography textAlign="center" fontSize="18px">
+              Тренинговый материал
+            </Typography>
           </Grid>
         </Grid>
         <Grid
@@ -88,7 +92,7 @@ const AfterCourse = () => {
             <GroupsIcon fontSize="large" color="warning" />
           </Grid>
           <Grid item style={styles.item} xs={8}>
-            <Typography textAlign="center">
+            <Typography textAlign="center" fontSize="18px">
               Членство в клубе выпускников и привилегии
             </Typography>
           </Grid>

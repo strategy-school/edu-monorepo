@@ -37,7 +37,7 @@ const AdminTransaction = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Пользователь</TableCell>
+              <TableCell>Клиент</TableCell>
               <TableCell>Курс</TableCell>
               <TableCell>Тип</TableCell>
               <TableCell>Уровень</TableCell>

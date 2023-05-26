@@ -12,7 +12,7 @@ const TestsByCategory: React.FC = () => {
   const tests = useAppSelector(selectTests);
 
   return (
-    <Layout title="Stratiga school | Tests">
+    <Layout title="Школа Маркетинга Strategia: Тест">
       <BlocksTitle titleText={`Тесты по категориям`} />
       <Grid container>
         {tests.length > 0 &&

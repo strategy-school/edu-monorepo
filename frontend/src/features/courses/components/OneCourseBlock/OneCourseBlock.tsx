@@ -24,7 +24,7 @@ const OneCourseBlock = () => {
               fontSize={stylesGlobal.fontSize}
               pl={2}
             >
-              Можете попробовать этот курс:
+              Самый популярный курс Школы Маркетинга Strategia:
             </Typography>
           </Grid>
           <Grid item>

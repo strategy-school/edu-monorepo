@@ -30,7 +30,7 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
           variant={isAll ? 'h3' : 'h4'}
           fontSize={{ xs: '2rem', sm: '3rem' }}
         >
-          Видео отзывы о школе Strategia School
+          Видео отзывы о Школе Маркетинга Strategia
         </Typography>
       </Grid>
       <Grid item container spacing={3} alignItems="center">

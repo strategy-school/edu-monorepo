@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import { welcomeBlockStyle } from '@/src/styles';
 import Link from 'next/link';
+import theme from '@/src/theme';
 
 const WelcomeBlock = () => {
   return (
@@ -23,7 +24,7 @@ const WelcomeBlock = () => {
         marginTop="auto"
         marginBottom="auto"
         alignItems="center"
-        textAlign="center"
+        textAlign="left"
         direction="column"
         position="relative"
         zIndex={3}
@@ -35,12 +36,19 @@ const WelcomeBlock = () => {
           maxWidth={welcomeBlockStyle.maxWidth}
           color="#fff"
         >
-          Strategia School: Стань крутым маркетологом с нуля!
+          Школа Маркетинга Strategia: Развивай свою карьеру в маркетинге и
+          получи актуальные знания и навыки от лучших экспертов!
         </Typography>
         <Button
           component={Link}
           href={`/about`}
-          style={{ display: 'block', width: '150px', color: '#fff' }}
+          style={{
+            display: 'block',
+            color: theme.palette.primary.light,
+            borderColor: theme.palette.primary.light,
+            marginTop: '3%',
+          }}
+          variant="outlined"
         >
           Узнать больше
         </Button>
