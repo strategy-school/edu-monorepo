@@ -10,6 +10,7 @@ import imarat from '@/src/assets/images/imarat-stroy.png';
 import toyboss from '@/src/assets/images/toyboss.png';
 import krjs from '@/src/assets/images/krjc.png';
 import ebpp from '@/src/assets/images/ebpp.png';
+import mbank from '@/src/assets/images/mbank.jpg';
 import Image from 'next/image';
 
 const ClientWrapper = () => {
@@ -102,6 +103,14 @@ const ClientWrapper = () => {
         <Grid item xs={5} sm={4} textAlign="center">
           <Image
             src={logoO}
+            alt="0"
+            width={110}
+            style={{ margin: '3px 0 0 2px' }}
+          />
+        </Grid>
+        <Grid item xs={5} sm={4} textAlign="center">
+          <Image
+            src={mbank}
             alt="0"
             width={110}
             style={{ margin: '3px 0 0 2px' }}

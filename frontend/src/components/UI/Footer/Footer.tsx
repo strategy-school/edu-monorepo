@@ -141,6 +141,14 @@ export const Footer: FC = (): ReactElement => {
                 </Typography>
               </Typography>
             </Grid>
+            <Grid item>
+              <Typography component="p">
+                Internet Marketing Strategies LLC
+              </Typography>
+              <Typography component="p">
+                Strategia Marketing School 2023
+              </Typography>
+            </Grid>
           </Grid>
         </Container>
       </Box>

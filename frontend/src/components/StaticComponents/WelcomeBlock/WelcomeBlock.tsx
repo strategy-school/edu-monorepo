@@ -36,7 +36,7 @@ const WelcomeBlock = () => {
           maxWidth={welcomeBlockStyle.maxWidth}
           color="#fff"
         >
-          Школа Маркетинга Strategia: развивай свою карьеру в маркетинге и
+          Школа Маркетинга Strategia: Развивай свою карьеру в маркетинге и
           получи актуальные знания и навыки от лучших экспертов!
         </Typography>
         <Button

@@ -60,7 +60,7 @@ const CoursesWrapper = () => {
             ...styles.courseTitle,
           }}
         >
-          Ознакомьтесь с нашими образовательными программами:
+          Ознакомьтесь с нашими курсами по маркетингу:
         </span>
       </Typography>
       <Typography
@@ -69,8 +69,8 @@ const CoursesWrapper = () => {
         color="primary.light"
         textAlign="center"
       >
-        Большой выбор программ в зависимости от продолжительности,уровня знаний
-        и опыта
+        Большой выбор курсов по маркетингу в зависимости от продолжительности и
+        уровня ваших знаний и опыта
       </Typography>
       <Typography component="div" mt={5} mb={2}>
         <Carousel

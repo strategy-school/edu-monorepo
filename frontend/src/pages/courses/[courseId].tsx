@@ -28,6 +28,13 @@ const imgStyle = {
   xl: 500,
 };
 
+const imgStyleHeight = {
+  xs: 120,
+  md: 200,
+  lg: 270,
+  xl: 270,
+};
+
 const marginTop = {
   xs: '10px',
   md: '20px',
@@ -118,13 +125,13 @@ const CourseId: React.FC = () => {
                   }
                   height={
                     isXs
-                      ? imgStyle.xs
+                      ? imgStyleHeight.xs
                       : isMd
-                      ? imgStyle.md
+                      ? imgStyleHeight.md
                       : isLg
-                      ? imgStyle.lg
+                      ? imgStyleHeight.lg
                       : isXl
-                      ? imgStyle.xl
+                      ? imgStyleHeight.xl
                       : 10
                   }
                 />
