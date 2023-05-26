@@ -257,6 +257,7 @@ const run = async () => {
       user: teacher._id,
       course: marketing3._id,
       course_type: 'zoom',
+      isPaid: 'paid',
     },
     {
       user: teacher2._id,
