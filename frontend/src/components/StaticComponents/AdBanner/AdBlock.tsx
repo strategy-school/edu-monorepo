@@ -29,10 +29,12 @@ const AdBlock = () => {
             style={stylesGlobal.title}
             color="info.dark"
             fontSize={stylesGlobal.fontSize}
+            maxWidth={stylesGlobal.maxWidth}
             textAlign="center"
             paddingBottom={{ xs: '30px', sm: 0 }}
+            paddingRight={{ xs: '10px', lg: 0 }}
           >
-            Для кого подходят наши курсы:
+            Для кого подходят наши курсы и чем должен заниматься маркетолог:
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -45,11 +47,12 @@ const AdBlock = () => {
                 position: 'absolute',
                 top: '35%',
                 left: '45%',
+                color: 'white',
               }}
             />
             <Typography
               component="img"
-              src="https://i.ytimg.com/vi/lplDFlNtUeg/maxresdefault.jpg"
+              src="https://i.ytimg.com/vi/JUuG1P9OtRw/maxresdefault.jpg"
               style={{ width: '100%', height: 'auto' }}
               borderRadius="20px"
               onClick={() => setOpen(true)}
@@ -65,38 +68,40 @@ const AdBlock = () => {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         paddingTop="20px"
       >
-        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={6} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <TrendingUpIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>Начинающим маркетологам</Typography>{' '}
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
+                Начинающим маркетологам
+              </Typography>{' '}
               Научитесь работать с бренд-аналитикой, планировать рекламные
               кампании и выпускать продукты на рынок. Сможете начать карьеру
               маркетолога с нуля
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={6} md={6} sx={{ mb: 2 }}>
           <Typography component="div" position="relative">
             <SellIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
                 Маркетологам и менеджерам по рекламе или PR
               </Typography>{' '}
               Углубите знания в маркетинге и научитесь создавать стратегию
@@ -104,38 +109,40 @@ const AdBlock = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography component="div" position="relative">
             <ShareIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>Офлайн-маркетологам</Typography>{' '}
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
+                Офлайн-маркетологам
+              </Typography>{' '}
               Изучите новые инструменты продвижения, «подружитесь» с контекстом,
               таргетингом и SMM. Сможете сменить специализацию на более
               востребованную
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography component="div" position="relative">
             <WorkIcon
-              fontSize="large"
               style={{
                 position: 'absolute',
                 top: '10px',
                 left: '5px',
                 color: theme.palette.info.main,
+                fontSize: '43px',
               }}
             />
-            <Typography component="div" marginLeft="50px">
-              <Typography fontWeight={700}>
+            <Typography component="div" marginLeft="55px">
+              <Typography fontWeight={700} fontSize="18px">
                 Руководителям и владельцам бизнеса
               </Typography>{' '}
               Узнаете, как планировать маркетинговые кампании, продвигать
@@ -157,7 +164,7 @@ const AdBlock = () => {
       >
         <DialogContent>
           <YouTube
-            videoId={'lplDFlNtUeg'}
+            videoId={'JUuG1P9OtRw'}
             title="Кому подходят наши курсы"
             className="video"
           />

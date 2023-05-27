@@ -18,7 +18,7 @@ const CourseId: React.FC = () => {
 
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
-      <Layout title="Strategy School: Lessons">
+      <Layout title="Школа Маркетинга Strategia: Уроки">
         <Grid container direction="column" spacing={2}>
           <Grid item>
             <Typography variant="h4">

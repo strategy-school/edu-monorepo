@@ -4,7 +4,7 @@ import React from 'react';
 
 const VideoReviews: React.FC = () => {
   return (
-    <Layout title="Strategia School: Video Reviews">
+    <Layout title="Школа Маркетинга Strategia: Видео-отзывы">
       <VideoReviewsWrapper isAll />
     </Layout>
   );

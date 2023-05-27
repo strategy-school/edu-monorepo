@@ -12,12 +12,13 @@ import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import EmailIcon from '@mui/icons-material/Email';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Instagram } from '@mui/icons-material';
+import { Facebook, Instagram, YouTube } from '@mui/icons-material';
 
 export const Footer: FC = (): ReactElement => {
   const socialLinks = {
     facebook: 'https://www.facebook.com/strategia.trainings',
     instagram: 'https://www.instagram.com/strategiaschool/',
+    youtube: 'https://www.youtube.com/@strategiaschool',
   };
 
   return (
@@ -81,12 +82,12 @@ export const Footer: FC = (): ReactElement => {
               <List>
                 <ListItem sx={{ m: 0, p: 0, pb: 1 }}>
                   <Link href="/courses">
-                    <Typography>Список курсов</Typography>
+                    <Typography>Курсы</Typography>
                   </Link>
                 </ListItem>
                 <ListItem sx={{ m: 0, p: 0, pb: 1 }}>
                   <Link href="/teachers">
-                    <Typography>Наши преподаватели</Typography>
+                    <Typography>Бизнес-тренеры</Typography>
                   </Link>
                 </ListItem>
               </List>
@@ -94,14 +95,18 @@ export const Footer: FC = (): ReactElement => {
             <Grid item>
               <List>
                 <ListItem style={{ display: 'inline' }}>
-                  {' '}
                   <Link href={socialLinks.facebook}>
                     <Facebook />
-                  </Link>{' '}
+                  </Link>
                 </ListItem>
                 <ListItem style={{ display: 'inline' }}>
                   <Link href={socialLinks.instagram}>
                     <Instagram />
+                  </Link>
+                </ListItem>
+                <ListItem style={{ display: 'inline' }}>
+                  <Link href={socialLinks.youtube}>
+                    <YouTube />
                   </Link>
                 </ListItem>
               </List>
@@ -111,13 +116,13 @@ export const Footer: FC = (): ReactElement => {
               >
                 <Typography
                   component="span"
-                  style={{ position: 'absolute', top: '2px' }}
+                  style={{ position: 'absolute', top: '0px' }}
                   color="primary.light"
                 >
-                  <PhonelinkRingIcon />
+                  <EmailIcon />
                 </Typography>
                 <Typography component="span" sx={{ pl: 4 }}>
-                  +996(709) 677 777
+                  strategia.kg@gmail.com
                 </Typography>
               </Typography>
               <Typography
@@ -126,14 +131,22 @@ export const Footer: FC = (): ReactElement => {
               >
                 <Typography
                   component="span"
-                  style={{ position: 'absolute', top: '2px' }}
+                  style={{ position: 'absolute', top: '0px' }}
                   color="primary.light"
                 >
-                  <EmailIcon />
+                  <PhonelinkRingIcon />
                 </Typography>
                 <Typography component="span" sx={{ pl: 4 }}>
-                  strategia.kg@gmail.com
+                  +996 709 677 777
                 </Typography>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography component="p">
+                Internet Marketing Strategies LLC
+              </Typography>
+              <Typography component="p">
+                Strategia Marketing School 2023
               </Typography>
             </Grid>
           </Grid>

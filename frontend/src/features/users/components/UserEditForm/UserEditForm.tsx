@@ -69,7 +69,7 @@ const UpdateUser: React.FC<Props> = ({
   const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
-    <Layout title="Strategia school: Edit user">
+    <Layout title="Школа Маркетинга Strategia: Редактирование пользователя">
       <Container component="main" maxWidth="xs">
         <Box
           style={{
@@ -155,7 +155,7 @@ const UpdateUser: React.FC<Props> = ({
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, ml: 2 }}
               >
                 Обновить
               </Button>

@@ -9,7 +9,9 @@ import {
   login,
   register,
   resetPassword,
+  telegramLogin,
   updateIsBannedStatus,
+  updateTelegramUser,
   updateUser,
   verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
@@ -20,6 +22,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 interface UsersState {
   user: User | null;
   users: User[];
+  telegramUser: User | null;
   oneBasicUser: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
@@ -43,6 +46,7 @@ interface UsersState {
 const initialState: UsersState = {
   user: null,
   users: [],
+  telegramUser: null,
   oneBasicUser: null,
   registerLoading: false,
   registerError: null,
@@ -136,6 +140,44 @@ export const usersSlice = createSlice({
       state.registerLoading = false;
       state.loginError = error || null;
     });
+
+    builder.addCase(telegramLogin.pending, (state) => {
+      state.loginLoading = true;
+      state.registerLoading = true;
+    });
+    builder.addCase(telegramLogin.fulfilled, (state, { payload: response }) => {
+      state.loginLoading = false;
+      state.registerLoading = false;
+      if (response.user.verified && response.user.isTelegramUpdated) {
+        state.user = response.user;
+      } else {
+        state.telegramUser = response.user;
+      }
+    });
+    builder.addCase(telegramLogin.rejected, (state, { payload: error }) => {
+      state.loginLoading = false;
+      state.registerLoading = false;
+      state.registerError = error || null;
+    });
+
+    builder.addCase(updateTelegramUser.pending, (state) => {
+      state.loginLoading = true;
+      state.loginError = null;
+    });
+    builder.addCase(
+      updateTelegramUser.fulfilled,
+      (state, { payload: user }) => {
+        state.loginLoading = false;
+        state.telegramUser = user;
+      },
+    );
+    builder.addCase(
+      updateTelegramUser.rejected,
+      (state, { payload: error }) => {
+        state.loginLoading = false;
+        state.loginError = error || null;
+      },
+    );
 
     builder.addCase(fetchUsers.pending, (state) => {
       state.fetchLoading = true;
@@ -232,6 +274,8 @@ export const usersReducer = usersSlice.reducer;
 export const { unsetUser } = usersSlice.actions;
 export const selectUser = (state: RootState) => state.users.user;
 export const selectUsers = (state: RootState) => state.users.users;
+export const selectTelegramUser = (state: RootState) =>
+  state.users.telegramUser;
 export const selectOneBasicUser = (state: RootState) =>
   state.users.oneBasicUser;
 export const selectRegisterLoading = (state: RootState) =>

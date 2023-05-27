@@ -1,5 +1,9 @@
 import Layout from '@/src/components/UI/Layout/Layout';
-import { googleLogin, login } from '@/src/dispatchers/users/usersThunks';
+import {
+  googleLogin,
+  login,
+  telegramLogin,
+} from '@/src/dispatchers/users/usersThunks';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -20,13 +24,16 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,
+  selectUser,
 } from '../dispatchers/users/usersSlice';
-import { LoginMutation } from '../types';
+import { LoginMutation, TelegramUser } from '../types';
+import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectLoginError);
   const loading = useAppSelector(selectLoginLoading);
+  const existingUser = useAppSelector(selectUser);
   const router = useRouter();
   const [state, setState] = React.useState<LoginMutation>({
     email: '',
@@ -49,8 +56,28 @@ const Login = () => {
     void router.push('/');
   };
 
+  const onTelegramLogin = async (user: TelegramUser) => {
+    const data = {
+      firstName: user.first_name,
+      lastName: user.last_name ? user.last_name : null,
+      avatar: user.photo_url ? user.photo_url : null,
+      telegramId: user.id.toString(),
+      telegramUsername: user.username,
+    };
+    await dispatch(telegramLogin(data)).unwrap();
+    if (
+      existingUser &&
+      existingUser.verified &&
+      existingUser.isTelegramUpdated
+    ) {
+      void router.push('/');
+    } else {
+      void router.push('/telegram-login');
+    }
+  };
+
   return (
-    <Layout title="Strategia login">
+    <Layout title="Школа Маркетинга Strategia: Логин">
       <Container component="main" maxWidth="xs">
         <Box
           style={{
@@ -74,6 +101,14 @@ const Login = () => {
               onError={() => console.log('Login failed')}
             />
           </Box>
+          {/*<Box sx={{ pt: 2 }}>*/}
+          {/*  <TelegramAuth*/}
+          {/*    botName="strategia_authorization_bot"*/}
+          {/*    dataOnAuth={onTelegramLogin}*/}
+          {/*    buttonSize="large"*/}
+          {/*    requestAccess={true}*/}
+          {/*  />*/}
+          {/*</Box>*/}
           {error && (
             <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
               {error.error}

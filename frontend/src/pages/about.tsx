@@ -24,7 +24,7 @@ const About: React.FC = () => {
   const teachers = useAppSelector(selectTeachers);
 
   return (
-    <Layout title="Strategia school: about">
+    <Layout title="Школа Маркетинга Strategia: О школе">
       <BlocksTitle titleText="О школе" />
       <Container>
         <Grid container direction="column">

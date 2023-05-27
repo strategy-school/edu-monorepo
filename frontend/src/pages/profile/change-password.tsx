@@ -45,7 +45,7 @@ const ChangePassowrd = () => {
   };
 
   return (
-    <Layout title="Strategia login">
+    <Layout title="Школа Маркетинга Strategia: Смена пароля">
       <Container component="main" maxWidth="xs">
         <Box
           style={{

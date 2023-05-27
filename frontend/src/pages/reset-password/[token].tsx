@@ -55,7 +55,7 @@ const Token = () => {
 
   return (
     <>
-      <Layout title="Strategia login">
+      <Layout title="Школа Маркетинга Strategia: Восстановление пароля">
         <Container component="main" maxWidth="sm">
           <Box
             style={{

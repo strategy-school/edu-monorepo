@@ -16,7 +16,7 @@ const Index: React.FC = () => {
   const loading = useAppSelector(selectTestsFetching);
 
   return (
-    <Layout title="Strategia School | Тесты ">
+    <Layout title="Школа Маркетинга Strategia: Тесты">
       <BlocksTitle titleText="Список всех тестов" />
 
       <Grid container justifyContent="center" spacing={1} mt={5}>

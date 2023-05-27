@@ -12,8 +12,8 @@ const Index: React.FC = () => {
   const teachers = useAppSelector(selectTeachers);
 
   return (
-    <Layout title="Strategy school: Teachers list">
-      <BlocksTitle titleText="Список всех преподавателей" />
+    <Layout title="Школа Маркетинга Strategia: Список бизнес-тренеров">
+      <BlocksTitle titleText="Список всех бизнес-тренеров" />
       <Grid container justifyContent="center" spacing={2}>
         {teachers.length > 0 &&
           teachers.map((teacher) => (

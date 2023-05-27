@@ -4,7 +4,7 @@ import {
   selectTestsFetching,
 } from '@/src/dispatchers/tests/testsSlice';
 import { fetchOneTest } from '@/src/dispatchers/tests/testsThunks';
-import TestForUser from '@/src/features/tests/components/TesForUser/TestForUser';
+import TestForUser from '@/src/features/tests/components/TestForUser/TestForUser';
 import { useAppSelector } from '@/src/store/hooks';
 import { wrapper } from '@/src/store/store';
 import { CircularProgress, Grid } from '@mui/material';

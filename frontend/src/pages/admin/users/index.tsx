@@ -4,7 +4,7 @@ import React from 'react';
 
 const AdminUsersPage: React.FC = () => {
   return (
-    <AdminLayout pageTitle="Студенты">
+    <AdminLayout pageTitle="Пользователи">
       <UserAdmin />
     </AdminLayout>
   );

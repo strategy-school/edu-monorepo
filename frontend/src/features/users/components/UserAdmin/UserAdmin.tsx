@@ -27,6 +27,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
+import Link from 'next/link';
 
 const UserAdmin = () => {
   const router = useRouter();
@@ -69,8 +70,11 @@ const UserAdmin = () => {
         <TableHead>
           <TableRow sx={{ width: '100%' }}>
             <TableCell>Фамилия и имя студента</TableCell>
-            <TableCell align="right">Бан статус</TableCell>
-            <TableCell align="right">Изменить бан статус</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Телефон</TableCell>
+            <TableCell>Telegram</TableCell>
+            <TableCell align="right">Бан</TableCell>
+            <TableCell align="right">Изменить бан</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -82,11 +86,28 @@ const UserAdmin = () => {
               >
                 {student.firstName} {student.lastName}
               </TableCell>
+              <TableCell>{student.email}</TableCell>
+              <TableCell align="center">
+                {student.phoneNumber ? student.phoneNumber : '-'}
+              </TableCell>
+              <TableCell align="center">
+                {student.telegramUsername ? (
+                  <Link
+                    href={`https://t.me/${student.telegramUsername}`}
+                    target="_blank"
+                  >
+                    @{student.telegramUsername}
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </TableCell>
+
               <TableCell
                 align="right"
                 sx={{ color: student.isBanned ? 'red' : 'green' }}
               >
-                {student.isBanned ? 'Бан' : 'Нет бана'}
+                {student.isBanned ? 'Бан' : 'Нет'}
               </TableCell>
               <TableCell align="right">
                 <LoadingButton
@@ -98,7 +119,7 @@ const UserAdmin = () => {
                     textTransform="none"
                     fontSize={14}
                   >
-                    {student.isBanned ? 'Отменить бан' : 'Активировать бан'}
+                    {student.isBanned ? 'Отменить' : 'Активировать'}
                   </Typography>
                   <EditIcon fontSize="small" sx={{ ml: 1 }} />
                 </LoadingButton>

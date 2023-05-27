@@ -7,8 +7,7 @@ import { selectTransactions } from '@/src/dispatchers/transactions/transactionsS
 import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
 import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
-import { useAppSelector } from '@/src/store/hooks';
-import { wrapper } from '@/src/store/store';
+import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Box,
@@ -20,7 +19,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const styles = {
   userInfo: {
@@ -35,6 +34,7 @@ const styles = {
 
 const Profile: React.FC = () => {
   const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   const transactions = useAppSelector(selectTransactions);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -47,15 +47,21 @@ const Profile: React.FC = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchTransactionsByUser(user._id));
+    }
+  }, [dispatch, user?._id]);
+
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
       {user && (
-        <Layout title="Strategy school: Profile">
+        <Layout title="Школа Маркетинга Strategia: Профиль">
           <BlocksTitle titleText="Мой профиль" />
           <Grid
             container
             spacing={2}
-            textAlign="center"
+            textAlign="left"
             alignItems="center"
             color="rgb(217, 39, 45)"
             sx={{ position: 'relative' }}
@@ -100,6 +106,19 @@ const Profile: React.FC = () => {
                     Телефон:{' '}
                     <Typography component="span" sx={styles.userInfoText}>
                       {user.phoneNumber}
+                    </Typography>
+                  </Typography>
+                ) : null}
+                {user.telegramUsername ? (
+                  <Typography variant="body1" sx={styles.userInfo}>
+                    Телеграм:{' '}
+                    <Typography component="span" sx={styles.userInfoText}>
+                      <Link
+                        href={`https://t.me/${user.telegramUsername}`}
+                        target="_blank"
+                      >
+                        @{user.telegramUsername}
+                      </Link>
                     </Typography>
                   </Typography>
                 ) : null}
@@ -153,16 +172,16 @@ const Profile: React.FC = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    const { user } = store.getState().users;
-
-    if (user) {
-      await store.dispatch(fetchTransactionsByUser(user._id));
-    }
-
-    return { props: {} };
-  },
-);
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) => async () => {
+//     const { user } = store.getState().users;
+//
+//     if (user) {
+//       await store.dispatch(fetchTransactionsByUser(user._id));
+//     }
+//
+//     return { props: {} };
+//   },
+// );
 
 export default Profile;

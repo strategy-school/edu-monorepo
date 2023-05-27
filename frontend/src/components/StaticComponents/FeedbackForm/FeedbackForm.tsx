@@ -96,7 +96,7 @@ const FeedbackForm = () => {
         <Typography
           variant="h4"
           color="#010502"
-          style={{ marginRight: '20px', fontWeight: '700' }}
+          style={{ marginRight: '20px', fontWeight: '700', marginLeft: '4%' }}
           width={{ sm: '70vw', md: '45vw' }}
           paddingBottom={{ xs: '35px', md: 0 }}
           fontSize={{ xs: '20px', sm: '35px', lg: '50px' }}
@@ -104,7 +104,12 @@ const FeedbackForm = () => {
           Записаться на курс или получить бесплатную консультацию{' '}
         </Typography>
       </Grid>
-      <Grid item md width={{ xs: '70vw', sm: '80vw', md: '45vw' }}>
+      <Grid
+        item
+        md
+        width={{ xs: '70vw', sm: '80vw', md: '45vw' }}
+        sx={{ ml: 1 }}
+      >
         <form onSubmit={onFormSubmit}>
           <Grid container direction="column" spacing={2}>
             <Grid item xs>

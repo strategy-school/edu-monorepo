@@ -32,9 +32,9 @@ interface Props {
 
 const drawerWidth = 240;
 const navItems = [
-  { name: 'Список курсов', href: '/courses' },
+  { name: 'Курсы', href: '/courses' },
+  { name: 'Бизнес-тренеры', href: '/teachers' },
   { name: 'Учебные группы', href: '/groups' },
-  { name: 'Наши преподаватели', href: '/teachers' },
 ];
 
 const AppToolbar: React.FC<Props> = (props) => {
@@ -65,10 +65,15 @@ const AppToolbar: React.FC<Props> = (props) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Strategia School
+        Меню
       </Typography>
       <Divider />
       <List>
+        <ListItem>
+          <Button component={Link} href="/about" color="inherit">
+            О школе
+          </Button>
+        </ListItem>
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
@@ -78,16 +83,9 @@ const AppToolbar: React.FC<Props> = (props) => {
             </ListItemButton>
           </ListItem>
         ))}
-        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-          <ListItem>
-            <Button component={Link} href="/tests" color="inherit">
-              Пройти тестирование
-            </Button>
-          </ListItem>
-        </Box>
         <ListItem>
-          <Button component={Link} href="/about" color="inherit">
-            О школе
+          <Button component={Link} href="/tests" color="inherit">
+            Онлайн-тест
           </Button>
         </ListItem>
         <ListItem sx={{ textAlign: 'center' }}>
@@ -110,7 +108,7 @@ const AppToolbar: React.FC<Props> = (props) => {
           <Box>
             <ListItem>
               <Button component={Link} href="/profile" color="inherit">
-                Мой профиль
+                Личный кабинет
               </Button>
             </ListItem>
             <ListItem>
@@ -128,7 +126,7 @@ const AppToolbar: React.FC<Props> = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="sticky" sx={{ bgolor: 'secondary.light' }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'info.dark' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={3} sm={5} md={3}>
@@ -150,7 +148,7 @@ const AppToolbar: React.FC<Props> = (props) => {
                   display={{ xs: 'none', sm: 'inline' }}
                   className="conveythis-no-translate"
                 >
-                  Strategia School
+                  Школа Маркетинга Strategia
                 </Typography>
                 <Box
                   style={{
@@ -185,7 +183,7 @@ const AppToolbar: React.FC<Props> = (props) => {
           >
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <Button component={Link} href="/courses" color="inherit">
-                Список курсов
+                Курсы
               </Button>
             </Box>
             <Box

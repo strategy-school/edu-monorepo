@@ -30,7 +30,6 @@ const ForgetPassword = () => {
     event.preventDefault();
     await dispatch(forgotPassword({ email })).unwrap();
     setOpen(true);
-    console.log(email);
   };
   const closeModal = () => {
     setOpen(false);
@@ -39,7 +38,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <Layout title="Strategia login">
+      <Layout title="Школа Маркетинга Strategia: Забыл пароль">
         <Container component="main" maxWidth="sm">
           <Box
             style={{

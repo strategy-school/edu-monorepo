@@ -15,7 +15,10 @@ export interface User {
   isBanned: boolean;
   avatar: string | null;
   googleId?: string;
+  telegramId?: string;
   verified: boolean;
+  isTelegramUpdated: boolean;
+  telegramUsername?: string;
 }
 
 export interface RegisterMutation {
@@ -333,4 +336,22 @@ export interface RangeSearch {
 export interface SearchLesson extends PageLimit {
   theme?: RegexSearch;
   course?: string;
+}
+
+export interface TelegramUser {
+  auth_date: number;
+  id: number;
+  first_name: string;
+  last_name: string;
+  photo_url: string | null;
+  hash: string;
+  username: string;
+}
+
+export interface TelegramLogin {
+  firstName: string;
+  lastName: string | null;
+  avatar: string | null;
+  telegramId: string;
+  telegramUsername: string;
 }
