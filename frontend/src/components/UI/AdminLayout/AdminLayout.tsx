@@ -17,8 +17,8 @@ const AdminLayout: React.FC<Props> = ({ pageTitle, createLink, children }) => {
 
   return (
     <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-      <Layout title="Strategy school: Admin">
-        <Grid container spacing={4}>
+      <Layout title="Школа Маркетинга Strategia: Admin">
+        <Grid container spacing={4} sx={{ marginTop: '40px' }}>
           <Grid item xs={3}>
             <Sidebar />
           </Grid>

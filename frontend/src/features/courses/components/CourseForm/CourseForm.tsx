@@ -320,7 +320,7 @@ const CourseForm: React.FC<Props> = ({
 
         <Grid item xs>
           <FileInput
-            label="Выберите картинку для курса"
+            label="Выберите картинку для курса c примерным разрешением 2048 х 562"
             onChange={onFileChange}
             name="image"
             type="image/*"

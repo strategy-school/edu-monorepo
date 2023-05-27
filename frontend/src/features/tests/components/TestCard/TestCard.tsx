@@ -16,7 +16,15 @@ const TestCard: React.FC<Props> = ({ test }) => {
   return (
     <Card sx={{ minWidth: '300px' }}>
       <CardContent>
-        <Typography variant="body1" fontWeight={700}>
+        <Typography
+          variant="body1"
+          fontWeight={700}
+          style={{
+            maxWidth: '600px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {test.title}
         </Typography>
         <Typography variant="body2">

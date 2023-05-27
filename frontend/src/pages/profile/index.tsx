@@ -68,19 +68,26 @@ const Profile: React.FC = () => {
           >
             <Grid item>
               {user.avatar ? (
-                <Image
-                  style={{ margin: '0 auto', borderRadius: '2px' }}
+                <img
+                  style={{
+                    margin: '0 auto',
+                    borderRadius: '2px',
+                    height: 'auto',
+                  }}
                   src={apiURL + '/' + user.avatar}
                   alt={user.firstName}
                   width={200}
-                  height={230}
                 />
               ) : (
                 <Image
                   src={icon}
                   alt="User icon"
                   width={200}
-                  style={{ margin: '0 auto', borderRadius: '2px' }}
+                  style={{
+                    margin: '0 auto',
+                    borderRadius: '2px',
+                    height: 'auto',
+                  }}
                 />
               )}
             </Grid>

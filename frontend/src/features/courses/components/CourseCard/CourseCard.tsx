@@ -60,7 +60,11 @@ const CourseCard: React.FC<Props> = ({ course, isFull }) => {
                 color={theme.palette.primary.light}
                 fontSize={currentCardStyle.fontSize}
                 fontWeight={700}
-                maxWidth="600px"
+                style={{
+                  maxWidth: '600px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
               >
                 {course.title}
               </Typography>

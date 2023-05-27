@@ -69,7 +69,7 @@ const UserAdmin = () => {
       <Table stickyHeader>
         <TableHead>
           <TableRow sx={{ width: '100%' }}>
-            <TableCell>Фамилия и имя студента</TableCell>
+            <TableCell>Фамилия и имя</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Телефон</TableCell>
             <TableCell>Telegram</TableCell>
