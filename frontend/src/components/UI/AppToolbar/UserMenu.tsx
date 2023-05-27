@@ -1,14 +1,15 @@
 import React from 'react';
 import { User } from '@/src/types';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Badge, Button } from '@mui/material';
 import { apiURL } from '@/src/constants';
 import Link from 'next/link';
 
 interface Props {
   user: User;
+  uncheckedCount: number;
 }
 
-const UserMenu: React.FC<Props> = ({ user }) => {
+const UserMenu: React.FC<Props> = ({ user, uncheckedCount }) => {
   let cardImage = '';
 
   if (user.avatar) {
@@ -21,10 +22,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         color="inherit"
         className="conveythis-no-translate"
         component={Link}
-        href={'/profile'}
+        href={user.role === 'user' ? '/profile' : '/admin/notifications'}
       >
         {user.firstName}
-        <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
+        <Badge badgeContent={uncheckedCount} color="secondary">
+          <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
+        </Badge>
       </Button>
     </>
   );

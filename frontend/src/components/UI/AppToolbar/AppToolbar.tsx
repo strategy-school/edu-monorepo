@@ -18,11 +18,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import AnonymousMenu from './AnonymousMenu';
 import UserMenu from './UserMenu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { logout } from '@/src/dispatchers/users/usersThunks';
 import ChangeLanguage from '@/src/components/UI/ChangeLanguage/ChangeLanguage';
+import { selectUnchecked } from '@/src/dispatchers/notifications/notificationsSlice';
+import { fetchUncheckedCount } from '@/src/dispatchers/notifications/notificationsThunks';
 
 interface Props {
   window?: () => Window;
@@ -38,11 +40,23 @@ const navItems = [
 const AppToolbar: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const uncheckedCount = useAppSelector(selectUnchecked);
   const { window } = props;
   const [open, setOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setOpen((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    if (user && user.role === 'admin') {
+      const interval = setInterval(() => {
+        void dispatch(fetchUncheckedCount());
+      }, 1000);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [dispatch, user, user?.role]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -181,7 +195,9 @@ const AppToolbar: React.FC<Props> = (props) => {
                 borderRadius: '10px',
               }}
             />
-            {user ? <UserMenu user={user} /> : null}
+            {user ? (
+              <UserMenu user={user} uncheckedCount={uncheckedCount} />
+            ) : null}
             <IconButton
               color="inherit"
               aria-label="open drawer"

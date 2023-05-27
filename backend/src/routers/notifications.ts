@@ -16,13 +16,23 @@ notificationsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
     if (!user) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
+    //
+    // if (req.query.unchecked) {
+    //   const notificationCount = await Notification.countDocuments({
+    //     isChecked: { $ne: true },
+    //   });
+    //   return res.send(notificationCount);
+    // }
 
     const limit: number = parseInt(req.query.limit as string) || 10;
     const page: number = parseInt(req.query.page as string) || 1;
     const totalCount = await Notification.count();
     const skip = (page - 1) * limit;
 
-    const notifications = await Notification.find().skip(skip).limit(limit);
+    const notifications = await Notification.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ isChecked: 1 });
 
     return res.send({
       message: 'Notifications are found',
@@ -32,6 +42,26 @@ notificationsRouter.get('/', auth, permit('admin'), async (req, res, next) => {
     return next(e);
   }
 });
+
+notificationsRouter.get(
+  '/unchecked',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const user = (req as RequestWithUser).user;
+
+      if (!user) {
+        return res.status(401).send({ error: 'Unauthorized' });
+      }
+
+      const uncheckedCount = await Notification.count({ isChecked: false });
+      return res.send({ result: uncheckedCount });
+    } catch (e) {
+      return next(e);
+    }
+  },
+);
 
 notificationsRouter.get(
   '/:id',

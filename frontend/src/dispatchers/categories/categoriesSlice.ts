@@ -100,9 +100,6 @@ export const categoriesSlice = createSlice({
       },
     );
     builder.addCase(removeCategory.rejected, (state, { payload: error }) => {
-      window.alert(
-        'Категория не может быть удалена, так как у нее есть связанные курсы',
-      );
       state.deleteLoading = false;
       state.removeError = error || null;
     });
