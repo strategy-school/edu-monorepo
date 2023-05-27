@@ -51,7 +51,7 @@ const AppToolbar: React.FC<Props> = (props) => {
     if (user && user.role === 'admin') {
       const interval = setInterval(() => {
         void dispatch(fetchUncheckedCount());
-      }, 3000);
+      }, 1000);
       return () => {
         clearInterval(interval);
       };

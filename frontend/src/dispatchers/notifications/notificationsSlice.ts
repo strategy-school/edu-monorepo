@@ -57,15 +57,8 @@ export const notificationsSlice = createSlice({
     builder.addCase(notificationToggleChecked.rejected, (state) => {
       state.togglingIsChecked = false;
     });
-    builder.addCase(fetchUncheckedCount.pending, (state) => {
-      state.fetchLoading = true;
-    });
     builder.addCase(fetchUncheckedCount.fulfilled, (state, { payload }) => {
-      state.fetchLoading = false;
       state.unchecked = payload;
-    });
-    builder.addCase(fetchUncheckedCount.rejected, (state) => {
-      state.fetchLoading = false;
     });
     builder.addCase(createNotification.pending, (state) => {
       state.createLoading = true;
