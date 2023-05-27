@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createNotification,
   fetchNotifications,
+  fetchUncheckedCount,
   notificationToggleChecked,
 } from '@/src/dispatchers/notifications/notificationsThunks';
 import { RootState } from '@/src/store/store';
@@ -15,6 +16,7 @@ interface NotificationsState {
   totalCount: number;
   togglingIsChecked: boolean;
   createNotificationError: ValidationError | null;
+  unchecked: number;
 }
 
 const initialState: NotificationsState = {
@@ -25,6 +27,7 @@ const initialState: NotificationsState = {
   totalCount: 1,
   togglingIsChecked: false,
   createNotificationError: null,
+  unchecked: 0,
 };
 
 export const notificationsSlice = createSlice({
@@ -53,6 +56,9 @@ export const notificationsSlice = createSlice({
     });
     builder.addCase(notificationToggleChecked.rejected, (state) => {
       state.togglingIsChecked = false;
+    });
+    builder.addCase(fetchUncheckedCount.fulfilled, (state, { payload }) => {
+      state.unchecked = payload;
     });
     builder.addCase(createNotification.pending, (state) => {
       state.createLoading = true;
@@ -86,3 +92,5 @@ export const selectCreateNotificationError = (state: RootState) =>
   state.notifications.createNotificationError;
 export const selectNotificationTogglingChecked = (state: RootState) =>
   state.notifications.togglingIsChecked;
+export const selectUnchecked = (state: RootState) =>
+  state.notifications.unchecked;

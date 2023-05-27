@@ -17,16 +17,20 @@ export const fetchNotifications = createAsyncThunk<
   ApiResponse<ApiNotification>,
   SearchParam | undefined
 >('notifications/fetchAll', async (params) => {
-  const queryString =
-    params &&
-    Object.entries(params)
-      .filter(([_, value]) => value !== undefined)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-  const url = `/notifications${queryString ? `?${queryString}` : ''}`;
-  const response = await axiosApi.get(url);
-  return response.data;
+  const { data } = await axiosApi.get<ApiResponse<ApiNotification>>(
+    '/notifications',
+    { params },
+  );
+  return data;
 });
+
+export const fetchUncheckedCount = createAsyncThunk<number, undefined>(
+  'notifications/fetchUncheckedCount',
+  async () => {
+    const response = await axiosApi.get('/notifications/unchecked');
+    return response.data.result;
+  },
+);
 
 export const createNotification = createAsyncThunk<
   void,

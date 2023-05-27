@@ -45,9 +45,14 @@ const CoursesAdmin = () => {
     void dispatch(fetchCourses({ page, limit }));
   }, [dispatch, deleteLoading, page, limit]);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Подтвердите удаление курса')) {
-      dispatch(deleteCourse(id));
+      const result = await dispatch(deleteCourse(id));
+      if (result.meta.requestStatus === 'rejected') {
+        window.alert(
+          'Данный курс не может быть удален, так как с ним связаны транзакции. Курс можно сделать скрытым. Для этого нажмите на кнопку Скрыть в админ-панели',
+        );
+      }
     }
   };
 

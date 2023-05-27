@@ -114,9 +114,6 @@ const coursesSlice = createSlice({
       state.deleteLoading = false;
     });
     builder.addCase(deleteCourse.rejected, (state, { payload: error }) => {
-      window.alert(
-        'Данный курс не может быть удален, так как с ним связаны транзакции. Курс можно сделать скрытым. Для этого нажмите на кнопку Скрыть в админ-панели',
-      );
       state.removeError = error || null;
       state.deleteLoading = false;
     });
