@@ -335,3 +335,11 @@ export const updateTelegramUser = createAsyncThunk<
     throw e;
   }
 });
+
+export const removeUserAvatar = createAsyncThunk<User, string>(
+  'user/removeAvatar',
+  async (userId, thunkAPI) => {
+    const { data } = await axiosApi.patch<RegisterResponse>(userId, null); // Pass null or appropriate value to indicate removal of avatar
+    return data.user;
+  },
+);

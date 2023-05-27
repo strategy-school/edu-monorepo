@@ -12,6 +12,8 @@ import { imageUpload } from '../multer';
 import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
 import EMAIL_VERIFICATION from '../constants';
 import validate from 'deep-email-validator';
+import path from 'path';
+import fs from 'fs';
 
 type QueryParams = SwitchToString<
   Pick<
@@ -523,6 +525,33 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
       .send({ message: 'Почта успешно подтверждена!', user });
   } catch (e) {
     return next(e);
+  }
+});
+usersRouter.patch('/avatar/:id', async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    // Remove avatar if it exists
+    if (user.avatar) {
+      const imagePath = path.join(config.publicPath, user.avatar);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error removing avatar:', err);
+        }
+      });
+
+      user.avatar = null;
+      await user.save();
+    }
+
+    return res.send({ message: 'Avatar removed successfully!', user });
+  } catch (error) {
+    return next(error);
   }
 });
 
