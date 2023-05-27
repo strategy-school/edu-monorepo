@@ -15,6 +15,8 @@ import {
   Button,
   Container,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
@@ -29,8 +31,11 @@ import {
 } from '../dispatchers/users/usersSlice';
 import { LoadingButton } from '@mui/lab';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Registration = () => {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
   const existingUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -125,14 +130,14 @@ const Registration = () => {
               onError={() => console.log('Login failed')}
             />
           </Box>
-          <Box sx={{ pt: 2 }}>
-            <TelegramAuth
-              botName="strategia_authorization_bot"
-              dataOnAuth={onTelegramLogin}
-              buttonSize="large"
-              requestAccess={true}
-            />
-          </Box>
+          {/*<Box sx={{ pt: 2 }}>*/}
+          {/*  <TelegramAuth*/}
+          {/*    botName="strategia_authorization_bot"*/}
+          {/*    dataOnAuth={onTelegramLogin}*/}
+          {/*    buttonSize="large"*/}
+          {/*    requestAccess={true}*/}
+          {/*  />*/}
+          {/*</Box>*/}
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -199,13 +204,27 @@ const Registration = () => {
                   variant="outlined"
                   name="password"
                   label="Пароль"
-                  type="password"
                   autoComplete="new-password"
                   value={state.password}
                   onChange={inputChangeHandler}
                   error={Boolean(getFieldError('password'))}
                   helperText={getFieldError('password')}
                   sx={{ width: '100%' }}
+                  type={showPassword ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{ minLength: 8 }}
                 />
               </Grid>
               <Grid item xs>
@@ -218,9 +237,11 @@ const Registration = () => {
                 />
               </Grid>
               {success && (
-                <Alert severity="success" sx={{ mt: 1, width: '100%' }}>
-                  На вашу почту было отправлено письмо для потверждения!
-                </Alert>
+                <Grid item xs={12}>
+                  <Alert severity="success" sx={{ mt: 1, maxWidth: '100%' }}>
+                    На вашу почту было отправлено письмо для потверждения!
+                  </Alert>
+                </Grid>
               )}
               <LoadingButton
                 type="submit"
