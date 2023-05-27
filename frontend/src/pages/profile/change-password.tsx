@@ -12,7 +12,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   Container,
   Grid,
   IconButton,
@@ -20,7 +19,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -167,13 +165,6 @@ const ChangePassowrd = () => {
             >
               <span>Сменить</span>
             </LoadingButton>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Button component={Link} href="/login" variant="text">
-                  или залогиниться
-                </Button>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

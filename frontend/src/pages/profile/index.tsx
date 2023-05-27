@@ -160,9 +160,11 @@ const Profile: React.FC = () => {
                 <MenuItem>
                   <Link href="/profile/edit-user">Изменить профиль</Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link href="/profile/change-password">Сменить пароль</Link>
-                </MenuItem>
+                {!user.googleId && !user.telegramId && (
+                  <MenuItem>
+                    <Link href="/profile/change-password">Сменить пароль</Link>
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
           </Grid>

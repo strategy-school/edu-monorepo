@@ -104,7 +104,6 @@ const Registration = () => {
   };
 
   const phoneNumberPattern = '^+996\\d{9}$';
-  // const passwordPattern = '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$';
 
   return (
     <Layout title="Школа Маркетинга Strategia: Регистрация">
@@ -238,9 +237,11 @@ const Registration = () => {
                 />
               </Grid>
               {success && (
-                <Alert severity="success" sx={{ mt: 1, width: '100%' }}>
-                  На вашу почту было отправлено письмо для потверждения!
-                </Alert>
+                <Grid item xs={12}>
+                  <Alert severity="success" sx={{ mt: 1, maxWidth: '100%' }}>
+                    На вашу почту было отправлено письмо для потверждения!
+                  </Alert>
+                </Grid>
               )}
               <LoadingButton
                 type="submit"
