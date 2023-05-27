@@ -402,6 +402,15 @@ usersRouter.post('/change-password', auth, async (req, res, next) => {
         .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
     }
 
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    if (!regex.test(newPassword)) {
+      return res.status(400).send({
+        error:
+          'Пароль должен содержать минимум 8 символов, из них минимум 1 букву и 1 цифру.',
+      });
+    }
+
     user.password = newPassword;
     await user.generateToken();
     await user.save();
