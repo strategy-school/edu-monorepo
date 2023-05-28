@@ -9,7 +9,7 @@ import permit from '../middleware/permit';
 import nodemailer from 'nodemailer';
 import User from '../models/User';
 import { imageUpload } from '../multer';
-import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
+import { IUser, PageLimit, SearchParam, SwitchToString } from '../types';
 import EMAIL_VERIFICATION from '../constants';
 import validate from 'deep-email-validator';
 import path from 'path';

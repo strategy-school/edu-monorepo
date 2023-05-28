@@ -29,7 +29,6 @@ import {
   removeUserAvatar,
   uploadUserAvatar,
 } from '@/src/dispatchers/users/usersThunks';
-import { SendAvatarFormData } from '@/src/types';
 import MyModal from '@/src/components/UI/Modal/MyModal';
 
 const styles = {

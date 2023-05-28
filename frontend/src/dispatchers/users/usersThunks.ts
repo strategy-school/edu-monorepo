@@ -14,7 +14,7 @@ import {
   ValidationError,
 } from '@/src/types';
 import axiosApi from '@/src/axiosApi';
-import axios, { isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import { unsetUser } from './usersSlice';
 import { destroyCookie, setCookie } from 'nookies';
 import { strategiaToken } from '@/src/constants';
@@ -126,9 +126,6 @@ export const updateUser = createAsyncThunk<
       formData.append(key, value);
     }
   });
-
-  console.log(formData);
-
   try {
     const response = await axiosApi.patch('/users', formData);
     return response.data.user;
