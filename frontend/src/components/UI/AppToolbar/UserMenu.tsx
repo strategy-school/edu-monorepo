@@ -25,9 +25,13 @@ const UserMenu: React.FC<Props> = ({ user, uncheckedCount }) => {
         href={user.role === 'user' ? '/profile' : '/admin/notifications'}
       >
         {user.firstName}
-        <Badge badgeContent={uncheckedCount} color="secondary">
+        {user.role === 'admin' ? (
+          <Badge badgeContent={uncheckedCount} color="secondary">
+            <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
+          </Badge>
+        ) : (
           <Avatar src={cardImage} alt={user.firstName} sx={{ ml: 1 }} />
-        </Badge>
+        )}
       </Button>
     </>
   );

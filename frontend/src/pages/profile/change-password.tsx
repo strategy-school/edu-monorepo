@@ -12,18 +12,24 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   Container,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const ChangePassowrd = () => {
   const dispatch = useAppDispatch();
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+  const handleClickShowCurrentPassword = () =>
+    setShowCurrentPassword(!showCurrentPassword);
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
   const error = useAppSelector(selectPasswordChangeError);
   const changing = useAppSelector(selectPasswordChanging);
   const router = useRouter();
@@ -73,11 +79,29 @@ const ChangePassowrd = () => {
                   required
                   label="Текущий пароль"
                   name="currentPassword"
-                  type="password"
                   autoComplete="current-currentPassword"
                   value={state.currentPassword}
                   onChange={inputChangeHandler}
                   sx={{ width: '100%' }}
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowCurrentPassword}
+                          edge="end"
+                        >
+                          {showCurrentPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{ minLength: 8 }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -85,11 +109,25 @@ const ChangePassowrd = () => {
                   required
                   label="Новый пароль"
                   name="newPassword"
-                  type="password"
                   autoComplete="current-newPassword"
                   value={state.newPassword}
                   onChange={inputChangeHandler}
                   sx={{ width: '100%' }}
+                  type={showNewPassword ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowNewPassword}
+                          edge="end"
+                        >
+                          {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{ minLength: 8 }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,11 +135,25 @@ const ChangePassowrd = () => {
                   required
                   label="Введите новый пароль еще для подтверждения"
                   name="confirmPassword"
-                  type="password"
                   autoComplete="current-confirmPassword"
                   value={state.confirmPassword}
                   onChange={inputChangeHandler}
                   sx={{ width: '100%' }}
+                  type={showNewPassword ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowNewPassword}
+                          edge="end"
+                        >
+                          {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{ minLength: 8 }}
                 />
               </Grid>
             </Grid>
@@ -113,13 +165,6 @@ const ChangePassowrd = () => {
             >
               <span>Сменить</span>
             </LoadingButton>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Button component={Link} href="/login" variant="text">
-                  или залогиниться
-                </Button>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

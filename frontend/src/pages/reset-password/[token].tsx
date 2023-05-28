@@ -8,6 +8,8 @@ import {
   Button,
   Container,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,11 +22,14 @@ import {
 } from '@/src/dispatchers/users/usersSlice';
 import { resetPassword } from '@/src/dispatchers/users/usersThunks';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Token = () => {
   const router = useRouter();
   const { token } = router.query as { token: string };
   const dispatch = useAppDispatch();
+  const [showPassword, setShowNewPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowNewPassword(!showPassword);
   const error = useAppSelector(selectPasswordResetError);
   const loading = useAppSelector(selectPasswordResetLoading);
   const [password, setPassword] = useState({
@@ -84,10 +89,24 @@ const Token = () => {
                     required
                     label="Введите новый пароль"
                     name="newPassword"
-                    type="password"
                     value={password.newPassword}
                     onChange={inputChangeHandler}
                     sx={{ width: '100%' }}
+                    type={showPassword ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    inputProps={{ minLength: 8 }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -95,10 +114,24 @@ const Token = () => {
                     required
                     label="Подтвердите пароль"
                     name="confirmPassword"
-                    type="password"
                     value={password.confirmPassword}
                     onChange={inputChangeHandler}
                     sx={{ width: '100%' }}
+                    type={showPassword ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    inputProps={{ minLength: 8 }}
                   />
                 </Grid>
               </Grid>

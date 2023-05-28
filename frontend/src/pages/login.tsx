@@ -13,6 +13,8 @@ import {
   Button,
   Container,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
@@ -28,9 +30,12 @@ import {
 } from '../dispatchers/users/usersSlice';
 import { LoginMutation, TelegramUser } from '../types';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
   const error = useAppSelector(selectLoginError);
   const loading = useAppSelector(selectLoginLoading);
   const existingUser = useAppSelector(selectUser);
@@ -133,11 +138,25 @@ const Login = () => {
                   required
                   label="Пароль"
                   name="password"
-                  type="password"
                   autoComplete="current-password"
                   value={state.password}
                   onChange={inputChangeHandler}
                   sx={{ width: '100%' }}
+                  type={showPassword ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{ minLength: 8 }}
                 />
               </Grid>
             </Grid>
