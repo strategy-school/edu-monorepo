@@ -20,7 +20,10 @@ const TeacherId: React.FC = () => {
   };
 
   return (
-    <Layout title="Школа Маркетинга Strategia: Страница преподователя">
+    <Layout
+      title={`Школа Маркетинга Strategia: ${teacher?.user.lastName} ${teacher?.user.firstName}`}
+      description={teacher?.info}
+    >
       <OneTeacher teacher={teacher} loading={loading} goBack={handleGoBack} />
     </Layout>
   );

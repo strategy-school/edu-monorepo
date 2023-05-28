@@ -60,7 +60,17 @@ const CourseId: React.FC = () => {
   const isXl = useMediaQuery('(min-width:1280px)');
 
   return (
-    <Layout title={`Школа Маркетинга Strategia: ${course?.title}`}>
+    <Layout
+      title={'Школа Маркетинга Strategia: ' + course?.title}
+      description={course?.description}
+      keywords={[
+        course?.category.title,
+        course?.programGoal,
+        course?.targetAudience,
+        course?.type,
+        course?.level,
+      ].join(', ')}
+    >
       {courseLoading ? (
         <CircularProgress />
       ) : (
