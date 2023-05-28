@@ -125,14 +125,14 @@ const Registration = () => {
               onError={() => console.log('Login failed')}
             />
           </Box>
-          <Box sx={{ pt: 2 }}>
-            <TelegramAuth
-              botName="strategia_authorization_bot"
-              dataOnAuth={onTelegramLogin}
-              buttonSize="large"
-              requestAccess={true}
-            />
-          </Box>
+          {/*<Box sx={{ pt: 2 }}>*/}
+          {/*  <TelegramAuth*/}
+          {/*    botName="strategia_authorization_bot"*/}
+          {/*    dataOnAuth={onTelegramLogin}*/}
+          {/*    buttonSize="large"*/}
+          {/*    requestAccess={true}*/}
+          {/*  />*/}
+          {/*</Box>*/}
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>

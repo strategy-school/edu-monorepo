@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Box,
+  Button,
   Grid,
   IconButton,
   Menu,
@@ -20,6 +21,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { removeUserAvatar } from '@/src/dispatchers/users/usersThunks';
 
 const styles = {
   userInfo: {
@@ -29,6 +31,16 @@ const styles = {
   },
   userInfoText: {
     color: 'primary.main',
+  },
+  avatarBtn: {
+    fontSize: '16px',
+    fontWeight: 400,
+    color: 'black',
+    padding: 0,
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'unset',
+    },
   },
 };
 
@@ -47,6 +59,9 @@ const Profile: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const removeAvatar = async (id: string) => {
+    await dispatch(removeUserAvatar(id));
+  };
   useEffect(() => {
     if (user) {
       dispatch(fetchTransactionsByUser(user._id));
@@ -157,6 +172,23 @@ const Profile: React.FC = () => {
                 <MoreVertIcon />
               </IconButton>
               <Menu open={isMenuOpen} anchorEl={anchorEl} onClose={closeMenu}>
+                <MenuItem>
+                  {user.avatar ? (
+                    <Button
+                      sx={styles.avatarBtn}
+                      onClick={() => removeAvatar(user._id)}
+                    >
+                      Удалить аватар
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={styles.avatarBtn}
+                      // onClick={() => removeAvatar(user._id)}
+                    >
+                      Загрузить аватар
+                    </Button>
+                  )}
+                </MenuItem>
                 <MenuItem>
                   <Link href="/profile/edit-user">Изменить профиль</Link>
                 </MenuItem>

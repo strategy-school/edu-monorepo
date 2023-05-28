@@ -8,6 +8,7 @@ import {
   googleLogin,
   login,
   register,
+  removeUserAvatar,
   resetPassword,
   telegramLogin,
   updateIsBannedStatus,
@@ -265,6 +266,17 @@ export const usersSlice = createSlice({
       state.user = user;
     });
     builder.addCase(getMe.rejected, (state) => {
+      state.loginLoading = false;
+    });
+
+    builder.addCase(removeUserAvatar.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(removeUserAvatar.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(removeUserAvatar.rejected, (state) => {
       state.loginLoading = false;
     });
   },
