@@ -38,7 +38,11 @@ const Id = () => {
   return (
     <AdminLayout pageTitle="Редактировать видео отзыв">
       {existingReview && (
-        <VideoReviewForm onSubmit={onSubmit} existingReview={existingReview} />
+        <VideoReviewForm
+          isEdit
+          onSubmit={onSubmit}
+          existingReview={existingReview}
+        />
       )}
     </AdminLayout>
   );

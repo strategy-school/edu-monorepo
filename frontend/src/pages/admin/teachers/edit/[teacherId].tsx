@@ -41,7 +41,11 @@ const TeacherId = () => {
   return (
     <AdminLayout pageTitle="Редактировать профиль тренера">
       {existingTeacher && (
-        <TeacherForm onSubmit={onSubmit} existingTeacher={existingTeacher} />
+        <TeacherForm
+          isEdit
+          onSubmit={onSubmit}
+          existingTeacher={existingTeacher}
+        />
       )}
     </AdminLayout>
   );

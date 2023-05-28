@@ -26,6 +26,7 @@ import React, { ChangeEvent, useState } from 'react';
 interface Props {
   onSubmit: (courseMutation: ICourse) => void;
   existingCourse?: ICourse;
+  isEdit?: boolean;
 }
 
 const initialState: ICourse = {
@@ -47,6 +48,7 @@ const initialState: ICourse = {
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingCourse = initialState,
 }) => {
   const dispatch = useAppDispatch();
@@ -337,7 +339,7 @@ const CourseForm: React.FC<Props> = ({
             color="primary"
             variant="contained"
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

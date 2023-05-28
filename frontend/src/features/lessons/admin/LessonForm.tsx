@@ -135,7 +135,7 @@ const LessonForm: React.FC<Props> = ({
             variant="contained"
             disabled={submitting}
           >
-            Отправить
+            {isEditing ? 'Сохранить' : 'Отправить'}
           </Button>
         </Grid>
       </Grid>
