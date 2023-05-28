@@ -252,7 +252,7 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL_VERIFICATION(token, req.body.firstName),
+      EMAIL_VERIFICATION(token, user.firstName),
     );
 
     await user.save();
@@ -604,9 +604,9 @@ usersRouter.patch(
       }
 
       if (user._id.toString() !== authUser._id.toString()) {
-        return res
-          .status(403)
-          .send({ message: 'This User do not have rights to remove avatar' });
+        return res.status(403).send({
+          message: 'This User do not have rights to uploaded an avatar',
+        });
       }
 
       user.avatar = req.file ? req.file.filename : null;
