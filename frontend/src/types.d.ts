@@ -355,8 +355,3 @@ export interface TelegramLogin {
   telegramId: string;
   telegramUsername: string;
 }
-
-export interface SendAvatarFormData {
-  id: string;
-  avatar: FormData;
-}

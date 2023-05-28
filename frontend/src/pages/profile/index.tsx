@@ -83,9 +83,7 @@ const Profile: React.FC = () => {
       if (file) {
         const formData = new FormData();
         formData.append('avatar', file, file.name);
-        await dispatch(
-          uploadUserAvatar({ id: user._id, avatar: formData }),
-        ).unwrap();
+        await dispatch(uploadUserAvatar({ avatar: formData })).unwrap();
       }
     }
   };
@@ -101,8 +99,8 @@ const Profile: React.FC = () => {
     setOpen(false);
   };
 
-  const removeAvatar = async (id: string) => {
-    await dispatch(removeUserAvatar(id));
+  const removeAvatar = async () => {
+    await dispatch(removeUserAvatar());
     closeModal();
   };
   useEffect(() => {
@@ -277,11 +275,7 @@ const Profile: React.FC = () => {
                 mt: 5,
               }}
             >
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => removeAvatar(user._id)}
-              >
+              <Button variant="outlined" color="error" onClick={removeAvatar}>
                 Удалить
               </Button>
               <Button variant="outlined" onClick={closeModal}>

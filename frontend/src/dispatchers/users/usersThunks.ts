@@ -7,7 +7,6 @@ import {
   PageLimit,
   RegisterMutation,
   RegisterResponse,
-  SendAvatarFormData,
   TelegramLogin,
   UpdateUserMutation,
   User,
@@ -336,24 +335,24 @@ export const updateTelegramUser = createAsyncThunk<
   }
 });
 
-export const removeUserAvatar = createAsyncThunk<User, string>(
+export const removeUserAvatar = createAsyncThunk<User>(
   'user/removeAvatar',
-  async (userId) => {
+  async () => {
     const { data } = await axiosApi.patch<RegisterResponse>(
-      `users/remove-avatar/${userId}`,
+      `users/remove-avatar`,
     );
     return data.user;
   },
 );
 export const uploadUserAvatar = createAsyncThunk<
   User,
-  SendAvatarFormData,
+  { avatar: FormData },
   { rejectValue: GlobalError }
->('user/sendAvatar', async (formData, { rejectWithValue }) => {
+>('user/sendAvatar', async ({ avatar }, { rejectWithValue }) => {
   try {
     const { data } = await axiosApi.patch<RegisterResponse>(
-      `/users/add-avatar/${formData.id}`,
-      formData.avatar,
+      `/users/add-avatar`,
+      avatar,
     );
 
     return data.user;
