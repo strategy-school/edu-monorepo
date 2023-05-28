@@ -29,6 +29,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import useDebounce from '@/src/hooks/useDebounce';
 
 const CategoryAdmin = () => {
   const router = useRouter();
@@ -40,6 +41,10 @@ const CategoryAdmin = () => {
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
   const togglingDeleted = useAppSelector(selectCategoryTogglingDeleted);
+  const debouncedSearch = useDebounce(
+    (value) => dispatch(fetchCategories(value)),
+    500,
+  );
 
   React.useEffect(() => {
     void dispatch(fetchCategories({ page, limit }));
@@ -61,7 +66,7 @@ const CategoryAdmin = () => {
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch(fetchCategories({ [name]: value }));
+    debouncedSearch({ [name]: value });
   };
 
   return (
