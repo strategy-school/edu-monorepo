@@ -7,13 +7,14 @@ import {
   PageLimit,
   RegisterMutation,
   RegisterResponse,
+  SendAvatarFormData,
   TelegramLogin,
   UpdateUserMutation,
   User,
   ValidationError,
 } from '@/src/types';
 import axiosApi from '@/src/axiosApi';
-import { isAxiosError } from 'axios';
+import axios, { isAxiosError } from 'axios';
 import { unsetUser } from './usersSlice';
 import { destroyCookie, setCookie } from 'nookies';
 import { strategiaToken } from '@/src/constants';
@@ -125,6 +126,8 @@ export const updateUser = createAsyncThunk<
       formData.append(key, value);
     }
   });
+
+  console.log(formData);
 
   try {
     const response = await axiosApi.patch('/users', formData);
@@ -340,8 +343,27 @@ export const removeUserAvatar = createAsyncThunk<User, string>(
   'user/removeAvatar',
   async (userId) => {
     const { data } = await axiosApi.patch<RegisterResponse>(
-      `users/avatar/${userId}`,
+      `users/remove-avatar/${userId}`,
     );
     return data.user;
   },
 );
+export const uploadUserAvatar = createAsyncThunk<
+  User,
+  SendAvatarFormData,
+  { rejectValue: GlobalError }
+>('user/sendAvatar', async (formData, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.patch<RegisterResponse>(
+      `/users/add-avatar/${formData.id}`,
+      formData.avatar,
+    );
+
+    return data.user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});

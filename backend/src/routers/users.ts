@@ -280,7 +280,15 @@ usersRouter.patch(
       user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
       user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
-      if (req.file) {
+
+      if (req.file && user.avatar) {
+        const imagePath = path.join(config.publicPath, user.avatar);
+        fs.unlink(imagePath, (err) => {
+          if (err) {
+            console.error('Error removing avatar:', err);
+          }
+        });
+
         user.avatar = req.file.filename;
       }
 
@@ -527,16 +535,22 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
     return next(e);
   }
 });
-usersRouter.patch('/avatar/:id', async (req, res, next) => {
+usersRouter.patch('/remove-avatar/:id', auth, async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);
+    const authUser = (req as RequestWithUser).user;
 
     if (!user) {
       return res.status(404).send({ message: 'User not found' });
     }
 
-    // Remove avatar if it exists
+    if (user._id.toString() !== authUser._id.toString()) {
+      return res
+        .status(403)
+        .send({ message: 'This User do not have rights to remove avatar' });
+    }
+
     if (user.avatar) {
       const imagePath = path.join(config.publicPath, user.avatar);
       fs.unlink(imagePath, (err) => {
@@ -554,5 +568,36 @@ usersRouter.patch('/avatar/:id', async (req, res, next) => {
     return next(error);
   }
 });
+
+usersRouter.patch(
+  '/add-avatar/:id',
+  auth,
+  imageUpload.single('avatar'),
+
+  async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const user = await User.findById(userId);
+      const authUser = (req as RequestWithUser).user;
+
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+
+      if (user._id.toString() !== authUser._id.toString()) {
+        return res
+          .status(403)
+          .send({ message: 'This User do not have rights to remove avatar' });
+      }
+
+      user.avatar = req.file ? req.file.filename : null;
+      await user.save();
+
+      return res.send({ message: 'Avatar uploaded successfully!', user });
+    } catch (error) {
+      return next(error);
+    }
+  },
+);
 
 export default usersRouter;
