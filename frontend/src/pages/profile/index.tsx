@@ -40,18 +40,9 @@ const styles = {
   userInfoText: {
     color: 'primary.main',
   },
-  avatarBtn: {
-    fontSize: '16px',
-    fontWeight: 400,
-    color: 'black',
-    padding: 0,
-    textTransform: 'none',
-    '&:hover': {
-      backgroundColor: 'unset',
-    },
-    '&:active': {
-      backgroundColor: 'unset',
-    },
+  image: {
+    margin: '0 auto',
+    borderRadius: '15px',
   },
 };
 
@@ -122,28 +113,66 @@ const Profile: React.FC = () => {
             )}
             <Grid
               container
-              spacing={2}
+              gap={3}
               textAlign="left"
-              alignItems="center"
               color="rgb(217, 39, 45)"
               sx={{ position: 'relative' }}
             >
-              <Grid item>
+              <Grid
+                item
+                container
+                alignItems="center"
+                direction="column"
+                gap={2}
+                xs={12}
+                sm={4}
+                md={3}
+              >
                 {user.avatar ? (
-                  <Image
-                    style={{ margin: '0 auto', borderRadius: '2px' }}
-                    src={apiURL + '/' + user.avatar}
-                    alt={user.firstName}
-                    width={200}
-                    height={230}
-                  />
+                  <>
+                    <Image
+                      style={styles.image}
+                      src={apiURL + '/' + user.avatar}
+                      alt={user.firstName}
+                      width={200}
+                      height={230}
+                    />
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => setOpen(true)}
+                      size="small"
+                    >
+                      Удалить аватар
+                    </Button>
+                  </>
                 ) : (
-                  <Image
-                    src={icon}
-                    alt="User icon"
-                    width={200}
-                    style={{ margin: '0 auto', borderRadius: '2px' }}
-                  />
+                  <>
+                    <Image
+                      style={styles.image}
+                      src={icon}
+                      alt="User icon"
+                      width={200}
+                    />
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="avatarInput"
+                        onChange={handleFileSelect}
+                        style={{ display: 'none' }}
+                      />
+                      <label htmlFor="avatarInput">
+                        <Button
+                          onClick={handleUploadClick}
+                          variant="outlined"
+                          size="small"
+                        >
+                          Загрузить аватар
+                        </Button>
+                      </label>
+                    </div>
+                  </>
                 )}
               </Grid>
               <Grid item>
@@ -194,13 +223,22 @@ const Profile: React.FC = () => {
                   <Grid
                     item
                     container
-                    alignItems="center"
+                    alignItems="stretch"
                     justifyContent="space-between"
                     flexWrap="wrap"
                     spacing={2}
                   >
                     {transactions.map((transaction) => (
-                      <Grid item key={transaction._id} xs={12} md={6}>
+                      <Grid
+                        item
+                        container
+                        key={transaction._id}
+                        xs={12}
+                        md={6}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      >
                         <ProfileCourseCard transactionCourse={transaction} />
                       </Grid>
                     ))}
@@ -219,34 +257,6 @@ const Profile: React.FC = () => {
                   <MoreVertIcon />
                 </IconButton>
                 <Menu open={isMenuOpen} anchorEl={anchorEl} onClose={closeMenu}>
-                  <MenuItem>
-                    {user.avatar ? (
-                      <Button
-                        sx={styles.avatarBtn}
-                        onClick={() => setOpen(true)}
-                      >
-                        Удалить аватар
-                      </Button>
-                    ) : (
-                      <div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          id="avatarInput"
-                          onChange={handleFileSelect}
-                          style={{ display: 'none' }}
-                        />
-                        <label htmlFor="avatarInput">
-                          <Button
-                            onClick={handleUploadClick}
-                            sx={styles.avatarBtn}
-                          >
-                            Загрузить аватар
-                          </Button>
-                        </label>
-                      </div>
-                    )}
-                  </MenuItem>
                   <MenuItem>
                     <Link href="/profile/edit-user">Изменить профиль</Link>
                   </MenuItem>
