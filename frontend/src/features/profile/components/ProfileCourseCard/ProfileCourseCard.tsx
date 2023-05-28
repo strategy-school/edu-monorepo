@@ -27,15 +27,17 @@ const ProfileCourseCard: React.FC<Props> = ({ transactionCourse }) => {
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
+        height: '100%',
+        flexGrow: 1,
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         <CardContent
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            height: 'auto',
+            flexGrow: 1,
           }}
         >
           <Typography component="div" variant="h6">
@@ -56,7 +58,14 @@ const ProfileCourseCard: React.FC<Props> = ({ transactionCourse }) => {
             {transactionCourse.isPaid === 'paid' ? 'Оплачено' : 'В обработке'}
           </Typography>
           {transactionCourse.isPaid === 'paid' && (
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                flexGrow: 1,
+                alignItems: 'flex-end',
+              }}
+            >
               {transactionCourse.course.exam && (
                 <Grid item>
                   <Button

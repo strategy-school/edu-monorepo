@@ -125,7 +125,6 @@ export const updateUser = createAsyncThunk<
       formData.append(key, value);
     }
   });
-
   try {
     const response = await axiosApi.patch('/users', formData);
     return response.data.user;
@@ -327,6 +326,35 @@ export const updateTelegramUser = createAsyncThunk<
         lastName: userData.lastName,
       },
     );
+    return data.user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
+
+export const removeUserAvatar = createAsyncThunk<User>(
+  'user/removeAvatar',
+  async () => {
+    const { data } = await axiosApi.patch<RegisterResponse>(
+      `users/remove-avatar`,
+    );
+    return data.user;
+  },
+);
+export const uploadUserAvatar = createAsyncThunk<
+  User,
+  { avatar: FormData },
+  { rejectValue: GlobalError }
+>('user/sendAvatar', async ({ avatar }, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.patch<RegisterResponse>(
+      `/users/add-avatar`,
+      avatar,
+    );
+
     return data.user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
