@@ -26,7 +26,6 @@ const GroupId: React.FC = () => {
       transaction.isPaid === 'paid' &&
       transaction.course_type === 'zoom',
   );
-  console.log(group?.telegramLink, transaction);
 
   useEffect(() => {
     if (user) {

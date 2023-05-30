@@ -25,14 +25,14 @@ const imgStyle = {
   xs: 250,
   md: 400,
   lg: 500,
-  xl: 500,
+  xl: 700,
 };
 
 const imgStyleHeight = {
   xs: 120,
   md: 200,
   lg: 270,
-  xl: 270,
+  xl: 330,
 };
 
 const marginTop = {
@@ -54,13 +54,23 @@ const CourseId: React.FC = () => {
       ? 'Курс'
       : 'Mini MBA';
 
-  const isXs = useMediaQuery('(max-width:599px)');
+  const isXs = useMediaQuery('(max-width:600px)');
   const isMd = useMediaQuery('(min-width:600px) and (max-width:959px)');
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
   return (
-    <Layout title={`Школа Маркетинга Strategia: ${course?.title}`}>
+    <Layout
+      title={'Школа Маркетинга Strategia: ' + course?.title}
+      description={course?.description}
+      keywords={[
+        course?.category.title,
+        course?.programGoal,
+        course?.targetAudience,
+        course?.type,
+        course?.level,
+      ].join(', ')}
+    >
       {courseLoading ? (
         <CircularProgress />
       ) : (
@@ -105,7 +115,6 @@ const CourseId: React.FC = () => {
                 item
                 container
                 justifyContent="center"
-                xs
                 marginTop={marginTop}
               >
                 <Image

@@ -5,11 +5,18 @@ import { Container } from '@mui/material';
 import Footer from '@/src/components/UI/Footer/Footer';
 
 interface Props {
-  children: React.ReactNode;
   title: string;
+  description?: string;
+  keywords?: string;
+  children: React.ReactNode;
 }
 
-const Layout: React.FC<Props> = ({ children, title }) => {
+const Layout: React.FC<Props> = ({
+  title,
+  description,
+  keywords,
+  children,
+}) => {
   const header = React.useRef<HTMLDivElement>(null);
   const footer = React.useRef<HTMLDivElement>(null);
   const [extraHeight, setExtraHeight] = React.useState(0);
@@ -25,6 +32,19 @@ const Layout: React.FC<Props> = ({ children, title }) => {
     <>
       <Head>
         <title>{title}</title>
+        <meta
+          name="description"
+          content={
+            description ||
+            'Школа Маркетинга Strategia – это новое учебное подразделение консалтинговой компании Strategia. Мы стремится к формированию нового поколения бизнес-профессионалов Кыргызстана. Наша цель - обучить практиков, дать необходимые навыки для достижения максимальной эффективности в своей деятельности по следующим направлениям: маркетинг, digital, продажи, телемаркетинг и японская концепция управления бизнесом “Кайдзен”. '
+          }
+        />
+        <meta name="robots" content="index, follow" />
+        <meta
+          name="keywords"
+          content={keywords || 'Маркетинг, продажи, школа маркетинга'}
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div ref={header}>
         <AppToolbar />

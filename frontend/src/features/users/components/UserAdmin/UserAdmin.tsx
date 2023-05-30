@@ -28,6 +28,7 @@ import {
 import { useRouter } from 'next/router';
 import React from 'react';
 import Link from 'next/link';
+import useDebounce from '@/src/hooks/useDebounce';
 
 const UserAdmin = () => {
   const router = useRouter();
@@ -38,6 +39,10 @@ const UserAdmin = () => {
   const currentPage = useAppSelector(selectUserPage);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const debouncedSearch = useDebounce(
+    (value) => dispatch(fetchUsers(value)),
+    500,
+  );
 
   React.useEffect(() => {
     dispatch(fetchUsers({ role: UserRole.User, page, limit: limit }));
@@ -60,7 +65,7 @@ const UserAdmin = () => {
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch(fetchUsers({ [name]: value, role: UserRole.User }));
+    debouncedSearch({ [name]: value, role: UserRole.User });
   };
 
   return (

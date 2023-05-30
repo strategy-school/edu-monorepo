@@ -9,9 +9,11 @@ import permit from '../middleware/permit';
 import nodemailer from 'nodemailer';
 import User from '../models/User';
 import { imageUpload } from '../multer';
-import { PageLimit, IUser, SearchParam, SwitchToString } from '../types';
+import { IUser, PageLimit, SearchParam, SwitchToString } from '../types';
 import EMAIL_VERIFICATION from '../constants';
 import validate from 'deep-email-validator';
+import path from 'path';
+import fs from 'fs';
 
 type QueryParams = SwitchToString<
   Pick<
@@ -173,6 +175,7 @@ usersRouter.post('/google', async (req, res, next) => {
         lastName,
         avatar,
         googleId,
+        phoneNumber: null,
       });
     }
 
@@ -204,6 +207,7 @@ usersRouter.post('/telegram', async (req, res, next) => {
         telegramId: req.body.telegramId,
         telegramUsername: req.body.telegramUsername,
         isTelegramUpdated: false,
+        phoneNumber: null,
       });
     }
     user.generateToken();
@@ -250,7 +254,7 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL_VERIFICATION(token, req.body.firstName),
+      EMAIL_VERIFICATION(token, user.firstName),
     );
 
     await user.save();
@@ -278,7 +282,16 @@ usersRouter.patch(
       user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
       user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+
       if (req.file) {
+        if (user.avatar) {
+          const imagePath = path.join(config.publicPath, user.avatar);
+          fs.unlink(imagePath, (err) => {
+            if (err) {
+              console.error('Error removing avatar:', err);
+            }
+          });
+        }
         user.avatar = req.file.filename;
       }
 
@@ -544,5 +557,53 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
     return next(e);
   }
 });
+usersRouter.patch('/remove-avatar', auth, async (req, res, next) => {
+  try {
+    const user = (req as RequestWithUser).user;
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    if (user.avatar) {
+      const imagePath = path.join(config.publicPath, user.avatar);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error removing avatar:', err);
+        }
+      });
+
+      user.avatar = null;
+      await user.save();
+    }
+
+    return res.send({ message: 'Avatar removed successfully!', user });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+usersRouter.patch(
+  '/add-avatar',
+  auth,
+  imageUpload.single('avatar'),
+
+  async (req, res, next) => {
+    try {
+      const user = (req as RequestWithUser).user;
+
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+
+      user.avatar = req.file ? req.file.filename : null;
+      await user.save();
+
+      return res.send({ message: 'Avatar uploaded successfully!', user });
+    } catch (error) {
+      return next(error);
+    }
+  },
+);
 
 export default usersRouter;

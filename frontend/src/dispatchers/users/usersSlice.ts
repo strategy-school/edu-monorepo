@@ -8,11 +8,13 @@ import {
   googleLogin,
   login,
   register,
+  removeUserAvatar,
   resetPassword,
   telegramLogin,
   updateIsBannedStatus,
   updateTelegramUser,
   updateUser,
+  uploadUserAvatar,
   verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
 import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
@@ -265,6 +267,28 @@ export const usersSlice = createSlice({
       state.user = user;
     });
     builder.addCase(getMe.rejected, (state) => {
+      state.loginLoading = false;
+    });
+
+    builder.addCase(removeUserAvatar.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(removeUserAvatar.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(removeUserAvatar.rejected, (state) => {
+      state.loginLoading = false;
+    });
+
+    builder.addCase(uploadUserAvatar.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(uploadUserAvatar.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(uploadUserAvatar.rejected, (state) => {
       state.loginLoading = false;
     });
   },

@@ -30,6 +30,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import useDebounce from '@/src/hooks/useDebounce';
 
 const CoursesAdmin = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,10 @@ const CoursesAdmin = () => {
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
   const togglingDeleted = useAppSelector(selectCourseTogglingDeleted);
+  const debouncedSearch = useDebounce(
+    (value) => dispatch(fetchCourses(value)),
+    500,
+  );
 
   React.useEffect(() => {
     void dispatch(fetchCourses({ page, limit }));
@@ -58,12 +63,12 @@ const CoursesAdmin = () => {
 
   const toggleCourseDeleted = async (id: string) => {
     await dispatch(courseToggleDeleted(id));
-    await dispatch(fetchCourses());
+    await dispatch(fetchCourses({ page, limit }));
   };
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch(fetchCourses({ [name]: value }));
+    debouncedSearch({ [name]: value, page, limit });
   };
 
   return (
