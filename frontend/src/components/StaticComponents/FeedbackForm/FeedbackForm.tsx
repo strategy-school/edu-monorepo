@@ -34,6 +34,7 @@ const FeedbackForm = () => {
     phoneNumber: '',
     message: '',
   });
+  const [phoneError, setPhoneError] = useState('');
 
   const handleClick = () => {
     setOpen(true);
@@ -59,8 +60,19 @@ const FeedbackForm = () => {
     });
   };
 
+  const isValidPhone = (phone: string) => {
+    const phoneRegex = /^(\+996)?\d{9}$/;
+    return phoneRegex.test(phone);
+  };
+
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isValidPhone(state.phoneNumber)) {
+      setPhoneError('Неверный формат телефона');
+      return;
+    }
+
     const result = await dispatch(createNotification(state));
 
     if (result.meta.requestStatus === 'fulfilled') {
@@ -73,6 +85,7 @@ const FeedbackForm = () => {
       phoneNumber: '',
       message: '',
     });
+    setPhoneError('');
   };
 
   const getFieldError = (fieldName: string) => {
@@ -151,8 +164,10 @@ const FeedbackForm = () => {
                 onChange={inputChangeHandler}
                 required
                 disabled={notificationCreating}
-                error={Boolean(getFieldError('phoneNumber'))}
-                helperText={getFieldError('phoneNumber')}
+                error={
+                  Boolean(getFieldError('phoneNumber')) || Boolean(phoneError)
+                }
+                helperText={getFieldError('phoneNumber') || phoneError}
                 style={inputStyle}
                 inputProps={{ pattern: phoneNumberPattern }}
               />
