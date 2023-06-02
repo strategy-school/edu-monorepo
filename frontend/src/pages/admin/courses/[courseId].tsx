@@ -15,24 +15,11 @@ import { blockStyle, blockTopStyle } from '@/src/styles';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MoneyIcon from '@mui/icons-material/Money';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Button, Grid, Typography, useMediaQuery } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-
-const imgStyle = {
-  xs: 300,
-  md: 400,
-  lg: 500,
-  xl: 500,
-};
-
-const marginTop = {
-  xs: '10px',
-  md: '20px',
-  lg: '80px',
-};
 
 const CourseId = () => {
   const router = useRouter();
@@ -67,16 +54,16 @@ const CourseId = () => {
       ? 'Курс'
       : 'Mini MBA';
 
-  const isXs = useMediaQuery('(max-width:599px)');
-  const isMd = useMediaQuery('(min-width:600px) and (max-width:959px)');
-  const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
-  const isXl = useMediaQuery('(min-width:1280px)');
-
   return (
     <AdminLayout>
       {course && (
         <Grid container direction="column" style={blockStyle}>
-          <Grid container spacing={4}>
+          <Grid
+            container
+            justifyContent="space-between"
+            spacing={4}
+            sx={{ padding: '20px' }}
+          >
             <Grid item xs container direction="column">
               <Grid container item xs style={blockTopStyle} textAlign="center">
                 <Grid item xs>
@@ -113,33 +100,13 @@ const CourseId = () => {
                 <Typography component="p">{course.programGoal}</Typography>
               </Grid>
             </Grid>
-            <Grid item xs marginTop={marginTop}>
+            <Grid item container xs sx={{ mt: 1 }}>
               <Image
-                style={{ margin: '0 auto', borderRadius: '10%' }}
+                style={{ margin: '0 auto', borderRadius: '30px' }}
                 src={apiURL + '/' + course.image}
                 alt={course.title}
-                width={
-                  isXs
-                    ? imgStyle.xs
-                    : isMd
-                    ? imgStyle.md
-                    : isLg
-                    ? imgStyle.lg
-                    : isXl
-                    ? imgStyle.xl
-                    : undefined
-                }
-                height={
-                  isXs
-                    ? imgStyle.xs
-                    : isMd
-                    ? imgStyle.md
-                    : isLg
-                    ? imgStyle.lg
-                    : isXl
-                    ? imgStyle.xl
-                    : undefined
-                }
+                width={300}
+                height={200}
               />
             </Grid>
           </Grid>

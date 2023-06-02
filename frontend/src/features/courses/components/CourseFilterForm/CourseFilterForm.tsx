@@ -61,6 +61,11 @@ const CourseFilterForm = () => {
     [],
   );
 
+  const resetFilter = async () => {
+    setState({});
+    await dispatch(fetchCourses());
+  };
+
   return (
     <form>
       <Grid container direction="column" spacing={2}>
@@ -154,7 +159,7 @@ const CourseFilterForm = () => {
               type="button"
               color="error"
               variant="contained"
-              onClick={() => setState({})}
+              onClick={resetFilter}
             >
               Сбросить
             </Button>
