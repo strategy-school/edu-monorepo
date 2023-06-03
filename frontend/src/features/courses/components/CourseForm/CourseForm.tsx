@@ -305,7 +305,7 @@ const CourseForm: React.FC<Props> = ({
                 color="primary"
               />
             }
-            label="Предзаписанные занятия в YouTube"
+            label="Онлайн-курс по видеоурокам"
           />
           <FormControlLabel
             control={
@@ -316,7 +316,7 @@ const CourseForm: React.FC<Props> = ({
                 color="primary"
               />
             }
-            label="Онлайн занятия в Zoom"
+            label="Онлайн-курс в прямом эфире по Zoom"
           />
         </Grid>
 

@@ -188,7 +188,7 @@ const CourseId: React.FC = () => {
                     md={6}
                   >
                     <Typography mb={1}>
-                      Курс с онлайн видео-уроками в Zoom
+                      Онлайн-курс в прямом эфире по Zoom
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
                       Купить курс
@@ -205,9 +205,7 @@ const CourseId: React.FC = () => {
                     xs={12}
                     md={6}
                   >
-                    <Typography mb={1}>
-                      Курс с предзаписанными видео-уроками
-                    </Typography>
+                    <Typography mb={1}>Онлайн-курс по видеоурокам</Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
                       Купить курс
                     </Button>
