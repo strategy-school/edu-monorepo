@@ -130,7 +130,7 @@ const Profile: React.FC = () => {
               >
                 {user.avatar ? (
                   <>
-                    <Image
+                    <img
                       style={styles.image}
                       src={apiURL + '/' + user.avatar}
                       alt={user.firstName}
