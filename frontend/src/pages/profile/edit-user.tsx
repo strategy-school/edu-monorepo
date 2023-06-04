@@ -3,9 +3,8 @@ import { updateUser } from '@/src/dispatchers/users/usersThunks';
 import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UpdateUserMutation } from '@/src/types';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
-import { useRouter } from 'next/router';
 
 const EditUser: React.FC = () => {
   const dispatch = useAppDispatch();
