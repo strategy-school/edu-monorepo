@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import { borderRadius } from '@/src/styles';
 
 interface Props {
   title: string;
@@ -38,8 +39,8 @@ const VideoReviewItem: React.FC<Props> = ({
   return (
     <Grid item xs={isXs ? 12 : 6} sm={6} md={4} lg={3}>
       <Card
-        style={{
-          borderRadius: '7%',
+        sx={{
+          borderRadius,
           width: isSm ? '180px' : '230px',
           marginLeft: 'auto',
           marginRight: 'auto',

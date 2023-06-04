@@ -47,16 +47,16 @@ const AppToolbar: React.FC<Props> = (props) => {
     setOpen((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    if (user && user.role === 'admin') {
-      const interval = setInterval(() => {
-        void dispatch(fetchUncheckedCount());
-      }, 1000);
-      return () => {
-        clearInterval(interval);
-      };
-    }
-  }, [dispatch, user, user?.role]);
+  // useEffect(() => {
+  //   if (user && user.role === 'admin') {
+  //     const interval = setInterval(() => {
+  //       void dispatch(fetchUncheckedCount());
+  //     }, 1000);
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }
+  // }, [dispatch, user, user?.role]);
 
   const handleLogout = () => {
     dispatch(logout());

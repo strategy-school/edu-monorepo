@@ -27,10 +27,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import Link from 'next/link';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import useDebounce from '@/src/hooks/useDebounce';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const CoursesAdmin = () => {
   const dispatch = useAppDispatch();
@@ -110,12 +112,20 @@ const CoursesAdmin = () => {
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <IconButton
                     disabled={deleteLoading === course._id || togglingDeleted}
                     onClick={() => toggleCourseDeleted(course._id)}
                   >
-                    <HighlightOffIcon />
+                    {course.isDeleted ? (
+                      <Tooltip title="Показать">
+                        <VisibilityIcon />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Скрыть">
+                        <VisibilityOffIcon />
+                      </Tooltip>
+                    )}
                   </IconButton>
                 </TableCell>
                 <TableCell>{course.isDeleted ? 'Скрыт' : 'Активен'}</TableCell>

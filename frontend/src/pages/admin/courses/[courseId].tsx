@@ -58,16 +58,14 @@ const CourseId = () => {
     <AdminLayout>
       {course && (
         <Grid container direction="column" style={blockStyle}>
-          <Grid
-            container
-            justifyContent="space-between"
-            spacing={4}
-            sx={{ padding: '20px' }}
-          >
+          <Grid container justifyContent="space-between" spacing={4}>
             <Grid item xs container direction="column">
               <Grid container item xs style={blockTopStyle} textAlign="center">
                 <Grid item xs>
-                  <Typography variant="h3">
+                  <Typography
+                    variant="h3"
+                    fontSize={{ xs: '2rem', sm: '2.5rem' }}
+                  >
                     {course.title} ({typeName})
                   </Typography>
                 </Grid>

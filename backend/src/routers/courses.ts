@@ -56,7 +56,10 @@ coursesRouter.get('/', async (req, res, next) => {
     const totalCount = await Course.count(searchParam);
     const skip = (p - 1) * l;
 
-    const courses = await Course.find(searchParam, 'title duration image')
+    const courses = await Course.find(
+      searchParam,
+      'title duration image isDeleted',
+    )
       .skip(skip)
       .limit(l);
 

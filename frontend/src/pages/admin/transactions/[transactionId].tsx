@@ -71,7 +71,10 @@ const TransactionSingle = () => {
                 </Typography>
               </Box>
               <Box style={transactionStyles.moderationBtns}>
-                <Button component={Link} href={'/edit' + transaction._id}>
+                <Button
+                  component={Link}
+                  href={'/admin/transactions/edit/' + transaction._id}
+                >
                   Редактировать
                 </Button>
                 <Button

@@ -81,7 +81,7 @@ const CourseId: React.FC = () => {
       ) : (
         course && (
           <Grid container style={blockStyle}>
-            <Grid container sx={{ padding: '20px' }}>
+            <Grid container>
               <Grid item xs container direction="column" padding="20px">
                 <Button onClick={handleGoBack} sx={{ alignSelf: 'flex-start' }}>
                   Назад
@@ -90,7 +90,7 @@ const CourseId: React.FC = () => {
                   <Grid item xs>
                     <Typography
                       variant="h3"
-                      fontSize={{ xs: '2rem', sm: '2.5rem', lg: '3rem' }}
+                      fontSize={{ xs: '2rem', sm: '2.5rem' }}
                     >
                       {course.title} ({typeName})
                     </Typography>

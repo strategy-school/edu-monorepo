@@ -28,7 +28,7 @@ export const blockStyle = {
   margin: '10px',
   borderRadius,
   boxShadow,
-  padding: 0,
+  padding: '15px',
 };
 
 export const blockTopStyle = {

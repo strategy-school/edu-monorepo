@@ -41,6 +41,9 @@ const transactionStyles: { [key: string]: React.CSSProperties } = {
   },
   moderationBtns: {
     marginLeft: 'auto',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '20px',
   },
   filters: {
     borderBottom: '1px solid #dde0e4',
