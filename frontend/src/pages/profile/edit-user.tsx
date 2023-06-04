@@ -26,17 +26,17 @@ const EditUser: React.FC = () => {
   return (
     <>
       <ProtectedRoute isAllowed={Boolean(user)}>
-      <Grid>
-        {existingUser && user && (
-          <UserEditForm
-            onSubmit={onSubmit}
-            existingUser={existingUser}
-            isGoogle={!!user.googleId}
-            existingEmail={user.email}
-          />
-        )}
-      </Grid>
-    </ProtectedRoute>
+        <Grid>
+          {existingUser && user && (
+            <UserEditForm
+              onSubmit={onSubmit}
+              existingUser={existingUser}
+              isGoogle={!!user.googleId}
+              existingEmail={user.email}
+            />
+          )}
+        </Grid>
+      </ProtectedRoute>
     </>
   );
 };
