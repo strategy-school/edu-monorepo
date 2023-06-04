@@ -88,6 +88,8 @@ const AppToolbar: React.FC<Props> = (props) => {
             Онлайн-тест
           </Button>
         </ListItem>
+        <ListItem>{user ? null : <AnonymousMenu />}</ListItem>
+        <Divider />
         <ListItem sx={{ textAlign: 'center' }}>
           {user?.role === 'admin' ? (
             <Button component={Link} href="/categories" color="inherit">
@@ -95,8 +97,6 @@ const AppToolbar: React.FC<Props> = (props) => {
             </Button>
           ) : null}
         </ListItem>
-        <ListItem>{user ? null : <AnonymousMenu />}</ListItem>
-        <Divider />
         {user && user.role === 'admin' ? (
           <ListItem>
             <Button component={Link} href="/admin/courses" color="inherit">
@@ -126,10 +126,10 @@ const AppToolbar: React.FC<Props> = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'info.dark' }}>
+    <AppBar position="fixed" sx={{ bgcolor: 'info.dark' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={3} sm={5} md={3}>
+          <Grid item xs={3} sm={5} md={4}>
             <Typography component="div">
               <Link
                 href="/"
@@ -179,7 +179,7 @@ const AppToolbar: React.FC<Props> = (props) => {
             justifyContent="flex-end"
             xs={9}
             sm={7}
-            md={9}
+            md={8}
           >
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <Button component={Link} href="/courses" color="inherit">

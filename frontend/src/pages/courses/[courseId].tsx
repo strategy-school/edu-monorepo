@@ -25,14 +25,14 @@ const imgStyle = {
   xs: 250,
   md: 400,
   lg: 500,
-  xl: 500,
+  xl: 700,
 };
 
 const imgStyleHeight = {
   xs: 120,
   md: 200,
   lg: 270,
-  xl: 270,
+  xl: 330,
 };
 
 const marginTop = {
@@ -54,7 +54,7 @@ const CourseId: React.FC = () => {
       ? 'Курс'
       : 'Mini MBA';
 
-  const isXs = useMediaQuery('(max-width:599px)');
+  const isXs = useMediaQuery('(max-width:600px)');
   const isMd = useMediaQuery('(min-width:600px) and (max-width:959px)');
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
@@ -115,7 +115,6 @@ const CourseId: React.FC = () => {
                 item
                 container
                 justifyContent="center"
-                xs
                 marginTop={marginTop}
               >
                 <Image
@@ -189,7 +188,7 @@ const CourseId: React.FC = () => {
                     md={6}
                   >
                     <Typography mb={1}>
-                      Курс с онлайн видео-уроками в Zoom
+                      Онлайн-курс в прямом эфире по Zoom
                     </Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
                       Купить курс
@@ -206,9 +205,7 @@ const CourseId: React.FC = () => {
                     xs={12}
                     md={6}
                   >
-                    <Typography mb={1}>
-                      Курс с предзаписанными видео-уроками
-                    </Typography>
+                    <Typography mb={1}>Онлайн-курс по видеоурокам</Typography>
                     <Button variant="contained" sx={{ bgcolor: 'info.main' }}>
                       Купить курс
                     </Button>

@@ -16,6 +16,7 @@ import React from 'react';
 interface Props {
   onSubmit: (groupMutation: IGroup) => void;
   existingGroup?: IGroup;
+  isEdit?: boolean;
 }
 
 const initialState: IGroup = {
@@ -31,6 +32,7 @@ const initialState: IGroup = {
 
 const GroupForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingGroup = initialState,
 }) => {
   const dispatch = useAppDispatch();
@@ -194,7 +196,7 @@ const GroupForm: React.FC<Props> = ({
             variant="contained"
             disabled={submitting}
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </Button>
         </Grid>
       </Grid>

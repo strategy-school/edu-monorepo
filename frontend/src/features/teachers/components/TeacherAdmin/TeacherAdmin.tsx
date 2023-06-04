@@ -57,7 +57,7 @@ const TeacherAdmin = () => {
       <Table stickyHeader>
         <TableHead>
           <TableRow sx={{ width: '100%' }}>
-            <TableCell>Преподаватели</TableCell>
+            <TableCell>Тренеры</TableCell>
             <TableCell align="right">Изменить</TableCell>
             <TableCell align="right">Удалить</TableCell>
           </TableRow>

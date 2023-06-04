@@ -51,7 +51,11 @@ const Id = () => {
   return (
     <AdminLayout pageTitle="Редактировать категорию">
       {existingCourse && (
-        <CourseForm onSubmit={onSubmit} existingCourse={existingCourse} />
+        <CourseForm
+          isEdit
+          onSubmit={onSubmit}
+          existingCourse={existingCourse}
+        />
       )}
     </AdminLayout>
   );

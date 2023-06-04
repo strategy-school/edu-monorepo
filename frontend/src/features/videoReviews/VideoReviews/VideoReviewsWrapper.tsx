@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import {
   selectVideoReviews,
@@ -23,6 +23,37 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
     dispatch(fetchVideoReviews());
   }, [dispatch]);
 
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
+  let sliceStart, sliceEnd;
+
+  if (windowWidth >= 900 && windowWidth <= 1200) {
+    sliceStart = 0;
+    sliceEnd = 3;
+  } else {
+    sliceStart = 0;
+    sliceEnd = 4;
+  }
+
+  const slicedReviews = reviews.slice(sliceStart, sliceEnd);
+
   return (
     <Grid container spacing={4} direction="column">
       <Grid item textAlign="center">
@@ -46,16 +77,14 @@ const VideoReviewsWrapper: React.FC<Props> = ({ isAll = false }) => {
             />
           ))
         ) : (
-          reviews
-            .slice(0, 4)
-            .map((review) => (
-              <VideoReviewItem
-                key={review._id}
-                title={review.title}
-                previewImage={review.previewImage}
-                youtubeURL={review.youtubeURL}
-              />
-            ))
+          slicedReviews.map((review) => (
+            <VideoReviewItem
+              key={review._id}
+              title={review.title}
+              previewImage={review.previewImage}
+              youtubeURL={review.youtubeURL}
+            />
+          ))
         )}
       </Grid>
       {!isAll && (

@@ -26,6 +26,7 @@ import React, { ChangeEvent } from 'react';
 interface Props {
   onSubmit: (test: TestMutation) => void;
   existingTest?: TestMutation;
+  isEdit?: boolean;
 }
 
 const initialState: TestMutation = {
@@ -37,6 +38,7 @@ const initialState: TestMutation = {
 
 const TestForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingTest = initialState,
 }) => {
   const dispatch = useAppDispatch();
@@ -346,7 +348,7 @@ const TestForm: React.FC<Props> = ({
             fullWidth
             sx={{ padding: '10px 0' }}
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

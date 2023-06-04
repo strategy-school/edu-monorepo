@@ -39,7 +39,7 @@ const EditTest = () => {
   return (
     <AdminLayout pageTitle="Редактировать тест">
       {existingTest && (
-        <TestForm onSubmit={onSubmit} existingTest={existingTest} />
+        <TestForm isEdit onSubmit={onSubmit} existingTest={existingTest} />
       )}
     </AdminLayout>
   );

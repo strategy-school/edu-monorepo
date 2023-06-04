@@ -22,7 +22,11 @@ const UserMenu: React.FC<Props> = ({ user, uncheckedCount }) => {
         color="inherit"
         className="conveythis-no-translate"
         component={Link}
-        href={user.role === 'user' ? '/profile' : '/admin/notifications'}
+        href={
+          user.role === 'user' || user.role === 'teacher'
+            ? '/profile'
+            : '/admin/notifications'
+        }
       >
         {user.firstName}
         {user.role === 'admin' ? (

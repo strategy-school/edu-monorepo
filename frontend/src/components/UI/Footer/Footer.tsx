@@ -12,13 +12,14 @@ import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import EmailIcon from '@mui/icons-material/Email';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Instagram, YouTube } from '@mui/icons-material';
+import { Facebook, Instagram, WhatsApp, YouTube } from '@mui/icons-material';
 
 export const Footer: FC = (): ReactElement => {
   const socialLinks = {
     facebook: 'https://www.facebook.com/strategia.trainings',
     instagram: 'https://www.instagram.com/strategiaschool/',
     youtube: 'https://www.youtube.com/@strategiaschool',
+    whatsapp: 'https://wa.me/996709677777',
   };
 
   return (
@@ -94,9 +95,14 @@ export const Footer: FC = (): ReactElement => {
             </Grid>
             <Grid item>
               <List>
-                <ListItem style={{ display: 'inline' }}>
+                <ListItem style={{ display: 'inline', paddingLeft: 0 }}>
                   <Link href={socialLinks.facebook}>
                     <Facebook />
+                  </Link>
+                </ListItem>
+                <ListItem style={{ display: 'inline' }}>
+                  <Link href={socialLinks.whatsapp}>
+                    <WhatsApp />
                   </Link>
                 </ListItem>
                 <ListItem style={{ display: 'inline' }}>

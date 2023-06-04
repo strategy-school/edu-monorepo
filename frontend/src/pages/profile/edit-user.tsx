@@ -6,6 +6,7 @@ import { UpdateUserMutation } from '@/src/types';
 import { Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 
 const EditUser: React.FC = () => {
   const router = useRouter();
@@ -26,11 +27,13 @@ const EditUser: React.FC = () => {
   };
 
   return (
-    <Grid>
-      {existingUser && (
-        <UserEditForm onSubmit={onSubmit} existingUser={existingUser} />
-      )}
-    </Grid>
+    <ProtectedRoute isAllowed={Boolean(user)}>
+      <Grid>
+        {existingUser && (
+          <UserEditForm onSubmit={onSubmit} existingUser={existingUser} />
+        )}
+      </Grid>
+    </ProtectedRoute>
   );
 };
 

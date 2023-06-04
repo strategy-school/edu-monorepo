@@ -66,6 +66,15 @@ export const welcomeBlockStyle = {
   maxWidth: { xs: '250px', sm: '500px', md: '600px', lg: '700px', xl: '850px' },
 };
 
+export const afterCourseStyle = {
+  item: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fontSize: '75px',
+};
+
 export const cardStyle = {
   card: {
     display: 'flex',
