@@ -176,6 +176,10 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: String,
       default: null,
     },
+    newEmail: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );

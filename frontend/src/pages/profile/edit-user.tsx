@@ -3,18 +3,16 @@ import { updateUser } from '@/src/dispatchers/users/usersThunks';
 import UserEditForm from '@/src/features/users/components/UserEditForm/UserEditForm';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UpdateUserMutation } from '@/src/types';
-import { Grid } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Button, Grid } from '@mui/material';
 import React from 'react';
+import { useRouter } from 'next/router';
 
 const EditUser: React.FC = () => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
   const onSubmit = async (userMutation: UpdateUserMutation) => {
     await dispatch(updateUser({ user: userMutation })).unwrap();
-    await router.push(`/profile`);
   };
 
   const existingUser = user && {
@@ -26,11 +24,18 @@ const EditUser: React.FC = () => {
   };
 
   return (
-    <Grid>
-      {existingUser && (
-        <UserEditForm onSubmit={onSubmit} existingUser={existingUser} />
-      )}
-    </Grid>
+    <>
+      <Grid>
+        {existingUser && user && (
+          <UserEditForm
+            onSubmit={onSubmit}
+            existingUser={existingUser}
+            isGoogle={!!user.googleId}
+            existingEmail={user.email}
+          />
+        )}
+      </Grid>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { useAppSelector } from '@/src/store/hooks';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { UpdateUserMutation } from '@/src/types';
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -12,10 +13,13 @@ import {
 import React, { useEffect, useState } from 'react';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import { selectUpdateUserError } from '@/src/dispatchers/users/usersSlice';
+import { useRouter } from 'next/router';
 
 interface Props {
   onSubmit: (updateMutation: UpdateUserMutation) => void;
   existingUser?: UpdateUserMutation;
+  isGoogle?: boolean;
+  existingEmail: string;
 }
 
 const initialState: UpdateUserMutation = {
@@ -29,9 +33,14 @@ const initialState: UpdateUserMutation = {
 const UpdateUser: React.FC<Props> = ({
   onSubmit,
   existingUser = initialState,
+  isGoogle,
+  existingEmail,
 }) => {
+  const router = useRouter();
+
   const error = useAppSelector(selectUpdateUserError);
   const [state, setState] = useState<UpdateUserMutation>(existingUser);
+  const [emailModified, setEmailModified] = useState(false);
 
   useEffect(() => {
     setState(existingUser || initialState);
@@ -47,7 +56,11 @@ const UpdateUser: React.FC<Props> = ({
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await onSubmit(state);
-    setState(initialState);
+    if (state.email !== existingEmail) {
+      setEmailModified(true);
+    } else {
+      await router.push(`/profile`);
+    }
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,11 +78,18 @@ const UpdateUser: React.FC<Props> = ({
       return undefined;
     }
   };
+  const handleGoBack = () => {
+    router.back();
+  };
 
   const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
     <Layout title="Школа Маркетинга Strategia: Редактирование пользователя">
+      <Grid>
+        <Button onClick={handleGoBack}>Назад</Button>
+      </Grid>
+
       <Container component="main" maxWidth="xs">
         <Box
           style={{
@@ -84,21 +104,24 @@ const UpdateUser: React.FC<Props> = ({
           </Typography>
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  variant="outlined"
-                  label="Email"
-                  name="email"
-                  type="email"
-                  autoComplete="new-email"
-                  value={state.email}
-                  onChange={inputChangeHandler}
-                  error={Boolean(getFieldError('email'))}
-                  helperText={getFieldError('email')}
-                  sx={{ width: '100%' }}
-                />
-              </Grid>
+              {!isGoogle && (
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Email"
+                    name="email"
+                    type="email"
+                    autoComplete="new-email"
+                    value={state.email}
+                    onChange={inputChangeHandler}
+                    error={Boolean(getFieldError('email'))}
+                    helperText={getFieldError('email')}
+                    disabled={emailModified}
+                    sx={{ width: '100%' }}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -110,6 +133,7 @@ const UpdateUser: React.FC<Props> = ({
                   onChange={inputChangeHandler}
                   error={Boolean(getFieldError('firstName'))}
                   helperText={getFieldError('firstName')}
+                  disabled={emailModified}
                   sx={{ width: '100%' }}
                 />
               </Grid>
@@ -124,6 +148,7 @@ const UpdateUser: React.FC<Props> = ({
                   onChange={inputChangeHandler}
                   error={Boolean(getFieldError('lastName'))}
                   helperText={getFieldError('lastName')}
+                  disabled={emailModified}
                   sx={{ width: '100%' }}
                 />
               </Grid>
@@ -138,6 +163,7 @@ const UpdateUser: React.FC<Props> = ({
                   error={Boolean(getFieldError('phoneNumber'))}
                   helperText={getFieldError('phoneNumber')}
                   inputProps={{ pattern: phoneNumberPattern }}
+                  disabled={emailModified}
                   type="tel"
                   sx={{ width: '100%' }}
                 />
@@ -151,11 +177,21 @@ const UpdateUser: React.FC<Props> = ({
                   errorCheck={getFieldError}
                 />
               </Grid>
+              {emailModified && (
+                <Grid item xs={12}>
+                  <Alert severity="success" sx={{ mt: 1, maxWidth: '100%' }}>
+                    На вашу почту было отправлено письмо для потверждения!
+                    Только после подтверждения, новый электронный адрес будет
+                    сохранен в вашем аккаунте!
+                  </Alert>
+                </Grid>
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, ml: 2 }}
+                disabled={emailModified}
               >
                 Обновить
               </Button>
