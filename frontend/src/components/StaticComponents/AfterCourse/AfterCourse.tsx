@@ -1,18 +1,10 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { stylesGlobal } from '@/src/styles';
+import { afterCourseStyle, stylesGlobal } from '@/src/styles';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import GroupsIcon from '@mui/icons-material/Groups';
-
-const styles = {
-  item: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};
 
 const AfterCourse = () => {
   return (
@@ -37,10 +29,13 @@ const AfterCourse = () => {
           lg={3}
           justifyContent="space-evenly"
         >
-          <Grid item style={styles.item} xs={2}>
-            <PsychologyIcon fontSize="large" color="info" />
+          <Grid item style={afterCourseStyle.item} xs={2}>
+            <PsychologyIcon
+              style={{ fontSize: afterCourseStyle.fontSize }}
+              color="info"
+            />
           </Grid>
-          <Grid item style={styles.item} xs={8}>
+          <Grid item style={afterCourseStyle.item} xs={8}>
             <Typography textAlign="center" fontSize="18px">
               Актуальные знания от практикующих экспертов
             </Typography>
@@ -54,10 +49,13 @@ const AfterCourse = () => {
           lg={3}
           justifyContent="space-evenly"
         >
-          <Grid item style={styles.item} xs={2}>
-            <WorkspacePremiumIcon fontSize="large" color="warning" />
+          <Grid item style={afterCourseStyle.item} xs={2}>
+            <WorkspacePremiumIcon
+              style={{ fontSize: afterCourseStyle.fontSize }}
+              color="warning"
+            />
           </Grid>
-          <Grid item style={styles.item} xs={8}>
+          <Grid item style={afterCourseStyle.item} xs={8}>
             <Typography textAlign="center" fontSize="18px">
               Сертификат
             </Typography>
@@ -71,10 +69,13 @@ const AfterCourse = () => {
           lg={3}
           justifyContent="space-evenly"
         >
-          <Grid item style={styles.item} xs={2}>
-            <MenuBookIcon fontSize="large" color="info" />
+          <Grid item style={afterCourseStyle.item} xs={2}>
+            <MenuBookIcon
+              style={{ fontSize: afterCourseStyle.fontSize }}
+              color="info"
+            />
           </Grid>
-          <Grid item style={styles.item} xs={8}>
+          <Grid item style={afterCourseStyle.item} xs={8}>
             <Typography textAlign="center" fontSize="18px">
               Тренинговый материал
             </Typography>
@@ -88,10 +89,13 @@ const AfterCourse = () => {
           lg={3}
           justifyContent="space-evenly"
         >
-          <Grid item style={styles.item} xs={2}>
-            <GroupsIcon fontSize="large" color="warning" />
+          <Grid item style={afterCourseStyle.item} xs={2}>
+            <GroupsIcon
+              style={{ fontSize: afterCourseStyle.fontSize }}
+              color="warning"
+            />
           </Grid>
-          <Grid item style={styles.item} xs={8}>
+          <Grid item style={afterCourseStyle.item} xs={8}>
             <Typography textAlign="center" fontSize="18px">
               Членство в клубе выпускников и привилегии
             </Typography>

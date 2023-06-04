@@ -65,7 +65,7 @@ const OneTeacher: React.FC<Props> = ({
             style={styles.teacherWrapper}
             padding={{ xs: '10px 20px', md: '15px 50px' }}
           >
-            <Button onClick={goBack}>Назад</Button>
+            <Button onClick={goBack}>Тренеры</Button>
             <Grid
               container
               flexDirection="column"

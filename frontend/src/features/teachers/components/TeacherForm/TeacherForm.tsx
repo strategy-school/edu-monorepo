@@ -15,6 +15,7 @@ import React from 'react';
 interface Props {
   onSubmit: (teacher: ITeacher) => void;
   existingTeacher?: ITeacher;
+  isEdit?: boolean;
 }
 
 const initialState: ITeacher = {
@@ -26,6 +27,7 @@ const initialState: ITeacher = {
 
 const TeacherForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingTeacher = initialState,
 }) => {
   const dispatch = useAppDispatch();
@@ -188,7 +190,7 @@ const TeacherForm: React.FC<Props> = ({
             fullWidth
             sx={{ padding: '10px 0' }}
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

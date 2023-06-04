@@ -45,7 +45,7 @@ const Id = () => {
   return (
     <AdminLayout pageTitle="Редактировать группу">
       {existingGroup && (
-        <GroupForm onSubmit={onSubmit} existingGroup={existingGroup} />
+        <GroupForm isEdit onSubmit={onSubmit} existingGroup={existingGroup} />
       )}
     </AdminLayout>
   );

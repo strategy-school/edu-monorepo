@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
-import TranslateIcon from '@mui/icons-material/Translate';
+import {
+  Button,
+  CircularProgress,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from '@mui/material';
+import kg from '@/src/assets/images/kg.svg';
+import ru from '@/src/assets/images/ru.svg';
+import Image from 'next/image';
 
 const ChangeLanguage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [state, setState] = useState('RU');
+  const [languageId, setLanguageId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const storedLanguageId = localStorage.getItem('conveythis-language-id');
+      setLanguageId(storedLanguageId);
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -37,7 +53,15 @@ const ChangeLanguage = () => {
   return (
     <div>
       <Button onClick={handleClick} color="inherit">
-        <TranslateIcon />
+        <Tooltip title="Сменить язык">
+          {languageId === '748' ? (
+            <Image src={kg} width="36" height="24" alt="kg" />
+          ) : languageId === '771' ? (
+            <Image src={ru} width="36" height="24" alt="ru" />
+          ) : (
+            <CircularProgress />
+          )}
+        </Tooltip>
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -45,8 +69,24 @@ const ChangeLanguage = () => {
         onClose={handleClose}
         className="conveythis-no-translate"
       >
-        <MenuItem onClick={() => handleChangeLanguage('ru')}>Русский</MenuItem>
-        <MenuItem onClick={() => handleChangeLanguage('ky')}>Кыргызча</MenuItem>
+        <MenuItem
+          onClick={() =>
+            handleChangeLanguage(languageId === '771' ? 'ky' : 'ru')
+          }
+          style={{ background: '#ccc' }}
+        >
+          {languageId === '771' ? (
+            <Tooltip title="Кыргызча">
+              <Image src={kg} width="36" height="24" alt="kg" />
+            </Tooltip>
+          ) : languageId === '748' ? (
+            <Tooltip title="Русский">
+              <Image src={ru} width="36" height="24" alt="ru" />
+            </Tooltip>
+          ) : (
+            <CircularProgress />
+          )}
+        </MenuItem>
       </Menu>
     </div>
   );

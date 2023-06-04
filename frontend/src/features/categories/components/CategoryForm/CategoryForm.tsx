@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 interface Props {
   onSubmit: (categoryMutation: ICategory) => void;
   existingCategory?: ICategory;
+  isEdit?: boolean;
 }
 
 const initialState: ICategory = {
@@ -22,6 +23,7 @@ const initialState: ICategory = {
 
 const CategoryForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingCategory = initialState,
 }) => {
   const submitting = useAppSelector(selectCategorySubmitting);
@@ -103,7 +105,7 @@ const CategoryForm: React.FC<Props> = ({
             color="primary"
             variant="contained"
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

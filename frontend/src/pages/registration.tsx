@@ -13,7 +13,10 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
   Container,
+  Dialog,
+  DialogContent,
   Grid,
   IconButton,
   InputAdornment,
@@ -32,6 +35,8 @@ import {
 import { LoadingButton } from '@mui/lab';
 import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import UserAgreement from '@/src/components/StaticComponents/UserAgreement/UserAgreement';
+import theme from '@/src/theme';
 
 const Registration = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -50,10 +55,18 @@ const Registration = () => {
     avatar: null,
   });
   const [success, setSuccess] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const checkboxChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setChecked(event.target.checked);
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -236,10 +249,29 @@ const Registration = () => {
                   errorCheck={getFieldError}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <Typography component="p">
+                  Я ознакомился с{' '}
+                  <Typography
+                    component="span"
+                    onClick={() => setOpen(true)}
+                    style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                    color={theme.palette.info.dark}
+                  >
+                    Пользовательским соглашением
+                  </Typography>{' '}
+                  и хочу продолжить
+                </Typography>
+                <Checkbox
+                  checked={checked}
+                  onChange={checkboxChangeHandler}
+                  sx={{ ml: -1 }}
+                />
+              </Grid>
               {success && (
                 <Grid item xs={12}>
                   <Alert severity="success" sx={{ mt: 1, maxWidth: '100%' }}>
-                    На вашу почту было отправлено письмо для потверждения!
+                    На вашу почту было отправлено письмо для подтверждения!
                   </Alert>
                 </Grid>
               )}
@@ -249,6 +281,7 @@ const Registration = () => {
                 loading={loading}
                 variant="contained"
                 sx={{ mt: 3, mb: 2, ml: 2 }}
+                disabled={!checked}
               >
                 Завершить регистрацию
               </LoadingButton>
@@ -260,6 +293,18 @@ const Registration = () => {
                   </Button>
                 </Grid>
               </Grid>
+              <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogContent>
+                  <UserAgreement />
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => setOpen(false)}
+                  >
+                    OK
+                  </Button>
+                </DialogContent>
+              </Dialog>
             </Grid>
           </Box>
         </Box>

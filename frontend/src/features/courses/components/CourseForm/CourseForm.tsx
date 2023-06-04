@@ -26,6 +26,7 @@ import React, { ChangeEvent, useState } from 'react';
 interface Props {
   onSubmit: (courseMutation: ICourse) => void;
   existingCourse?: ICourse;
+  isEdit?: boolean;
 }
 
 const initialState: ICourse = {
@@ -47,6 +48,7 @@ const initialState: ICourse = {
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingCourse = initialState,
 }) => {
   const dispatch = useAppDispatch();
@@ -303,7 +305,7 @@ const CourseForm: React.FC<Props> = ({
                 color="primary"
               />
             }
-            label="Предзаписанные занятия в YouTube"
+            label="Онлайн-курс по видеоурокам"
           />
           <FormControlLabel
             control={
@@ -314,13 +316,13 @@ const CourseForm: React.FC<Props> = ({
                 color="primary"
               />
             }
-            label="Онлайн занятия в Zoom"
+            label="Онлайн-курс в прямом эфире по Zoom"
           />
         </Grid>
 
         <Grid item xs>
           <FileInput
-            label="Выберите картинку для курса"
+            label="Выберите картинку для курса c примерным разрешением 2048 х 562"
             onChange={onFileChange}
             name="image"
             type="image/*"
@@ -337,7 +339,7 @@ const CourseForm: React.FC<Props> = ({
             color="primary"
             variant="contained"
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

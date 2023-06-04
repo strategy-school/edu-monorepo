@@ -12,6 +12,7 @@ import React from 'react';
 interface Props {
   onSubmit: (reviewMutation: IVideoReview) => void;
   existingReview?: IVideoReview;
+  isEdit?: boolean;
 }
 
 const initialState: IVideoReview = {
@@ -22,6 +23,7 @@ const initialState: IVideoReview = {
 
 const VideoReviewForm: React.FC<Props> = ({
   onSubmit,
+  isEdit,
   existingReview = initialState,
 }) => {
   const submitting = useAppSelector(selectVideoReviewSubmitting);
@@ -104,7 +106,7 @@ const VideoReviewForm: React.FC<Props> = ({
             color="primary"
             variant="contained"
           >
-            Отправить
+            {isEdit ? 'Сохранить' : 'Отправить'}
           </LoadingButton>
         </Grid>
       </Grid>

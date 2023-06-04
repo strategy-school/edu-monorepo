@@ -53,7 +53,7 @@ const Layout: React.FC<Props> = ({
         style={{
           display: 'flex',
           minHeight: `calc(100vh - ${extraHeight}px)`,
-          padding: '50px 25px',
+          padding: '75px 25px 50px',
           flexDirection: 'column',
         }}
       >

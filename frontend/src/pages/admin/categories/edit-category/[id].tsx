@@ -40,7 +40,11 @@ const Id = () => {
   return (
     <AdminLayout pageTitle="Редактировать категорию">
       {existingCategory && (
-        <CategoryForm onSubmit={onSubmit} existingCategory={existingCategory} />
+        <CategoryForm
+          isEdit
+          onSubmit={onSubmit}
+          existingCategory={existingCategory}
+        />
       )}
     </AdminLayout>
   );

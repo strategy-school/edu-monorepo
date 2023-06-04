@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { UpdateUserMutation } from '@/src/types';
 import { Grid } from '@mui/material';
 import React from 'react';
+import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 
 const EditUser: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const EditUser: React.FC = () => {
 
   return (
     <>
+      <ProtectedRoute isAllowed={Boolean(user)}>
       <Grid>
         {existingUser && user && (
           <UserEditForm
@@ -34,6 +36,7 @@ const EditUser: React.FC = () => {
           />
         )}
       </Grid>
+    </ProtectedRoute>
     </>
   );
 };
