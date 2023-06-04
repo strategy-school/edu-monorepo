@@ -18,13 +18,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import AnonymousMenu from './AnonymousMenu';
 import UserMenu from './UserMenu';
-import React, { useEffect } from 'react';
+import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { logout } from '@/src/dispatchers/users/usersThunks';
 import ChangeLanguage from '@/src/components/UI/ChangeLanguage/ChangeLanguage';
 import { selectUnchecked } from '@/src/dispatchers/notifications/notificationsSlice';
-import { fetchUncheckedCount } from '@/src/dispatchers/notifications/notificationsThunks';
 
 interface Props {
   window?: () => Window;

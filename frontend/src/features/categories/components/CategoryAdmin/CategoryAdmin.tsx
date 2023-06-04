@@ -29,7 +29,6 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import useDebounce from '@/src/hooks/useDebounce';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
