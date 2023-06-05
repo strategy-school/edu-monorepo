@@ -14,10 +14,11 @@ const ChangeLanguage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [state, setState] = useState('RU');
   const [languageId, setLanguageId] = useState<string | null>(null);
+
   useEffect(() => {
     setTimeout(() => {
       const storedLanguageId = localStorage.getItem('conveythis-language-id');
-      setLanguageId(storedLanguageId);
+      setLanguageId(storedLanguageId || '771');
     }, 3000);
   }, []);
 
