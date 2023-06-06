@@ -10,10 +10,10 @@ import nodemailer from 'nodemailer';
 import User from '../models/User';
 import { imageUpload } from '../multer';
 import { IUser, PageLimit, SearchParam, SwitchToString } from '../types';
-import EMAIL_VERIFICATION from '../constants';
 import validate from 'deep-email-validator';
 import path from 'path';
 import fs from 'fs';
+import constants, { REGEX_PASSWORD } from '../constants';
 
 type QueryParams = SwitchToString<
   Pick<
@@ -67,7 +67,7 @@ usersRouter.post('/', imageUpload.single('avatar'), async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL_VERIFICATION(token, req.body.firstName),
+      constants.EMAIL_VERIFICATION(token, req.body.firstName),
     );
 
     return res.send({ message: 'Registered successfully!' });
@@ -100,7 +100,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL_VERIFICATION(token, user.firstName),
+      constants.EMAIL_VERIFICATION(token, user.firstName),
     );
     return res.status(400).send({
       error: 'Email не подтвержден, на вашу почту было выслано письмо!',
@@ -254,7 +254,7 @@ usersRouter.patch('/telegram/:id', async (req, res, next) => {
     await sendEmail(
       req.body.email,
       'Подтверджение почты',
-      EMAIL_VERIFICATION(token, user.firstName),
+      constants.EMAIL_VERIFICATION(token, user.firstName),
     );
 
     await user.save();
@@ -280,7 +280,6 @@ usersRouter.patch(
 
       user.firstName = req.body.firstName || user.firstName;
       user.lastName = req.body.lastName || user.lastName;
-      user.email = req.body.email || user.email;
       user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
 
       if (req.file) {
@@ -293,6 +292,23 @@ usersRouter.patch(
           });
         }
         user.avatar = req.file.filename;
+      }
+
+      if (req.body.email) {
+        user.newEmail = req.body.email;
+        const token = crypto.randomBytes(4).toString('hex');
+        user.verifyEmailToken = token;
+
+        await sendEmail(
+          req.body.email,
+          'Подтверджение новой почты',
+          constants.EMAIL_NEW_VERIFICATION(
+            token,
+            user.firstName,
+            user.email,
+            req.body.email,
+          ),
+        );
       }
 
       await user.save();
@@ -415,9 +431,7 @@ usersRouter.post('/change-password', auth, async (req, res, next) => {
         .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
     }
 
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
-    if (!regex.test(newPassword)) {
+    if (!REGEX_PASSWORD.test(newPassword)) {
       return res.status(400).send({
         error:
           'Пароль должен содержать минимум 8 символов, из них минимум 1 букву и 1 цифру.',
@@ -446,41 +460,16 @@ usersRouter.post('/forgot-password', async (req, res, next) => {
     if (!user) {
       return res.status(400).send({ error: 'Email адрес не найден' });
     }
-    const generateRandomString = () => {
-      return crypto.randomBytes(4).toString('hex');
-    };
 
-    const token = generateRandomString();
+    const token = crypto.randomBytes(4).toString('hex');
     user.resetPasswordToken = token;
     await user.save();
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: true,
-      auth: {
-        user: process.env.VERIFY_EMAIL_USER,
-        pass: process.env.VERIFY_EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: '"Strategia School" <do-not-reply@strategia.school>',
-      to: user.email,
-      subject: 'Password reset request',
-      html: `
-    <div style="font-family: Arial, sans-serif; font-size: 14px;">
-      <p>Дорогой/ая ${user.firstName},</p>
-      <p>Команда Strategia School получила ваш запрос на сброс пароля. Пройдите по нижеуказанной ссылке для сброса пароля.</p>
-       <p><a href="${process.env.APP_URL}/reset-password/${token}" target="_blank" rel="noopener noreferrer">${process.env.APP_URL}/reset-password/${token}</a></p>
-      <p>Если вы не отправляли вышеуказанный запрос, пожалуйста, проигнорируйте это сообщение.</p>
-      <p style="margin-top: 20px">С уважением,</p>
-      <p style="font-weight: bold">Команда Strategia School</p>
-    </div> `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    await sendEmail(
+      user.email,
+      'Сброс пароля',
+      constants.EMAIL_FORGOT_PASS(user.firstName, token),
+    );
 
     return res.send({
       message: 'Запрос на сброс пароля отправлен',
@@ -510,9 +499,7 @@ usersRouter.post('/reset-password/:token', async (req, res, next) => {
         .send({ error: 'Пароль подтверждения не совпадает с новым паролем' });
     }
 
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
-    if (!regex.test(req.body.newPassword)) {
+    if (!REGEX_PASSWORD.test(req.body.newPassword)) {
       return res.status(400).send({
         error:
           'Пароль должен содержать минимум 8 символов, из них минимум 1 букву и 1 цифру.',
@@ -544,6 +531,11 @@ usersRouter.post('/verify-email/:token', async (req, res, next) => {
       return res
         .status(404)
         .send({ error: 'Неверный токен, вам было выслан новое' });
+    }
+
+    if (user.newEmail) {
+      user.email = user.newEmail;
+      user.newEmail = null;
     }
 
     user.verified = true;

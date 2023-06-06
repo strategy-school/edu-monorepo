@@ -19,6 +19,7 @@ export interface IUser {
   resetPasswordToken: string | null;
   verifyEmailToken: string | null;
   verified: boolean;
+  newEmail: string | null;
 }
 
 export interface ICourse {

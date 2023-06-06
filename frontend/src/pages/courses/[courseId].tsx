@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
+import { useRouter } from 'next/router';
 
 const imgStyle = {
   xs: 250,
@@ -42,6 +43,7 @@ const marginTop = {
 };
 
 const CourseId: React.FC = () => {
+  const router = useRouter();
   const course = useAppSelector(selectOneCourse);
   const courseLoading = useAppSelector(selectOneCourseFetching);
 
@@ -59,6 +61,9 @@ const CourseId: React.FC = () => {
   const isLg = useMediaQuery('(min-width:960px) and (max-width:1279px)');
   const isXl = useMediaQuery('(min-width:1280px)');
 
+  const handleGoBack = () => {
+    router.back();
+  };
   return (
     <Layout
       title={'Школа Маркетинга Strategia: ' + course?.title}
@@ -76,13 +81,16 @@ const CourseId: React.FC = () => {
       ) : (
         course && (
           <Grid container style={blockStyle}>
-            <Grid container sx={{ padding: '20px' }}>
+            <Grid container>
               <Grid item xs container direction="column" padding="20px">
+                <Button onClick={handleGoBack} sx={{ alignSelf: 'flex-start' }}>
+                  Назад
+                </Button>
                 <Grid container item xs style={blockTopStyle}>
                   <Grid item xs>
                     <Typography
                       variant="h3"
-                      fontSize={{ xs: '2rem', sm: '2.5rem', lg: '3rem' }}
+                      fontSize={{ xs: '2rem', sm: '2.5rem' }}
                     >
                       {course.title} ({typeName})
                     </Typography>

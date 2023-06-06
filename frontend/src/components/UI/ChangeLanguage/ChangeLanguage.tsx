@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import kg from '@/src/assets/images/kg.svg';
 import ru from '@/src/assets/images/ru.svg';
-import Image from 'next/image';
+import NextImage from 'next/image';
 
 const ChangeLanguage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -16,10 +16,15 @@ const ChangeLanguage = () => {
   const [languageId, setLanguageId] = useState<string | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const storedLanguageId = localStorage.getItem('conveythis-language-id');
       setLanguageId(storedLanguageId);
+      setLanguageId(storedLanguageId || '771');
     }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -55,9 +60,9 @@ const ChangeLanguage = () => {
       <Button onClick={handleClick} color="inherit">
         <Tooltip title="Сменить язык">
           {languageId === '748' ? (
-            <Image src={kg} width="36" height="24" alt="kg" />
+            <NextImage src={kg} width="36" height="24" alt="kg" />
           ) : languageId === '771' ? (
-            <Image src={ru} width="36" height="24" alt="ru" />
+            <NextImage src={ru} width="36" height="24" alt="ru" />
           ) : (
             <CircularProgress />
           )}
@@ -77,11 +82,11 @@ const ChangeLanguage = () => {
         >
           {languageId === '771' ? (
             <Tooltip title="Кыргызча">
-              <Image src={kg} width="36" height="24" alt="kg" />
+              <NextImage src={kg} width="36" height="24" alt="kg" />
             </Tooltip>
           ) : languageId === '748' ? (
             <Tooltip title="Русский">
-              <Image src={ru} width="36" height="24" alt="ru" />
+              <NextImage src={ru} width="36" height="24" alt="ru" />
             </Tooltip>
           ) : (
             <CircularProgress />

@@ -28,7 +28,7 @@ export const blockStyle = {
   margin: '10px',
   borderRadius,
   boxShadow,
-  padding: 0,
+  padding: '15px',
 };
 
 export const blockTopStyle = {
@@ -47,7 +47,6 @@ export const welcomeBlockStyle = {
     backgroundSize: 'cover',
   },
   after: {
-    content: '',
     top: 0,
     left: 0,
     right: 0,

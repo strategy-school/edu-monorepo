@@ -74,7 +74,11 @@ const GroupId: React.FC = () => {
             <Grid item xs sx={{ p: 2 }}>
               <Typography component="p">
                 Ссылка на телеграмм:{' '}
-                <Link href={group.telegramLink} target="_blank">
+                <Link
+                  href={group.telegramLink}
+                  target="_blank"
+                  style={{ color: '#004c97' }}
+                >
                   {group.telegramLink}
                 </Link>
               </Typography>

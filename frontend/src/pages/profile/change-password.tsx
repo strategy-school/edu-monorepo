@@ -47,7 +47,7 @@ const ChangePassowrd = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await dispatch(changePassword(state)).unwrap();
-    router.push('/');
+    void router.push('/login');
   };
 
   return (

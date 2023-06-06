@@ -54,6 +54,7 @@ const GroupsAdmin = () => {
           <TableHead>
             <TableRow>
               <TableCell>Название</TableCell>
+              <TableCell>Телеграм</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
             </TableRow>
@@ -65,6 +66,15 @@ const GroupsAdmin = () => {
                   <MUILink component={Link} href={`groups/${group._id}`}>
                     {group.title}
                   </MUILink>
+                </TableCell>
+                <TableCell>
+                  <Link
+                    href={group.telegramLink}
+                    target="_blank"
+                    style={{ color: '#004c97' }}
+                  >
+                    {group.telegramLink}
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <IconButton

@@ -15,6 +15,7 @@ const config = {
   website: 'google.com', //Ссылка на локалхост не поддерживается апишкой и ссылки будут не кликабельные, пока для примера ссылка на гугл:)
   email: ' strategia.kg@gmail.com',
   phone: '+996555112233', //точно также с телефоном
+  companyName: 'Школа маркетингка Strategia',
 };
 
 export default config;

@@ -24,12 +24,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchBar from '@/src/components/UI/SearchBar/SearchBar';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import useDebounce from '@/src/hooks/useDebounce';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const CategoryAdmin = () => {
   const router = useRouter();
@@ -57,6 +59,7 @@ const CategoryAdmin = () => {
   const deleteCategory = async (id: string) => {
     if (window.confirm('Вы уверены что хотите удалить категорию?')) {
       const result = await dispatch(removeCategory(id));
+      await dispatch(fetchCategories({ page, limit }));
       if (result.meta.requestStatus === 'rejected') {
         window.alert(
           'Категория не может быть удалена, так как у нее есть связанные курсы',
@@ -66,7 +69,8 @@ const CategoryAdmin = () => {
   };
 
   const toggleCategoryDeleted = async (id: string) => {
-    dispatch(categoryToggleDeleted(id));
+    await dispatch(categoryToggleDeleted(id));
+    await dispatch(fetchCategories({ page, limit }));
   };
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +88,7 @@ const CategoryAdmin = () => {
               <TableCell>Название категории</TableCell>
               <TableCell>Изменить</TableCell>
               <TableCell>Удалить</TableCell>
-              <TableCell>Скрыть / Показать</TableCell>
+              <TableCell align="center">Скрыть / Показать</TableCell>
               <TableCell>Статус</TableCell>
             </TableRow>
           </TableHead>
@@ -108,16 +112,24 @@ const CategoryAdmin = () => {
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <IconButton
                     disabled={deleting === category._id || togglingDeleted}
                     onClick={() => toggleCategoryDeleted(category._id)}
                   >
-                    <HighlightOffIcon />
+                    {category.isDeleted ? (
+                      <Tooltip title="Показать">
+                        <VisibilityIcon />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Скрыть">
+                        <VisibilityOffIcon />
+                      </Tooltip>
+                    )}{' '}
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  {category.isDeleted ? 'Скрыта' : 'Активна'}
+                  {category.isDeleted ? 'Скрыт' : 'Активен'}
                 </TableCell>
               </TableRow>
             ))}
