@@ -134,7 +134,7 @@ export const whyUs = {
     margin: '0 0 25px 0 ',
   },
   whyUsText: {
-    margin: '0 10px 0 15px',
+    margin: '0 0 0 15px',
     textAlign: 'justify' as TextAlign,
   },
 };
@@ -144,5 +144,35 @@ export const clientStyle = {
     xs: '14px',
     sm: '16px',
     md: '20px',
+  },
+};
+
+export const ONE_BY_ONE_ANIMATION = {
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.3,
+      duration: 0.75,
+    },
+  }),
+  hidden: {
+    opacity: 0,
+    scale: 0.1,
+    y: 20,
+  },
+};
+
+export const BLOCK_ANIMATION = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.3,
+      duration: 0.75,
+    },
   },
 };

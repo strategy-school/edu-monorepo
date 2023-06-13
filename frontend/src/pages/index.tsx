@@ -16,8 +16,24 @@ import React from 'react';
 import { fetchCourses } from '../dispatchers/courses/coursesThunks';
 import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
 import { wrapper } from '../store/store';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
 
 const Home: React.FC = () => {
+  const gridItems = [
+    { component: <WelcomeBlock />, key: 'welcome' },
+    { component: <CoursesWrapper />, key: 'courses' },
+    { component: <AboutUs />, key: 'about' },
+    { component: <OneCourseBlock />, key: 'one-course' },
+    { component: <FeedbackForm />, key: 'feedback' },
+    { component: <AdBlock />, key: 'ad' },
+    { component: <TeachersWrapper />, key: 'teachers' },
+    { component: <VideoReviewsWrapper />, key: 'video-reviews' },
+    { component: <TestWrapper />, key: 'test' },
+    { component: <ClientWrapper />, key: 'client' },
+    { component: <AfterCourse />, key: 'after-course' },
+  ];
+
   return (
     <Layout title="Школа Маркетинга Strategia">
       <Box
@@ -28,41 +44,21 @@ const Home: React.FC = () => {
         }}
         mt={5}
       >
-        <Grid container flexDirection="column" spacing={4}>
-          <Grid item>
-            <WelcomeBlock />
+        <AnimatePresence>
+          <Grid container flexDirection="column" gap={5}>
+            {gridItems.map(({ component, key }, i) => (
+              <motion.div
+                key={key}
+                initial="hidden"
+                animate="visible"
+                custom={i}
+                variants={ONE_BY_ONE_ANIMATION}
+              >
+                <Grid item>{component}</Grid>
+              </motion.div>
+            ))}
           </Grid>
-          <Grid item>
-            <CoursesWrapper />
-          </Grid>
-          <Grid item>
-            <AboutUs />
-          </Grid>
-          <Grid item>
-            <OneCourseBlock />
-          </Grid>
-          <Grid item>
-            <FeedbackForm />
-          </Grid>
-          <Grid item>
-            <AdBlock />
-          </Grid>
-          <Grid item>
-            <TeachersWrapper />
-          </Grid>
-          <Grid item>
-            <VideoReviewsWrapper />
-          </Grid>
-          <Grid item>
-            <TestWrapper />
-          </Grid>
-          <Grid item>
-            <ClientWrapper />
-          </Grid>
-          <Grid item>
-            <AfterCourse />
-          </Grid>
-        </Grid>
+        </AnimatePresence>
       </Box>
     </Layout>
   );

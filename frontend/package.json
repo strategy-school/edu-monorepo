@@ -9,7 +9,9 @@
     "lint": "next lint",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noemit"
+    "typecheck": "tsc --noemit",
+    "test": "jest",
+    "coverege": "jest --coverege"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -27,6 +29,7 @@
     "dayjs": "^1.11.7",
     "eslint": "8.37.0",
     "eslint-config-next": "13.3.0",
+    "framer-motion": "^10.12.16",
     "next": "13.3.0",
     "next-redux-wrapper": "^8.1.0",
     "nookies": "^2.5.2",

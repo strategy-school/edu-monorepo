@@ -10,8 +10,9 @@ import { useAppSelector } from '@/src/store/hooks';
 import { wrapper } from '@/src/store/store';
 import { Alert, Box, Grid } from '@mui/material';
 import React from 'react';
-
-const Index: React.FC = () => {
+import { motion, AnimatePresence } from 'framer-motion';
+import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
+const CoursesPage: React.FC = () => {
   const fullCourses = useAppSelector(selectCourses);
   const courseKeys = useKeywords(fullCourses, 'title');
 
@@ -27,11 +28,20 @@ const Index: React.FC = () => {
         </Grid>
         <Grid item xs={12} md={9} container spacing={3}>
           {fullCourses.length > 0 ? (
-            fullCourses.map((course) => (
-              <Grid item xs={12} key={course._id}>
-                <CourseCard key={course._id} course={course} />
-              </Grid>
-            ))
+            <AnimatePresence>
+              {fullCourses.map((course, i) => (
+                <Grid item xs={12} key={course._id}>
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={i}
+                    variants={ONE_BY_ONE_ANIMATION}
+                  >
+                    <CourseCard key={course._id} course={course} />
+                  </motion.div>
+                </Grid>
+              ))}
+            </AnimatePresence>
           ) : (
             <Box mt={3}>
               <Alert severity="warning">
@@ -54,4 +64,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   },
 );
 
-export default Index;
+export default CoursesPage;

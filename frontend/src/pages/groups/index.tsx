@@ -13,7 +13,10 @@ import React from 'react';
 import FilterFormByCourse from '@/src/components/UI/FilterFormByCourse/FilterFormByCourse';
 import { useRouter } from 'next/router';
 
-const Index: React.FC = () => {
+import { motion, AnimatePresence } from 'framer-motion';
+import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
+
+const GroupsPage: React.FC = () => {
   const router = useRouter();
   const { course } = router.query as { course: string };
   const groups = useAppSelector(selectGroups);
@@ -30,11 +33,31 @@ const Index: React.FC = () => {
           {groupsFetching ? (
             <CircularProgress />
           ) : groups.length > 0 ? (
-            groups.map((group) => <GroupItem key={group._id} group={group} />)
+            <AnimatePresence>
+              {groups.map((group, i) => (
+                <motion.div
+                  key={group._id}
+                  initial="hidden"
+                  animate="visible"
+                  custom={i}
+                  variants={ONE_BY_ONE_ANIMATION}
+                >
+                  <GroupItem group={group} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           ) : (
-            <Alert severity="warning" style={{ width: '100%' }}>
-              Для данного курса пока нету групп!
-            </Alert>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              custom={0}
+              variants={ONE_BY_ONE_ANIMATION}
+              style={{ width: '100%' }}
+            >
+              <Alert severity="warning" style={{ width: '100%' }}>
+                Для данного курса пока нет групп!
+              </Alert>
+            </motion.div>
           )}
         </Grid>
       </Grid>
@@ -52,4 +75,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
     },
 );
 
-export default Index;
+export default GroupsPage;

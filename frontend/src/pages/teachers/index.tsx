@@ -8,33 +8,46 @@ import { wrapper } from '@/src/store/store';
 import { Grid } from '@mui/material';
 import React from 'react';
 
-const Index: React.FC = () => {
+import { motion, AnimatePresence } from 'framer-motion';
+import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
+
+const TeachersPage: React.FC = () => {
   const teachers = useAppSelector(selectTeachers);
 
   return (
     <Layout title="Школа Маркетинга Strategia: Список бизнес-тренеров">
       <BlocksTitle titleText="Список всех бизнес-тренеров" />
       <Grid container justifyContent="center" spacing={2}>
-        {teachers.length > 0 &&
-          teachers.map((teacher) => (
-            <Grid
-              item
-              container
-              justifyContent="center"
-              flexWrap="wrap"
-              xs={12}
-              md={6}
-              lg={4}
-              key={teacher._id}
-            >
-              <TeacherCard
-                _id={teacher._id}
-                firstName={teacher.user.firstName}
-                lastName={teacher.user.lastName}
-                photo={teacher.photo}
-              />
-            </Grid>
-          ))}
+        {teachers.length > 0 && (
+          <AnimatePresence>
+            {teachers.map((teacher, i) => (
+              <Grid
+                item
+                container
+                justifyContent="center"
+                flexWrap="wrap"
+                xs={12}
+                md={6}
+                lg={4}
+                key={teacher._id}
+              >
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  custom={i}
+                  variants={ONE_BY_ONE_ANIMATION}
+                >
+                  <TeacherCard
+                    _id={teacher._id}
+                    firstName={teacher.user.firstName}
+                    lastName={teacher.user.lastName}
+                    photo={teacher.photo}
+                  />
+                </motion.div>
+              </Grid>
+            ))}
+          </AnimatePresence>
+        )}
       </Grid>
     </Layout>
   );
@@ -48,4 +61,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   },
 );
 
-export default Index;
+export default TeachersPage;
