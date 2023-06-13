@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { apiURL, dateFormat } from '@/src/constants';
-import transactionStyles from './styles';
+import transactionStyles from '../../../features/transactions/admin/styles';
 
 const TransactionSingle = () => {
   const router = useRouter();
