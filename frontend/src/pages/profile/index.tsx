@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
     if (user) {
       dispatch(fetchTransactionsByUser(user._id));
     }
-  }, [dispatch, user?._id]);
+  }, [dispatch, user?._id, user]);
 
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
@@ -130,7 +130,7 @@ const Profile: React.FC = () => {
               >
                 {user.avatar ? (
                   <>
-                    <img
+                    <Image
                       style={styles.image}
                       src={apiURL + '/' + user.avatar}
                       alt={user.firstName}
