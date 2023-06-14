@@ -19,7 +19,7 @@ const GroupItem: React.FC<Props> = ({ group }) => {
   return (
     <Card
       sx={{ m: 1 }}
-      style={{ boxShadow, cursor: 'pointer', width: '40vw' }}
+      style={{ boxShadow, cursor: 'pointer', width: '100%' }}
       className="card"
     >
       <CardContent onClick={openPage}>

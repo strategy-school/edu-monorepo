@@ -26,7 +26,7 @@ const FilterFormByCourse: React.FC<Props> = ({ isLesson, existingCourse }) => {
     } else {
       dispatch(fetchGroups({ course: state || undefined }));
     }
-  }, [state, dispatch]);
+  }, [state, dispatch, isLesson]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

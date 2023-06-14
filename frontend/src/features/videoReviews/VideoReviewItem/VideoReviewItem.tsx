@@ -45,6 +45,7 @@ const VideoReviewItem: React.FC<Props> = ({
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
+        className="card"
         onClick={handleClose}
       >
         <CardActionArea>

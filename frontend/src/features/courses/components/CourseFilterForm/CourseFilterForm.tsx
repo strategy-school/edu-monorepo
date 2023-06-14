@@ -82,7 +82,12 @@ const CourseFilterForm = () => {
               defaultValue=""
               name="level"
             >
-              <FormControlLabel value="" control={<Radio />} label="Все" />
+              <FormControlLabel
+                value=""
+                onClick={resetFilter}
+                control={<Radio />}
+                label="Все"
+              />
               <FormControlLabel
                 value="without level"
                 control={<Radio />}

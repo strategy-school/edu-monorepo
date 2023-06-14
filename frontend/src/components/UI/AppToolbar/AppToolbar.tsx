@@ -10,7 +10,6 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemButton,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -75,12 +74,10 @@ const AppToolbar: React.FC<Props> = (props) => {
           </Button>
         </ListItem>
         {navItems.map((item) => (
-          <ListItem key={item.name} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <Button component={Link} href={item.href} color="inherit">
-                {item.name}
-              </Button>
-            </ListItemButton>
+          <ListItem key={item.name}>
+            <Button component={Link} href={item.href} color="inherit">
+              {item.name}
+            </Button>
           </ListItem>
         ))}
         <ListItem>

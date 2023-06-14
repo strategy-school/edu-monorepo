@@ -13,15 +13,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Instagram, WhatsApp, YouTube } from '@mui/icons-material';
+import { SOCIAL_LINKS } from '@/src/constants';
 
 export const Footer: FC = (): ReactElement => {
-  const socialLinks = {
-    facebook: 'https://www.facebook.com/strategia.trainings',
-    instagram: 'https://www.instagram.com/strategiaschool/',
-    youtube: 'https://www.youtube.com/@strategiaschool',
-    whatsapp: 'https://wa.me/996709677777',
-  };
-
   return (
     <footer className="footer">
       <Box
@@ -96,22 +90,38 @@ export const Footer: FC = (): ReactElement => {
             <Grid item>
               <List>
                 <ListItem style={{ display: 'inline', paddingLeft: 0 }}>
-                  <Link href={socialLinks.facebook}>
+                  <Link
+                    href={SOCIAL_LINKS.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Facebook />
                   </Link>
                 </ListItem>
                 <ListItem style={{ display: 'inline' }}>
-                  <Link href={socialLinks.whatsapp}>
+                  <Link
+                    href={SOCIAL_LINKS.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <WhatsApp />
                   </Link>
                 </ListItem>
                 <ListItem style={{ display: 'inline' }}>
-                  <Link href={socialLinks.instagram}>
+                  <Link
+                    href={SOCIAL_LINKS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Instagram />
                   </Link>
                 </ListItem>
                 <ListItem style={{ display: 'inline' }}>
-                  <Link href={socialLinks.youtube}>
+                  <Link
+                    href={SOCIAL_LINKS.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <YouTube />
                   </Link>
                 </ListItem>
@@ -128,7 +138,7 @@ export const Footer: FC = (): ReactElement => {
                   <EmailIcon />
                 </Typography>
                 <Typography component="span" sx={{ pl: 4 }}>
-                  strategia.kg@gmail.com
+                  {SOCIAL_LINKS.email}
                 </Typography>
               </Typography>
               <Typography
@@ -143,7 +153,9 @@ export const Footer: FC = (): ReactElement => {
                   <PhonelinkRingIcon />
                 </Typography>
                 <Typography component="span" sx={{ pl: 4 }}>
-                  +996 709 677 777
+                  <Link type="phone" href={`tel:${SOCIAL_LINKS.phoneLink}`}>
+                    {SOCIAL_LINKS.phoneText}
+                  </Link>
                 </Typography>
               </Typography>
             </Grid>

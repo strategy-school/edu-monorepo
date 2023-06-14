@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import {
   blockPadding,
   borderRadius,
@@ -72,9 +72,9 @@ const CoursesWrapper = () => {
         Большой выбор курсов по маркетингу в зависимости от продолжительности и
         уровня ваших знаний и опыта
       </Typography>
-      <Typography component="div" mt={5} mb={2}>
+      <Box component="div" mt={5} mb={2}>
         <Carousel
-          sx={{ pt: 1 }}
+          sx={{ padding: '20px 0' }}
           animation="slide"
           duration={1000}
           indicatorIconButtonProps={{
@@ -88,7 +88,7 @@ const CoursesWrapper = () => {
             <CourseCard key={course._id} course={course} />
           ))}
         </Carousel>
-      </Typography>
+      </Box>
       <Grid textAlign="center" item>
         <Button
           style={{

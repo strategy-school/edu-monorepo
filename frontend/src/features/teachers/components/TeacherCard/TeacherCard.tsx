@@ -41,7 +41,7 @@ interface Props {
 
 const TeacherCard: React.FC<Props> = ({ photo, firstName, lastName, _id }) => {
   return (
-    <Card style={styles.card} className="teacher-card">
+    <Card style={styles.card} className="card">
       <CardMedia
         style={styles.media}
         image={apiURL + '/' + photo}
