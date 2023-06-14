@@ -41,6 +41,11 @@ const GroupsPage: React.FC = () => {
                   animate="visible"
                   custom={i}
                   variants={ONE_BY_ONE_ANIMATION}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
                 >
                   <GroupItem group={group} />
                 </motion.div>
