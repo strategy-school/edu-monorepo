@@ -3,12 +3,12 @@ import ProtectedRoute from '@/src/components/ProtectedRoute/ProtectedRoute';
 import BlocksTitle from '@/src/components/UI/BlocksTitle/BlocksTitle';
 import Layout from '@/src/components/UI/Layout/Layout';
 import { apiURL } from '@/src/constants';
-import { selectTransactions } from '@/src/dispatchers/transactions/transactionsSlice';
-import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
 import {
-  selectLoginLoading,
-  selectUser,
-} from '@/src/dispatchers/users/usersSlice';
+  selectTransactions,
+  selectTransactionsLoading,
+} from '@/src/dispatchers/transactions/transactionsSlice';
+import { fetchTransactionsByUser } from '@/src/dispatchers/transactions/transactionsThunk';
+import { selectUser } from '@/src/dispatchers/users/usersSlice';
 import ProfileCourseCard from '@/src/features/profile/components/ProfileCourseCard/ProfileCourseCard';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -30,6 +30,8 @@ import {
   uploadUserAvatar,
 } from '@/src/dispatchers/users/usersThunks';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import { motion } from 'framer-motion';
+import { BLOCK_ANIMATION } from '@/src/styles';
 
 const styles = {
   userInfo: {
@@ -53,7 +55,7 @@ const Profile: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
-  const loading = useAppSelector(selectLoginLoading);
+  const loading = useAppSelector(selectTransactionsLoading);
 
   const handleUploadClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -111,164 +113,177 @@ const Profile: React.FC = () => {
                 <CircularProgress />
               </Grid>
             )}
-            <Grid
-              container
-              gap={3}
-              textAlign="left"
-              color="rgb(217, 39, 45)"
-              sx={{ position: 'relative' }}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={BLOCK_ANIMATION}
+              style={{
+                width: '100%',
+              }}
             >
               <Grid
-                item
                 container
-                alignItems="center"
-                direction="column"
-                gap={2}
-                xs={12}
-                sm={4}
-                md={3}
+                gap={3}
+                textAlign="left"
+                color="rgb(217, 39, 45)"
+                sx={{ position: 'relative' }}
               >
-                {user.avatar ? (
-                  <>
-                    <Image
-                      style={styles.image}
-                      src={apiURL + '/' + user.avatar}
-                      alt={user.firstName}
-                      width={200}
-                    />
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => setOpen(true)}
-                      size="small"
-                    >
-                      Удалить аватар
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      style={styles.image}
-                      src={icon}
-                      alt="User icon"
-                      width={200}
-                    />
-                    <div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="avatarInput"
-                        onChange={handleFileSelect}
-                        style={{ display: 'none' }}
+                <Grid
+                  item
+                  container
+                  alignItems="center"
+                  direction="column"
+                  gap={2}
+                  xs={12}
+                  sm={4}
+                  md={3}
+                >
+                  {user.avatar ? (
+                    <>
+                      <Image
+                        style={styles.image}
+                        src={apiURL + '/' + user.avatar}
+                        alt={user.firstName}
+                        width={200}
                       />
-                      <label htmlFor="avatarInput">
-                        <Button
-                          onClick={handleUploadClick}
-                          variant="outlined"
-                          size="small"
-                        >
-                          Загрузить аватар
-                        </Button>
-                      </label>
-                    </div>
-                  </>
-                )}
-              </Grid>
-              <Grid item>
-                <Grid>
-                  <Typography variant="body1" sx={styles.userInfo}>
-                    ФИО:
-                    <Typography component="span" sx={styles.userInfoText}>
-                      {' '}
-                      {user.firstName} {user.lastName}
-                    </Typography>
-                  </Typography>
-
-                  <Typography variant="body1" sx={styles.userInfo}>
-                    Email:{' '}
-                    <Typography component="span" sx={styles.userInfoText}>
-                      {user.email}
-                    </Typography>
-                  </Typography>
-
-                  {user.phoneNumber ? (
-                    <Typography variant="body1" sx={styles.userInfo}>
-                      Телефон:{' '}
-                      <Typography component="span" sx={styles.userInfoText}>
-                        {user.phoneNumber}
-                      </Typography>
-                    </Typography>
-                  ) : null}
-                  {user.telegramUsername ? (
-                    <Typography variant="body1" sx={styles.userInfo}>
-                      Телеграм:{' '}
-                      <Typography component="span" sx={styles.userInfoText}>
-                        <Link
-                          href={`https://t.me/${user.telegramUsername}`}
-                          target="_blank"
-                        >
-                          @{user.telegramUsername}
-                        </Link>
-                      </Typography>
-                    </Typography>
-                  ) : null}
-                </Grid>
-              </Grid>
-              {transactions.length > 0 && (
-                <Grid item xs={12}>
-                  <Typography variant="h5" mb={3}>
-                    Мои курсы:
-                  </Typography>
-                  <Grid
-                    item
-                    container
-                    alignItems="stretch"
-                    justifyContent="space-between"
-                    flexWrap="wrap"
-                    spacing={2}
-                  >
-                    {transactions.map((transaction) => (
-                      <Grid
-                        item
-                        container
-                        key={transaction._id}
-                        xs={12}
-                        md={6}
-                        sx={{
-                          flexGrow: 1,
-                        }}
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => setOpen(true)}
+                        size="small"
                       >
-                        <ProfileCourseCard transactionCourse={transaction} />
-                      </Grid>
-                    ))}
+                        Удалить аватар
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Image
+                        style={styles.image}
+                        src={icon}
+                        alt="User icon"
+                        width={200}
+                      />
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id="avatarInput"
+                          onChange={handleFileSelect}
+                          style={{ display: 'none' }}
+                        />
+                        <label htmlFor="avatarInput">
+                          <Button
+                            onClick={handleUploadClick}
+                            variant="outlined"
+                            size="small"
+                          >
+                            Загрузить аватар
+                          </Button>
+                        </label>
+                      </div>
+                    </>
+                  )}
+                </Grid>
+                <Grid item>
+                  <Grid>
+                    <Typography variant="body1" sx={styles.userInfo}>
+                      ФИО:
+                      <Typography component="span" sx={styles.userInfoText}>
+                        {' '}
+                        {user.firstName} {user.lastName}
+                      </Typography>
+                    </Typography>
+
+                    <Typography variant="body1" sx={styles.userInfo}>
+                      Email:{' '}
+                      <Typography component="span" sx={styles.userInfoText}>
+                        {user.email}
+                      </Typography>
+                    </Typography>
+
+                    {user.phoneNumber ? (
+                      <Typography variant="body1" sx={styles.userInfo}>
+                        Телефон:{' '}
+                        <Typography component="span" sx={styles.userInfoText}>
+                          {user.phoneNumber}
+                        </Typography>
+                      </Typography>
+                    ) : null}
+                    {user.telegramUsername ? (
+                      <Typography variant="body1" sx={styles.userInfo}>
+                        Телеграм:{' '}
+                        <Typography component="span" sx={styles.userInfoText}>
+                          <Link
+                            href={`https://t.me/${user.telegramUsername}`}
+                            target="_blank"
+                          >
+                            @{user.telegramUsername}
+                          </Link>
+                        </Typography>
+                      </Typography>
+                    ) : null}
                   </Grid>
                 </Grid>
-              )}
-              <Box style={{ position: 'absolute', right: 0, top: 0 }}>
-                <IconButton
-                  aria-label="more"
-                  id="long-button"
-                  aria-controls={isMenuOpen ? 'long-menu' : undefined}
-                  aria-expanded={isMenuOpen ? 'true' : undefined}
-                  aria-haspopup="true"
-                  onClick={openMenu}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu open={isMenuOpen} anchorEl={anchorEl} onClose={closeMenu}>
-                  <MenuItem>
-                    <Link href="/profile/edit-user">Изменить профиль</Link>
-                  </MenuItem>
-                  {!user.googleId && !user.telegramId && (
+                {transactions.length > 0 && (
+                  <Grid item xs={12}>
+                    <Typography variant="h5" mb={3}>
+                      Мои курсы:
+                    </Typography>
+                    <Grid
+                      item
+                      container
+                      alignItems="stretch"
+                      justifyContent="space-between"
+                      flexWrap="wrap"
+                      spacing={2}
+                    >
+                      {transactions.map((transaction) => (
+                        <Grid
+                          item
+                          container
+                          key={transaction._id}
+                          xs={12}
+                          md={6}
+                          sx={{
+                            flexGrow: 1,
+                          }}
+                        >
+                          <ProfileCourseCard transactionCourse={transaction} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
+                )}
+                <Box style={{ position: 'absolute', right: 0, top: 0 }}>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button"
+                    aria-controls={isMenuOpen ? 'long-menu' : undefined}
+                    aria-expanded={isMenuOpen ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={openMenu}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    open={isMenuOpen}
+                    anchorEl={anchorEl}
+                    onClose={closeMenu}
+                  >
                     <MenuItem>
-                      <Link href="/profile/change-password">
-                        Сменить пароль
-                      </Link>
+                      <Link href="/profile/edit-user">Изменить профиль</Link>
                     </MenuItem>
-                  )}
-                </Menu>
-              </Box>
-            </Grid>
+                    {!user.googleId && !user.telegramId && (
+                      <MenuItem>
+                        <Link href="/profile/change-password">
+                          Сменить пароль
+                        </Link>
+                      </MenuItem>
+                    )}
+                  </Menu>
+                </Box>
+              </Grid>
+            </motion.div>
           </Layout>
         )}
         {user && (

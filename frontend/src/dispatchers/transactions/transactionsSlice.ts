@@ -113,7 +113,7 @@ const transactionsSlice = createSlice({
       .addCase(
         fetchTransactionsByUser.fulfilled,
         (state, { payload: transactions }) => {
-          state.loadingAll;
+          state.loadingAll = false;
           state.items = transactions;
         },
       )

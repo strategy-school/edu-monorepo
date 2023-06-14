@@ -13,11 +13,6 @@ a {
   transition: box-shadow 500ms ease-in-out, transform 500ms ease-in-out;
 }
 
-.teacher-card:hover {
-  transform: scale(1.01, 1.01);
-  transition: transform 500ms ease-out;
-}
-
 .video iframe {
   border-radius: 20px;
   width: 100%;

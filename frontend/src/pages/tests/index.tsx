@@ -10,6 +10,8 @@ import { useAppSelector } from '@/src/store/hooks';
 import { wrapper } from '@/src/store/store';
 import { CircularProgress, Grid } from '@mui/material';
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
 
 const Index: React.FC = () => {
   const tests = useAppSelector(selectTests);
@@ -21,12 +23,23 @@ const Index: React.FC = () => {
 
       <Grid container justifyContent="center" spacing={1} mt={5}>
         {loading && <CircularProgress />}
-        {tests.length > 0 &&
-          tests.map((test) => (
-            <Grid item key={test._id} xs={12} md={4}>
-              <TestCard test={test} />
-            </Grid>
-          ))}
+        {tests.length > 0 && (
+          <AnimatePresence>
+            {tests.map((test, i) => (
+              <Grid item key={test._id} xs={12} md={4}>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  custom={i}
+                  variants={ONE_BY_ONE_ANIMATION}
+                  style={{ width: '100%' }}
+                >
+                  <TestCard test={test} />
+                </motion.div>
+              </Grid>
+            ))}
+          </AnimatePresence>
+        )}
       </Grid>
     </Layout>
   );

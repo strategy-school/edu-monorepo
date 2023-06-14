@@ -30,6 +30,8 @@ import {
   WhatsappShareButton,
 } from 'react-share';
 import MyModal from '@/src/components/UI/Modal/MyModal';
+import { motion } from 'framer-motion';
+import { BLOCK_ANIMATION } from '@/src/styles';
 
 export interface Props {
   oneTest: Test;
@@ -77,7 +79,12 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
   const title = `Я прошел тест на сайте Strategia School и набрал ${resultMessage}. Попробуйте и вы!`;
 
   return (
-    <>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={BLOCK_ANIMATION}
+      style={{ width: '100%' }}
+    >
       <Container>
         <Typography variant="h4" fontWeight={700} align="center">
           {oneTest.title}
@@ -197,7 +204,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
           </Button>
         </DialogActions>
       </MyModal>
-    </>
+    </motion.div>
   );
 };
 
