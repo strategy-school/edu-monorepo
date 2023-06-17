@@ -45,6 +45,7 @@ const styles = {
   image: {
     margin: '0 auto',
     borderRadius: '15px',
+    height: 'auto',
   },
 };
 
@@ -145,6 +146,8 @@ const Profile: React.FC = () => {
                         src={apiURL + '/' + user.avatar}
                         alt={user.firstName}
                         width={200}
+                        height={0}
+                        priority={true}
                       />
                       <Button
                         variant="outlined"
