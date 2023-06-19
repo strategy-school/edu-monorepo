@@ -11,6 +11,7 @@ import Image from 'next/image';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import MyModal from '@/src/components/UI/Modal/MyModal';
 import { borderRadius } from '@/src/styles';
+import { apiURL } from '@/src/constants';
 
 interface Props {
   title: string;
@@ -52,7 +53,7 @@ const VideoReviewItem: React.FC<Props> = ({
           <Image
             width={isSm ? '180' : '230'}
             height={isSm ? '277' : '355'}
-            src={`http://localhost:8000/${previewImage}`}
+            src={`${apiURL}/${previewImage}`}
             alt={title}
             style={{ width: '100%' }}
           />

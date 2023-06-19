@@ -64,6 +64,8 @@ const CourseId: React.FC = () => {
   const handleGoBack = () => {
     router.back();
   };
+
+  console.log(course);
   return (
     <Layout
       title={'Школа Маркетинга Strategia: ' + course?.title}
