@@ -1,6 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-
 export const apiURL = 'http://146.185.159.12:8000';
 export const GOOGLE_CLIENT_ID =
   '22734562658-0aa218i7sat9v9nbann739c1abi2n5je.apps.googleusercontent.com';
