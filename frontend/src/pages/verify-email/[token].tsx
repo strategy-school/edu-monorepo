@@ -42,7 +42,7 @@ const VerifyEmail = () => {
               height: '100vh',
             }}
           >
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" sx={{ textAlign: 'center' }}>
               <Typography variant="h4" gutterBottom>
                 Электронная почта подтверждена
               </Typography>

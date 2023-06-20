@@ -128,7 +128,7 @@ const CourseId: React.FC = () => {
                 marginTop={marginTop}
               >
                 <Image
-                  style={{ margin: '0 auto', borderRadius: '10%' }}
+                  style={{ margin: '0 auto', borderRadius: '20px' }}
                   src={apiURL + '/' + course.image}
                   alt={course.title}
                   width={

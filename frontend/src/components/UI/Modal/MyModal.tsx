@@ -23,8 +23,9 @@ const MyModal: React.FC<Props> = ({
       onClose={handleClose}
       sx={{
         '& .MuiPaper-root': {
-          width: isReview ? '337px' : '60%',
+          width: isReview ? '337px' : '70%',
           maxWidth: 'none',
+          padding: 0,
         },
       }}
     >
