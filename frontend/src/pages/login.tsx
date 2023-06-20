@@ -115,9 +115,9 @@ const Login = () => {
           {/*  />*/}
           {/*</Box>*/}
           {error && (
-            <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
-              {error.error}
-            </Alert>
+            <Grid item xs={12} mt={3} sx={{ width: '100%' }}>
+              <Alert severity="error">{error.error}</Alert>
+            </Grid>
           )}
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>

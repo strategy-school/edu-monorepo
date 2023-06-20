@@ -249,28 +249,39 @@ const Registration = () => {
                   errorCheck={getFieldError}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Typography component="p">
-                  Я ознакомился с{' '}
-                  <Typography
-                    component="span"
-                    onClick={() => setOpen(true)}
-                    style={{ cursor: 'pointer', textDecoration: 'underline' }}
-                    color={theme.palette.info.dark}
-                  >
-                    Пользовательским соглашением
-                  </Typography>{' '}
-                  и хочу продолжить
-                </Typography>
+              <Grid
+                item
+                container
+                justifyContent="space-between"
+                alignItems="center"
+                xs={12}
+              >
                 <Checkbox
                   checked={checked}
                   onChange={checkboxChangeHandler}
                   sx={{ ml: -1 }}
                 />
+                <Box sx={{ width: '90%' }}>
+                  <Typography sx={{ width: '100%' }}>
+                    Я ознакомился с{' '}
+                    <Typography
+                      component="span"
+                      onClick={() => setOpen(true)}
+                      style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      color={theme.palette.info.dark}
+                    >
+                      Пользовательским соглашением
+                    </Typography>{' '}
+                    и хочу продолжить
+                  </Typography>
+                </Box>
               </Grid>
               {success && (
                 <Grid item xs={12}>
-                  <Alert severity="success" sx={{ mt: 1, maxWidth: '100%' }}>
+                  <Alert
+                    severity="success"
+                    sx={{ mt: 1, maxWidth: '100%', alignItems: 'center' }}
+                  >
                     На вашу почту было отправлено письмо для подтверждения!
                   </Alert>
                 </Grid>

@@ -69,7 +69,9 @@ const CourseComments: React.FC = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <Alert severity="success">Оставлены покупателями курса!</Alert>
+              <Alert severity="success" sx={{ alignItems: 'center' }}>
+                Оставлены покупателями курса!
+              </Alert>
             </Grid>
           </Grid>
 
@@ -90,7 +92,9 @@ const CourseComments: React.FC = () => {
               )}
             </Grid>
           ) : (
-            <Alert severity="warning">Здесь пока нет отзывов!</Alert>
+            <Alert severity="warning" sx={{ alignItems: 'center' }}>
+              Здесь пока нет отзывов!
+            </Alert>
           )}
           <Grid
             container

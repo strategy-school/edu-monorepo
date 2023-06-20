@@ -35,7 +35,9 @@ App.getInitialProps = wrapper.getInitialAppProps(
   (store) =>
     async ({ ctx, Component }) => {
       const { strategiaToken } = parseCookies(ctx);
-      await store.dispatch(getMe(strategiaToken));
+      if (strategiaToken) {
+        await store.dispatch(getMe(strategiaToken));
+      }
 
       return {
         pageProps: Component.getInitialProps
