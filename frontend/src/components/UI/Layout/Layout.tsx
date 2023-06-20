@@ -5,6 +5,7 @@ import { Container, Hidden } from '@mui/material';
 import Footer from '@/src/components/UI/Footer/Footer';
 import Image from 'next/image';
 import whatsappIcon from '@/src/assets/images/whatsapp.png';
+import { SOCIAL_LINKS } from '@/src/constants';
 
 interface Props {
   title: string;
@@ -68,7 +69,7 @@ const Layout: React.FC<Props> = ({
               bottom: '20px',
               zIndex: '9999',
             }}
-            href="https://api.whatsapp.com/send?phone=+996709677777"
+            href={SOCIAL_LINKS.whatsapp}
           >
             <Image src={whatsappIcon} alt="User icon" width={50} />
             {/* eslint-disable-next-line react/no-unknown-property */}
