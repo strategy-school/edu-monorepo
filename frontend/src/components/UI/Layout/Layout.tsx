@@ -1,8 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 import AppToolbar from '@/src/components/UI/AppToolbar/AppToolbar';
-import { Container } from '@mui/material';
+import { Container, Hidden } from '@mui/material';
 import Footer from '@/src/components/UI/Footer/Footer';
+import Image from 'next/image';
+import whatsappIcon from '@/src/assets/images/whatsapp.png';
+import { SOCIAL_LINKS } from '@/src/constants';
 
 interface Props {
   title: string;
@@ -58,6 +61,26 @@ const Layout: React.FC<Props> = ({
         }}
       >
         {children}
+        <Hidden mdUp>
+          <a
+            style={{
+              position: 'fixed',
+              right: '20px',
+              bottom: '20px',
+              zIndex: '9999',
+            }}
+            href={SOCIAL_LINKS.whatsapp}
+          >
+            <Image src={whatsappIcon} alt="User icon" width={50} />
+            {/* eslint-disable-next-line react/no-unknown-property */}
+            <style jsx>{`
+              a:hover {
+                transform: scale(1.2);
+                transition: transform 0.2s ease-in-out;
+              }
+            `}</style>
+          </a>
+        </Hidden>
       </Container>
       <div ref={footer}>
         <Footer />
