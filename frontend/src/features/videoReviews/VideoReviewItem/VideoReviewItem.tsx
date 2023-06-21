@@ -19,6 +19,16 @@ interface Props {
   youtubeURL: string;
 }
 
+interface ImageLoaderProps {
+  src: string;
+  width: number;
+  quality?: number;
+}
+
+const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
+  return `${apiURL}/${src}?w=${width}&q=${quality || 75}`;
+};
+
 const opts: YouTubeProps['opts'] = {
   height: '600',
   width: '337',
@@ -51,9 +61,10 @@ const VideoReviewItem: React.FC<Props> = ({
       >
         <CardActionArea>
           <Image
+            loader={imageLoader}
             width={isSm ? '180' : '230'}
             height={isSm ? '277' : '355'}
-            src={`${apiURL}/${previewImage}`}
+            src={previewImage}
             alt={title}
             style={{ width: '100%' }}
           />
