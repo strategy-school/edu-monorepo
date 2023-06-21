@@ -11,6 +11,7 @@ import { getMe } from '../dispatchers/users/usersThunks';
 import { wrapper } from '../store/store';
 import '../stylesGlobal.css';
 import theme from '../theme';
+import { NextApiRequest } from 'next';
 
 const App = ({ Component, ...rest }: AppProps) => {
   const { store, props } = wrapper.useWrappedStore(rest);
@@ -34,9 +35,15 @@ const App = ({ Component, ...rest }: AppProps) => {
 App.getInitialProps = wrapper.getInitialAppProps(
   (store) =>
     async ({ ctx, Component }) => {
-      const { strategiaToken } = parseCookies(ctx);
-      if (strategiaToken) {
+      const req = ctx.req as NextApiRequest;
+      const cookies = req.cookies;
+      const strategiaToken = cookies.strategiaToken;
+      console.log(strategiaToken);
+
+      if (strategiaToken !== undefined) {
         await store.dispatch(getMe(strategiaToken));
+      } else {
+        throw new Error(strategiaToken);
       }
 
       return {
