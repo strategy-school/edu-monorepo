@@ -14,12 +14,13 @@ import notificationsRouter from './routers/notifications';
 import videoReviewsRouter from './routers/videoReviews';
 import attachTelegramBot from './telegram-bot';
 import lessonsRouter from './routers/lessons';
+import path from 'path';
 
 const app = express();
 const port = 8000;
 
 app.use(cors());
-app.use(express.static('src/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/courses', coursesRouter);

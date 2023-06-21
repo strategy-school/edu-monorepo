@@ -65,7 +65,18 @@ const CourseId: React.FC = () => {
     router.back();
   };
 
+  interface ImageLoaderProps {
+    src: string;
+    width: number;
+    quality?: number;
+  }
+
   console.log(course);
+
+  const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
+    return `${apiURL}/${src}?w=${width}&q=${quality || 75}`;
+  };
+
   return (
     <Layout
       title={'Школа Маркетинга Strategia: ' + course?.title}
@@ -129,7 +140,8 @@ const CourseId: React.FC = () => {
               >
                 <Image
                   style={{ margin: '0 auto', borderRadius: '20px' }}
-                  src={apiURL + '/' + course.image}
+                  loader={imageLoader}
+                  src={course.image}
                   alt={course.title}
                   width={
                     isXs
