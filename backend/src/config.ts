@@ -18,9 +18,9 @@ const config = {
   },
   telegramApi: '5938090504:AAEs58JZaZUD-OQ7lordB0rob7TNjJKg-5Q',
   appUrl: 'http://strategia.school',
-  website: 'strategia.school', // Ссылка на локалхост не поддерживается апишкой и ссылки будут не кликабельные, пока для примера ссылка на гугл:)
+  website: 'strategia.school',
   email: ' strategia.kg@gmail.com',
-  phone: '+996709677777', // точно также с телефоном
+  phone: '+996709677777', // телефон липовый!
   companyName: 'Школа маркетинга Strategia',
 };
 
