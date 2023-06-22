@@ -33,8 +33,8 @@ const sendEmail = async (email: string, subject: string, html: string) => {
     port: 587,
     secure: true,
     auth: {
-      user: process.env.VERIFY_EMAIL_USER,
-      pass: process.env.VERIFY_EMAIL_PASS,
+      user: config.emailData.emailUser,
+      pass: config.emailData.emailVerifyPass,
     },
   });
 

@@ -11,6 +11,10 @@ const config = {
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
   },
+  emailData: {
+    emailVerifyPass: 'hksghesodejulvef',
+    emailUser: 'strategia.kg@gmail.com',
+  },
   telegramApi: process.env.TELEGRAM_BOT_API,
   website: 'google.com', //Ссылка на локалхост не поддерживается апишкой и ссылки будут не кликабельные, пока для примера ссылка на гугл:)
   email: ' strategia.kg@gmail.com',

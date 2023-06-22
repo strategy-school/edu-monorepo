@@ -5,6 +5,7 @@ import permit from '../middleware/permit';
 import nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import config from '../config';
 dotenv.config();
 
 const notificationsRouter = express.Router();
@@ -99,8 +100,8 @@ notificationsRouter.post('/', async (req, res, next) => {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.VERIFY_EMAIL_USER,
-        pass: process.env.VERIFY_EMAIL_PASS,
+        user: config.emailData.emailUser,
+        pass: config.emailData.emailVerifyPass,
       },
     });
 
