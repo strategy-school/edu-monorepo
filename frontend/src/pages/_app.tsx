@@ -35,11 +35,18 @@ const App = ({ Component, ...rest }: AppProps) => {
 App.getInitialProps = wrapper.getInitialAppProps(
   (store) =>
     async ({ ctx, Component }) => {
-      const cookies = parseCookies(ctx);
-      const strategiaToken = cookies.strategiaToken;
-      console.log(strategiaToken);
+      const req = ctx.req as NextApiRequest;
+      const cookies =
+        req &&
+        req.headers.cookie?.split('; ').map((cookie) => cookie.split('='));
 
-      await store.dispatch(getMe(strategiaToken));
+      if (cookies) {
+        const strategiaToken = cookies.find(
+          ([key]) => key === 'strategiaToken',
+        );
+        console.log(strategiaToken && strategiaToken[1]);
+        strategiaToken && (await store.dispatch(getMe(strategiaToken[1])));
+      }
 
       return {
         pageProps: Component.getInitialProps
