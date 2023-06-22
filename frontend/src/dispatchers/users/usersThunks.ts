@@ -18,6 +18,14 @@ import { unsetUser } from './usersSlice';
 import { destroyCookie, setCookie } from 'nookies';
 import { strategiaToken } from '@/src/constants';
 
+const cookieOptions = {
+  maxAge: 30 * 24 * 60 * 60,
+  path: '/',
+  encode: (value: string) => value,
+  secure: true,
+  samesite: 'strict',
+};
+
 export const register = createAsyncThunk<
   void,
   RegisterMutation,
@@ -57,10 +65,7 @@ export const login = createAsyncThunk<
     );
     const { user } = data;
 
-    setCookie(null, strategiaToken, user.token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return user;
   } catch (e) {
@@ -91,10 +96,7 @@ export const googleLogin = createAsyncThunk<
     });
     const { user } = data;
 
-    setCookie(null, strategiaToken, user.token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return user;
   } catch (e) {
@@ -253,10 +255,7 @@ export const verifyEmail = createAsyncThunk<User, string>(
     );
     const { user } = data;
 
-    setCookie(null, strategiaToken, user.token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return user;
   },
@@ -271,10 +270,7 @@ export const getMe = createAsyncThunk(
 
     const user = <User>data.result;
 
-    setCookie(null, 'token', user.token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return user;
   },
@@ -293,10 +289,7 @@ export const telegramLogin = createAsyncThunk<
 
     const { user } = data;
 
-    setCookie(null, strategiaToken, user.token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return data;
   } catch (e) {

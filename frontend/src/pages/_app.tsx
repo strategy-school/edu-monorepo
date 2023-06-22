@@ -35,16 +35,11 @@ const App = ({ Component, ...rest }: AppProps) => {
 App.getInitialProps = wrapper.getInitialAppProps(
   (store) =>
     async ({ ctx, Component }) => {
-      const req = ctx.req as NextApiRequest;
-      const cookies = req.cookies;
+      const cookies = parseCookies(ctx);
       const strategiaToken = cookies.strategiaToken;
       console.log(strategiaToken);
 
-      if (strategiaToken !== undefined) {
-        await store.dispatch(getMe(strategiaToken));
-      } else {
-        throw new Error(strategiaToken);
-      }
+      await store.dispatch(getMe(strategiaToken));
 
       return {
         pageProps: Component.getInitialProps
