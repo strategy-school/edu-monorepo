@@ -61,6 +61,18 @@ const AppToolbar: React.FC<Props> = (props) => {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    const waitForUser = setInterval(() => {
+      if (user !== null || user !== undefined) {
+        clearInterval(waitForUser);
+      }
+    }, 2000);
+
+    return () => {
+      clearInterval(waitForUser);
+    };
+  }, [user]);
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
