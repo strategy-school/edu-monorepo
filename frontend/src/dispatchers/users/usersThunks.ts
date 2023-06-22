@@ -289,6 +289,9 @@ export const telegramLogin = createAsyncThunk<
 
     const { user } = data;
 
+    document.cookie =
+      'strategiaToken=${strategiaToken}; path=/; samesite=strict';
+
     setCookie(null, strategiaToken, user.token, cookieOptions);
 
     return data;
