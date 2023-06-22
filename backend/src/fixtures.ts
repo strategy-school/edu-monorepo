@@ -36,7 +36,7 @@ const run = async () => {
 
   const [admin, teacher, teacher2, teacher3, user] = await User.create(
     {
-      email: 'admin@gmail.com',
+      email: 'admin1@gmail.com',
       firstName: 'Admin',
       lastName: 'Admin',
       password: 'adminadmin1',
@@ -47,7 +47,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'teacher@gmail.com',
+      email: 'someteacher@gmail.com',
       firstName: 'Улан',
       lastName: 'Мухамед',
       password: 'teacherteacher1',
@@ -58,7 +58,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'teacher2@gmail.com',
+      email: 'teacher1@gmail.com',
       firstName: 'Султан-Мурат',
       lastName: 'Хашимов',
       password: 'teacherteacher1',
@@ -69,7 +69,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'teacher3@gmail.com',
+      email: 'teacher2@gmail.com',
       firstName: 'Васлидин',
       lastName: 'Атаханов',
       password: 'teacherteacher1',
@@ -80,7 +80,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'user@gmail.com',
+      email: 'someuser@gmail.com',
       firstName: 'Walter',
       lastName: 'White',
       password: 'useruser1',
@@ -90,7 +90,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'user1@gmail.com',
+      email: 'someuser1@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
       password: 'useruser1',
@@ -100,7 +100,7 @@ const run = async () => {
       verified: true,
     },
     {
-      email: 'user2@gmail.com',
+      email: 'someuser2@gmail.com',
       firstName: 'Tony',
       lastName: 'Stark',
       password: 'useruser1',

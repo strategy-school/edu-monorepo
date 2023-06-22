@@ -107,7 +107,7 @@ notificationsRouter.post('/', async (req, res, next) => {
 
     const mailOptions = {
       from: '"Strategia School" <do-not-reply@strategia.school>',
-      to: 'admin@gmail.com', //здесь будет рабочая почта администратора
+      to: 'Ulan.muhamed@gmail.com', //здесь будет рабочая почта администратора
       subject: 'New notification',
       html: `
     <div style="font-family: Arial, sans-serif; font-size: 14px;">

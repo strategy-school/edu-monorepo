@@ -42,7 +42,7 @@ const Layout: React.FC<Props> = ({
         <meta name="robots" content="index, follow" />
         <meta
           name="keywords"
-          content={keywords || 'Маркетинг, продажи, школа маркетинга'}
+          content={`Курсы по маркетингу для начинающих, Курсы по маркетингу в социальных сетях Instagram, Курсы по SMM, Курсы по интернет- маркетингу, Курсы по цифровому маркетингу, Курсы по маркетингу для опытных менеджеров, Курсы по маркетингу для владельцев бизнеса, Курсы по Интернет- маркетингу для оффлайн маркетологов, ${keywords}`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

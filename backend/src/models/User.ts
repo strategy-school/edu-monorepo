@@ -40,23 +40,23 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
           },
           message: 'Пользователь под таким email-ом уже зарегистрирован!',
         },
-        // {
-        //   validator: async function (
-        //     this: HydratedDocument<IUser>,
-        //     email: string,
-        //   ): Promise<boolean> {
-        //     try {
-        //       if (this.telegramId && email.slice(-8) === 'test.com') {
-        //         return true;
-        //       }
-        //       const { valid } = await validate(email);
-        //       return valid;
-        //     } catch {
-        //       return false;
-        //     }
-        //   },
-        //   message: 'Некорректный адрес электронной почты',
-        // },
+        {
+          validator: async function (
+            this: HydratedDocument<IUser>,
+            email: string,
+          ): Promise<boolean> {
+            try {
+              if (this.telegramId && email.slice(-8) === 'test.com') {
+                return true;
+              }
+              const { valid } = await validate(email);
+              return valid;
+            } catch {
+              return false;
+            }
+          },
+          message: 'Некорректный адрес электронной почты',
+        },
       ],
     },
     firstName: {

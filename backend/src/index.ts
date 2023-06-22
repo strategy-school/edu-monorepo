@@ -37,7 +37,7 @@ app.use('/lessons', lessonsRouter);
 const run = async () => {
   mongoose.set('strictQuery', false);
   const db = await mongoose.connect(config.db);
-  // attachTelegramBot(app, db);
+  attachTelegramBot(app, db);
   app.listen(port, () => {
     console.log('We are live on', port);
   });

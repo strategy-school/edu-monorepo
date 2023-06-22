@@ -15,7 +15,7 @@ export default {
           <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
             Вы зарегистрировали аккаунт на Strategy School. Прежде чем начать пользоваться своей учетной записью, Вам необходимо подтвердить, что это Ваш адрес электронной почты, нажав на кнопку:
           </h2></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${config.appUrl}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
           </tbody></table></td></tr></tbody></table>
         </td></tr></tbody></table></td></tr></tbody></table></td>
         <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
@@ -44,7 +44,7 @@ export default {
           <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><h2 style="margin-top:0;margin-bottom:0;font-size:15px;font-weight:400;line-height:20px;text-transform:initial;letter-spacing:initial;padding:0">
             Если вы не отправляли запрос на изменение электронной почты, то проигнорируйте это сообщение.
           </h2></td></tr>
-          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${process.env.APP_URL}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
+          <tr style="margin-top:0;margin-bottom:0;padding:0"><td style="margin-top:0;margin-bottom:0;padding:16px 0 0;border-width:0"><a rel="noopener noreferrer" href="${config.appUrl}/verify-email/${token}" style="margin-top:0;margin-bottom:0;color:white;text-decoration:none;display:inline-block;font-size:16px;font-weight:400;line-height:24px;text-transform:initial;letter-spacing:initial;background-color:#008060;border-radius:4px;padding:0;border-color:#008060;border-style:solid;border-width:10px 20px" target="_blank">Подтвердить email</a></td></tr>
           </tbody></table></td></tr></tbody></table>
         </td></tr></tbody></table></td></tr></tbody></table></td>
         <td style="margin-top:0;margin-bottom:0;padding:0;border-width:0"></td>
@@ -57,7 +57,7 @@ export default {
     return ` <div style="font-family: Arial, sans-serif; font-size: 14px;">
       <p>Дорогой/ая ${firstName},</p>
       <p>Команда Strategia School получила ваш запрос на сброс пароля. Пройдите по нижеуказанной ссылке для сброса пароля.</p>
-       <p><a href="${process.env.APP_URL}/reset-password/${token}" target="_blank" rel="noopener noreferrer">${process.env.APP_URL}/reset-password/${token}</a></p>
+       <p><a href="${config.appUrl}/reset-password/${token}" target="_blank" rel="noopener noreferrer">${config.appUrl}/reset-password/${token}</a></p>
       <p>Если вы не отправляли вышеуказанный запрос, пожалуйста, проигнорируйте это сообщение.</p>
       <p style="margin-top: 20px">С уважением,</p>
       <p style="font-weight: bold">Команда Strategia School</p>
