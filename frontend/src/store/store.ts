@@ -11,8 +11,12 @@ import { teacherReducer } from '../dispatchers/teachers/teachersSlice';
 import { testsReducer } from '../dispatchers/tests/testsSlice';
 import { transactionsReducer } from '../dispatchers/transactions/transactionsSlice';
 import { usersReducer } from '../dispatchers/users/usersSlice';
+import {
+  nextReduxCookieMiddleware,
+  wrapMakeStore,
+} from 'next-redux-cookie-wrapper';
 
-const makeStore = () =>
+const makeStore = wrapMakeStore(() =>
   configureStore({
     reducer: {
       users: usersReducer,
@@ -27,7 +31,15 @@ const makeStore = () =>
       videoReviews: videoReviewsReducer,
       lessons: lessonsReducer,
     },
-  });
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().prepend(
+        nextReduxCookieMiddleware({
+          subtrees: ['users.user'],
+          compress: false,
+        }),
+      ),
+  }),
+);
 
 export type RootStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<RootStore['getState']>;
