@@ -18,6 +18,9 @@ import { fetchTeachers } from '../dispatchers/teachers/teachersThunks';
 import { wrapper } from '../store/store';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ONE_BY_ONE_ANIMATION } from '@/src/styles';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+import { getMe } from '@/src/dispatchers/users/usersThunks';
 
 const Home: React.FC = () => {
   const gridItems = [
@@ -64,14 +67,19 @@ const Home: React.FC = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (ctx) => {
+    const { strategiaToken } = parseCookies(ctx);
+
+    if (strategiaToken) {
+      await store.dispatch(getMe(strategiaToken));
+    }
+
     await store.dispatch(fetchCourses());
     await store.dispatch(fetchTeachers());
     await store.dispatch(fetchTests());
 
     return { props: {} };
-  },
-);
+  });
 
 export default Home;
