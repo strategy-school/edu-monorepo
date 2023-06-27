@@ -18,7 +18,7 @@ import {
   verifyEmail,
 } from '@/src/dispatchers/users/usersThunks';
 import { GlobalError, IPagination, User, ValidationError } from '@/src/types';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 interface UsersState {
@@ -78,10 +78,10 @@ export const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(HYDRATE, (_, action) => {
-      //@ts-expect-error hydrate action's payload is not typed
-      return action.payload.users;
-    });
+    builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+      HYDRATE,
+      (state, { payload }) => ({ ...state, ...payload.users }),
+    );
     builder.addCase(register.pending, (state) => {
       state.registerError = null;
       state.registerLoading = true;
@@ -222,7 +222,8 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(changePassword.pending, (state) => {
-      (state.passwordChangeError = null), (state.passwordChanging = true);
+      state.passwordChangeError = null;
+      state.passwordChanging = true;
     });
     builder.addCase(changePassword.fulfilled, (state, { payload: user }) => {
       state.passwordChangeError = null;
