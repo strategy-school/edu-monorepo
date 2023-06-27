@@ -106,14 +106,14 @@ const Login = () => {
               onError={() => console.log('Login failed')}
             />
           </Box>
-          {/*<Box sx={{ pt: 2 }}>*/}
-          {/*  <TelegramAuth*/}
-          {/*    botName="strategia_authorization_bot"*/}
-          {/*    dataOnAuth={onTelegramLogin}*/}
-          {/*    buttonSize="large"*/}
-          {/*    requestAccess={true}*/}
-          {/*  />*/}
-          {/*</Box>*/}
+          <Box sx={{ pt: 2 }}>
+            <TelegramAuth
+              botName="strategia_authorization_bot"
+              dataOnAuth={onTelegramLogin}
+              buttonSize="large"
+              requestAccess={true}
+            />
+          </Box>
           {error && (
             <Grid item xs={12} mt={3} sx={{ width: '100%' }}>
               <Alert severity="error">{error.error}</Alert>

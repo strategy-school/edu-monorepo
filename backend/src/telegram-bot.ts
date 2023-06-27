@@ -9,7 +9,7 @@ const initialMessage = `
         Здравствуйте! Вас приветствует чат-бот Школы Маркетинга Strategia.\n\nЕсли вам интересно узнать:
         - о наших курсах, программах и ценах, то перейдите по ссылке: <a href="${config.website}/courses">"Курсы"</a>
         - о школе Маркетинга Strategia, то перейдите по ссылке: <a href="${config.website}/about-us">"О Нас"</a>
-        - о тренерах Школы Маркетинга Strategia, то перейдите по ссылке: <a href="${config.website}/teachers">"Тренеры"</a> \n\nЕсли вы хотите связаться с нами, вот наша ссылка на <a href="${config.website}/contact-with-us">форму обратной связи</a>.`;
+        - о тренерах Школы Маркетинга Strategia, то перейдите по ссылке: <a href="${config.website}/teachers">"Тренеры"</a> \n\nЕсли вы хотите связаться с нами, вот наша ссылка на <a href="${config.website}/#feedback">форму обратной связи</a>.`;
 let message = ``;
 const additionalInfo = `Вы можете узнать более подробную информацию на нашем <a href="${config.website}"><b>сайте</b></a> или связавшись с нами по телефону <a href="tel${config.phone}"><b>${config.phone}</b></a> или по электронной почте ${config.email}`;
 
@@ -85,7 +85,7 @@ export default function attachTelegramBot(app: Express, db: mongoose.Mongoose) {
         return bot.sendMessage(chatId, message);
 
       case '/consultation':
-        message = `Вы можете заказать индивидуальные консультации с нашими тренерами.\n\nСвяжитесь с нами по телефону <a href="tel${config.phone}"><b>${config.phone}</b></a> или написав на электронную почту ${config.email}\n\n А также, вы можете заполнить <a href="${config.website}/contact-with-us">форму обратной связи</a> на нашем сайте.`;
+        message = `Вы можете заказать индивидуальные консультации с нашими тренерами.\n\nСвяжитесь с нами по телефону <a href="tel${config.phone}"><b>${config.phone}</b></a> или написав на электронную почту ${config.email}\n\n А также, вы можете заполнить <a href="${config.website}/#feedback">форму обратной связи</a> на нашем сайте.`;
         return bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
 
       default:

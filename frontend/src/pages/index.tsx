@@ -56,6 +56,7 @@ const Home: React.FC = () => {
                 animate="visible"
                 custom={i}
                 variants={ONE_BY_ONE_ANIMATION}
+                id={key}
               >
                 <Grid item>{component}</Grid>
               </motion.div>

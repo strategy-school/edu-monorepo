@@ -17,7 +17,7 @@ const config = {
     emailUser: 'strategia.kg@gmail.com',
   },
   telegramApi: '5938090504:AAEs58JZaZUD-OQ7lordB0rob7TNjJKg-5Q',
-  appUrl: 'http://strategia.school',
+  appUrl: 'https://strategia.school',
   website: 'strategia.school',
   email: ' strategia.kg@gmail.com',
   phone: '+996709677777', // телефон липовый!
