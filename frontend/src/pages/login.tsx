@@ -1,9 +1,5 @@
 import Layout from '@/src/components/UI/Layout/Layout';
-import {
-  googleLogin,
-  login,
-  telegramLogin,
-} from '@/src/dispatchers/users/usersThunks';
+import { googleLogin, login } from '@/src/dispatchers/users/usersThunks';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
@@ -21,34 +17,36 @@ import {
 import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectLoginError,
   selectLoginLoading,
-  selectUser,
 } from '../dispatchers/users/usersSlice';
-import { LoginMutation, TelegramUser } from '../types';
-import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
+import { LoginMutation } from '../types';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import TelegramAuthWrapper from '@/src/components/TelegramAuth/TelegramAuthWrapper';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const error = useAppSelector(selectLoginError);
   const loading = useAppSelector(selectLoginLoading);
-  const existingUser = useAppSelector(selectUser);
+
   const router = useRouter();
-  const [state, setState] = React.useState<LoginMutation>({
+  const [state, setState] = useState<LoginMutation>({
     email: '',
     password: '',
   });
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
+  const inputChangeHandler = useMemo(
+    () => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setState((prevState) => ({ ...prevState, [name]: value }));
+    },
+    [],
+  );
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -61,25 +59,17 @@ const Login = () => {
     void router.push('/');
   };
 
-  const onTelegramLogin = async (user: TelegramUser) => {
-    const data = {
-      firstName: user.first_name,
-      lastName: user.last_name ? user.last_name : null,
-      avatar: user.photo_url ? user.photo_url : null,
-      telegramId: user.id.toString(),
-      telegramUsername: user.username,
-    };
-    await dispatch(telegramLogin(data)).unwrap();
-    if (
-      existingUser &&
-      existingUser.verified &&
-      existingUser.isTelegramUpdated
-    ) {
-      void router.push('/');
-    } else {
-      void router.push('/telegram-login');
-    }
-  };
+  // const onTelegramLogin = async (user: TelegramUser) => {
+  //   const data = {
+  //     firstName: user.first_name,
+  //     lastName: user.last_name ? user.last_name : null,
+  //     avatar: user.photo_url ? user.photo_url : null,
+  //     telegramId: user.id.toString(),
+  //     telegramUsername: user.username,
+  //   };
+  //   await dispatch(telegramLogin(data)).unwrap();
+  //   void router.push('/telegram-login');
+  // };
 
   return (
     <Layout title="Школа Маркетинга Strategia: Логин">
@@ -107,12 +97,7 @@ const Login = () => {
             />
           </Box>
           <Box sx={{ pt: 2 }}>
-            <TelegramAuth
-              botName="strategia_authorization_bot"
-              dataOnAuth={onTelegramLogin}
-              buttonSize="large"
-              requestAccess={true}
-            />
+            <TelegramAuthWrapper />
           </Box>
           {error && (
             <Grid item xs={12} mt={3} sx={{ width: '100%' }}>
