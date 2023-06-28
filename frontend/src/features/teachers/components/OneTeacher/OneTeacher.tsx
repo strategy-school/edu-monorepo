@@ -18,7 +18,7 @@ import theme from '@/src/theme';
 interface Props {
   teacher: ApiTeacher | null;
   loading: boolean;
-  goBack: () => void;
+  // goBack: () => void;
   deleteLoading?: string | false;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
@@ -43,7 +43,6 @@ const styles = {
 const OneTeacher: React.FC<Props> = ({
   teacher,
   loading,
-  goBack,
   onEdit,
   onDelete,
   deleteLoading,
@@ -65,7 +64,6 @@ const OneTeacher: React.FC<Props> = ({
             style={styles.teacherWrapper}
             padding={{ xs: '10px 20px', md: '15px 50px' }}
           >
-            <Button onClick={goBack}>Тренеры</Button>
             <Grid
               container
               flexDirection="column"
