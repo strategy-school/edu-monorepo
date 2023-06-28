@@ -103,6 +103,16 @@ const Profile: React.FC = () => {
     }
   }, [dispatch, user?._id, user]);
 
+  interface ImageLoaderProps {
+    src: string;
+    width: number;
+    quality?: number;
+  }
+
+  const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
+    return `${apiURL}/${src}?w=${width}&q=${quality || 75}`;
+  };
+
   return (
     <ProtectedRoute isAllowed={Boolean(user)}>
       <>
@@ -142,8 +152,9 @@ const Profile: React.FC = () => {
                   {user.avatar ? (
                     <>
                       <Image
+                        loader={imageLoader}
                         style={styles.image}
-                        src={apiURL + '/' + user.avatar}
+                        src={user.avatar}
                         alt={user.firstName}
                         width={200}
                         height={0}
