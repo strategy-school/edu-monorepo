@@ -46,7 +46,17 @@ export const Footer: FC = (): ReactElement => {
                     color: '#fff',
                   }}
                 >
-                  Strategia School
+                  <Typography
+                    component="span"
+                    style={{
+                      textTransform: 'uppercase',
+                      color: '#fff',
+                      fontWeight: 600,
+                    }}
+                    className="conveythis-no-translate"
+                  >
+                    Школа Маркетинга Strategia
+                  </Typography>
                   <Box
                     style={{
                       width: '32px',

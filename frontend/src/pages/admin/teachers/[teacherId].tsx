@@ -38,9 +38,9 @@ const TeacherId = () => {
       dispatch(fetchTeachers());
     }
   };
-  const handleGoBack = () => {
-    router.back();
-  };
+  // const handleGoBack = () => {
+  //   router.back();
+  // };
 
   return (
     <AdminLayout>
@@ -50,7 +50,7 @@ const TeacherId = () => {
         loading={loading}
         onEdit={handleEditClick}
         onDelete={handleDelete}
-        goBack={handleGoBack}
+        // goBack={handleGoBack}
       />
     </AdminLayout>
   );

@@ -75,7 +75,7 @@ const TestForUser: React.FC<Props> = ({ oneTest }) => {
     score === 1 ? 'балл' : score > 1 && score < 5 ? 'балла' : 'баллов'
   } из ${oneTest.questions.length}`;
 
-  const url = 'https://youtu.be/GoNNW0iXc5s';
+  const url = 'https://strategia.school/tests/';
   const title = `Я прошел тест на сайте Strategia School и набрал ${resultMessage}. Попробуйте и вы!`;
 
   return (

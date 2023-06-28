@@ -1,4 +1,4 @@
-export const apiURL = 'https://www.strategia.school/api/';
+export const apiURL = 'https://www.strategia.school/api';
 export const GOOGLE_CLIENT_ID =
   '22734562658-0aa218i7sat9v9nbann739c1abi2n5je.apps.googleusercontent.com';
 export const dateFormat = 'DD.MM.YYYY HH:mm';

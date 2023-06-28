@@ -23,7 +23,6 @@ const CourseId: React.FC = () => {
   const user = useAppSelector(selectUser);
   const loading = useAppSelector(selectLessonsLoading);
 
-  console.log(course);
   React.useEffect(() => {
     if (course) {
       dispatch(fetchLessons({ course }));
