@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 interface Props extends React.PropsWithChildren {
@@ -8,9 +8,11 @@ interface Props extends React.PropsWithChildren {
 const ProtectedRoute: React.FC<Props> = ({ isAllowed, children }) => {
   const router = useRouter();
 
-  if (!isAllowed) {
-    void router.replace('/login');
-  }
+  useEffect(() => {
+    if (!isAllowed) {
+      void router.replace('/login');
+    }
+  }, [isAllowed, router]);
 
   return <>{isAllowed ? children : null}</>;
 };
