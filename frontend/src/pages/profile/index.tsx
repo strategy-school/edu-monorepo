@@ -49,6 +49,11 @@ const styles = {
   },
 };
 
+interface ImageLoaderProps {
+  src: string;
+  width: number;
+  quality?: number;
+}
 const Profile: React.FC = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -57,6 +62,10 @@ const Profile: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const loading = useAppSelector(selectTransactionsLoading);
+
+  const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
+    return `${apiURL}/${src}?w=${width}&q=${quality || 75}`;
+  };
 
   const handleUploadClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -142,8 +151,9 @@ const Profile: React.FC = () => {
                   {user.avatar ? (
                     <>
                       <Image
+                        loader={imageLoader}
                         style={styles.image}
-                        src={apiURL + '/' + user.avatar}
+                        src={user.avatar}
                         alt={user.firstName}
                         width={200}
                         height={0}

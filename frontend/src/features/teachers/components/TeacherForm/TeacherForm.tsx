@@ -37,7 +37,7 @@ const TeacherForm: React.FC<Props> = ({
   const [state, setState] = React.useState<ITeacher>(existingTeacher);
 
   React.useEffect(() => {
-    dispatch(fetchUsers({ role: UserRole.Teacher }));
+    dispatch(fetchUsers({ role: UserRole.User }));
   }, [dispatch]);
 
   const submitFormHandler = async (e: React.FormEvent) => {
