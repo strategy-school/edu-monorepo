@@ -1,12 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import FileInput from '@/src/components/UI/FileInput/FileInput';
 import Layout from '@/src/components/UI/Layout/Layout';
-import {
-  googleLogin,
-  register,
-  telegramLogin,
-} from '@/src/dispatchers/users/usersThunks';
-import { RegisterMutation, TelegramUser } from '@/src/types';
+import { googleLogin, register } from '@/src/dispatchers/users/usersThunks';
+import { RegisterMutation } from '@/src/types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Alert,
@@ -30,18 +26,16 @@ import React, { useState } from 'react';
 import {
   selectRegisterError,
   selectRegisterLoading,
-  selectUser,
 } from '../dispatchers/users/usersSlice';
 import { LoadingButton } from '@mui/lab';
-import TelegramAuth from '@/src/components/TelegramAuth/TelegramAuth';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import UserAgreement from '@/src/components/StaticComponents/UserAgreement/UserAgreement';
 import theme from '@/src/theme';
+import TelegramAuthWrapper from '@/src/components/TelegramAuth/TelegramAuthWrapper';
 
 const Registration = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const existingUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const error = useAppSelector(selectRegisterError);
@@ -96,26 +90,6 @@ const Registration = () => {
     await router.push('/');
   };
 
-  const onTelegramLogin = async (user: TelegramUser) => {
-    const data = {
-      firstName: user.first_name,
-      lastName: user.last_name ? user.last_name : null,
-      avatar: user.photo_url ? user.photo_url : null,
-      telegramId: user.id.toString(),
-      telegramUsername: user.username,
-    };
-    await dispatch(telegramLogin(data)).unwrap();
-    if (
-      existingUser &&
-      existingUser.verified &&
-      existingUser.isTelegramUpdated
-    ) {
-      void router.push('/');
-    } else {
-      void router.push('/telegram-login');
-    }
-  };
-
   const phoneNumberPattern = '^+996\\d{9}$';
 
   return (
@@ -144,12 +118,7 @@ const Registration = () => {
             />
           </Box>
           <Box sx={{ pt: 2 }}>
-            <TelegramAuth
-              botName="strategia_authorization_bot"
-              dataOnAuth={onTelegramLogin}
-              buttonSize="large"
-              requestAccess={true}
-            />
+            <TelegramAuthWrapper />
           </Box>
           <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>

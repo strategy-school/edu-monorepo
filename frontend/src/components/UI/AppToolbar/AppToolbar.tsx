@@ -63,7 +63,7 @@ const AppToolbar: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const waitForUser = setInterval(() => {
-      if (user !== null || user !== undefined) {
+      if (user !== null || true) {
         clearInterval(waitForUser);
       }
     }, 2000);
