@@ -49,7 +49,7 @@ To run this web application locally, you need to have the following tools instal
 
 3. Update data base 
 ```bash
-  npm install
+  npm run seed
 ```
 
 4. Run the backend server
